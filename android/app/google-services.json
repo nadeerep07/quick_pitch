@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1078708428195",
+    "project_id": "quickpitch-e3395",
+    "storage_bucket": "quickpitch-e3395.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078708428195:android:c0dd58c4c873cbb22e8e16",
+        "android_client_info": {
+          "package_name": "com.example.quick_pitch_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpj0FSem-7qbOubL-ETZpwjtgOMeVdZac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
