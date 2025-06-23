@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_pitch_app/features/auth/view/components/login_form.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/email_verifcation.dart';
+import 'package:quick_pitch_app/features/auth/view/screens/forget_password_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/signup_screen.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/role_selection/view/select_role_screen.dart';
@@ -72,7 +73,14 @@ class LoginScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => const SignupScreen()),
                       );
                     },
-                    onForgotTap: () {},
+                    onForgotTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

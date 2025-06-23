@@ -6,6 +6,7 @@ import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_b
 import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_dot_indicator.dart';
 import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_page.dart';
 import 'package:quick_pitch_app/shared/config/responsive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
@@ -65,7 +66,7 @@ class OnboardingScreen extends StatelessWidget {
                     SizedBox(height: res.hp(5)),
                     OnboardingNextButton(
                       isLast: state.currentIndex == pages.length - 1,
-                      onPressed: () {
+                      onPressed: () async {
                         if (state.currentIndex < pages.length - 1) {
                           context.read<OnboardingBloc>().add(NextPageTapped());
                           _pageController.nextPage(
@@ -73,6 +74,8 @@ class OnboardingScreen extends StatelessWidget {
                             curve: Curves.easeInOut,
                           );
                         } else {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('onboarding_done', true);
                           Navigator.of(context).pushReplacement(
                             PageRouteBuilder(
                               transitionDuration: const Duration(
@@ -80,7 +83,7 @@ class OnboardingScreen extends StatelessWidget {
                               ),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                       LoginScreen(),
+                                      LoginScreen(),
                               transitionsBuilder: (
                                 context,
                                 animation,

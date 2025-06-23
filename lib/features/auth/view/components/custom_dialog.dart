@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
