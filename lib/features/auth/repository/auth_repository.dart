@@ -4,12 +4,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthRepository {
   final AuthServices _authServices = AuthServices();
 
-  Future<UserCredential> signIn(String email, String password) {
-    return _authServices.signIn(email: email, password: password);
+  Future<User> signIn(String email, String password) async {
+    final credential = await _authServices.signIn(
+      email: email,
+      password: password,
+    );
+    final user = credential.user;
+    if (user != null) {
+      return user;
+    } else {
+      throw Exception("Login failed");
+    }
   }
 
-  Future<UserCredential> createAccount(String email, String password) {
-    return _authServices.createAccount(email: email, password: password);
+  Future<User> createAccount(String email, String password) async {
+    final credential = await _authServices.createAccount(
+      email: email,
+      password: password,
+    );
+    final user = credential.user;
+    if (user != null) {
+      return user;
+    } else {
+      throw Exception("User creation failed");
+    }
   }
 
   Future<void> forgetPassword(String email) {

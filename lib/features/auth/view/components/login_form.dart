@@ -1,128 +1,147 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart' show mapFirebaseError;
+import 'package:quick_pitch_app/features/auth/view/components/custom_button.dart';
+import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/components/form_field.dart';
+import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
-import 'package:quick_pitch_app/shared/config/responsive.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
 
 class LoginForm extends StatelessWidget {
   final VoidCallback onGoogleTap;
   final VoidCallback onSignupTap;
-  final VoidCallback onLoginTap;
   final VoidCallback onForgotTap;
 
-  const LoginForm({
+  LoginForm({
     super.key,
     required this.onGoogleTap,
     required this.onSignupTap,
-    required this.onLoginTap,
     required this.onForgotTap,
   });
 
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final res = Responsive(context);
-    return Column(
-      children: [
-        TextFormField(
-          decoration: InputDecoration(
-            filled: true,
-            prefixIcon: const Icon(
-              Icons.email_outlined,
-              color: AppColors.primaryText,
-            ),
-            fillColor: Colors.grey.shade100,
-            hintText: 'Enter your email',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.primaryText),
-            ),
-          ),
-        ),
-        SizedBox(height: res.hp(4)),
-        BlocBuilder<ButtonVisibilityCubit, ButtonVisibilityState>(
-          builder: (context, state) {
-            return TextFormField(
-              obscureText: state.obscureText,
-              decoration: InputDecoration(
-                filled: true,
-                prefixIcon: const Icon(
-                  Icons.lock_outline,
-                  color: AppColors.primaryText,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthSuccess) {
+
+        } else if (state is AuthFailure) {
+          print(state.error.toString());
+          showDialog(
+            context: context,
+            builder:
+                (context) => CustomDialog(
+                  title: "Signup Failed",
+                  message: mapFirebaseError(state.error),
+                  icon: Icons.error_outline,
+                  iconColor: Colors.red,
+                  onConfirm: () => Navigator.of(context).pop(),
                 ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    state.obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.primaryText,
-                  ),
-                  onPressed: () {
-                    context
-                        .read<ButtonVisibilityCubit>()
-                        .togglePasswordVisibility();
+          );
+        }
+      },
+      child: BlocBuilder<ButtonVisibilityCubit, ButtonVisibilityState>(
+        builder: (context, visibilityState) {
+          return Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                CustomTextField(
+                  controller: emailController,
+                  hint: 'Email',
+                  icon: Icons.email_outlined,
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  controller: passwordController,
+                  hint: 'Password',
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  isVisible: !visibilityState.obscureText,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: !visibilityState.obscureText,
+                      onChanged: (_) {
+                        context.read<ButtonVisibilityCubit>().togglePasswordVisibility();
+                      },
+                    ),
+                    const Text('Show Password'),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: onForgotTap,
+                      child: const Text(
+                        "Forgot password?",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, authState) {
+                    return CustomButton(
+                      text: 'Login',
+                      isLoading: authState is AuthLoading,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<AuthBloc>().add(
+                                SignInRequested(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                ),
+                              );
+                        }
+                      },
+                    );
                   },
                 ),
-                fillColor: Colors.grey.shade100,
-                hintText: 'Enter your password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.primaryText),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: onGoogleTap,
+                  icon: Image.asset('assets/icons/google.png', height: 24),
+                  label: const Text("Continue with Google", style: TextStyle(color: Colors.black)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 2,
+                    minimumSize: const Size(double.infinity, 48),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.grey.shade300),
+                    ),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-        SizedBox(height: res.hp(2)),
-        Align(
-          alignment: Alignment.centerRight,
-          child: GestureDetector(
-            onTap: onForgotTap,
-            child: Text(
-              "Forgot password?",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: res.hp(2)),
-        ElevatedButton(onPressed: onLoginTap, child: const Text('Login')),
-
-        SizedBox(height: res.hp(2)),
-        ElevatedButton.icon(
-          onPressed: onGoogleTap,
-          icon: Image.asset('assets/icons/google.png', height: res.hp(3)),
-          label: Text(
-            'Continue with Google',
-            style: TextStyle(fontSize: res.wp(4), color: Colors.black),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            elevation: 2,
-            minimumSize: Size(double.infinity, res.hp(6)),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: BorderSide(color: Colors.grey.shade300),
-            ),
-          ),
-        ),
-        SizedBox(height: res.hp(3)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Don't have an account? "),
-            InkWell(
-              onTap: onSignupTap,
-              child: Text(
-                "Sign up",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? "),
+                    InkWell(
+                      onTap: onSignupTap,
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }

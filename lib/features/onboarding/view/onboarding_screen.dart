@@ -80,7 +80,7 @@ class OnboardingScreen extends StatelessWidget {
                               ),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      const LoginScreen(),
+                                       LoginScreen(),
                               transitionsBuilder: (
                                 context,
                                 animation,
