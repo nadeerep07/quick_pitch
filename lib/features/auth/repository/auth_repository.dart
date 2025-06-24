@@ -34,5 +34,15 @@ class AuthRepository {
     return _authServices.forgetPassword(email: email);
   }
 
+  Future<User> signInWithGoogle() async {
+  final credential = await _authServices.signInWithGoogle();
+  final user = credential.user;
+  if (user != null) {
+    return user;
+  } else {
+    throw Exception("Google Sign-In failed");
+  }
+}
+
   Stream<User?> get userStream => _authServices.userChanges;
 }

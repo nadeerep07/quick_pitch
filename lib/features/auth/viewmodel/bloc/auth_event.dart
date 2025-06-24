@@ -16,3 +16,5 @@ class ForgotPasswordRequested extends AuthEvent {
   final String email;
   ForgotPasswordRequested(this.email);
 }
+
+class GoogleSignInRequested extends AuthEvent{}

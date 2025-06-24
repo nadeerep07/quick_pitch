@@ -75,6 +75,7 @@ class OnboardingScreen extends StatelessWidget {
                           );
                         } else {
                           final prefs = await SharedPreferences.getInstance();
+                        
                           await prefs.setBool('onboarding_done', true);
                           Navigator.of(context).pushReplacement(
                             PageRouteBuilder(

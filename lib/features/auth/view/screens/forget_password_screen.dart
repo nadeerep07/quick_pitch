@@ -51,7 +51,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
           );
         } else if (state is AuthFailure) {
-          final errorMsg = mapFirebaseError(state.error); // 👈 use this
+          final errorMsg = mapFirebaseError(state.error); 
           showDialog(
             context: context,
             builder:
@@ -81,9 +81,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               vertical: res.hp(10),
             ),
             child: Column(
+              
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: res.hp(4)),
+                SizedBox(height: res.hp(5)),
                 Text(
                   "Forgot Password?",
                   style: GoogleFonts.inter(
@@ -92,11 +94,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     color: AppColors.secondaryText,
                   ),
                 ),
-                SizedBox(height: res.hp(8)),
+                 SizedBox(height: res.hp(4)),
                 Text(
                   "Enter your registered email address below and\nwe'll send you a link to reset your password.",
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.85),
+                    color: Colors.white.withValues(alpha: .85),
                     fontSize: 14,
                     height: 1.4,
                   ),

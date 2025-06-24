@@ -8,6 +8,7 @@ class SplashViewmodel {
   void startTimer(BuildContext context) {
     Timer(const Duration(seconds: 3), () async {
       final prefs = await SharedPreferences.getInstance();
+     // await prefs.setBool('onboarding_done', false); 
       final onboardingShown = prefs.getBool('onboarding_done') ?? false;
 
       if (onboardingShown) {

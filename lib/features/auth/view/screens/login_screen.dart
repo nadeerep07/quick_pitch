@@ -66,7 +66,9 @@ class LoginScreen extends StatelessWidget {
                     top: res.hp(46),
                   ),
                   child: LoginForm(
-                    onGoogleTap: () {},
+                    onGoogleTap: () {
+                      context.read<AuthBloc>().add(GoogleSignInRequested());
+                    },
                     onSignupTap: () {
                       Navigator.push(
                         context,

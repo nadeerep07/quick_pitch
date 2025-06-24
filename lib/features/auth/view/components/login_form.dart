@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart' show mapFirebaseError;
+import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart'
+    show mapFirebaseError;
 import 'package:quick_pitch_app/features/auth/view/components/custom_button.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/auth/view/components/form_field.dart';
@@ -28,9 +29,8 @@ class LoginForm extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-
         } else if (state is AuthFailure) {
-          print(state.error.toString());
+         // print(state.error.toString());
           showDialog(
             context: context,
             builder:
@@ -69,7 +69,9 @@ class LoginForm extends StatelessWidget {
                     Checkbox(
                       value: !visibilityState.obscureText,
                       onChanged: (_) {
-                        context.read<ButtonVisibilityCubit>().togglePasswordVisibility();
+                        context
+                            .read<ButtonVisibilityCubit>()
+                            .togglePasswordVisibility();
                       },
                     ),
                     const Text('Show Password'),
@@ -89,17 +91,20 @@ class LoginForm extends StatelessWidget {
                 const SizedBox(height: 16),
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, authState) {
+                    final isEmailLoginLoading =
+                        authState is AuthLoading &&
+                        authState.type == AuthLoadingType.emailPassword;
                     return CustomButton(
                       text: 'Login',
-                      isLoading: authState is AuthLoading,
+                      isLoading: isEmailLoginLoading,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(
-                                SignInRequested(
-                                  emailController.text.trim(),
-                                  passwordController.text.trim(),
-                                ),
-                              );
+                            SignInRequested(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                            ),
+                          );
                         }
                       },
                     );
@@ -109,7 +114,10 @@ class LoginForm extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onGoogleTap,
                   icon: Image.asset('assets/icons/google.png', height: 24),
-                  label: const Text("Continue with Google", style: TextStyle(color: Colors.black)),
+                  label: const Text(
+                    "Continue with Google",
+                    style: TextStyle(color: Colors.black),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     elevation: 2,
@@ -134,7 +142,7 @@ class LoginForm extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

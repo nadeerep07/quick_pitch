@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
-    this.height = 48, // default height
+    this.height = 48, 
   });
 
   @override

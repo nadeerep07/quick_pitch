@@ -67,7 +67,7 @@ class _SignupFormState extends State<SignupForm> {
           const SizedBox(height: 16),
           CustomButton(
             text: 'Sign Up',
-            isLoading: authState is AuthLoading,
+            isLoading: authState is AuthLoading && authState.type == AuthLoadingType.signup,
             onPressed: () => _validateAndSubmit(context),
           ),
           const SizedBox(height: 20),

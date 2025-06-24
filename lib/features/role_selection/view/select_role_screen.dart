@@ -7,7 +7,7 @@ class SelectRoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Select Role'),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

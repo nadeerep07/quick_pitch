@@ -45,5 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+<string>This app requires local network access to authenticate with Google.</string>
+
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>com.googleusercontent.apps.1078708428195-j71soj4kvu8fa3o8gamhn31ur09c267c</string>
+    </array>
+  </dict>
+</array>
+
 </dict>
 </plist>

@@ -4,7 +4,17 @@ abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
-class AuthLoading extends AuthState {}
+class AuthLoading extends AuthState {
+  final AuthLoadingType type;
+  AuthLoading(this.type);
+}
+
+enum AuthLoadingType {
+  emailPassword,
+  google,
+  signup,
+  forgotPassword,
+}
 
 class AuthSuccess extends AuthState {
   final String email;

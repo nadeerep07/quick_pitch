@@ -9,7 +9,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({required this.authRepository}) : super(AuthInitial()) {
     on<SignUpRequested>((event, emit) async {
-      emit(AuthLoading());
+      emit(AuthLoading(AuthLoadingType.signup));
       try {
         final user = await authRepository.createAccount(
           event.email,
@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<SignInRequested>((event, emit) async {
-      emit(AuthLoading());
+      emit(AuthLoading( AuthLoadingType.emailPassword));
       try {
         final user = await authRepository.signIn(event.email, event.password);
 
@@ -34,7 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
 
         emit(AuthSuccess(event.email));
-        
       } catch (e) {
         emit(AuthFailure(error: e.toString()));
       }
@@ -44,6 +43,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await authRepository.forgetPassword(event.email);
         emit(PasswordResetSent());
+      } catch (e) {
+        emit(AuthFailure(error: e.toString()));
+      }
+    });
+    on<GoogleSignInRequested>((event, emit) async {
+      emit(AuthLoading(AuthLoadingType.google));
+      try {
+        final user = await authRepository.signInWithGoogle();
+        emit(AuthSuccess(user.email ?? ''));
       } catch (e) {
         emit(AuthFailure(error: e.toString()));
       }
