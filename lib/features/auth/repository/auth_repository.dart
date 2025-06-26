@@ -44,5 +44,10 @@ class AuthRepository {
   }
 }
 
+   Future<void> logout() async {
+    await _authServices.logout();
+  }
+
   Stream<User?> get userStream => _authServices.userChanges;
+
 }

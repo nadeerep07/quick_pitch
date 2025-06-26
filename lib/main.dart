@@ -8,6 +8,7 @@ import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
 import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bloc.dart';
+import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/shared/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +20,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
- 
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(authRepository: authRepository),
         ),
         BlocProvider(create: (context) => SubmissionCubit()),
-       
+        BlocProvider(create: (_) => RoleSelectionCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

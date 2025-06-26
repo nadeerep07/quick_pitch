@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 
 class VerificationViewModel {
   final ValueNotifier<int> seconds = ValueNotifier<int>(60);
@@ -24,7 +25,9 @@ class VerificationViewModel {
   }
 
   void startVerificationCheck(VoidCallback onVerified) {
-    _checkEmailVerifiedTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+    _checkEmailVerifiedTimer = Timer.periodic(const Duration(seconds: 3), (
+      timer,
+    ) async {
       await FirebaseAuth.instance.currentUser?.reload();
       final user = FirebaseAuth.instance.currentUser;
       if (user != null && user.emailVerified) {
@@ -42,8 +45,16 @@ class VerificationViewModel {
       seconds.value = 60;
       canResend.value = false;
       startCountdown();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Verification email resent')),
+      showDialog(
+        context: (context),
+        builder:
+            (context) => CustomDialog(
+              title: 'Verification Email Sent',
+              message: 'Please check your email to verify your account.',
+              icon: Icons.check_circle_outline,
+              iconColor: Colors.green,
+              onConfirm: () => Navigator.of(context).pop(),
+            ),
       );
     }
   }

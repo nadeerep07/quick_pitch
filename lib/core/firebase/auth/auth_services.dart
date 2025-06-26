@@ -49,5 +49,10 @@ class AuthServices {
 
   return await firebaseAuth.signInWithCredential(credential);
 }
+Future<void> logout() async {
+  await firebaseAuth.signOut();
+  await GoogleSignIn().signOut(); // if user logged in via Google
+}
+
 
 }

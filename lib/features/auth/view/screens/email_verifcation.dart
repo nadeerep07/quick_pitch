@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/email_verification_viewmodel.dart';
+import 'package:quick_pitch_app/shared/theme/app_colors.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -32,12 +33,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: const Text("Email Verification"),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Email Verification"),
+      //   centerTitle: true,
+      // ),
       body: Center(
         child: Card(
           elevation: 6,
@@ -49,7 +51,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.mark_email_read_outlined, size: 64, color: Colors.blue),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
                 const Text(
                   'Check Your Email',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -85,7 +87,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       label: const Text("Resend Email"),
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor:  AppColors.primaryColor ,
                       ),
                     );
                   },
