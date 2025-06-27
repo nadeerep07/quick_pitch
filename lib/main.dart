@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/login_screen.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/signup_screen.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
 import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bloc.dart';
+import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
+import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
-import 'package:quick_pitch_app/shared/theme/app_theme.dart';
+import 'package:quick_pitch_app/core/config/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/firebase/firebase_options.dart';
 
@@ -20,7 +21,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (context) => SubmissionCubit()),
         BlocProvider(create: (_) => RoleSelectionCubit()),
+        BlocProvider(create: (_) => CompleteProfileCubit(repository: UserProfileRepository()  )), 
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -47,10 +48,8 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
 
         home: SplashScreen(),
-        routes: {
-          '/login': (_) => LoginScreen(),
-          '/signup': (_) => SignupScreen(),
-        },
+       onGenerateRoute: AppRoutes.onGenerateRoute,
+       
       ),
     );
   }

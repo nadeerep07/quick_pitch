@@ -34,3 +34,8 @@ class UnverifiedEmail extends AuthState {
   final String email;
   UnverifiedEmail({required this.email});
 }
+class AuthRoleIdentified extends AuthState {
+  final String role;
+  AuthRoleIdentified({required this.role});
+}
+

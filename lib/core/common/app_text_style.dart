@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 class AppTextStyles {
   static final heading = TextStyle(

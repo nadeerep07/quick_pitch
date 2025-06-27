@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/email_verification_viewmodel.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String email;
@@ -20,7 +21,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     viewModel.startCountdown();
     viewModel.startVerificationCheck(() {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/login');
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     });
   }
@@ -96,7 +97,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 TextButton.icon(
                   onPressed: () {
                     
-                    Navigator.of(context).pushReplacementNamed('/login');
+                    Navigator.pushReplacementNamed(context, AppRoutes.login);
                   },
                   icon: const Icon(Icons.cancel, color: Colors.redAccent),
                   label: const Text("Cancel", style: TextStyle(color: Colors.redAccent)),

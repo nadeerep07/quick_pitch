@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/app_button.dart';
-import 'package:quick_pitch_app/features/role_selection/view/components/backgroun_painter.dart';
+import 'package:quick_pitch_app/core/common/backgroun_painter.dart';
 import 'package:quick_pitch_app/features/role_selection/view/components/role_card.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_state.dart';
-import 'package:quick_pitch_app/shared/config/responsive.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
 
 class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
@@ -23,7 +23,8 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
       body: BlocConsumer<RoleSelectionCubit, RoleSelectionState>(
         listener: (context, state) {
           if (state is RoleSelected) {
-            Navigator.pushReplacementNamed(context, '/home');
+            Navigator.pushReplacementNamed(context, '/complete-profile',
+                arguments: state.role);
           }
         },
         builder: (context, state) {

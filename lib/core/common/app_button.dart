@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 class AppButton extends StatelessWidget {
   final String text;
@@ -7,6 +7,7 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? borderRadius;
+  final bool isLoading;
 
   const AppButton({
     super.key,
@@ -15,6 +16,7 @@ class AppButton extends StatelessWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.isLoading = false,
   });
 
   @override
@@ -29,11 +31,21 @@ class AppButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? 10),
           ),
         ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16),
+        onPressed: isLoading? null : onPressed,
+        child:  isLoading
+    ? const SizedBox(
+        width: 22,
+        height: 22,
+        child: CircularProgressIndicator(
+          color: Colors.white,
+          strokeWidth: 2.5,
         ),
+      )
+    : Text(
+        text,
+        style: const TextStyle(fontSize: 16),
+      ),
+
       ),
     );
   }

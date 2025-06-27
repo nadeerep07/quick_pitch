@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bl
 import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_button.dart';
 import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_dot_indicator.dart';
 import 'package:quick_pitch_app/features/onboarding/view/components/onboarding_page.dart';
-import 'package:quick_pitch_app/shared/config/responsive.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatelessWidget {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/login_form.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/email_verifcation.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/forget_password_screen.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/signup_screen.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/role_selection/view/select_role_screen.dart';
-import 'package:quick_pitch_app/shared/config/responsive.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -19,14 +19,18 @@ class LoginScreen extends StatelessWidget {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthSuccess) {
-          Navigator.pushAndRemoveUntil(
+        if (state is AuthRoleIdentified) {
+          final role = state.role;
+          if (role == 'poster') {
+            Navigator.pushReplacementNamed(context, AppRoutes.posterHome);
+          } else if (role == 'fixer') {
+            Navigator.pushReplacementNamed(context, AppRoutes.fixerHome);
+          }
+        } else if (state is AuthSuccess) {
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (_) => const SelectRoleScreen()),
-            (route) => false,
           );
-        } else if (state is AuthFailure) {
-          // print(state.error.toString());
         } else if (state is UnverifiedEmail) {
           Navigator.pushReplacement(
             context,
@@ -70,10 +74,7 @@ class LoginScreen extends StatelessWidget {
                       context.read<AuthBloc>().add(GoogleSignInRequested());
                     },
                     onSignupTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const SignupScreen()),
-                      );
+                      Navigator.pushNamed(context, AppRoutes.signup);
                     },
                     onForgotTap: () {
                       Navigator.push(

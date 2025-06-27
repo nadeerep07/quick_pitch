@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/features/auth/view/components/form_field.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
-import 'package:quick_pitch_app/shared/theme/app_colors.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});

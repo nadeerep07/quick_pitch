@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/shared/config/responsive.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String imagePath;

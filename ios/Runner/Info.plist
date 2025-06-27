@@ -2,8 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app needs access to your location to show your current place.</string>
+
+<key>NSLocationAlwaysUsageDescription</key>
+<string>This app needs constant access to your location even in the background.</string>
+
 	<key>CFBundleDisplayName</key>
 	<string>Quick Pitch App</string>
 	<key>CFBundleExecutable</key>

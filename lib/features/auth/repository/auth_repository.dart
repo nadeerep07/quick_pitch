@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -35,19 +36,18 @@ class AuthRepository {
   }
 
   Future<User> signInWithGoogle() async {
-  final credential = await _authServices.signInWithGoogle();
-  final user = credential.user;
-  if (user != null) {
-    return user;
-  } else {
-    throw Exception("Google Sign-In failed");
+    final credential = await _authServices.signInWithGoogle();
+    final user = credential.user;
+    if (user != null) {
+      return user;
+    } else {
+      throw Exception("Google Sign-In failed");
+    }
   }
-}
-
-   Future<void> logout() async {
-    await _authServices.logout();
+//get ui for existiung user
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String uid) {
+    return FirebaseFirestore.instance.collection('users').doc(uid).get();
   }
 
   Stream<User?> get userStream => _authServices.userChanges;
-
 }
