@@ -6,6 +6,7 @@ import 'package:quick_pitch_app/features/auth/view/components/login_form.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/email_verifcation.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/forget_password_screen.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
+import 'package:quick_pitch_app/features/main/poster/view/nav_bar/poster_bottom_nav.dart';
 import 'package:quick_pitch_app/features/role_selection/view/select_role_screen.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
@@ -22,9 +23,9 @@ class LoginScreen extends StatelessWidget {
         if (state is AuthRoleIdentified) {
           final role = state.role;
           if (role == 'poster') {
-            Navigator.pushReplacementNamed(context, AppRoutes.posterHome);
+            Navigator.pushReplacementNamed(context, AppRoutes.posterBottomNav);
           } else if (role == 'fixer') {
-            Navigator.pushReplacementNamed(context, AppRoutes.fixerHome);
+            Navigator.pushReplacementNamed(context, AppRoutes.fixerBottomNav);
           }
         } else if (state is AuthSuccess) {
           Navigator.pushReplacement(

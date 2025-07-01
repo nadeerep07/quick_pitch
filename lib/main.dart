@@ -6,6 +6,11 @@ import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
+import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bloc.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
@@ -40,7 +45,14 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (context) => SubmissionCubit()),
         BlocProvider(create: (_) => RoleSelectionCubit()),
-        BlocProvider(create: (_) => CompleteProfileCubit(repository: UserProfileRepository()  )), 
+        BlocProvider(
+          create:
+              (_) => CompleteProfileCubit(repository: UserProfileRepository()),
+        ),
+        BlocProvider(create: (_) => PosterBottomNavCubit()),
+        BlocProvider(create: (_) => DrawerStateCubit()),
+        BlocProvider(create: (_) => PosterHomeCubit(PosterRepository())),
+        BlocProvider(create: (_) => RoleSwitchCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -48,8 +60,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
 
         home: SplashScreen(),
-       onGenerateRoute: AppRoutes.onGenerateRoute,
-       
+        onGenerateRoute: AppRoutes.onGenerateRoute,
       ),
     );
   }

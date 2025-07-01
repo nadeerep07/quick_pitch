@@ -31,12 +31,12 @@ class CompleteProfileScreen extends StatelessWidget {
                     if (role == 'poster') {
                       Navigator.pushReplacementNamed(
                         context,
-                        AppRoutes.posterHome,
+                        AppRoutes.posterBottomNav,
                       );
                     } else if (role == 'fixer') {
                       Navigator.pushReplacementNamed(
                         context,
-                        AppRoutes.fixerHome,
+                        AppRoutes.fixerBottomNav,
                       );
                     }
                   } else if (state is CompleteProfileError) {

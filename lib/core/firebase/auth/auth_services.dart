@@ -51,7 +51,7 @@ class AuthServices {
 }
 Future<void> logout() async {
   await firebaseAuth.signOut();
-  await GoogleSignIn().signOut(); // if user logged in via Google
+  await GoogleSignIn().signOut(); 
 }
 
 

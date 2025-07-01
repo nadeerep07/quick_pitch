@@ -44,7 +44,12 @@ class AuthRepository {
       throw Exception("Google Sign-In failed");
     }
   }
-//get ui for existiung user
+    Future<bool> isEmailVerified(User user) async {
+    await user.reload();
+    return FirebaseAuth.instance.currentUser?.emailVerified ?? false;
+  }
+
+//get ui for exixting user
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String uid) {
     return FirebaseFirestore.instance.collection('users').doc(uid).get();
   }
