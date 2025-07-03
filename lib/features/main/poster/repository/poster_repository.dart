@@ -13,7 +13,7 @@ class PosterRepository {
     final doc = await fireStore.collection('users').doc(uid).get();
     final data = doc.data();
 
-    print("Fetched user data: $data");
+    // print("Fetched user data: $data");
     return data;
   }
 

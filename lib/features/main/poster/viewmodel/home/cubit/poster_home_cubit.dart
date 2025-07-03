@@ -14,10 +14,10 @@ class PosterHomeCubit extends Cubit<PosterHomeState> {
 
     final imageUrl = data['profileImageUrl'] as String?;
     final name = data['name'] as String;
-    final role = data['role'] as String;
+    final role = data['activeRole'] as String;
 
-    print('Fetched profileImageUrl: $imageUrl');
-    print('Name: $name | Role: $role');
+    // print('Fetched profileImageUrl: $imageUrl');
+    // print('Name: $name | Role: $role');
 
     emit(PosterHomeLoaded(
       profileImageUrl: imageUrl,

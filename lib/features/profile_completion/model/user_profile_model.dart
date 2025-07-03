@@ -1,3 +1,6 @@
+import 'package:quick_pitch_app/features/main/fixer/model/fixer_data.dart';
+import 'package:quick_pitch_app/features/main/poster/model/poster_data.dart';
+
 class UserProfileModel {
   final String uid;
   final String name;
@@ -5,9 +8,11 @@ class UserProfileModel {
   final String bio;
   final String? profileImageUrl;
   final String role;
-  final String? certification;
-  final List<String>? skills;
+  // final String? certification;
+  // final List<String>? skills;
   final String location;
+  final FixerData? fixerData;
+  final PosterData? posterData;
 
   UserProfileModel({
     required this.uid,
@@ -15,34 +20,37 @@ class UserProfileModel {
     required this.phone,
     required this.bio,
     this.profileImageUrl,
-    this.certification,
+    //this.certification,
     required this.role,
-    this.skills,
+   // this.skills,
     required this.location,
+    this.fixerData,
+    this.posterData,
+    
   });
 
-Map<String, dynamic> toJson() {
-  final data = {
+Map<String, dynamic> toRoleJson() {
+  final Map<String, dynamic> data = {
     'uid': uid,
     'name': name,
     'phone': phone,
     'bio': bio,
     'role': role,
     'location': location,
+    if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
   };
 
-  if (profileImageUrl != null) {
-    data['profileImageUrl'] = profileImageUrl ?? '';
+  if (role == 'fixer' && fixerData != null) {
+    data['fixerData'] = fixerData!.toJson();
   }
 
-  if (certification != null) {
-    data['certification'] = certification ?? '';
+  if (role == 'poster' && posterData != null) {
+    data['posterData'] = posterData!.toJson();
   }
-
- 
 
   return data;
 }
+
 
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
@@ -52,14 +60,20 @@ Map<String, dynamic> toJson() {
       phone: json['phone'],
       bio: json['bio'],
       profileImageUrl: json['profileImageUrl'],
-      certification: json['certification'],
+    //  certification: json['certification'],
       role: json['role'],
       location: json['location'],
-      skills: json['skills'] != null ? List<String>.from(json['skills']) : null,
+     // skills: json['skills'] != null ? List<String>.from(json['skills']) : null,
+      fixerData: json['fixerData'] != null
+          ? FixerData.fromJson(json['fixerData'])
+          : null,
+      posterData: json['posterData'] != null
+          ? PosterData.fromJson(json['posterData'])
+          : null,
     );
   }
   @override
   String toString() {
-    return 'UserProfileModel(uid: $uid, name: $name, phone: $phone, bio: $bio, profileImageUrl: $profileImageUrl, role: $role, certification: $certification, skills: $skills, location: $location)';
+    return 'UserProfileModel(uid: $uid, name: $name, phone: $phone, bio: $bio, profileImageUrl: $profileImageUrl, role: $role, location: $location)';
   }
 }

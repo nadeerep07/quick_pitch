@@ -23,7 +23,7 @@ class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     final isVisible = !context.watch<ButtonVisibilityCubit>().state.obscureText;
-    final authState = context.read<AuthBloc>().state;
+    final authState = context.watch<AuthBloc>().state;
 
     return Form(
       key: _formKey,

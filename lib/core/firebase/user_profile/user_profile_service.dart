@@ -5,16 +5,37 @@ import 'package:quick_pitch_app/features/profile_completion/model/user_profile_m
 class UserProfileService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  /// Save profile under users/{uid}/roles/{role}/profile
   Future<void> saveProfile(UserProfileModel profile) async {
-    await firestore.collection('users').doc(profile.uid).set(profile.toJson(),SetOptions(merge: true));
+    await firestore
+        .collection('users')
+        .doc(profile.uid)
+        .collection('roles')
+        .doc(profile.role) // either 'fixer' or 'poster'
+        .set(profile.toRoleJson(), SetOptions(merge: true));
+
+    // Optionally store activeRole at root user doc
+    await firestore.collection('users').doc(profile.uid).set({
+      'activeRole': profile.role,
+      'name': profile.name,
+      'uid': profile.uid,
+      'profileImageUrl': profile.profileImageUrl,
+    }, SetOptions(merge: true));
   }
 
-  Future<UserProfileModel?> getProfile(String uid) async {
-    final doc = await firestore.collection('users').doc(uid).get();
+  /// Get role-specific profile
+  Future<UserProfileModel?> getProfile(String uid, String role) async {
+    final doc =
+        await firestore
+            .collection('users')
+            .doc(uid)
+            .collection('roles')
+            .doc(role)
+            .get();
+
     if (!doc.exists) return null;
 
     final data = doc.data()!;
     return UserProfileModel.fromJson(data);
-
   }
 }

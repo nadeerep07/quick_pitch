@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:quick_pitch_app/core/utils/image_picker_helper.dart';
+import 'package:quick_pitch_app/features/main/fixer/model/fixer_data.dart';
+import 'package:quick_pitch_app/features/main/poster/model/poster_data.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 
@@ -13,11 +15,11 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   final UserProfileRepository repository;
 
   CompleteProfileCubit({required this.repository})
-    : super(CompleteProfileInitial()){
-      bioController.addListener(() {
-    onBioChanged(bioController.text);
-  });
-    }
+    : super(CompleteProfileInitial()) {
+    bioController.addListener(() {
+      onBioChanged(bioController.text);
+    });
+  }
 
   final nameController = TextEditingController();
   final locationController = TextEditingController();
@@ -105,7 +107,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
   void onBioChanged(String text) {
     remainingBioChars = maxBioLength - text.length;
-    emit(SkillSelectionUpdated()); 
+    emit(SkillSelectionUpdated());
   }
 
   Future<void> submitProfile(String role) async {
@@ -132,6 +134,19 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
           certificateImage!,
         );
       }
+      FixerData? fixerData;
+      PosterData? posterData;
+
+      if (role == 'fixer') {
+        fixerData = FixerData(
+          skills: selectedSkills,
+          certification: certificateUrl,
+        );
+      }
+
+      if (role == 'poster') {
+        posterData = PosterData(totalPosts: 0);
+      }
 
       final model = UserProfileModel(
         uid: user.uid,
@@ -139,20 +154,38 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         phone: phoneController.text.trim(),
         bio: bioController.text.trim(),
         profileImageUrl: profileUrl,
-
         role: role,
-        certification: certificateUrl,
-        skills: role == 'fixer' ? List.from(selectedSkills) : null,
         location: locationController.text.trim(),
+        fixerData: fixerData,
+        posterData: posterData,
       );
 
       await repository.saveProfile(model);
-
+      print("Profile saved: $model");
       emit(CompleteProfileSuccess());
     } catch (e) {
+      print("Error saving profile: $e");
       emit(CompleteProfileError(e.toString()));
     }
   }
+  void resetProfileData() {
+  nameController.clear();
+  phoneController.clear();
+  locationController.clear();
+  bioController.clear();
+  certificationController.clear();
+
+  profileImage = null;
+  certificateImage = null;
+  profileUrl = null;
+  certificateUrl = null;
+  selectedSkills.clear();
+  searchQuery = '';
+  remainingBioChars = maxBioLength;
+
+  emit(CompleteProfileInitial()); // or a custom ResetState if you want
+}
+
 
   @override
   Future<void> close() {

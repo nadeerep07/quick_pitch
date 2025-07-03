@@ -12,6 +12,11 @@ class RoleSwitchSuccess extends RoleSwitchState {
   RoleSwitchSuccess(this.newRole);
 }
 
+class RoleSwitchIncompleteProfile extends RoleSwitchState {
+  final String missingRole;
+  RoleSwitchIncompleteProfile(this.missingRole);
+}
+
 class RoleSwitchError extends RoleSwitchState {
   final String message;
   RoleSwitchError(this.message);

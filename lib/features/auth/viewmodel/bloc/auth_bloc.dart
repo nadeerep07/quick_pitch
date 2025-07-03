@@ -36,8 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         final doc = await authRepository.getUserDoc(user.uid);
 
-        if (doc.exists && doc.data()!['role'] != null) {
-          final role = doc.data()!['role'];
+        if (doc.exists && doc.data()!['activeRole'] != null) {
+          final role = doc.data()!['activeRole'];
           emit(AuthRoleIdentified(role: role));
         } else {
           emit(AuthSuccess(event.email)); // No role → SelectRoleScreen

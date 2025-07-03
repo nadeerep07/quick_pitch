@@ -77,7 +77,7 @@ class SignupScreen extends StatelessWidget {
                     right: res.wp(5),
                     top: res.hp(40),
                   ),
-                  child: const SignupForm(),
+                  child:  SignupForm(),
                 ),
               ),
             ],

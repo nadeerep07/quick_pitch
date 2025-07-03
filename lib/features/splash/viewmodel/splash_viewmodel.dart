@@ -38,7 +38,7 @@ class SplashViewmodel {
               .doc(currentUser.uid)
               .get();
 
-      final role = doc.data()?['role'];
+      final role = doc.data()?['activeRole'];
 
       if (role == 'poster') {
         Navigator.pushReplacementNamed(context, AppRoutes.posterBottomNav);

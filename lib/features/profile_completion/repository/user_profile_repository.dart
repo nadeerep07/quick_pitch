@@ -65,6 +65,6 @@ class UserProfileRepository {
     );
 
     final place = placemarks.first;
-    return '${place.name}, ${place.locality}, ${place.administrativeArea}, ${place.country}';
+    return '${place.name}, ${place.administrativeArea}, ${place.country}';//${place.locality}
   }
 }

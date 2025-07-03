@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
+import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/custom_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/custom_drawer.dart';
@@ -40,20 +42,20 @@ class _FixerBottomNavState extends State<FixerBottomNav> {
             return BlocListener<RoleSwitchCubit, RoleSwitchState>(
               listener: (context, state) {
                 if (state is RoleSwitchSuccess) {
-                 
-
                   // Navigate based on role:
-                  if (state.newRole == 'fixer') {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      AppRoutes.fixerBottomNav,
-                      (route) => false,
-                    );
-                  } else {
+                  if (state.newRole == 'poster') {
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       AppRoutes.posterBottomNav,
                       (route) => false,
+                    );
+                  }
+                } else if (state is RoleSwitchIncompleteProfile) {
+                  if (state.missingRole == 'poster') {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.completeProfile,
+                      arguments: 'poster',
                     );
                   }
                 } else if (state is RoleSwitchError) {
@@ -77,26 +79,19 @@ class _FixerBottomNavState extends State<FixerBottomNav> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Switch Role"),
-                          content: const Text(
-                            "Do you want to switch to the other role?",
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("Cancel"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                 context.read<DrawerStateCubit>().setDrawerState(false);
-                                Navigator.pop(context); // Close dialog first
+                        return CustomDialog(
+                          title: "Switch Role",
+                          message: "Do you want to switch to the other role?",
+                          icon: Icons.sync_alt,
+                          iconColor: AppColors.primaryColor,
+                          onConfirm: () async {
+                            context.read<DrawerStateCubit>().setDrawerState(
+                              false,
+                            );
+                            Navigator.pop(context); // Close dialog first
 
-                                context.read<RoleSwitchCubit>().switchRole();
-                              },
-                              child: const Text("Switch"),
-                            ),
-                          ],
+                            context.read<RoleSwitchCubit>().switchRole();
+                          },
                         );
                       },
                     );
