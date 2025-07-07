@@ -1,6 +1,7 @@
 // poster_home_header.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 
@@ -18,7 +19,11 @@ class PosterHomeHeader extends StatelessWidget {
         }
 
         if (state is PosterHomeLoaded) {
-          final imageUrl = state.profileImageUrl ?? 'https://i.pravatar.cc/150?img=3';
+          final imageUrl =
+              (state.profileImageUrl?.isNotEmpty ?? false)
+                  ? state.profileImageUrl!
+                  : 'https://i.pravatar.cc/150?img=3';
+
           return Row(
             children: [
               GestureDetector(
@@ -35,12 +40,13 @@ class PosterHomeHeader extends StatelessWidget {
                         width: 64,
                         height: 64,
                         fit: BoxFit.cover,
-                        imageErrorBuilder: (_, __, ___) => Image.asset(
-                          'assets/images/default_user.png',
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.cover,
-                        ),
+                        imageErrorBuilder:
+                            (_, __, ___) => Image.asset(
+                              'assets/images/default_user.png',
+                              width: 64,
+                              height: 64,
+                              fit: BoxFit.cover,
+                            ),
                       ),
                     ),
                   ),
@@ -51,7 +57,7 @@ class PosterHomeHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hi ${state.name} 👋',
+                    ' ${state.name} ',
                     style: TextStyle(
                       fontSize: res.sp(20),
                       fontWeight: FontWeight.bold,
@@ -59,26 +65,29 @@ class PosterHomeHeader extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                       Container(
-                              margin: EdgeInsets.only(top: 4),
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.black87,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                state.role,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: res.sp(12),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          ' ${state.role} ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: res.sp(12),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           );
         }

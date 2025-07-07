@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
+import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/task_post/poster_task/model/task_post_model.dart';
 
 part 'poster_home_state.dart';
@@ -19,7 +20,7 @@ Future<void> fetchPosterHomeData() async {
 
     final imageUrl = userData['profileImageUrl'] as String?;
     final name = userData['name'] as String;
-    final role = userData['activeRole'] as String;
+    final role = userData['role'] as String;
 
     final tasks = await repository.getTasksByUser(user.uid);
 
@@ -28,7 +29,16 @@ Future<void> fetchPosterHomeData() async {
       name: name,
       role: role,
       tasks: tasks,
+      fixers: [],
     ));
+        final fixers = await repository.fetchRecommendedFixers();
+
+    // Emit combined updated state
+    final currentState = state;
+    if (currentState is PosterHomeLoaded) {
+      emit(currentState.copyWith(fixers: fixers));
+    }
+
   } catch (e) {
     emit(PosterHomeError('Failed to load home data: ${e.toString()}'));
   }

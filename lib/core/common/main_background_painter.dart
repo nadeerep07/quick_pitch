@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PosterBackgroundPainter extends CustomPainter {
+class MainBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
    

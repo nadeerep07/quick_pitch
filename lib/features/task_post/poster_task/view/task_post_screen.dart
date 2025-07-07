@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/app_button.dart';
 import 'package:quick_pitch_app/core/common/discard_changes_dialog.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_background_painter.dart';
+import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/features/task_post/poster_task/view/components/priority_selector.dart';
 import 'package:quick_pitch_app/features/task_post/poster_task/view/components/task_category_selector.dart';
 import 'package:quick_pitch_app/features/task_post/poster_task/view/components/task_deadline_picker.dart';
@@ -57,7 +57,7 @@ class TaskPostScreen extends StatelessWidget {
         body: BlocBuilder<TaskPostCubit, TaskPostState>(
           builder: (context, state) {
             return CustomPaint(
-              painter: PosterBackgroundPainter(),
+              painter: MainBackgroundPainter(),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,

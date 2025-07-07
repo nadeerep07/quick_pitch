@@ -39,6 +39,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     "Repair",
     "Delivery",
     "Tutoring",
+    "Plumbing",
   ];
   String? selectedCategory;
   String selectedPriority = "Medium";

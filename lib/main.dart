@@ -6,6 +6,8 @@ import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
+import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
+import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
@@ -51,8 +53,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (_) => PosterBottomNavCubit()),
         BlocProvider(create: (_) => DrawerStateCubit()),
-        BlocProvider(create: (_) => PosterHomeCubit(PosterRepository())),
+        BlocProvider(create: (_) => PosterHomeCubit(PosterRepository())), 
         BlocProvider(create: (_) => RoleSwitchCubit()),
+        BlocProvider(create: (_)=> FixerHomeCubit( FixerRepository())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

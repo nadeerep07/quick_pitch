@@ -44,112 +44,129 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
       builder: (context, currentIndex) {
         return BlocBuilder<DrawerStateCubit, bool>(
           builder: (context, isDrawerOpen) {
-            return BlocListener<RoleSwitchCubit, RoleSwitchState>(
-              listener: (context, state) {
-                if (state is RoleSwitchSuccess) {
-                  // Navigate based on role:
-                  if (state.newRole == 'fixer') {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      AppRoutes.fixerBottomNav,
-                      (route) => false,
-                    );
-                  }
-                } else if (state is RoleSwitchIncompleteProfile) {
-                  if (state.missingRole == 'fixer') {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.completeProfile,
-                      arguments: 'fixer',
-                    );
-                  }
-                } else if (state is RoleSwitchError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Error: ${state.message}")),
-                  );
+            return BlocBuilder<PosterHomeCubit, PosterHomeState>(
+              builder: (context, homeState) {
+                Map<String, dynamic> userData = {};
+
+                if (homeState is PosterHomeLoaded) {
+                  userData = {
+                    'name': homeState.name,
+                    'role': homeState.role,
+                    'profileImageUrl': homeState.profileImageUrl,
+                  };
                 }
-              },
-              child: Scaffold(
-                extendBody: true,
-                key: _scaffoldKey,
-                drawer: CustomDrawer(
-                  onLogout: () async {
-                    await AuthServices().logout();
-                    context.read<DrawerStateCubit>().setDrawerState(false);
-                    context.read<CompleteProfileCubit>().resetProfileData();
-
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppRoutes.login,
-                      (route) => false,
-                    );
+                return BlocListener<RoleSwitchCubit, RoleSwitchState>(
+                  listener: (context, state) {
+                    if (state is RoleSwitchSuccess) {
+                      // Navigate based on role:
+                      if (state.newRole == 'fixer') {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.fixerBottomNav,
+                          (route) => false,
+                        );
+                      }
+                    } else if (state is RoleSwitchIncompleteProfile) {
+                      if (state.missingRole == 'fixer') {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.completeProfile,
+                          arguments: 'fixer',
+                        );
+                      }
+                    } else if (state is RoleSwitchError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Error: ${state.message}")),
+                      );
+                    }
                   },
-                  onSwitchTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CustomDialog(
-                          title: "Switch Role",
-                          message: "Do you want to switch to the other role?",
-                          icon: Icons.sync_alt,
-                          iconColor: AppColors.primaryColor,
-                          onConfirm: () async {
-                            context.read<DrawerStateCubit>().setDrawerState(
-                              false,
-                            );
-                            Navigator.pop(context); // Close dialog first
+                  child: Scaffold(
+                    extendBody: true,
+                    key: _scaffoldKey,
+                    drawer: CustomDrawer(
+                      userData: userData,
+                      onLogout: () async {
+                        await AuthServices().logout();
+                        context.read<DrawerStateCubit>().setDrawerState(false);
+                        context.read<CompleteProfileCubit>().resetProfileData();
 
-                            context.read<RoleSwitchCubit>().switchRole();
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          AppRoutes.login,
+                          (route) => false,
+                        );
+                      },
+                      onSwitchTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CustomDialog(
+                              title: "Switch Role",
+                              message:
+                                  "Do you want to switch to the other role?",
+                              icon: Icons.sync_alt,
+                              iconColor: AppColors.primaryColor,
+                              onConfirm: () async {
+                                context.read<DrawerStateCubit>().setDrawerState(
+                                  false,
+                                );
+                                Navigator.pop(context); // Close dialog first
+
+                                context.read<RoleSwitchCubit>().switchRole();
+                              },
+                            );
                           },
                         );
                       },
-                    );
-                  },
-                ),
-                onDrawerChanged: (bool isOpen) {
-                  context.read<DrawerStateCubit>().setDrawerState(isOpen);
+                    ),
+                    onDrawerChanged: (bool isOpen) {
+                      context.read<DrawerStateCubit>().setDrawerState(isOpen);
 
-                  if (!isOpen) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      context.read<DrawerStateCubit>().setDrawerState(false);
-                    });
-                  }
-                },
+                      if (!isOpen) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          context.read<DrawerStateCubit>().setDrawerState(
+                            false,
+                          );
+                        });
+                      }
+                    },
 
-                body: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: IndexedStack(
-                    key: ValueKey(currentIndex),
-                    index: currentIndex,
-                    children: screens,
+                    body: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: IndexedStack(
+                        key: ValueKey(currentIndex),
+                        index: currentIndex,
+                        children: screens,
+                      ),
+                    ),
+                    bottomNavigationBar:
+                        (!isDrawerOpen)
+                            ? GlassmorphicBottomNavBar(
+                              currentIndex: currentIndex,
+                              onTabSelected: (index) {
+                                context.read<PosterBottomNavCubit>().changeTab(
+                                  index,
+                                );
+                              },
+                              onPostTapped: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TaskPostWrapper(),
+                                  ),
+                                );
+
+                                if (result == true) {
+                                  context
+                                      .read<PosterHomeCubit>()
+                                      .fetchPosterHomeData();
+                                }
+                              },
+                              isFixer: false,
+                            )
+                            : const SizedBox.shrink(),
                   ),
-                ),
-                bottomNavigationBar:
-                    (!isDrawerOpen)
-                        ? GlassmorphicBottomNavBar(
-                          currentIndex: currentIndex,
-                          onTabSelected: (index) {
-                            context.read<PosterBottomNavCubit>().changeTab(
-                              index,
-                            );
-                          },
-                          onPostTapped: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const TaskPostWrapper(),
-                              ),
-                            );
-
-                            if (result == true) {
-                              context
-                                  .read<PosterHomeCubit>()
-                                  .fetchPosterHomeData();
-                            }
-                          },
-                          isFixer: false,
-                        )
-                        : const SizedBox.shrink(),
-              ),
+                );
+              },
             );
           },
         );

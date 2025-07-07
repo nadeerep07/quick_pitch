@@ -29,13 +29,13 @@ class CloudinaryService {
 
       if (response.statusCode == 200) {
         final imageUrl = response.data['secure_url'];
-        print("✅ Uploaded to Cloudinary: $imageUrl");
+        print("Uploaded to Cloudinary: $imageUrl");
         return imageUrl;
       } else {
         throw Exception("❌ Cloudinary upload failed: ${response.statusCode}");
       }
     } catch (e) {
-      print("🚨 Dio Cloudinary upload error: $e");
+      print(" Dio Cloudinary upload error: $e");
       rethrow;
     }
   }
