@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 
-class poster_home_quick_action_button extends StatelessWidget {
-  const poster_home_quick_action_button({
+class PosterHomeQuickActionButton extends StatelessWidget {
+  const PosterHomeQuickActionButton({
     super.key,
     required this.icon,
     required this.label,
@@ -19,7 +19,7 @@ class poster_home_quick_action_button extends StatelessWidget {
     children: [
       CircleAvatar(
         radius: 24,
-        backgroundColor: Colors.blueAccent.withOpacity(0.1),
+        backgroundColor: Colors.blueAccent.withValues(alpha: .1),
         child: Icon(icon, color: Colors.blue, size: res.sp(20)),
       ),
       SizedBox(height: 6),

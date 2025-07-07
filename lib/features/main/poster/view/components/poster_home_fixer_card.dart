@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 
-class poster_home_fixer_card extends StatelessWidget {
-  const poster_home_fixer_card({
+class PosterHomeFixerCard extends StatelessWidget {
+  const PosterHomeFixerCard ({
     super.key,
     required this.res,
     required this.name,

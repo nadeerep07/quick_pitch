@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 // import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
@@ -14,8 +14,10 @@ import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_sc
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
+import 'package:quick_pitch_app/features/task_post/poster_task/view/components/task_post_wrapper.dart';
 
 class PosterBottomNav extends StatefulWidget {
   const PosterBottomNav({super.key});
@@ -52,13 +54,16 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                       AppRoutes.fixerBottomNav,
                       (route) => false,
                     );
-                  } 
-                } else if( state is RoleSwitchIncompleteProfile){
-                  if( state.missingRole == 'fixer') {
-                    Navigator.pushNamed(context, AppRoutes.completeProfile,arguments: 'fixer');
-                  } 
-                }
-                else if (state is RoleSwitchError) {
+                  }
+                } else if (state is RoleSwitchIncompleteProfile) {
+                  if (state.missingRole == 'fixer') {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.completeProfile,
+                      arguments: 'fixer',
+                    );
+                  }
+                } else if (state is RoleSwitchError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Error: ${state.message}")),
                   );
@@ -127,9 +132,21 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                               index,
                             );
                           },
-                          onPostTapped: () {
-                            // Task posting navigation if any
+                          onPostTapped: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const TaskPostWrapper(),
+                              ),
+                            );
+
+                            if (result == true) {
+                              context
+                                  .read<PosterHomeCubit>()
+                                  .fetchPosterHomeData();
+                            }
                           },
+                          isFixer: false,
                         )
                         : const SizedBox.shrink(),
               ),

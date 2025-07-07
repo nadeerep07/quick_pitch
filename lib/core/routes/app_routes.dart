@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/features/auth/view/screens/signup_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/fixer_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/poster/view/nav_bar/poster_bottom_nav.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/complete_profile_screen.dart';
-
+import 'package:quick_pitch_app/features/task_post/poster_task/view/task_post_screen.dart';
 
 class AppRoutes {
   static const String login = '/login';
@@ -12,6 +12,7 @@ class AppRoutes {
   static const String posterBottomNav = '/poster-home';
   static const String fixerBottomNav = '/fixer-home';
   static const String completeProfile = '/complete-profile';
+  static const String posterTask = '/poster-task';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -32,12 +33,14 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => CompleteProfileScreen(role: role),
         );
-
+      case posterTask:
+        return MaterialPageRoute(builder: (_) => const TaskPostScreen());
+        
       default:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text("No route found")),
-          ),
+          builder:
+              (_) =>
+                  const Scaffold(body: Center(child: Text("No route found"))),
         );
     }
   }

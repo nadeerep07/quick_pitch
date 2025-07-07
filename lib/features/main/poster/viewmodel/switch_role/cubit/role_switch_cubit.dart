@@ -12,12 +12,14 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
   final _auth = FirebaseAuth.instance;
 
   Future<void> switchRole() async {
-    emit(RoleSwitchLoading());
+  emit(RoleSwitchLoading());
+  print("[RoleSwitch] Started switching");
 
-      try {
+  try {
     final uid = _auth.currentUser!.uid;
     final userDoc = _firestore.collection('users').doc(uid);
     final snapshot = await userDoc.get();
+    print("[RoleSwitch] User doc fetched");
 
     if (!snapshot.exists) throw Exception("User not found");
 
@@ -26,21 +28,25 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
     final newRoleDoc = userDoc.collection('roles').doc(newRole);
 
     final docSnapshot = await newRoleDoc.get();
+    print("[RoleSwitch] New role doc fetched: $newRole");
 
-   
+    // Fixer profile check
     if (newRole == 'fixer') {
       final fixerData = docSnapshot.data()?['fixerData'];
+      print("[RoleSwitch] Fixer data: $fixerData");
 
       if (fixerData == null ||
           fixerData['skills'] == null ||
           (fixerData['skills'] as List).isEmpty) {
+        print("[RoleSwitch] Incomplete fixer profile");
         emit(RoleSwitchIncompleteProfile('fixer'));
         return;
       }
     }
 
-   
+    // Poster role creation if not exists
     if (newRole == 'poster' && !docSnapshot.exists) {
+      print("[RoleSwitch] Creating poster role doc...");
       await newRoleDoc.set({
         'uid': uid,
         'role': 'poster',
@@ -53,12 +59,14 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
       });
     }
 
-    // 🟢 Switch role
+    // Switch role
     await userDoc.update({'activeRole': newRole});
+    print("[RoleSwitch] Role updated to $newRole");
     emit(RoleSwitchSuccess(newRole));
-    } catch (e) {
-      emit(RoleSwitchError(e.toString()));
-    }
+  } catch (e) {
+    print("[RoleSwitch] ERROR: $e");
+    emit(RoleSwitchError(e.toString()));
   }
+}
 
 }

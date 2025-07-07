@@ -18,7 +18,7 @@ import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_sel
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'core/firebase/firebase_options.dart';
+import 'core/services/firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

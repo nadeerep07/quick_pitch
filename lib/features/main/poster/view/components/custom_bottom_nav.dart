@@ -7,12 +7,14 @@ class GlassmorphicBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTabSelected;
   final VoidCallback onPostTapped;
+  final bool isFixer;
 
   const GlassmorphicBottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTabSelected,
     required this.onPostTapped,
+    required this.isFixer,
   });
 
   @override
@@ -45,45 +47,69 @@ class GlassmorphicBottomNavBar extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _navItem(context, Icons.home, "Home", 0),
-                    _navItem(context, Icons.search, "Explore", 1),
-                    const Spacer(),
-                    _navItem(context, Icons.chat, " chats  ", 2),
-                    _navItem(context, Icons.receipt_long, "Requests", 3),
-                  ],
+                  children:
+                      isFixer
+                          ? [
+                            _navItem(context, Icons.home, "Home", 0),
+                            _navItem(context, Icons.search, "Explore", 1),
+                            _navItem(context, Icons.chat, " chats  ", 2),
+                            _navItem(
+                              context,
+                              Icons.receipt_long,
+                              "Requests",
+                              3,
+                            ),
+                            _navItem(context, Icons.attach_money, "Earning", 4),
+                          ]
+                          : [
+                            _navItem(context, Icons.home, "Home", 0),
+                            _navItem(context, Icons.search, "Explore", 1),
+                            const Spacer(),
+                            _navItem(context, Icons.chat, " chats  ", 2),
+                            _navItem(
+                              context,
+                              Icons.receipt_long,
+                              "Requests",
+                              3,
+                            ),
+                          ],
                 ),
               ),
             ),
           ),
 
           // Center Post Button
-          Positioned(
-           
-            bottom: res.hp(4.5),
-            child: GestureDetector(
-              onTap: onPostTapped,
-              child: Container(
-                height: res.wp(16),
-                width: res.wp(16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primaryColor,
-                  border: Border.all(color: Colors.white, width: 4),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black26, blurRadius: 10),
-                  ],
+          if (!isFixer)
+            Positioned(
+              bottom: res.hp(4.5),
+              child: GestureDetector(
+                onTap: onPostTapped,
+                child: Container(
+                  height: res.wp(16),
+                  width: res.wp(16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primaryColor,
+                    border: Border.all(color: Colors.white, width: 4),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black26, blurRadius: 10),
+                    ],
+                  ),
+                  child: const Icon(Icons.add, color: Colors.white, size: 30),
                 ),
-                child: const Icon(Icons.add, color: Colors.white, size: 30),
               ),
             ),
-          )
         ],
       ),
     );
   }
 
-  Widget _navItem(BuildContext context, IconData icon, String label, int index) {
+  Widget _navItem(
+    BuildContext context,
+    IconData icon,
+    String label,
+    int index,
+  ) {
     final isSelected = currentIndex == index;
     return GestureDetector(
       onTap: () => onTabSelected(index),
@@ -91,13 +117,20 @@ class GlassmorphicBottomNavBar extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryColor.withValues(alpha: .15) : Colors.transparent,
+          color:
+              isSelected
+                  ? AppColors.primaryColor.withValues(alpha: .15)
+                  : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 24, color: isSelected ? AppColors.primaryColor : Colors.grey),
+            Icon(
+              icon,
+              size: 24,
+              color: isSelected ? AppColors.primaryColor : Colors.grey,
+            ),
             const SizedBox(height: 4),
             Text(
               label,

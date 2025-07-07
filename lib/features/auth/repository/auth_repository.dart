@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {

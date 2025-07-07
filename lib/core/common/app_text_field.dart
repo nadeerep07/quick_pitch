@@ -6,6 +6,8 @@ class AppTextField extends StatelessWidget {
   final bool isRequired;
   final TextInputType? keyboardType;
   final int maxLines;
+  final IconData? sufixicon;
+  final VoidCallback? onLocationTap;
 
   const AppTextField({
     super.key,
@@ -14,6 +16,8 @@ class AppTextField extends StatelessWidget {
     this.isRequired = false,
     this.keyboardType,
     this.maxLines = 1,
+    this.sufixicon,
+    this.onLocationTap,
   });
 
   @override
@@ -21,10 +25,17 @@ class AppTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextFormField(
+     
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,
         decoration: InputDecoration(
+             suffixIcon: sufixicon != null
+            ? IconButton(
+                icon: Icon(sufixicon),
+                onPressed: onLocationTap,
+              )
+            : null,
           labelText: label,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
@@ -128,6 +128,7 @@ class _FixerBottomNavState extends State<FixerBottomNav> {
                             //   ),
                             // );
                           },
+                          isFixer: true,
                         ),
               ),
             );

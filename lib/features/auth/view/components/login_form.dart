@@ -8,7 +8,7 @@ import 'package:quick_pitch_app/features/auth/view/components/form_field.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   final VoidCallback onGoogleTap;
   final VoidCallback onSignupTap;
   final VoidCallback onForgotTap;
@@ -20,8 +20,15 @@ class LoginForm extends StatelessWidget {
     required this.onForgotTap,
   });
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
   @override
@@ -77,7 +84,7 @@ class LoginForm extends StatelessWidget {
                     const Text('Show Password'),
                     const Spacer(),
                     GestureDetector(
-                      onTap: onForgotTap,
+                      onTap: widget.onForgotTap,
                       child: const Text(
                         "Forgot password?",
                         style: TextStyle(
@@ -112,7 +119,7 @@ class LoginForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
-                  onPressed: onGoogleTap,
+                  onPressed: widget.onGoogleTap,
                   icon: Image.asset('assets/icons/google.png', height: 24),
                   label: const Text(
                     "Continue with Google",
@@ -134,7 +141,7 @@ class LoginForm extends StatelessWidget {
                   children: [
                     const Text("Don't have an account? "),
                     InkWell(
-                      onTap: onSignupTap,
+                      onTap: widget.onSignupTap,
                       child: const Text(
                         "Sign up",
                         style: TextStyle(
