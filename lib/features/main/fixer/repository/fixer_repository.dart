@@ -30,6 +30,7 @@ final data = fixerRoleDoc.data();
         .collection('poster_tasks')
         .where('assignedFixerId', isEqualTo: null)
         .where('status', isEqualTo: 'pending')
+        .orderBy('createdAt', descending: true)
         .get();
 
   //  print("[FixerRepo] Total tasks fetched: ${tasksSnapshot.docs.length}");
@@ -39,21 +40,22 @@ final data = fixerRoleDoc.data();
         .toList();
 
     // for (final task in allTasks) {
-    //   print("[FixerRepo] Task title: ${task.title}, category: ${task.category}");
+    // //  print("[FixerRepo] Task title: ${task.title}, category: ${task.skills}");
     // }
 
-    final filtered = allTasks
-        .where((task) =>
-            fixerSkillCategories.map((s) => s.toLowerCase().trim()).contains(
-                  task.category.toLowerCase().trim(),
-                ))
-        .toList();
+final filtered = allTasks.where((task) {
+  final taskSkills = task.skills.map((s) => s.toLowerCase().trim()).toSet();
+  final fixerSkills = fixerSkillCategories.map((s) => s.toLowerCase().trim()).toSet();
+
+  return taskSkills.intersection(fixerSkills).isNotEmpty;
+}).toList();
+
 
    // print("[FixerRepo] Filtered tasks count: ${filtered.length}");
 
     return filtered;
   } catch (e) {
-   // print("[FixerRepo] Error: $e");
+  //  print("[FixerRepo] Error: $e");
     rethrow;
   }
 }
@@ -71,7 +73,7 @@ Future<Map<String, dynamic>> fetchFixerProfile() async {
       .get();
 
   if (!fixerDoc.exists) {
-  //  print('[FixerRepo] Fixer profile not found!');
+   print('[FixerRepo] Fixer profile not found!');
     throw Exception("Fixer profile not found");
   }
 

@@ -87,7 +87,7 @@ class PosterHomeTaskCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: _statusColor(status).withOpacity(0.9),
+                    color: _statusColor(status).withValues(alpha: .9),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(

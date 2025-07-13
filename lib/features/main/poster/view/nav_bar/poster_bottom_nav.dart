@@ -159,6 +159,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                                   context
                                       .read<PosterHomeCubit>()
                                       .fetchPosterHomeData();
+
                                 }
                               },
                               isFixer: false,

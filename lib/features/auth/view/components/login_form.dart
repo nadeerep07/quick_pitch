@@ -13,7 +13,7 @@ class LoginForm extends StatefulWidget {
   final VoidCallback onSignupTap;
   final VoidCallback onForgotTap;
 
-  LoginForm({
+  const LoginForm({
     super.key,
     required this.onGoogleTap,
     required this.onSignupTap,

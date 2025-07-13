@@ -35,7 +35,7 @@ class AppRoutes {
         );
       case posterTask:
         return MaterialPageRoute(builder: (_) => const TaskPostScreen());
-        
+
       default:
         return MaterialPageRoute(
           builder:

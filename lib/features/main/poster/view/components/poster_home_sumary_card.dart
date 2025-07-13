@@ -28,7 +28,7 @@ class PosterHomeSummaryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.blue.withOpacity(0.2),
+                  color: Colors.blue.withValues(alpha: .2),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),

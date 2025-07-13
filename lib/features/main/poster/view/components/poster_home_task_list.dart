@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_card.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
+import 'package:quick_pitch_app/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
+import 'package:quick_pitch_app/task_detail/poster/view/screen/poster_task_detail_screen.dart';
+import 'package:quick_pitch_app/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 
 class PosterHomeTaskList extends StatelessWidget {
   const PosterHomeTaskList({super.key});
@@ -25,9 +28,22 @@ class PosterHomeTaskList extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                // TODO: Navigate to "All Tasks" screen
+              onTap: () async {
+                final state = context.read<PosterHomeCubit>().state;
+                if (state is PosterHomeLoaded) {
+                  final shouldRefresh = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PosterTaskDetailListviewScreen(),
+                    ),
+                  );
+
+                  if (shouldRefresh == true && context.mounted) {
+                    context.read<PosterHomeCubit>().fetchPosterHomeData();
+                  }
+                }
               },
+
               child: Text(
                 'View All',
                 style: TextStyle(
@@ -42,22 +58,40 @@ class PosterHomeTaskList extends StatelessWidget {
         BlocBuilder<PosterHomeCubit, PosterHomeState>(
           builder: (context, state) {
             if (state is PosterHomeLoaded && state.tasks.isNotEmpty) {
+              final sortedTasks = [...state.tasks];
+              sortedTasks.sort((a, b) {
+                return b.createdAt.compareTo(a.createdAt);
+              });
+              final recentTasks = sortedTasks.take(4).toList();
               return SizedBox(
                 height: res.hp(26),
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  itemCount: state.tasks.length,
+                  itemCount: recentTasks.length,
                   separatorBuilder: (_, __) => SizedBox(width: res.wp(4)),
                   itemBuilder: (context, index) {
-                    final task = state.tasks[index];
-                    return PosterHomeTaskCard(
-                      res: res,
-                      title: task.title,
-                      status: task.status,
-                      imageUrl: task.imagesUrl != null && task.imagesUrl!.isNotEmpty
-                          ? task.imagesUrl!.first
-                          : 'https://i.pravatar.cc/150?img=${index + 1}',
-                      fixerName: task.assignedFixerName ?? 'Not assigned',
+                    final task = recentTasks[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (_) => PosterTaskDetailScreen(taskId: task.id),
+                          ),
+                        );
+                      },
+
+                      child: PosterHomeTaskCard(
+                        res: res,
+                        title: task.title,
+                        status: task.status,
+                        imageUrl:
+                            task.imagesUrl != null && task.imagesUrl!.isNotEmpty
+                                ? task.imagesUrl!.first
+                                : 'https://i.pravatar.cc/150?img=${index + 1}',
+                        fixerName: task.assignedFixerName ?? 'Not assigned',
+                      ),
                     );
                   },
                 ),
@@ -67,10 +101,7 @@ class PosterHomeTaskList extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: res.hp(1)),
                 child: Text(
                   'No tasks posted yet.',
-                  style: TextStyle(
-                    fontSize: res.sp(14),
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: res.sp(14), color: Colors.grey),
                 ),
               );
             }

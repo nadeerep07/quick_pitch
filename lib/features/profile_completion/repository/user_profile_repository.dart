@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
@@ -8,6 +9,8 @@ import 'package:geocoding/geocoding.dart' as geo;
 class UserProfileRepository {
   final UserProfileService service = UserProfileService();
   final CloudinaryService _cloudinary = CloudinaryService();
+    final FirebaseFirestore _db = FirebaseFirestore.instance;
+
 
   Future<void> saveProfile(UserProfileModel profile) async {
     await service.saveProfile(profile);
@@ -18,7 +21,7 @@ class UserProfileRepository {
   }
 
  Future<String> getCurrentLocation() async {
-  print("[DEBUG] Inside getCurrentLocation()");
+ // print("[DEBUG] Inside getCurrentLocation()");
 
   try {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -33,25 +36,26 @@ class UserProfileRepository {
     Position? pos;
     try {
       pos = await Geolocator.getCurrentPosition(
+        // ignore: deprecated_member_use
         desiredAccuracy: LocationAccuracy.low,
       ).timeout(
         const Duration(seconds: 8),
         onTimeout: () => throw Exception('Location timeout'),
       );
     } catch (e) {
-      print('[DEBUG] Primary position fetch failed: $e');
+  //    print('[DEBUG] Primary position fetch failed: $e');
       pos = await Geolocator.getLastKnownPosition();
       if (pos == null) return 'Unable to get current position';
     }
 
-    print("[DEBUG] Current Position: ${pos.latitude}, ${pos.longitude}");
+  //  print("[DEBUG] Current Position: ${pos.latitude}, ${pos.longitude}");
 
     final placemarks = await geo.placemarkFromCoordinates(
       pos.latitude,
       pos.longitude,
     );
 
-    print("[DEBUG] Placemarks: $placemarks");
+  //  print("[DEBUG] Placemarks: $placemarks");
 
     if (placemarks.isEmpty) return 'Unable to fetch address';
     final place = placemarks.first;
@@ -61,9 +65,13 @@ class UserProfileRepository {
 
     return locationText;
   } catch (e) {
-    print("[DEBUG] getCurrentLocation error: $e");
+  //  print("[DEBUG] getCurrentLocation error: $e");
     return 'Location error: ${e.toString()}';
   }
 }
+  Future<List<String>> fetchSkillsFromAdmin() async {
+    final snapshot = await _db.collection('skills').orderBy('name').get();
+    return snapshot.docs.map((doc) => doc['name'].toString()).toList();
+  }
 
 }

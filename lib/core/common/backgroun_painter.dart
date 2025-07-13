@@ -8,8 +8,8 @@ class BackgroundPainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Colors.deepPurple.shade100.withOpacity(0.3),
-          Colors.deepPurple.shade200.withOpacity(0.2),
+          Colors.deepPurple.shade100.withValues(alpha: .3),
+          Colors.deepPurple.shade200.withValues(alpha: .2),
         ],
       ).createShader(
         Rect.fromCircle(

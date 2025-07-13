@@ -5,7 +5,7 @@ class TaskPostModel {
   final String description;
   final String budget;
   final String location;
-  final String category;
+  final List<String> skills;
   final String priority;
   final String preferredTime;
   final String phone;
@@ -18,6 +18,7 @@ class TaskPostModel {
   final String? assignedFixerName;
   final String status;
 
+
   TaskPostModel({
     required this.id,
     required this.posterId,
@@ -25,7 +26,7 @@ class TaskPostModel {
     required this.description,
     required this.budget,
     required this.location,
-    required this.category,
+    required this.skills,
     required this.priority,
     required this.preferredTime,
     required this.phone,
@@ -37,6 +38,7 @@ class TaskPostModel {
     this.assignedFixerId,
     this.imagesUrl,
     this.assignedFixerName,
+   
   });
 
   factory TaskPostModel.fromMap(Map<String, dynamic> map) {
@@ -47,7 +49,9 @@ class TaskPostModel {
       description: map['description'] ?? '',
       budget: map['budget'] ?? '',
       location: map['location'] ?? '',
-      category: map['category'] ?? '',
+      skills: map['skills'] is List
+          ? List<String>.from(map['skills'])
+          : [map['skills'].toString()], 
       priority: map['priority'] ?? '',
       preferredTime: map['preferredTime'] ?? '',
       phone: map['phone'] ?? '',
@@ -61,6 +65,7 @@ class TaskPostModel {
       imagesUrl: map['imagesUrl'] != null
           ? List<String>.from(map['imagesUrl'])
           : null,
+     
     );
   }
 
@@ -72,7 +77,7 @@ class TaskPostModel {
       'description': description,
       'budget': budget,
       'location': location,
-      'category': category,
+      'skills': skills,
       'priority': priority,
       'preferredTime': preferredTime,
       'phone': phone,
@@ -84,6 +89,7 @@ class TaskPostModel {
       'assignedFixerId': assignedFixerId,
       'assignedFixerName': assignedFixerName,
       'imagesUrl': imagesUrl,
+      
     };
   }
 }

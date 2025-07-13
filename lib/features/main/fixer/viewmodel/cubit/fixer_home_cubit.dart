@@ -27,7 +27,7 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
         fixerProfile: profileData,
         // activeTasks: activeTasks,
       ));
-      print("[FixerHomeCubit] Loaded tasks: ${profileData['name']} - ${newTasks.length} tasks found");
+    //  print("[FixerHomeCubit] Loaded tasks: ${profileData['name']} - ${newTasks.length} tasks found");
     } catch (e) {
       emit(FixerHomeError("Failed to load tasks: ${e.toString()}"));
     }

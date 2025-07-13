@@ -50,6 +50,14 @@ class BuildHeader extends StatelessWidget {
             ),
           ],
         ),
+        const Spacer(),
+        IconButton(
+          icon: Icon(Icons.notifications, size: res.sp(30)),
+          onPressed: () {
+            // Handle notification tap
+          },
+          color: AppColors.primaryText,
+        ),
       ],
     );
   }

@@ -18,4 +18,19 @@ class TaskPostRepository {
         .map((doc) => TaskPostModel.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
+  Future<void> updateTask(TaskPostModel task) async {
+  final docRef = FirebaseFirestore.instance.collection('poster_tasks').doc(task.id);
+  await docRef.update(task.toMap());
+  print("Task updated at: ${docRef.path}");
+  
+}
+Future<TaskPostModel?> getTaskById(String id) async {
+  final doc = await _collection.doc(id).get();
+  if (doc.exists) {
+    return TaskPostModel.fromMap(doc.data() as Map<String, dynamic>);
+  }
+  return null;
+}
+
+
 }

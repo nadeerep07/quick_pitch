@@ -31,22 +31,22 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   File? profileImage;
   File? certificateImage;
 
-  final List<String> allSkills = [
-    'Plumbing',
-    'Electrical',
-    'Designer',
-    'Cleaning',
-    'Delivery',
-    'Cooking',
-    'Gardening',
-    'Painting',
-    'Mechanic',
-  ];
+   List<String> allSkills = [];
   String? profileUrl;
   String? certificateUrl;
 
   List<String> selectedSkills = [];
   String searchQuery = '';
+  
+    Future<void> loadSkillsFromAdmin() async {
+    try {
+      emit(CompleteProfileLoading());
+      allSkills = await repository.fetchSkillsFromAdmin();
+      emit(SkillSelectionUpdated());
+    } catch (e) {
+      emit(CompleteProfileError("Failed to load skills"));
+    }
+  }
 
   List<String> get filteredSkills =>
       allSkills

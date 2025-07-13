@@ -11,9 +11,19 @@ class BuildTaskList extends StatelessWidget {
 
   final Responsive res;
   final List newTasks;
+      String getTimeAgo(DateTime dateTime) {
+  final now = DateTime.now();
+  final diff = now.difference(dateTime);
+
+  if (diff.inMinutes < 60) return '${diff.inMinutes} minutes';
+  if (diff.inHours < 24) return '${diff.inHours} hours';
+  return '${diff.inDays} days';
+}
 
   @override
   Widget build(BuildContext context) {
+
+
     if (newTasks.isEmpty) {
       return Center(
         child: Text(
@@ -30,6 +40,11 @@ class BuildTaskList extends StatelessWidget {
           location: task.location,
           budget: task.budget,
           imageUrls: task.imagesUrl,
+          postedTime: getTimeAgo(task.createdAt),
+          // priceType: task.priceType,
+          // experienceLevel: task.experienceLevel,
+          description: task.description,
+          skills: task.skills,
           onTap: () {
             // Navigate to task detail
           },

@@ -6,7 +6,8 @@ import 'package:quick_pitch_app/features/main/poster/view/components/poster_home
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 
 class PosterHomeFixerList extends StatelessWidget {
-  const PosterHomeFixerList({super.key});
+  const 
+  PosterHomeFixerList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class PosterHomeFixerList extends StatelessWidget {
       builder: (context, state) {
         if(state is PosterHomeLoaded){
           final fixers = state.fixers;
-        
+        final recommendFixer = fixers.take(5).toList();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,10 +33,10 @@ class PosterHomeFixerList extends StatelessWidget {
               height: res.hp(20.5),
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: 6,
+                itemCount: recommendFixer.length,
                 separatorBuilder: (_, __) => SizedBox(width: res.wp(3)),
                 itemBuilder: (context, index) {
-                  final fixer = fixers[index];
+                  final fixer = recommendFixer[index];
                   return PosterHomeFixerCard(
                     res: res,
                     name: fixer.name,
@@ -50,7 +51,7 @@ class PosterHomeFixerList extends StatelessWidget {
         } else if (state is PosterHomeLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (state is PosterHomeError) {
-          print('Error: ${state.message}');
+       //   print('Error: ${state.message}');
           return Center(
             child: Text(
               state.message,

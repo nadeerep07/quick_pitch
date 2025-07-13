@@ -12,10 +12,20 @@ import 'package:quick_pitch_app/features/profile_completion/view/components/prof
 import 'package:quick_pitch_app/features/profile_completion/view/components/profile_header.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 
-class CompleteProfileScreen extends StatelessWidget {
+class CompleteProfileScreen extends StatefulWidget {
   final String role;
   const CompleteProfileScreen({super.key, required this.role});
 
+  @override
+  State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
+}
+
+class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CompleteProfileCubit>().loadSkillsFromAdmin();
+  }
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
@@ -30,7 +40,7 @@ class CompleteProfileScreen extends StatelessWidget {
               child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
                 listener: (context, state) {
                   if (state is CompleteProfileSuccess) {
-                    final route = role == 'poster'
+                    final route = widget.role == 'poster'
                         ? AppRoutes.posterBottomNav
                         : AppRoutes.fixerBottomNav;
                     Navigator.pushReplacementNamed(context, route);
@@ -99,7 +109,7 @@ class CompleteProfileScreen extends StatelessWidget {
                                 "${cubit.remainingBioChars} / ${cubit.maxBioLength} characters remaining",
                           ),
                           SizedBox(height: res.hp(2)),
-                          if (role == 'fixer') ...[
+                          if (widget.role == 'fixer') ...[
                             const Text(
                               "Select Skills *",
                               style: TextStyle(fontWeight: FontWeight.w600),
@@ -119,7 +129,7 @@ class CompleteProfileScreen extends StatelessWidget {
                           AppButton(
                             text: "Save & Continue",
                             isLoading: state is CompleteProfileLoading,
-                            onPressed: () => cubit.submitProfile(role),
+                            onPressed: () => cubit.submitProfile(widget.role),
                             borderRadius: 20,
                           ),
                           SizedBox(height: res.hp(2)),
