@@ -3,9 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_card.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
-import 'package:quick_pitch_app/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
-import 'package:quick_pitch_app/task_detail/poster/view/screen/poster_task_detail_screen.dart';
-import 'package:quick_pitch_app/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_screen.dart';
 
 class PosterHomeTaskList extends StatelessWidget {
   const PosterHomeTaskList({super.key});

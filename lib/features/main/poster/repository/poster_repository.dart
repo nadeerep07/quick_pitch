@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/task_post/poster_task/model/task_post_model.dart';
+import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
 class PosterRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;

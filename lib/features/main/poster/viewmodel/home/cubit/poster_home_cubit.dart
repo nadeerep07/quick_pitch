@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/task_post/poster_task/model/task_post_model.dart';
+import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
 part 'poster_home_state.dart';
 

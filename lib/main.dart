@@ -22,10 +22,10 @@ import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_sel
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:quick_pitch_app/features/task_post/poster_task/repository/task_post_repository.dart';
-import 'package:quick_pitch_app/features/task_post/poster_task/viewmodel/cubit/task_post_cubit.dart';
-import 'package:quick_pitch_app/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
-import 'package:quick_pitch_app/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
+import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
+import 'package:quick_pitch_app/features/poster_task/viewmodel/cubit/task_post_cubit.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
 
 void main() async {

@@ -17,7 +17,7 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
-import 'package:quick_pitch_app/features/task_post/poster_task/view/components/task_post_wrapper.dart';
+import 'package:quick_pitch_app/features/poster_task/view/components/task_post_wrapper.dart';
 
 class PosterBottomNav extends StatefulWidget {
   const PosterBottomNav({super.key});
