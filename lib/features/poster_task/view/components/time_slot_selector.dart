@@ -27,7 +27,7 @@ class TaskTimeSlotSelector extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.grey.shade100,
+                    color: isSelected ? AppColors.primaryColor.withValues(alpha: .1) : Colors.grey.shade100,
                   ),
                   alignment: Alignment.center,
                   child: Text(

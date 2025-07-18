@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/components/task_card.dart';
+import 'package:quick_pitch_app/features/task_detail/fixer/view/screen/fixer_side_detail_screen.dart';
 
 class BuildTaskList extends StatelessWidget {
   const BuildTaskList({
@@ -38,7 +39,7 @@ class BuildTaskList extends StatelessWidget {
         return TaskCard(
           title: task.title,
           location: task.location,
-          budget: task.budget,
+          budget: task.budget.toString(),
           imageUrls: task.imagesUrl,
           postedTime: getTimeAgo(task.createdAt),
           // priceType: task.priceType,
@@ -46,7 +47,7 @@ class BuildTaskList extends StatelessWidget {
           description: task.description,
           skills: task.skills,
           onTap: () {
-            // Navigate to task detail
+           Navigator.push(context, MaterialPageRoute(builder: (_)=> FixerSideDetailScreen(task: task,)));
           },
         );
       }).toList(),

@@ -14,7 +14,7 @@ class CardBudget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      ' - Est. Budget: ₹$budget',
+      ' - Est. Budget: ₹${budget.toString()}',
       style: TextStyle(
         fontSize: res.sp(12),
         color: Colors.black87,
@@ -22,3 +22,4 @@ class CardBudget extends StatelessWidget {
     );
   }
 }
+

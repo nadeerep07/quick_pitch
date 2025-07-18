@@ -26,6 +26,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     super.initState();
     context.read<CompleteProfileCubit>().loadSkillsFromAdmin();
   }
+
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
@@ -40,20 +41,22 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
               child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
                 listener: (context, state) {
                   if (state is CompleteProfileSuccess) {
-                    final route = widget.role == 'poster'
-                        ? AppRoutes.posterBottomNav
-                        : AppRoutes.fixerBottomNav;
+                    final route =
+                        widget.role == 'poster'
+                            ? AppRoutes.posterBottomNav
+                            : AppRoutes.fixerBottomNav;
                     Navigator.pushReplacementNamed(context, route);
                   } else if (state is CompleteProfileError) {
                     showDialog(
                       context: context,
-                      builder: (context) => CustomDialog(
-                        title: "Signup Failed",
-                        message: mapFirebaseError(state.message),
-                        icon: Icons.error_outline,
-                        iconColor: Colors.red,
-                        onConfirm: () => Navigator.of(context).pop(),
-                      ),
+                      builder:
+                          (context) => CustomDialog(
+                            title: "Signup Failed",
+                            message: mapFirebaseError(state.message),
+                            icon: Icons.error_outline,
+                            iconColor: Colors.red,
+                            onConfirm: () => Navigator.of(context).pop(),
+                          ),
                     );
                   }
                 },
@@ -125,6 +128,25 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                               onLocationTap: cubit.pickCertificationFile,
                             ),
                           ],
+                          if (widget.role == 'fixer' &&
+                              cubit.certificateImage != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              "Certificate Preview",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 8),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                cubit.certificateImage!,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+
                           SizedBox(height: res.hp(4)),
                           AppButton(
                             text: "Save & Continue",

@@ -158,6 +158,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         location: locationController.text.trim(),
         fixerData: fixerData,
         posterData: posterData,
+        createdAt: DateTime.now()
       );
 
       await repository.saveProfile(model);

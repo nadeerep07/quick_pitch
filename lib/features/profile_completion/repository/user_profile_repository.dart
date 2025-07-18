@@ -73,5 +73,15 @@ class UserProfileRepository {
     final snapshot = await _db.collection('skills').orderBy('name').get();
     return snapshot.docs.map((doc) => doc['name'].toString()).toList();
   }
+Future<List<String>> getFixerSkills(String userId) async {
+  final doc = await _db.collection('users').doc(userId).get();
+  if (doc.exists) {
+    final data = doc.data();
+    if (data != null && data['skills'] != null) {
+      return List<String>.from(data['skills']);
+    }
+  }
+  return [];
+}
 
 }

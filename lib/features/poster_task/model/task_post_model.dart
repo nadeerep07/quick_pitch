@@ -3,7 +3,7 @@ class TaskPostModel {
   final String posterId;
   final String title;
   final String description;
-  final String budget;
+  final double budget;
   final String location;
   final List<String> skills;
   final String priority;
@@ -47,7 +47,9 @@ class TaskPostModel {
       posterId: map['posterId'] ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
-      budget: map['budget'] ?? '',
+      budget: map['budget'] is num
+          ? (map['budget'] as num).toDouble()
+          : double.tryParse(map['budget'].toString()) ?? 0.0,
       location: map['location'] ?? '',
       skills: map['skills'] is List
           ? List<String>.from(map['skills'])

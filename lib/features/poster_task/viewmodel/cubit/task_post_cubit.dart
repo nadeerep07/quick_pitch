@@ -158,7 +158,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
       posterId: posterId,
       title: titleController.text.trim(),
       description: descriptionController.text.trim(),
-      budget: budgetController.text.trim(),
+     budget: double.tryParse(budgetController.text.trim()) ?? 0.0,
       location: locationController.text.trim(),
       skills: selectedSkills.isNotEmpty ? selectedSkills : ["General"],
       priority: selectedPriority,
@@ -221,7 +221,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     existingTask = task;
     titleController.text = task.title;
     descriptionController.text = task.description;
-    budgetController.text = task.budget;
+    budgetController.text = task.budget.toString();
     phoneController.text = task.phone;
     emailController.text = task.email;
     selectedDeadline = task.deadline;

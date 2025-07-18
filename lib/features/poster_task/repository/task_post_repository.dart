@@ -34,6 +34,30 @@ Future<TaskPostModel?> getTaskById(String id) async {
 
 Future<void> deleteTask(String taskId) async {
   await FirebaseFirestore.instance.collection('poster_tasks').doc(taskId).delete();
+  
+}
+
+  Stream<List<TaskPostModel>> getPendingTasks() {
+    return _collection
+        .where('status', isEqualTo: 'pending')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => TaskPostModel.fromMap(doc.data() as Map<String, dynamic>))
+            .toList());
+  }
+  Future<List<TaskPostModel>> fetchAllTasks() async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('poster_tasks')
+        .get();
+
+    return snapshot.docs.map((doc) {
+      return TaskPostModel.fromMap(doc.data());
+    }).toList();
+  } catch (e) {
+    print('Error fetching tasks: $e');
+    return [];
+  }
 }
 
 }

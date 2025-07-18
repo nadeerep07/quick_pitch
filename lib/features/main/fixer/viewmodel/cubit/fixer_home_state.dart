@@ -1,6 +1,6 @@
 part of 'fixer_home_cubit.dart';
 
-@immutable
+
 sealed class FixerHomeState {}
 
 final class FixerHomeInitial extends FixerHomeState {}
@@ -14,6 +14,7 @@ class FixerHomeLoaded extends FixerHomeState {
   final String role;
   final List<TaskPostModel> newTasks;
   final Map<String, dynamic> fixerProfile;
+  
 
   FixerHomeLoaded({
     this.profileImageUrl,

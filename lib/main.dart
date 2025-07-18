@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
+import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/explore_screen_cubit.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
@@ -35,6 +36,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(MyApp());
 }
 
@@ -73,9 +75,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TaskDetailsCubit(TaskPostRepository()),
         ),
-        BlocProvider(
-          create: (context) => TaskFilterCubit(),
-        ),
+        BlocProvider(create: (context) => TaskFilterCubit()),
+        BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository()))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

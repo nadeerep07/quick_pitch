@@ -32,10 +32,10 @@ class CloudinaryService {
         print("Uploaded to Cloudinary: $imageUrl");
         return imageUrl;
       } else {
-        throw Exception("❌ Cloudinary upload failed: ${response.statusCode}");
+        throw Exception(" Cloudinary upload failed: ${response.statusCode}");
       }
     } catch (e) {
-      print(" Dio Cloudinary upload error: $e");
+     // print(" Dio Cloudinary upload error: $e");
       rethrow;
     }
   }

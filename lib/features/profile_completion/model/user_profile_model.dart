@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_pitch_app/features/main/fixer/model/fixer_data.dart';
 import 'package:quick_pitch_app/features/main/poster/model/poster_data.dart';
 
@@ -13,6 +14,7 @@ class UserProfileModel {
   final String location;
   final FixerData? fixerData;
   final PosterData? posterData;
+  final DateTime createdAt;
 
   UserProfileModel({
     required this.uid,
@@ -26,7 +28,7 @@ class UserProfileModel {
     required this.location,
     this.fixerData,
     this.posterData,
-    
+   required this.createdAt
   });
 
 Map<String, dynamic> toRoleJson() {
@@ -38,6 +40,7 @@ Map<String, dynamic> toRoleJson() {
     'role': role,
     'location': location,
     if (profileImageUrl != null) 'profileImageUrl': profileImageUrl,
+    'createdAt': createdAt,
   };
 
   if (role == 'fixer' && fixerData != null) {
@@ -61,6 +64,11 @@ Map<String, dynamic> toRoleJson() {
       bio: json['bio'],
       profileImageUrl: json['profileImageUrl'],
     //  certification: json['certification'],
+   createdAt: json['createdAt'] != null
+    ? (json['createdAt'] as Timestamp).toDate()
+    : DateTime.now(), 
+
+
       role: json['role'],
       location: json['location'],
      // skills: json['skills'] != null ? List<String>.from(json['skills']) : null,
@@ -74,6 +82,6 @@ Map<String, dynamic> toRoleJson() {
   }
   @override
   String toString() {
-    return 'UserProfileModel(uid: $uid, name: $name, phone: $phone, bio: $bio, profileImageUrl: $profileImageUrl, role: $role, location: $location)';
+    return 'UserProfileModel(uid: $uid, name: $name, phone: $phone, bio: $bio, profileImageUrl: $profileImageUrl, role: $role, location: $location,createdAt: $createdAt)';
   }
 }
