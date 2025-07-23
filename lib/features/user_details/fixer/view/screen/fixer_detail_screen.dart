@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/user_details/fixer/view/components/fixer_detail_about_section.dart';
-import 'package:quick_pitch_app/user_details/fixer/view/components/fixer_detail_build_header.dart';
-import 'package:quick_pitch_app/user_details/fixer/view/components/fixer_detail_portfolio_section.dart';
-import 'package:quick_pitch_app/user_details/fixer/view/components/fixer_detail_rating_button.dart';
-import 'package:quick_pitch_app/user_details/fixer/view/components/fixer_detail_skill_section.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_about_section.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_build_header.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_portfolio_section.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_rating_button.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_skill_section.dart';
 
 class FixerDetailScreen extends StatelessWidget {
   final UserProfileModel fixerData;

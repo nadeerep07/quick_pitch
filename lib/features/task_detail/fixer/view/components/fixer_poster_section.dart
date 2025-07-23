@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/view/components/fixer_detail_poster_card.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/viewmodel/cubit/fixer_detail_cubit.dart';
-import 'package:quick_pitch_app/user_details/poster/view/screen/poster_detail_screen.dart';
+import 'package:quick_pitch_app/features/user_details/poster/view/screen/poster_detail_screen.dart';
 
 class FixerPosterSection extends StatelessWidget {
   final Responsive res;
