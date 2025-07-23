@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
@@ -44,7 +44,12 @@ class AuthRepository {
       throw Exception("Google Sign-In failed");
     }
   }
-//get ui for existiung user
+    Future<bool> isEmailVerified(User user) async {
+    await user.reload();
+    return FirebaseAuth.instance.currentUser?.emailVerified ?? false;
+  }
+
+//get ui for exixting user
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String uid) {
     return FirebaseFirestore.instance.collection('users').doc(uid).get();
   }

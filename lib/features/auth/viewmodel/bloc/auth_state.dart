@@ -39,3 +39,4 @@ class AuthRoleIdentified extends AuthState {
   AuthRoleIdentified({required this.role});
 }
 
+class CheckAuthStatus extends AuthState{}

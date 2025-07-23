@@ -11,8 +11,11 @@ class MultiSelectSkillChips extends StatelessWidget {
 
     return BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
       buildWhen: (previous, current) =>
-          current is SkillSelectionUpdated || current is SkillSearchUpdated,
+          current is SkillSelectionUpdated || current is SkillSearchUpdated || current is CompleteProfileInitial,
       builder: (context, state) {
+        if(cubit.allSkills.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
         final isSearching = cubit.searchQuery.isNotEmpty;
         final List<String> skillsToDisplay = isSearching
             ? cubit.filteredSkills
@@ -31,6 +34,9 @@ class MultiSelectSkillChips extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
+            if(skillsToDisplay.isEmpty)
+              const Text("No skills found"),
+            if(skillsToDisplay.isNotEmpty)
             Wrap(
               spacing: 8,
               children: skillsToDisplay.map((skill) {

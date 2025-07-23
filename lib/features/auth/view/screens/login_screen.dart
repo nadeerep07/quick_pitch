@@ -22,9 +22,9 @@ class LoginScreen extends StatelessWidget {
         if (state is AuthRoleIdentified) {
           final role = state.role;
           if (role == 'poster') {
-            Navigator.pushReplacementNamed(context, AppRoutes.posterHome);
+            Navigator.pushReplacementNamed(context, AppRoutes.posterBottomNav);
           } else if (role == 'fixer') {
-            Navigator.pushReplacementNamed(context, AppRoutes.fixerHome);
+            Navigator.pushReplacementNamed(context, AppRoutes.fixerBottomNav);
           }
         } else if (state is AuthSuccess) {
           Navigator.pushReplacement(

@@ -34,7 +34,7 @@ class SignupScreen extends StatelessWidget {
             ),
           );
         } else if (state is AuthFailure) {
-          print(state.error.toString());
+         // print(state.error.toString());
           showDialog(
             context: context,
             builder:
@@ -77,7 +77,7 @@ class SignupScreen extends StatelessWidget {
                     right: res.wp(5),
                     top: res.hp(40),
                   ),
-                  child: const SignupForm(),
+                  child:  SignupForm(),
                 ),
               ),
             ],

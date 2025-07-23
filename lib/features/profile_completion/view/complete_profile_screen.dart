@@ -1,18 +1,31 @@
+// File: complete_profile_screen.dart (Main UI)
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/backgroun_painter.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
+import 'package:quick_pitch_app/core/common/app_button.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/multi_select_skill_chips.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/profile_input_text_field.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/profile_header.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
-import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/core/common/app_button.dart';
 
-class CompleteProfileScreen extends StatelessWidget {
+class CompleteProfileScreen extends StatefulWidget {
   final String role;
   const CompleteProfileScreen({super.key, required this.role});
+
+  @override
+  State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
+}
+
+class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CompleteProfileCubit>().loadSkillsFromAdmin();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +41,11 @@ class CompleteProfileScreen extends StatelessWidget {
               child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
                 listener: (context, state) {
                   if (state is CompleteProfileSuccess) {
-                    if (role == 'poster') {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        AppRoutes.posterHome,
-                      );
-                    } else if (role == 'fixer') {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        AppRoutes.fixerHome,
-                      );
-                    }
+                    final route =
+                        widget.role == 'poster'
+                            ? AppRoutes.posterBottomNav
+                            : AppRoutes.fixerBottomNav;
+                    Navigator.pushReplacementNamed(context, route);
                   } else if (state is CompleteProfileError) {
                     showDialog(
                       context: context,
@@ -61,39 +68,11 @@ class CompleteProfileScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
-                            child: Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      cubit.profileImage != null
-                                          ? FileImage(cubit.profileImage!)
-                                          : const AssetImage(
-                                                'assets/images/default_user.png',
-                                              )
-                                              as ImageProvider,
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onTap: cubit.pickProfileImage,
-                                    child: const CircleAvatar(
-                                      radius: 16,
-                                      backgroundColor: Colors.black,
-                                      child: Icon(
-                                        Icons.edit,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          const SizedBox(height: 12),
+                          ProfileHeader(
+                            profileImage: cubit.profileImage,
+                            onEditTap: cubit.pickProfileImage,
                           ),
-                          const SizedBox(height: 16),
                           SizedBox(height: res.hp(4)),
                           Text(
                             "Complete Your Profile",
@@ -133,7 +112,7 @@ class CompleteProfileScreen extends StatelessWidget {
                                 "${cubit.remainingBioChars} / ${cubit.maxBioLength} characters remaining",
                           ),
                           SizedBox(height: res.hp(2)),
-                          if (role == 'fixer') ...[
+                          if (widget.role == 'fixer') ...[
                             const Text(
                               "Select Skills *",
                               style: TextStyle(fontWeight: FontWeight.w600),
@@ -149,11 +128,30 @@ class CompleteProfileScreen extends StatelessWidget {
                               onLocationTap: cubit.pickCertificationFile,
                             ),
                           ],
+                          if (widget.role == 'fixer' &&
+                              cubit.certificateImage != null) ...[
+                            const SizedBox(height: 12),
+                            Text(
+                              "Certificate Preview",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 8),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                cubit.certificateImage!,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+
                           SizedBox(height: res.hp(4)),
                           AppButton(
                             text: "Save & Continue",
-                             isLoading: state is CompleteProfileLoading,
-                            onPressed: () => cubit.submitProfile(role),
+                            isLoading: state is CompleteProfileLoading,
+                            onPressed: () => cubit.submitProfile(widget.role),
                             borderRadius: 20,
                           ),
                           SizedBox(height: res.hp(2)),
