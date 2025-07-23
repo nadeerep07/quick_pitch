@@ -24,7 +24,7 @@ class BuildBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final newTasks = state.newTasks;
-    final profile = state.fixerProfile;
+    final profile = state.userProfile;
 
     return RefreshIndicator(
       onRefresh: () async {

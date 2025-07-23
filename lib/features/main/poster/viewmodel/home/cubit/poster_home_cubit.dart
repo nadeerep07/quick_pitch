@@ -18,16 +18,12 @@ Future<void> fetchPosterHomeData() async {
     final userData = await repository.getUserDetails();
     if (userData == null) throw Exception("User data not found");
 
-    final imageUrl = userData['profileImageUrl'] as String?;
-    final name = userData['name'] as String;
-    final role = userData['role'] as String;
+  
 
     final tasks = await repository.getTasksByUser(user.uid);
 
     emit(PosterHomeLoaded(
-      profileImageUrl: imageUrl,
-      name: name,
-      role: role,
+    userProfile: userData,
       tasks: tasks,
       fixers: [],
     ));

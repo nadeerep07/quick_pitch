@@ -27,6 +27,7 @@ import 'package:quick_pitch_app/features/poster_task/repository/task_post_reposi
 import 'package:quick_pitch_app/features/poster_task/viewmodel/cubit/task_post_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
 
 void main() async {
@@ -76,7 +77,8 @@ class MyApp extends StatelessWidget {
           create: (context) => TaskDetailsCubit(TaskPostRepository()),
         ),
         BlocProvider(create: (context) => TaskFilterCubit()),
-        BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository()))
+        BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository())),
+        BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

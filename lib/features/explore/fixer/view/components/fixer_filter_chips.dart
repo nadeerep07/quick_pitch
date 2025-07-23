@@ -35,7 +35,7 @@ class FixerFilterChips extends StatelessWidget {
                     onSelected: (_) =>
                         context.read<ExploreScreenCubit>().updateFilter(selectedFilter: filter),
                     selectedColor: Colors.black87,
-                    backgroundColor: Colors.white.withOpacity(0.85),
+                    backgroundColor: Colors.white.withValues(alpha: .85),
                     labelStyle: TextStyle(
                       color: selected ? Colors.white : Colors.black87,
                       fontWeight: FontWeight.w500,
@@ -54,7 +54,7 @@ class FixerFilterChips extends StatelessWidget {
                     ],
                   ),
                   onPressed: () => context.read<ExploreScreenCubit>().openFilterBottomSheet(context),
-                  backgroundColor: Colors.white.withOpacity(0.85),
+                  backgroundColor: Colors.white.withValues(alpha: .85),
                   labelStyle: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),

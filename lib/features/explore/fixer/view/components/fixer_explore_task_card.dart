@@ -29,11 +29,11 @@ class FixerExploreTaskCard extends StatelessWidget {
         duration: const Duration(milliseconds: 250),
         padding: EdgeInsets.all(res.wp(2.5)),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.93),
+          color: Colors.white.withValues(alpha: .93),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.07),
+              color: Colors.black.withValues(alpha: .07),
               blurRadius: 8,
               offset: const Offset(0, 3),
             ),

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 part 'role_switch_state.dart';
@@ -13,13 +14,13 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
 
   Future<void> switchRole() async {
   emit(RoleSwitchLoading());
-  print("[RoleSwitch] Started switching");
+ // print("[RoleSwitch] Started switching");
 
   try {
     final uid = _auth.currentUser!.uid;
     final userDoc = _firestore.collection('users').doc(uid);
     final snapshot = await userDoc.get();
-    print("[RoleSwitch] User doc fetched");
+  //  print("[RoleSwitch] User doc fetched");
 
     if (!snapshot.exists) throw Exception("User not found");
 
@@ -28,17 +29,18 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
     final newRoleDoc = userDoc.collection('roles').doc(newRole);
 
     final docSnapshot = await newRoleDoc.get();
-    print("[RoleSwitch] New role doc fetched: $newRole");
+  //  print("[RoleSwitch] New role doc fetched: $newRole");
 
     // Fixer profile check
     if (newRole == 'fixer') {
       final fixerData = docSnapshot.data()?['fixerData'];
-      print("[RoleSwitch] Fixer data: $fixerData");
+     // print("[RoleSwitch] Fixer data: $fixerData");
+   //   print('[RoleSwitch] Fixer data: ${fixerData['skills']}');
 
       if (fixerData == null ||
           fixerData['skills'] == null ||
           (fixerData['skills'] as List).isEmpty) {
-        print("[RoleSwitch] Incomplete fixer profile");
+     //   print("[RoleSwitch] Incomplete fixer profile");
         emit(RoleSwitchIncompleteProfile('fixer'));
         return;
       }
@@ -64,7 +66,7 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
     print("[RoleSwitch] Role updated to $newRole");
     emit(RoleSwitchSuccess(newRole));
   } catch (e) {
-    print("[RoleSwitch] ERROR: $e");
+   // print("[RoleSwitch] ERROR: $e");
     emit(RoleSwitchError(e.toString()));
   }
 }

@@ -51,32 +51,49 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
 
-  Widget _buildTaskGrid(Responsive res) {
-    return Expanded(
-      child: BlocBuilder<ExploreScreenCubit, ExploreScreenState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.filteredTasks.isEmpty) {
-            return const Center(child: Text("No tasks match this filter."));
-          }
+ Widget _buildTaskGrid(Responsive res) {
+  return Expanded(
+    child: BlocBuilder<ExploreScreenCubit, ExploreScreenState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          return GridView.builder(
-            padding: EdgeInsets.only(bottom: res.hp(2)),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: res.wp(3),
-              mainAxisSpacing: res.hp(2),
-              childAspectRatio: 0.85,
-            ),
-            itemCount: state.filteredTasks.length,
-            itemBuilder: (context, index) {
-              final task = state.filteredTasks[index];
-              return FixerExploreTaskCard(context: context, task: task, res: res);
-            },
-          );
-        },
-      ),
-    );
-  }
+        return RefreshIndicator(
+          onRefresh: () async {
+            await context.read<ExploreScreenCubit>().fetchCategoryMatchedTasks();
+          },
+          child: state.filteredTasks.isEmpty
+              ? ListView( // RefreshIndicator needs a scrollable widget
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    SizedBox(height: 100),
+                    Center(child: Text("No tasks match this filter.")),
+                  ],
+                )
+              : GridView.builder(
+                  padding: EdgeInsets.only(bottom: res.hp(2)),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: res.wp(3),
+                    mainAxisSpacing: res.hp(2),
+                    childAspectRatio: 0.85,
+                  ),
+                  itemCount: state.filteredTasks.length,
+                  itemBuilder: (context, index) {
+                    final task = state.filteredTasks[index];
+                    return FixerExploreTaskCard(
+                      context: context,
+                      task: task,
+                      res: res,
+                    );
+                  },
+                ),
+        );
+      },
+    ),
+  );
+}
+
 }

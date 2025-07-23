@@ -8,12 +8,13 @@ import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart' show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
 import 'package:quick_pitch_app/features/main/poster/view/components/custom_bottom_nav.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/custom_drawer.dart';
+import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_custom_drawer.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/chat_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerBottomNavContent extends StatelessWidget {
   const FixerBottomNavContent({super.key});
@@ -60,15 +61,13 @@ class FixerBottomNavContent extends StatelessWidget {
                     key: scaffoldKey,
                     extendBody: true,
                     drawer: homeState is FixerHomeLoaded
-                        ? CustomDrawer(
-                            userData: {
-                              'name': homeState.name,
-                              'role': homeState.role,
-                              'profileImageUrl': homeState.profileImageUrl,
-                            },
+                        ? FixerCustomDrawer(
+                      
                             onLogout: () async {
                               context.read<DrawerStateCubit>().setDrawerState(false);
                               context.read<PosterBottomNavCubit>().changeTab(0);
+                              context.read<FixerProfileCubit>().clear();
+
                               await AuthServices().logout();
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 AppRoutes.login,

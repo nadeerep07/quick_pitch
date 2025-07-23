@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/screen/explore_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
-// import 'package:quick_pitch_app/core/firebase/auth/auth_services.dart';
-// import 'package:quick_pitch_app/core/routes/app_routes.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/screen/poster_explore_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/custom_bottom_nav.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/custom_drawer.dart';
+import 'package:quick_pitch_app/features/main/poster/view/nav_bar/components/poster_custom_drawer.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/chat_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
@@ -18,6 +16,7 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/view/components/task_post_wrapper.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class PosterBottomNav extends StatefulWidget {
   const PosterBottomNav({super.key});
@@ -33,7 +32,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
   Widget build(BuildContext context) {
     final List<Widget> screens = const [
       PosterHomeScreen(),
-      ExploreScreen(),
+      PosterExploreScreen(),
       ChatScreen(),
       RequestsScreen(),
     ];
@@ -46,15 +45,6 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
           builder: (context, isDrawerOpen) {
             return BlocBuilder<PosterHomeCubit, PosterHomeState>(
               builder: (context, homeState) {
-                Map<String, dynamic> userData = {};
-
-                if (homeState is PosterHomeLoaded) {
-                  userData = {
-                    'name': homeState.name,
-                    'role': homeState.role,
-                    'profileImageUrl': homeState.profileImageUrl,
-                  };
-                }
                 return BlocListener<RoleSwitchCubit, RoleSwitchState>(
                   listener: (context, state) {
                     if (state is RoleSwitchSuccess) {
@@ -83,12 +73,13 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                   child: Scaffold(
                     extendBody: true,
                     key: _scaffoldKey,
-                    drawer: CustomDrawer(
-                      userData: userData,
+                    drawer: PosterCustomDrawer(
                       onLogout: () async {
                         await AuthServices().logout();
                         context.read<DrawerStateCubit>().setDrawerState(false);
                         context.read<CompleteProfileCubit>().resetProfileData();
+                        context.read<FixerProfileCubit>().clear();
+
 
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           AppRoutes.login,

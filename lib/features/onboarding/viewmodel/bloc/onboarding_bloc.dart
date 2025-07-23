@@ -18,7 +18,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
       }
     } catch (e) {
      
-      print('Error navigating to next page: $e');
+     // print('Error navigating to next page: $e');
     }
     });
   }

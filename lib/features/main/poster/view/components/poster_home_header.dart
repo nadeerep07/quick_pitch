@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class PosterHomeHeader extends StatelessWidget {
   const PosterHomeHeader({super.key, required this.res});
@@ -19,15 +20,18 @@ class PosterHomeHeader extends StatelessWidget {
         }
 
         if (state is PosterHomeLoaded) {
+          print('User data is ${state.userProfile}');
           final imageUrl =
-              (state.profileImageUrl?.isNotEmpty ?? false)
-                  ? state.profileImageUrl!
+              (state.userProfile.profileImageUrl?.isNotEmpty ?? false)
+                  ? state.userProfile.profileImageUrl!
                   : 'https://i.pravatar.cc/150?img=3';
 
           return Row(
             children: [
               GestureDetector(
-                onTap: () => Scaffold.of(context).openDrawer(),
+                onTap: () {Scaffold.of(context).openDrawer();
+                context.read<FixerProfileCubit>().loadFixerProfile();
+                },
                 child: Hero(
                   tag: 'profile_avatar',
                   child: CircleAvatar(
@@ -57,7 +61,7 @@ class PosterHomeHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ' ${state.name} ',
+                    ' ${state.userProfile.name} ',
                     style: TextStyle(
                       fontSize: res.sp(20),
                       fontWeight: FontWeight.bold,
@@ -76,7 +80,7 @@ class PosterHomeHeader extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          ' ${state.role} ',
+                          ' ${state.userProfile.role} ',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: res.sp(12),

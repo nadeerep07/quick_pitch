@@ -141,18 +141,20 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         fixerData = FixerData(
           skills: selectedSkills,
           certification: certificateUrl,
+          bio: bioController.text.trim(),
         );
       }
 
       if (role == 'poster') {
-        posterData = PosterData(totalPosts: 0);
+        posterData = PosterData(totalPosts: 0,
+         bio: bioController.text.trim(),
+        );
       }
 
       final model = UserProfileModel(
         uid: user.uid,
         name: nameController.text.trim(),
         phone: phoneController.text.trim(),
-        bio: bioController.text.trim(),
         profileImageUrl: profileUrl,
         role: role,
         location: locationController.text.trim(),

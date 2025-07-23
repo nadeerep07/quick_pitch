@@ -33,6 +33,7 @@ class AuthServices {
       await firebaseAuth.sendPasswordResetEmail(email: email);
 
     }
+    
     Future<UserCredential> signInWithGoogle() async {
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

@@ -5,7 +5,6 @@ import 'package:quick_pitch_app/features/profile_completion/model/user_profile_m
 class UserProfileService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  /// Save profile under users/{uid}/roles/{role}/profile
   Future<void> saveProfile(UserProfileModel profile) async {
     await firestore
         .collection('users')
@@ -14,12 +13,10 @@ class UserProfileService {
         .doc(profile.role) // either 'fixer' or 'poster'
         .set(profile.toRoleJson(), SetOptions(merge: true));
 
-    // Optionally store activeRole at root user doc
     await firestore.collection('users').doc(profile.uid).set({
       'activeRole': profile.role,
       'name': profile.name,
       'uid': profile.uid,
-      'profileImageUrl': profile.profileImageUrl,
     }, SetOptions(merge: true));
   }
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
+import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class FixerRepository {
  
@@ -22,7 +23,7 @@ final data = fixerRoleDoc.data();
     final fixerSkillCategories =
     List<String>.from(data?['fixerData']?['skills'] ?? []);
 
-   // print("[FixerRepo] Fixer Skill Categories: $fixerSkillCategories");
+  // print("[FixerRepo] Fixer Skill Categories: $fixerSkillCategories");
 
     if (fixerSkillCategories.isEmpty) return [];
 
@@ -40,7 +41,7 @@ final data = fixerRoleDoc.data();
         .toList();
 
     // for (final task in allTasks) {
-    // //  print("[FixerRepo] Task title: ${task.title}, category: ${task.skills}");
+    //  print("[FixerRepo] Task title: ${task.title}, category: ${task.skills}");
     // }
 
 final filtered = allTasks.where((task) {
@@ -59,9 +60,9 @@ final filtered = allTasks.where((task) {
     rethrow;
   }
 }
-Future<Map<String, dynamic>> fetchFixerProfile() async {
+Future<UserProfileModel> fetchFixerProfile() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
- // print('[FixerRepo] Fetching profile for UID: $uid');
+ print('[FixerRepo] Fetching profile for UID: $uid');
 
   if (uid == null) throw Exception("Fixer not logged in");
 
@@ -80,11 +81,8 @@ Future<Map<String, dynamic>> fetchFixerProfile() async {
   final data = fixerDoc.data()!;
   // print('[FixerRepo] Fetched profile data: $data');
 
-  return {
-    'name': data['name'] ?? '',
-    'profileImageUrl': data['profileImageUrl'] ?? '',
-    'role': data['role'] ?? 'fixer',
-  };
+ final userProfile = UserProfileModel.fromJson(data);
+    return userProfile;
 }
 
 

@@ -9,19 +9,15 @@ final class FixerHomeLoading extends FixerHomeState {}
 
 
 class FixerHomeLoaded extends FixerHomeState {
-    final String? profileImageUrl;
-  final String name;
-  final String role;
+  final UserProfileModel userProfile;
   final List<TaskPostModel> newTasks;
-  final Map<String, dynamic> fixerProfile;
+
   
 
   FixerHomeLoaded({
-    this.profileImageUrl,
-    required this.name,
-    required this.role,
+    required this.userProfile,
     required this.newTasks,
-    required this.fixerProfile,
+    
     // required this.activeTasks,
   });
 }
