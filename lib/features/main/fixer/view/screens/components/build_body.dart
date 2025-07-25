@@ -41,18 +41,6 @@ class BuildBody extends StatelessWidget {
           BuildSectionTitle(
             res: res,
             title: 'Tasks For You',
-            filters: [
-              'All',
-              'Remote',
-              'On-site',
-              'Morning',
-              'Evening',
-              'Electrician',
-              'Plumber',
-              'Today',
-              'This Week',
-              'High Priority',
-            ],
           ),
           SizedBox(height: res.hp(1.5)),
           BuildTaskList(res: res, newTasks: newTasks),

@@ -129,7 +129,7 @@ class GlassmorphicBottomNavBar extends StatelessWidget {
             Icon(
               icon,
               size: 24,
-              color: isSelected ? AppColors.primaryColor : Colors.grey,
+              color: isSelected ? AppColors.primaryColor : Colors.black38,
             ),
             const SizedBox(height: 4),
             Text(
@@ -137,7 +137,7 @@ class GlassmorphicBottomNavBar extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: isSelected ? AppColors.primaryColor : Colors.grey,
+                color: isSelected ? AppColors.primaryColor : Colors.black38,
               ),
             ),
           ],

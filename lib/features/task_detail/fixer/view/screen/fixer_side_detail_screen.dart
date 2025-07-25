@@ -20,10 +20,6 @@ class FixerSideDetailScreen extends StatelessWidget {
 @override
 Widget build(BuildContext context) {
   final res = Responsive(context);
-  final imageUrl = task.imagesUrl?.isNotEmpty == true
-      ? task.imagesUrl!.first
-      : 'https://via.placeholder.com/300x200.png?text=No+Image';
-
   return BlocProvider(
     create: (_) => FixerDetailCubit()..fetchPosterProfile(task.posterId),
     child: Scaffold(
@@ -41,7 +37,7 @@ Widget build(BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FixerDetailImageHeader(imageUrl: imageUrl, res: res, priorityLabel: task.priority ),
+                  FixerDetailImageHeader(imageUrls: task.imagesUrl, res: res, priorityLabel: task.priority, ),
                   SizedBox(height: res.hp(2)),
                   FixerDetailSectionTitle(title: "Task Details", icon: Icons.info_outline, res: res),
                   FixerTaskOverviewSection(task: task, res: res),

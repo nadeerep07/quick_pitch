@@ -1,14 +1,10 @@
-// Section-wise refactored FixerProfileScreen
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_about_section.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_basic_info.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_build_header.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_certification.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_contact_info.dart';
-import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_skills_section.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_app_bar.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_content.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_header.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerProfileScreen extends StatelessWidget {
@@ -28,20 +24,13 @@ class _FixerProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final res = Responsive(context);
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final res = Responsive(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppColors.primaryBackground,
       body: BlocConsumer<FixerProfileCubit, FixerProfileState>(
-        listener: (context, state) {
-          if (state is FixerProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-          }
-        },
+        listener: _handleStateChanges,
         builder: (context, state) {
           if (state is FixerProfileInitial || state is FixerProfileLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -52,27 +41,21 @@ class _FixerProfileView extends StatelessWidget {
           }
 
           if (state is FixerProfileLoaded) {
-            final profile = state.fixerProfile;
             return CustomScrollView(
+              physics: const BouncingScrollPhysics(),
               slivers: [
-                FixerProfileBuildHeader(context: context, res: res, profile: profile, colorScheme: colorScheme),
+                FixerProfileAppBar(profile: state.fixerProfile, res: res),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: res.wp(4)),
+                    padding: EdgeInsets.symmetric(horizontal: res.wp(5)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: res.hp(2)),
-                        FixerProfileBasicInfo(profile: profile, theme: theme, res: res),
-                        SizedBox(height: res.hp(2)),
-                        if (profile.fixerData?.bio.isNotEmpty == true)
-                          FixerProfileAboutSection(profile: profile, theme: theme, res: res),
-                        if (profile.fixerData?.skills?.isNotEmpty == true)
-                          FixerProfileSkillsSection(profile: profile, theme: theme, res: res),
-                        FixerProfileContactInfo(profile: profile),
-                        if (profile.fixerData?.certification?.isNotEmpty == true)
-                          FixerProfileCertification(profile: profile, res: res),
-                        SizedBox(height: res.hp(4)),
+                        const SizedBox(height: 16),
+                        FixerProfileHeader(profile: state.fixerProfile, theme: theme, res: res),
+                        const SizedBox(height: 24),
+                        FixerProfileContent(profile: state.fixerProfile, theme: theme),
+                        const SizedBox(height: 32),
                       ],
                     ),
                   ),
@@ -81,9 +64,22 @@ class _FixerProfileView extends StatelessWidget {
             );
           }
 
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox.shrink();
         },
       ),
     );
+  }
+
+  void _handleStateChanges(BuildContext context, FixerProfileState state) {
+    if (state is FixerProfileError) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          backgroundColor: AppColors.primary,
+        ),
+      );
+    }
   }
 }

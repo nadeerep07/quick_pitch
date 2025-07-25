@@ -9,6 +9,7 @@ class MultiSelectSkillChips extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CompleteProfileCubit>();
 
+
     return BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
       buildWhen: (previous, current) =>
           current is SkillSelectionUpdated || current is SkillSearchUpdated || current is CompleteProfileInitial,

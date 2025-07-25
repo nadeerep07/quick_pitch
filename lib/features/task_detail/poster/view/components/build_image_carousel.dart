@@ -32,7 +32,7 @@ class BuildImageCarousel extends StatelessWidget {
                 imageUrl: images[i],
                 fit: BoxFit.cover,
                 width: double.infinity,
-                placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                placeholder: (_, __) =>  Center(child: Image.asset('assets/images/image_placeholder.png')),
                 errorWidget: (_, __, ___) => const Icon(Icons.broken_image),
               ),
             ),

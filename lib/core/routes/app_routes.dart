@@ -31,7 +31,7 @@ class AppRoutes {
       case completeProfile:
         final role = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => CompleteProfileScreen(role: role),
+          builder: (_) => CompleteProfileScreen(role: role,isEditMode: false,),
         );
       case posterTask:
         return MaterialPageRoute(builder: (_) => const TaskPostScreen());

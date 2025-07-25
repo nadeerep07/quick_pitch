@@ -41,7 +41,7 @@ class BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
               if (result == true) {
                 context.read<TaskDetailsCubit>().loadTaskById(task.id);
-                context.read<PosterHomeCubit>().fetchPosterHomeData();
+                context.read<PosterHomeCubit>().streamPosterHomeData();
               }
             } else if (value == 'delete') {
               _showDeleteConfirmation(context, task);
@@ -94,7 +94,7 @@ class BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: () async {
                   Navigator.pop(dialogContext); // close dialog
                   await taskDetailsCubit.deleteTask(task.id);
-                  await homeCubit.fetchPosterHomeData();
+                  homeCubit.streamPosterHomeData();
 
                   if (onTaskDeleted != null) onTaskDeleted!();
                 },

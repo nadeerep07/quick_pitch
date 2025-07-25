@@ -84,10 +84,7 @@ class TaskCard extends StatelessWidget {
   Widget _buildPostedTime(Responsive res) {
     return Text(
       'Posted $postedTime ago',
-      style: TextStyle(
-        fontSize: res.sp(11),
-        color: Colors.grey[600],
-      ),
+      style: TextStyle(fontSize: res.sp(11), color: Colors.grey[600]),
     );
   }
 
@@ -108,9 +105,6 @@ class TaskCard extends StatelessWidget {
           ),
         ),
         SizedBox(width: 4),
-        Icon(Icons.thumb_down_alt_outlined, size: res.sp(16), color: Colors.grey),
-        SizedBox(width: 6),
-        Icon(Icons.favorite_border, size: res.sp(16), color: Colors.grey),
       ],
     );
   }

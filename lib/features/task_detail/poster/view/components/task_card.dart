@@ -29,7 +29,8 @@ class DetailTaskCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(imageUrl, width: res.wp(20), height: res.wp(20), fit: BoxFit.cover),
+            child: FadeInImage.assetNetwork(placeholder: 'assets/images/image_placeholder.png',
+              image:imageUrl, width: res.wp(20), height: res.wp(20), fit: BoxFit.cover),
           ),
           SizedBox(width: res.wp(4)),
           Expanded(
@@ -65,7 +66,7 @@ class DetailTaskCard extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => PosterTaskDetailScreen(taskId: task.id)),
               );
               if (result == true && context.mounted) {
-                context.read<PosterHomeCubit>().fetchPosterHomeData();
+                context.read<PosterHomeCubit>().streamPosterHomeData();
               }
             },
           ),

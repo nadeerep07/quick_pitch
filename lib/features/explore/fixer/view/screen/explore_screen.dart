@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/components/explore_task_shimmer.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/fixer_explore_screen_app_bar.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/fixer_explore_screen_search_bar.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/fixer_explore_task_card.dart';
@@ -56,7 +57,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     child: BlocBuilder<ExploreScreenCubit, ExploreScreenState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const ExploreTasksShimmer();
         }
 
         return RefreshIndicator(
@@ -68,7 +69,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: const [
                     SizedBox(height: 100),
-                    Center(child: Text("No tasks match this filter.")),
+                    Center(child: Text("No tasks match.")),
                   ],
                 )
               : GridView.builder(

@@ -10,7 +10,6 @@ import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
-import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/section_filter_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
@@ -19,6 +18,7 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit
 import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bloc.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
+import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';
@@ -28,7 +28,9 @@ import 'package:quick_pitch_app/features/poster_task/viewmodel/cubit/task_post_c
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
+import 'package:quick_pitch_app/features/user_profile/poster/viewmodel/cubit/poster_profile_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,15 +39,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+ 
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+   
+
     final authRepository = AuthRepository();
     return MultiBlocProvider(
       providers: [
@@ -65,7 +68,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => PosterHomeCubit(PosterRepository())),
         BlocProvider(create: (_) => RoleSwitchCubit()),
         BlocProvider(create: (_) => FixerHomeCubit(FixerRepository())),
-        BlocProvider(create: (_) => SectionFilterCubit()),
         BlocProvider(
           create:
               (_) => TaskPostCubit(
@@ -79,8 +81,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => TaskFilterCubit()),
         BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository())),
         BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
+        BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
+         BlocProvider(create: (_)=> PosterProfileCubit()..loadPosterProfile()),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'QuickPitch',
         theme: AppTheme.lightTheme,

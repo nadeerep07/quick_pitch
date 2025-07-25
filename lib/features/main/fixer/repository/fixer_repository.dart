@@ -87,17 +87,14 @@ Future<UserProfileModel> fetchFixerProfile() async {
 
 
 
-// Future<List<TaskPostModel>> fetchFixerTasks(String fixerId) async {
-//   final snapshot = await FirebaseFirestore.instance
-//       .collection('poster_tasks')
-//       .where('assignedFixerId', isEqualTo: fixerId)
-//       .where('status', isNotEqualTo: 'completed') 
-//       .get();
-
-//   return snapshot.docs
-//       .map((doc) => TaskPostModel.fromMap(doc.data()))
-//       .toList();
-// }
+Stream<DocumentSnapshot<Map<String, dynamic>>> fixerProfileStream(String uid) {
+  return FirebaseFirestore.instance
+    .collection('users')
+    .doc(uid)
+    .collection('roles')
+    .doc('fixer')
+    .snapshots(); // listens to real-time changes
+}
 
 
 }

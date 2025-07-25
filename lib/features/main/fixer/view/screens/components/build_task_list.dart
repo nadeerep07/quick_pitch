@@ -42,8 +42,6 @@ class BuildTaskList extends StatelessWidget {
           budget: task.budget.toString(),
           imageUrls: task.imagesUrl,
           postedTime: getTimeAgo(task.createdAt),
-          // priceType: task.priceType,
-          // experienceLevel: task.experienceLevel,
           description: task.description,
           skills: task.skills,
           onTap: () {

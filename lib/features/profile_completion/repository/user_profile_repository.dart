@@ -16,6 +16,20 @@ class UserProfileRepository {
     await service.saveProfile(profile);
   }
 
+ Future<void> updateProfile(UserProfileModel newProfile) async {
+  final oldProfile = await service.getProfile(newProfile.uid, newProfile.role);
+  final updatedFields = newProfile.toUpdatedFieldsMap(oldProfile!);
+
+  if (updatedFields.isNotEmpty) {
+    await service.updateFields(newProfile.uid, newProfile.role, updatedFields);
+  }
+}
+Future<UserProfileModel?> getProfile(String uid, String role) async {
+  return await service.getProfile(uid, role);
+}
+
+
+
   Future<String> uploadFileToCloudinary(File file) async {
     return await _cloudinary.uploadFile(file);
   }

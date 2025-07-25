@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
@@ -8,36 +10,63 @@ part 'poster_home_state.dart';
 
 class PosterHomeCubit extends Cubit<PosterHomeState> {
   final PosterRepository repository;
+  StreamSubscription? _profileSub;
+  StreamSubscription? _tasksSub;
   PosterHomeCubit(this.repository) : super(PosterHomeInitial());
-Future<void> fetchPosterHomeData() async {
+
+  void streamPosterHomeData() async {
   emit(PosterHomeLoading());
-  try {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) throw Exception("User not authenticated");
 
-    final userData = await repository.getUserDetails();
-    if (userData == null) throw Exception("User data not found");
-
-  
-
-    final tasks = await repository.getTasksByUser(user.uid);
-
-    emit(PosterHomeLoaded(
-    userProfile: userData,
-      tasks: tasks,
-      fixers: [],
-    ));
-        final fixers = await repository.fetchRecommendedFixers();
-
-    // Emit combined updated state
-    final currentState = state;
-    if (currentState is PosterHomeLoaded) {
-      emit(currentState.copyWith(fixers: fixers));
-    }
-
-  } catch (e) {
-    emit(PosterHomeError('Failed to load home data: ${e.toString()}'));
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    emit(PosterHomeError("User not authenticated"));
+    return;
   }
+
+  UserProfileModel? profile;
+  List<TaskPostModel>? tasks;
+  List<UserProfileModel> fixers = [];
+
+  void tryEmitLoaded() async {
+    if (profile != null && tasks != null) {
+      // update postIds inside posterData
+      final postIds = tasks!.map((task) => task.id).toList();
+      final updatedProfile = profile!.copyWith(
+        posterData: profile!.posterData?.copyWith(postIds: postIds),
+      );
+      await repository.updateUserProfile(updatedProfile);
+
+      // fetch fixers only once when everything is ready
+      fixers = await repository.fetchRecommendedFixers();
+
+      emit(PosterHomeLoaded(
+        userProfile: updatedProfile,
+        tasks: tasks!,
+        fixers: fixers,
+      ));
+    }
+  }
+
+  _profileSub = repository.streamUserProfile(user.uid).listen((p) {
+    if (p == null) {
+      emit(PosterHomeError("User profile not found"));
+    } else {
+      profile = p;
+      tryEmitLoaded();
+    }
+  });
+
+  _tasksSub = repository.streamTasksByUser(user.uid).listen((t) {
+    tasks = t;
+    tryEmitLoaded();
+  });
 }
 
+
+  @override
+  Future<void> close() {
+    _profileSub?.cancel();
+    _tasksSub?.cancel();
+    return super.close();
+  }
 }

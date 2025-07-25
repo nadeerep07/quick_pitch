@@ -5,15 +5,15 @@ import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/screen/poster_explore_screen.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/custom_bottom_nav.dart';
+import 'package:quick_pitch_app/core/common/custom_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/poster/view/nav_bar/components/poster_custom_drawer.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/chat_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
+import 'package:quick_pitch_app/features/messages/fixer/view/screen/fixer_chat_list_screen.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/view/components/task_post_wrapper.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
@@ -33,7 +33,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
     final List<Widget> screens = const [
       PosterHomeScreen(),
       PosterExploreScreen(),
-      ChatScreen(),
+      FixerChatListScreen(),
       RequestsScreen(),
     ];
 
@@ -149,7 +149,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                                 if (result == true) {
                                   context
                                       .read<PosterHomeCubit>()
-                                      .fetchPosterHomeData();
+                                      .streamPosterHomeData();
 
                                 }
                               },

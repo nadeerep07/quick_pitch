@@ -16,8 +16,9 @@ class FixerExploreScreenTaskImage extends StatelessWidget {
     if (imageUrl != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.network(
-          imageUrl!,
+        child: FadeInImage.assetNetwork(
+         image:  imageUrl!,
+         placeholder: 'assets/images/image_placeholder.png',
           width: double.infinity,
           height: res.hp(12),
           fit: BoxFit.cover,

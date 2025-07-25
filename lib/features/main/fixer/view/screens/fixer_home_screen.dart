@@ -1,20 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/components/build_body.dart';
+import 'package:quick_pitch_app/features/main/fixer/view/screens/components/fixer_home_shimmer.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 
-class FixerHomeScreen extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey ;
-  const FixerHomeScreen({super.key,required this.scaffoldKey});
+class FixerHomeScreen extends StatefulWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const FixerHomeScreen({super.key, required this.scaffoldKey});
+
+  @override
+  State<FixerHomeScreen> createState() => _FixerHomeScreenState();
+}
+
+class _FixerHomeScreenState extends State<FixerHomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+   final uid = FirebaseAuth.instance.currentUser?.uid;
+  if (uid != null) {
+    context.read<FixerHomeCubit>().loadFixerHomeData(uid);
+  }
+  }
 
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: Stack(
         children: [
           CustomPaint(painter: MainBackgroundPainter(), size: Size.infinite),
@@ -27,7 +42,7 @@ class FixerHomeScreen extends StatelessWidget {
               child: BlocBuilder<FixerHomeCubit, FixerHomeState>(
                 builder: (context, state) {
                   if (state is FixerHomeLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: FixerHomeShimmer(res: res));
                   }
 
                   if (state is FixerHomeError) {
@@ -35,8 +50,12 @@ class FixerHomeScreen extends StatelessWidget {
                   }
 
                   if (state is FixerHomeLoaded) {
-                    return BuildBody(context: context, res: res, state: state,
-                        scaffoldKey: scaffoldKey);
+                    return BuildBody(
+                      context: context,
+                      res: res,
+                      state: state,
+                      scaffoldKey: widget.scaffoldKey,
+                    );
                   }
 
                   return const Center(child: Text("Loading..."));

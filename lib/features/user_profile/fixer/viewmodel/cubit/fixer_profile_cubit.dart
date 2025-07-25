@@ -58,31 +58,6 @@ Future.delayed(Duration(milliseconds: 200), () {
       emit(FixerProfileError(message: 'Failed to remove cover image'));
     }
   }
-Future<void> editProfileImage() async {
-  try {
-    if (state is FixerProfileLoaded) {
-      final currentState = state as FixerProfileLoaded;
-
-      emit(FixerProfileUpdatingImage(currentState.fixerProfile));
-
-      final imageUrl = await fixerProfileRepository.pickAndUploadProfileImage();
-      if (imageUrl == null) {
-        emit(FixerProfileLoaded(currentState.fixerProfile));
-        return;
-      }
-
-      final updatedProfile = currentState.fixerProfile.copyWith(
-        profileImageUrl: imageUrl,
-      );
-
-      emit(FixerProfileLoaded(updatedProfile));
-    }
-  } catch (e) {
-    emit(const FixerProfileError(message: "Failed to update profile image."));
-  }
-}
-
-
 
 Future<void> loadFixerProfile() async {
   emit(FixerProfileLoading());
@@ -94,11 +69,6 @@ Future<void> loadFixerProfile() async {
       return;
     }
 
-    //  Fetch the whole profile, not just fixerData
-    // final userDoc = await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(userId)
-    //     .get();
 
     final roleDoc = await FirebaseFirestore.instance
         .collection('users')

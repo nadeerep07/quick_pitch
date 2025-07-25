@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/view/components/build_shimmer_loading.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/task_card.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/task_filter_bottom_sheet.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
@@ -41,8 +42,11 @@ class PosterTaskDetailBody extends StatelessWidget {
           CustomPaint(painter: MainBackgroundPainter(), size: Size.infinite),
           BlocBuilder<PosterHomeCubit, PosterHomeState>(
             builder: (context, homeState) {
+                if (homeState is PosterHomeLoading) {
+                return BuildShimmerLoading(context);
+              }
               if (homeState is! PosterHomeLoaded) {
-                return const Center(child: CircularProgressIndicator());
+                return BuildShimmerLoading(context);
               }
 
               return BlocBuilder<TaskFilterCubit, TaskFilterState>(
@@ -81,3 +85,4 @@ class PosterTaskDetailBody extends StatelessWidget {
     );
   }
 }
+  

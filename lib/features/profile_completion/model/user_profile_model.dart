@@ -99,5 +99,30 @@ class UserProfileModel {
     createdAt: createdAt ?? this.createdAt,
   );
 }
+Map<String, dynamic> toUpdatedFieldsMap(UserProfileModel old) {
+  final updated = <String, dynamic>{};
+
+  if (name != old.name) updated['name'] = name;
+  if (phone != old.phone) updated['phone'] = phone;
+  if (profileImageUrl != old.profileImageUrl) updated['profileImageUrl'] = profileImageUrl;
+  if (location != old.location) updated['location'] = location;
+
+  if (role == 'fixer') {
+    if (fixerData?.bio != old.fixerData?.bio) updated['fixerData.bio'] = fixerData?.bio;
+    if (fixerData?.certification != old.fixerData?.certification) updated['fixerData.certification'] = fixerData?.certification;
+
+    final oldSkills = old.fixerData!.skills?.toSet() ?? {};
+    final newSkills = fixerData!.skills?.toSet() ?? {};
+    if (oldSkills.difference(newSkills).isNotEmpty || newSkills.difference(oldSkills).isNotEmpty) {
+      updated['fixerData.skills'] = fixerData?.skills;
+    }
+  }
+
+  if (role == 'poster') {
+    if (posterData?.bio != old.posterData?.bio) updated['posterData.bio'] = posterData?.bio;
+  }
+
+  return updated;
+}
 
 }

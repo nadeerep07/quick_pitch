@@ -1,4 +1,3 @@
-// File: complete_profile_screen.dart (Main UI)
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/backgroun_painter.dart';
@@ -6,15 +5,22 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
-import 'package:quick_pitch_app/core/common/app_button.dart';
-import 'package:quick_pitch_app/features/profile_completion/view/components/multi_select_skill_chips.dart';
-import 'package:quick_pitch_app/features/profile_completion/view/components/profile_input_text_field.dart';
-import 'package:quick_pitch_app/features/profile_completion/view/components/profile_header.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/certification_section.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/fixer_skill_section.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/profile_head_section.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/profile_info_section.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/submit_button.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   final String role;
-  const CompleteProfileScreen({super.key, required this.role});
+  final bool isEditMode;
+  
+  const CompleteProfileScreen({
+    super.key,
+    required this.role,
+    required this.isEditMode,
+  });
 
   @override
   State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
@@ -24,146 +30,105 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CompleteProfileCubit>().loadSkillsFromAdmin();
+    _initializeProfileData();
+  }
+
+  void _initializeProfileData() {
+    final cubit = context.read<CompleteProfileCubit>();
+    cubit.loadSkillsFromAdmin();
+    if (widget.isEditMode) cubit.loadProfileDataForEdit(widget.role);
   }
 
   @override
   Widget build(BuildContext context) {
-    final res = Responsive(context);
-
     return Scaffold(
+      appBar: widget.isEditMode ? _buildAppBar() : null,
       body: Stack(
         children: [
           CustomPaint(painter: BackgroundPainter(), size: Size.infinite),
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: res.wp(6)),
-              child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
-                listener: (context, state) {
-                  if (state is CompleteProfileSuccess) {
-                    final route =
-                        widget.role == 'poster'
-                            ? AppRoutes.posterBottomNav
-                            : AppRoutes.fixerBottomNav;
-                    Navigator.pushReplacementNamed(context, route);
-                  } else if (state is CompleteProfileError) {
-                    showDialog(
-                      context: context,
-                      builder:
-                          (context) => CustomDialog(
-                            title: "Signup Failed",
-                            message: mapFirebaseError(state.message),
-                            icon: Icons.error_outline,
-                            iconColor: Colors.red,
-                            onConfirm: () => Navigator.of(context).pop(),
-                          ),
-                    );
-                  }
-                },
-                child: BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
-                  builder: (context, state) {
-                    final cubit = context.read<CompleteProfileCubit>();
-                    return Form(
-                      key: cubit.formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 12),
-                          ProfileHeader(
-                            profileImage: cubit.profileImage,
-                            onEditTap: cubit.pickProfileImage,
-                          ),
-                          SizedBox(height: res.hp(4)),
-                          Text(
-                            "Complete Your Profile",
-                            style: TextStyle(
-                              fontSize: res.sp(22),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: res.hp(2)),
-                          ProfileInputField(
-                            label: "Full Name",
-                            controller: cubit.nameController,
-                            isRequired: true,
-                          ),
-                          SizedBox(height: res.hp(2)),
-                          ProfileInputField(
-                            label: "Location",
-                            controller: cubit.locationController,
-                            icon: Icons.my_location,
-                            isRequired: true,
-                            onLocationTap: cubit.setCurrentLocationFromDevice,
-                          ),
-                          SizedBox(height: res.hp(2)),
-                          ProfileInputField(
-                            label: "Phone",
-                            controller: cubit.phoneController,
-                            isRequired: true,
-                            keyboardType: TextInputType.phone,
-                          ),
-                          SizedBox(height: res.hp(2)),
-                          ProfileInputField(
-                            label: "About You",
-                            controller: cubit.bioController,
-                            isRequired: true,
-                            isMultiline: true,
-                            dynamicHelperText:
-                                "${cubit.remainingBioChars} / ${cubit.maxBioLength} characters remaining",
-                          ),
-                          SizedBox(height: res.hp(2)),
-                          if (widget.role == 'fixer') ...[
-                            const Text(
-                              "Select Skills *",
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(height: 8),
-                            const MultiSelectSkillChips(),
-                            SizedBox(height: 16),
-                            ProfileInputField(
-                              isReadOnly: true,
-                              label: "Certification",
-                              controller: cubit.certificationController,
-                              icon: Icons.upload_file,
-                              onLocationTap: cubit.pickCertificationFile,
-                            ),
-                          ],
-                          if (widget.role == 'fixer' &&
-                              cubit.certificateImage != null) ...[
-                            const SizedBox(height: 12),
-                            Text(
-                              "Certificate Preview",
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(height: 8),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.file(
-                                cubit.certificateImage!,
-                                height: 200,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ],
-
-                          SizedBox(height: res.hp(4)),
-                          AppButton(
-                            text: "Save & Continue",
-                            isLoading: state is CompleteProfileLoading,
-                            onPressed: () => cubit.submitProfile(widget.role),
-                            borderRadius: 20,
-                          ),
-                          SizedBox(height: res.hp(2)),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
+          _buildMainContent(),
         ],
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: const Text("Edit Profile"),
+      leading: const BackButton(),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+    );
+  }
+
+  Widget _buildMainContent() {
+    return SafeArea(
+      child: BlocListener<CompleteProfileCubit, CompleteProfileState>(
+        listener: _handleStateChanges,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: Responsive(context).wp(6)),
+          child: BlocBuilder<CompleteProfileCubit, CompleteProfileState>(
+            builder: (context, state) {
+              final cubit = context.read<CompleteProfileCubit>();
+              return Form(
+                key: cubit.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 12),
+                    _buildProfileSections(cubit),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileSections(CompleteProfileCubit cubit) {
+    return Column(
+      children: [
+        ProfileHeaderSection(cubit: cubit, isEditMode: widget.isEditMode),
+        PersonalInfoSection(cubit: cubit),
+        if (widget.role == 'fixer') SkillsSection(cubit: cubit),
+        if (widget.role == 'fixer') CertificationSection(cubit: cubit),
+        SubmitButtonSection(
+          cubit: cubit,
+          role: widget.role,
+          isEditMode: widget.isEditMode,
+        ),
+      ],
+    );
+  }
+
+  void _handleStateChanges(BuildContext context, CompleteProfileState state) {
+    if (state is CompleteProfileSuccess) {
+      _navigateAfterSuccess();
+    } else if (state is CompleteProfileError) {
+      _showErrorDialog(state.message);
+    }
+  }
+
+  void _navigateAfterSuccess() {
+    final route = widget.role == 'poster'
+        ? AppRoutes.posterBottomNav
+        : AppRoutes.fixerBottomNav;
+    widget.isEditMode
+        ? Navigator.pop(context)
+        : Navigator.pushReplacementNamed(context, route);
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => CustomDialog(
+        title: "Signup Failed",
+        message: mapFirebaseError(message),
+        icon: Icons.error_outline,
+        iconColor: Colors.red,
+        onConfirm: () => Navigator.of(context).pop(),
       ),
     );
   }

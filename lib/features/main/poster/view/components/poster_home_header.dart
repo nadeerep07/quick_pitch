@@ -20,7 +20,7 @@ class PosterHomeHeader extends StatelessWidget {
         }
 
         if (state is PosterHomeLoaded) {
-          print('User data is ${state.userProfile}');
+       //   print('User data is ${state.userProfile}');
           final imageUrl =
               (state.userProfile.profileImageUrl?.isNotEmpty ?? false)
                   ? state.userProfile.profileImageUrl!

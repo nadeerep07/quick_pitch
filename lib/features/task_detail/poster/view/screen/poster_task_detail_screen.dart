@@ -8,6 +8,7 @@ import 'package:quick_pitch_app/features/task_detail/poster/view/components/buil
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/build_image_carousel.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/info_card.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/section_card.dart';
+import 'package:quick_pitch_app/features/task_detail/poster/view/components/shimmer_task_dettail_view.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 
 class PosterTaskDetailScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _PosterTaskDetailScreenState extends State<PosterTaskDetailScreen> {
       body: BlocBuilder<TaskDetailsCubit, TaskDetailsState>(
         builder: (context, state) {
           if (state is TaskDetailLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return ShimmerTaskDetail();
           } else if (state is TaskDetailError) {
             return Center(child: Text(state.message));
           } else if (state is TaskDetailLoaded) {

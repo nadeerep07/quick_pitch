@@ -1,11 +1,11 @@
-// 📂 poster_home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
+import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_fixer_list.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_header.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_quick_actions.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_shimmer.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_sumary_card.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_list.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
@@ -21,7 +21,7 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PosterHomeCubit>().fetchPosterHomeData();
+    context.read<PosterHomeCubit>().streamPosterHomeData();
   }
 
   @override
@@ -36,27 +36,33 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
           bottom: true,
           child: RefreshIndicator(
             onRefresh: () async {
-             
-                await context.read<PosterHomeCubit>().fetchPosterHomeData();
-              
+               context.read<PosterHomeCubit>().streamPosterHomeData();
             },
-            child: ListView(
-              padding: EdgeInsets.symmetric(
-                horizontal: res.wp(5),
-                vertical: res.hp(2),
-              ),
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                PosterHomeHeader(res: res),
-                const SizedBox(height: 20),
-                const PosterHomeSummaryCard(),
-                const SizedBox(height: 20),
-                const PosterHomeTaskList(),
-                const SizedBox(height: 20),
-                const PosterHomeFixerList(),
-                const SizedBox(height: 20),
-                const PosterHomeQuickActions(),
-              ],
+            child: BlocBuilder<PosterHomeCubit, PosterHomeState>(
+              builder: (context, state) {
+                if (state is PosterHomeLoading) {
+                  return const PosterHomeShimmer(); 
+                }
+
+                return ListView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: res.wp(5),
+                    vertical: res.hp(2),
+                  ),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    PosterHomeHeader(res: res),
+                    const SizedBox(height: 20),
+                    const PosterHomeSummaryCard(),
+                    const SizedBox(height: 20),
+                    const PosterHomeTaskList(),
+                    const SizedBox(height: 20),
+                    const PosterHomeFixerList(),
+                    const SizedBox(height: 20),
+                    const PosterHomeQuickActions(),
+                  ],
+                );
+              },
             ),
           ),
         ),

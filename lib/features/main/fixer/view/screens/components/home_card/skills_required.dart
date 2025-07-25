@@ -13,24 +13,48 @@ class SkillsRequired extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 6,
-      runSpacing: 1,
-      children: skills.map((skill) {
-        return Chip(
+    final visibleSkills = skills.length > 2 ? skills.sublist(0, 2) : skills;
+    final remainingCount = skills.length - visibleSkills.length;
+
+    return SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    children: [
+      ...visibleSkills.map(
+        (skill) => Padding(
+          padding: const EdgeInsets.only(right: 6.0),
+          child: Chip(
+            label: Text(
+              skill,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: res.sp(11),
+                color: Colors.black,
+              ),
+            ),
+            backgroundColor: Colors.grey[200],
+            shape: const StadiumBorder(),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+        ),
+      ),
+      if (remainingCount > 0)
+        Chip(
           label: Text(
-            maxLines: 1,
-            skill,
+            '+$remainingCount more',
             style: TextStyle(
               fontSize: res.sp(11),
-              color: Colors.black,
+              color: Colors.black54,
             ),
           ),
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.grey[300],
           shape: const StadiumBorder(),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        );
-      }).toList(),
-    );
+        ),
+    ],
+  ),
+);
+
   }
 }

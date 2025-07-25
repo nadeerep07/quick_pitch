@@ -3,17 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/features/earnings/fixer/view/screen/earning_screen.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/screen/explore_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart' show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
-import 'package:quick_pitch_app/features/main/poster/view/components/custom_bottom_nav.dart';
+import 'package:quick_pitch_app/core/common/custom_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_custom_drawer.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/chat_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
+import 'package:quick_pitch_app/features/messages/fixer/view/screen/fixer_chat_list_screen.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerBottomNavContent extends StatelessWidget {
@@ -26,8 +27,9 @@ class FixerBottomNavContent extends StatelessWidget {
     final screens = [
       FixerHomeScreen(scaffoldKey: scaffoldKey),
       const ExploreScreen(),
-      const ChatScreen(),
+      const FixerChatListScreen(),
       const RequestsScreen(),
+      EarningScreen()
     ];
 
     return BlocBuilder<PosterBottomNavCubit, int>(

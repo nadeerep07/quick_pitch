@@ -38,7 +38,7 @@ class PosterHomeTaskList extends StatelessWidget {
                   );
 
                   if (shouldRefresh == true && context.mounted) {
-                    context.read<PosterHomeCubit>().fetchPosterHomeData();
+                    context.read<PosterHomeCubit>().streamPosterHomeData();
                   }
                 }
               },
@@ -88,7 +88,7 @@ class PosterHomeTaskList extends StatelessWidget {
                         imageUrl:
                             task.imagesUrl != null && task.imagesUrl!.isNotEmpty
                                 ? task.imagesUrl!.first
-                                : 'https://i.pravatar.cc/150?img=${index + 1}',
+                                : 'https://www.trschools.com/templates/imgs/default_placeholder.png',
                         fixerName: task.assignedFixerName ?? 'Not assigned',
                       ),
                     );

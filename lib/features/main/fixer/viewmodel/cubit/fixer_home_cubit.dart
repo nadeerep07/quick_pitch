@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -7,26 +9,38 @@ part 'fixer_home_state.dart';
 
 class FixerHomeCubit extends Cubit<FixerHomeState> {
   final FixerRepository _fixerRepository;
+    StreamSubscription? _profileSub;
+
   FixerHomeCubit(this._fixerRepository) : super(FixerHomeInitial());
 
   Future<void> loadFixerHomeData(String fixerId) async {
     emit(FixerHomeLoading());
 
     try {
-      final profileData = await _fixerRepository.fetchFixerProfile();
-      //  print("[FixerHomeCubit] Final profileData: $profileData");
+      _profileSub?.cancel(); // avoid memory leaks on repeated calls
 
-      final newTasks = await _fixerRepository.fetchCategoryMatchedTasks();
-      // final activeTasks = await _fixerRepository.fetchFixerTasks(fixerId);
+      _profileSub = _fixerRepository.fixerProfileStream(fixerId).listen((snapshot) async {
+        if (!snapshot.exists) {
+          emit(FixerHomeError("Profile not found"));
+          return;
+        }
 
-      emit(FixerHomeLoaded(userProfile: profileData, newTasks: newTasks));
+        final profileData = snapshot.data()!;
+         final userProfile = UserProfileModel.fromJson(profileData);
+        final newTasks = await _fixerRepository.fetchCategoryMatchedTasks();
 
-      // print(
-      //   "[FixerHomeCubit] Loaded tasks: ${profileData['userId']} - ${newTasks.length} tasks found",
-      // );
+        emit(FixerHomeLoaded(
+          userProfile: userProfile,
+          newTasks: newTasks,
+        ));
+      });
     } catch (e) {
-      //  print(e);
       emit(FixerHomeError("Failed to load tasks: ${e.toString()}"));
     }
+  }
+    @override
+  Future<void> close() {
+    _profileSub?.cancel();
+    return super.close();
   }
 }

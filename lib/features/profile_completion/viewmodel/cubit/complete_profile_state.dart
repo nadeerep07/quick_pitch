@@ -16,6 +16,11 @@ final class CompleteProfileSkillUpdated extends CompleteProfileState {
   final List<String> selectedSkills;
   CompleteProfileSkillUpdated(this.selectedSkills);
 }
-final class SkillSelectionUpdated extends CompleteProfileState {}
+final class SkillSelectionUpdated extends CompleteProfileState {
+  final List<String> selectedSkills;
+
+  SkillSelectionUpdated(this.selectedSkills);
+}
 final class SkillSearchUpdated extends CompleteProfileState {}
+final class CompleteProfileLoaded extends CompleteProfileState{}
 

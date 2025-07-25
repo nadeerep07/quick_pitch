@@ -19,6 +19,19 @@ class UserProfileService {
       'uid': profile.uid,
     }, SetOptions(merge: true));
   }
+ Future<void> updateProfile(UserProfileModel newProfile, UserProfileModel oldProfile) async {
+  final updatedFields = newProfile.toUpdatedFieldsMap(oldProfile); 
+
+  if (updatedFields.isNotEmpty) {
+    await firestore
+        .collection('users')
+        .doc(newProfile.uid)
+        .collection('roles')
+        .doc(newProfile.role)
+        .update(updatedFields); 
+  }
+}
+
 
   /// Get role-specific profile
   Future<UserProfileModel?> getProfile(String uid, String role) async {
@@ -35,4 +48,13 @@ class UserProfileService {
     final data = doc.data()!;
     return UserProfileModel.fromJson(data);
   }
+Future<void> updateFields(String uid, String role, Map<String, dynamic> fieldsToUpdate) async {
+  await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('roles')
+      .doc(role)
+      .update(fieldsToUpdate);
+}
+
 }

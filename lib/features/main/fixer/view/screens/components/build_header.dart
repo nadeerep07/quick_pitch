@@ -22,15 +22,26 @@ class BuildHeader extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () { scaffoldKey.currentState?.openDrawer();
-          context.read<FixerProfileCubit>().loadFixerProfile();
+          onTap: () {
+            scaffoldKey.currentState?.openDrawer();
+            context.read<FixerProfileCubit>().loadFixerProfile();
           },
-          child: CircleAvatar(
-            radius: res.hp(3.5),
-            backgroundImage: (profile.profileImageUrl?.isNotEmpty ?? false)
-                ? NetworkImage(profile.profileImageUrl!)
-                : const AssetImage('assets/images/default_user.png')
-                    as ImageProvider,
+          child: ClipOval(
+            child: SizedBox(
+              width: res.hp(7), // diameter
+              height: res.hp(7),
+              child:
+                  (profile.profileImageUrl?.isNotEmpty ?? false)
+                      ? FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/avatar_photo_placeholder.jpg',
+                        image: profile.profileImageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                      : Image.asset(
+                        'assets/images/avatar_photo_placeholder.jpg',
+                        fit: BoxFit.cover,
+                      ),
+            ),
           ),
         ),
         SizedBox(width: res.wp(3)),
@@ -39,7 +50,10 @@ class BuildHeader extends StatelessWidget {
           children: [
             Text(
               profile.name,
-              style: TextStyle(fontSize: res.sp(18), fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: res.sp(18),
+                fontWeight: FontWeight.w600,
+              ),
             ),
             SizedBox(height: res.hp(0.5)),
             Container(
@@ -67,4 +81,3 @@ class BuildHeader extends StatelessWidget {
     );
   }
 }
-

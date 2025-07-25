@@ -178,6 +178,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
       if (existingTask != null) {
         await repository.updateTask(task);
       } else {
+        print('task posted ${task.posterId}');
         await repository.postTask(task);
       }
 
@@ -208,11 +209,11 @@ class TaskPostCubit extends Cubit<TaskPostState> {
   }
 
   void setCurrentLocationFromDevice() async {
-    print("Setting current location from device");
+  //  print("Setting current location from device");
 
     final location =
         await rep.getCurrentLocation(); // should print all [DEBUG] logs
-    print("Current location set: $location");
+ //   print("Current location set: $location");
 
     locationController.text = location;
   }
