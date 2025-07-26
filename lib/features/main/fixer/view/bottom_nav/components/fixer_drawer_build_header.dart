@@ -79,12 +79,12 @@ class FixerDrawerBuildHeader extends StatelessWidget {
                               (userData?.profileImageUrl ?? '').isNotEmpty
                                   ? FadeInImage.assetNetwork(
                                     placeholder:
-                                        'assets/images/default_user.png',
+                                        'assets/images/avatar_photo_placeholder.jpg',
                                     image: userData!.profileImageUrl!,
                                     fit: BoxFit.cover,
                                   )
                                   : Image.asset(
-                                    'assets/images/default_user.png',
+                                    'assets/images/avatar_photo_placeholder.jpg',
                                     fit: BoxFit.cover,
                                   ),
                         ),

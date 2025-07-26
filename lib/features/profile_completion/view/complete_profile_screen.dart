@@ -15,7 +15,7 @@ import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/comp
 class CompleteProfileScreen extends StatefulWidget {
   final String role;
   final bool isEditMode;
-  
+
   const CompleteProfileScreen({
     super.key,
     required this.role,
@@ -41,21 +41,28 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: widget.isEditMode ? _buildAppBar() : null,
-      body: Stack(
-        children: [
-          CustomPaint(painter: BackgroundPainter(), size: Size.infinite),
-          _buildMainContent(),
-        ],
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, dynamic result) {
+        if (didPop) {
+          context.read<CompleteProfileCubit>().resetProfileData();
+        }
+      },
+      child: Scaffold(
+        appBar: widget.isEditMode ? _buildAppBar() : null,
+        body: Stack(
+          children: [
+            CustomPaint(painter: BackgroundPainter(), size: Size.infinite),
+            _buildMainContent(),
+          ],
+        ),
       ),
     );
   }
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: const Text("Edit Profile"),
-      leading: const BackButton(),
+      leading: BackButton(),
       backgroundColor: Colors.transparent,
       elevation: 0,
     );
@@ -112,9 +119,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   void _navigateAfterSuccess() {
-    final route = widget.role == 'poster'
-        ? AppRoutes.posterBottomNav
-        : AppRoutes.fixerBottomNav;
+    final route =
+        widget.role == 'poster'
+            ? AppRoutes.posterBottomNav
+            : AppRoutes.fixerBottomNav;
     widget.isEditMode
         ? Navigator.pop(context)
         : Navigator.pushReplacementNamed(context, route);
@@ -123,13 +131,14 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (context) => CustomDialog(
-        title: "Signup Failed",
-        message: mapFirebaseError(message),
-        icon: Icons.error_outline,
-        iconColor: Colors.red,
-        onConfirm: () => Navigator.of(context).pop(),
-      ),
+      builder:
+          (context) => CustomDialog(
+            title: "Signup Failed",
+            message: mapFirebaseError(message),
+            icon: Icons.error_outline,
+            iconColor: Colors.red,
+            onConfirm: () => Navigator.of(context).pop(),
+          ),
     );
   }
 }

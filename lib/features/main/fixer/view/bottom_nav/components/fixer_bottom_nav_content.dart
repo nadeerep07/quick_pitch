@@ -7,7 +7,8 @@ import 'package:quick_pitch_app/features/earnings/fixer/view/screen/earning_scre
 import 'package:quick_pitch_app/features/explore/fixer/view/screen/explore_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
-import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart' show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
+import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart'
+    show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
 import 'package:quick_pitch_app/core/common/custom_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_custom_drawer.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
@@ -29,71 +30,96 @@ class FixerBottomNavContent extends StatelessWidget {
       const ExploreScreen(),
       const FixerChatListScreen(),
       const RequestsScreen(),
-      EarningScreen()
+      EarningScreen(),
     ];
 
-    return BlocBuilder<PosterBottomNavCubit, int>(
-      builder: (context, currentIndex) {
-        return BlocBuilder<DrawerStateCubit, bool>(
-          builder: (context, isDrawerOpen) {
-            return BlocBuilder<FixerHomeCubit, FixerHomeState>(
-              builder: (context, homeState) {
-                return BlocListener<RoleSwitchCubit, RoleSwitchState>(
-                  listener: (context, state) {
-                    if (state is RoleSwitchSuccess) {
-                      context.read<DrawerStateCubit>().setDrawerState(false);
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.posterBottomNav,
-                        (route) => false,
-                      );
-                    } else if (state is RoleSwitchIncompleteProfile) {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.completeProfile,
-                        arguments: 'poster',
-                      );
-                    } else if (state is RoleSwitchError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Error: ${state.message}")),
-                      );
-                    }
-                  },
-                  child: Scaffold(
+    return BlocListener<RoleSwitchCubit, RoleSwitchState>(
+      listener: (context, state) {
+        //   print('[UI] RoleSwitchState changed: $state');
+ if (state is RoleSwitchLoading) {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else {
+      // Always close loading dialog if open
+      Navigator.of(context, rootNavigator: true).pop();
+    }
+        if (state is RoleSwitchSuccess) {
+          context.read<DrawerStateCubit>().setDrawerState(false);
+          //     print('[UI] About to navigate to posterBottomNav');
+        
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoutes.posterBottomNav,
+            (route) => false,
+          );
+        } else if (state is RoleSwitchIncompleteProfile) {
+          //     print('[UI] Incomplete profile, navigating to complete profile');
+
+          Navigator.pushNamed(
+            context,
+            AppRoutes.completeProfile,
+            arguments: 'poster',
+          );
+        } else if (state is RoleSwitchError) {
+          print('[UI] Role switch error: ${state.message}');
+        }
+      },
+      child: BlocBuilder<PosterBottomNavCubit, int>(
+        builder: (context, currentIndex) {
+          return BlocBuilder<DrawerStateCubit, bool>(
+            builder: (context, isDrawerOpen) {
+              return BlocBuilder<FixerHomeCubit, FixerHomeState>(
+                builder: (context, homeState) {
+                  return Scaffold(
                     key: scaffoldKey,
                     extendBody: true,
-                    drawer: homeState is FixerHomeLoaded
-                        ? FixerCustomDrawer(
-                      
-                            onLogout: () async {
-                              context.read<DrawerStateCubit>().setDrawerState(false);
-                              context.read<PosterBottomNavCubit>().changeTab(0);
-                              context.read<FixerProfileCubit>().clear();
+                    drawer:
+                        homeState is FixerHomeLoaded
+                            ? FixerCustomDrawer(
+                              onLogout: () async {
+                                context.read<DrawerStateCubit>().setDrawerState(
+                                  false,
+                                );
+                                context.read<PosterBottomNavCubit>().changeTab(
+                                  0,
+                                );
+                                context.read<FixerProfileCubit>().clear();
 
-                              await AuthServices().logout();
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                AppRoutes.login,
-                                (route) => false,
-                              );
-                            },
-                            onSwitchTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomDialog(
-                                  title: "Switch Role",
-                                  message: "Do you want to switch to the other role?",
-                                  icon: Icons.sync_alt,
-                                  iconColor: AppColors.primaryColor,
-                                  onConfirm: () {
-                                    context.read<DrawerStateCubit>().setDrawerState(false);
-                                    Navigator.pop(context);
-                                    context.read<RoleSwitchCubit>().switchRole();
-                                  },
-                                ),
-                              );
-                            },
-                          )
-                        : null,
+                                await AuthServices().logout();
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  AppRoutes.login,
+                                  (route) => false,
+                                );
+                              },
+                              onSwitchTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => CustomDialog(
+                                        title: "Switch Role",
+                                        message:
+                                            "Do you want to switch to the other role?",
+                                        icon: Icons.sync_alt,
+                                        iconColor: AppColors.primaryColor,
+                                        onConfirm: () {
+                                          context
+                                              .read<DrawerStateCubit>()
+                                              .setDrawerState(false);
+                                          Navigator.pop(context);
+                                          context
+                                              .read<RoleSwitchCubit>()
+                                              .switchRole();
+                                        },
+                                      ),
+                                );
+                              },
+                            )
+                            : null,
                     onDrawerChanged: (isOpen) {
                       context.read<DrawerStateCubit>().setDrawerState(isOpen);
                     },
@@ -105,23 +131,26 @@ class FixerBottomNavContent extends StatelessWidget {
                         children: screens,
                       ),
                     ),
-                    bottomNavigationBar: !isDrawerOpen
-                        ? GlassmorphicBottomNavBar(
-                            currentIndex: currentIndex,
-                            onTabSelected: (index) {
-                              context.read<PosterBottomNavCubit>().changeTab(index);
-                            },
-                            onPostTapped: () {},
-                            isFixer: true,
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
+                    bottomNavigationBar:
+                        !isDrawerOpen
+                            ? GlassmorphicBottomNavBar(
+                              currentIndex: currentIndex,
+                              onTabSelected: (index) {
+                                context.read<PosterBottomNavCubit>().changeTab(
+                                  index,
+                                );
+                              },
+                              onPostTapped: () {},
+                              isFixer: true,
+                            )
+                            : const SizedBox.shrink(),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

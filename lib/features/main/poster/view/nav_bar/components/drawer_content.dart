@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/features/main/poster/view/nav_bar/components/dra
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class DrawerContent extends StatelessWidget {
-  final UserProfileModel userData;
+  final UserProfileModel? userData;
   final VoidCallback onLogout;
   final VoidCallback onSwitchTap;
 

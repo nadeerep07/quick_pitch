@@ -4,6 +4,7 @@ import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/complete_profile_screen.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_cover_image.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerProfileAppBar extends StatelessWidget {
@@ -37,34 +38,17 @@ class FixerProfileAppBar extends StatelessWidget {
   }
 
   Widget _buildCoverImage() {
-    return profile.fixerData?.coverImageUrl?.isNotEmpty == true
-        ? Image.network(
-            profile.fixerData!.coverImageUrl!,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _buildDefaultCover(),
-          )
-        : _buildGradientCover();
+    final imageUrl = profile.fixerData?.coverImageUrl;
+
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return buildCoverImage(imageUrl, 200); // 👈 height = 200 (or adjust)
+    } else {
+      return _buildDefaultCover();
+    }
   }
 
   Widget _buildDefaultCover() {
-    return CustomPaint(
-      painter:  MainBackgroundPainter(),
-    );
-  }
-
-  Widget _buildGradientCover() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
-          ],
-        ),
-      ),
-    );
+    return CustomPaint(painter: MainBackgroundPainter());
   }
 
   Widget _buildAvatar() {
@@ -86,9 +70,11 @@ class FixerProfileAppBar extends StatelessWidget {
         child: CircleAvatar(
           radius: res.wp(12),
           backgroundColor: Colors.grey[200],
-          backgroundImage: profile.profileImageUrl?.isNotEmpty == true
-              ? NetworkImage(profile.profileImageUrl!)
-              : const AssetImage('assets/images/default_user.png') as ImageProvider,
+          backgroundImage:
+              profile.profileImageUrl?.isNotEmpty == true
+                  ? NetworkImage(profile.profileImageUrl!)
+                  : const AssetImage('assets/images/default_user.png')
+                      as ImageProvider,
         ),
       ),
     );
@@ -117,28 +103,40 @@ class FixerProfileAppBar extends StatelessWidget {
         data: Theme.of(context).copyWith(
           popupMenuTheme: PopupMenuThemeData(
             color: Colors.black87,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             textStyle: const TextStyle(color: Colors.white),
           ),
         ),
         child: PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert, color: Colors.white),
           onSelected: (value) => _handleMenuSelection(context, value),
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'edit_profile',
-              child: Text('Edit Profile', style: TextStyle(color: AppColors.secondaryText)),
-            ),
-            const PopupMenuItem(
-              value: 'change_cover',
-              child: Text('Change Cover Photo', style: TextStyle(color: AppColors.secondaryText)),
-            ),
-            if (profile.fixerData?.coverImageUrl?.isNotEmpty == true)
-              const PopupMenuItem(
-                value: 'remove_cover',
-                child: Text('Remove Cover Photo', style: TextStyle(color: AppColors.secondaryText)),
-              ),
-          ],
+          itemBuilder:
+              (context) => [
+                const PopupMenuItem(
+                  value: 'edit_profile',
+                  child: Text(
+                    'Edit Profile',
+                    style: TextStyle(color: AppColors.secondaryText),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'change_cover',
+                  child: Text(
+                    'Change Cover Photo',
+                    style: TextStyle(color: AppColors.secondaryText),
+                  ),
+                ),
+                if (profile.fixerData?.coverImageUrl?.isNotEmpty == true)
+                  const PopupMenuItem(
+                    value: 'remove_cover',
+                    child: Text(
+                      'Remove Cover Photo',
+                      style: TextStyle(color: AppColors.secondaryText),
+                    ),
+                  ),
+              ],
         ),
       ),
     );
@@ -151,10 +149,9 @@ class FixerProfileAppBar extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => CompleteProfileScreen(
-              role: profile.role,
-              isEditMode: true,
-            ),
+            builder:
+                (_) =>
+                    CompleteProfileScreen(role: profile.role, isEditMode: true),
           ),
         );
         break;

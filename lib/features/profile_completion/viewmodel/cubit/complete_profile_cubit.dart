@@ -21,7 +21,9 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       onBioChanged(bioController.text);
     });
   }
-  final FixerProfileEditingRespository fixerRepo = FixerProfileEditingRespository();
+
+  final FixerProfileEditingRespository fixerRepo =
+      FixerProfileEditingRespository();
   final PosterProfileRepository posterRepo = PosterProfileRepository();
   final nameController = TextEditingController();
   final locationController = TextEditingController();
@@ -43,13 +45,22 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   List<String> selectedSkills = [];
   String searchQuery = '';
 
+  // Cache for improved performance
+  UserProfileModel? _cachedProfile;
+
   Future<void> loadSkillsFromAdmin() async {
     try {
       emit(CompleteProfileLoading());
-      allSkills = await repository.fetchSkillsFromAdmin();
+
+      // Add timeout to prevent infinite loading
+      allSkills = await repository.fetchSkillsFromAdmin().timeout(
+        const Duration(seconds: 30),
+      );
+
       emit(SkillSelectionUpdated(selectedSkills));
     } catch (e) {
-      emit(CompleteProfileError("Failed to load skills"));
+      print("Error loading skills: $e");
+      emit(CompleteProfileError("Failed to load skills: ${e.toString()}"));
     }
   }
 
@@ -90,21 +101,38 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   }
 
   void pickProfileImage() async {
-    final image = await ImagePickerHelper.pickImageFromGallery();
-    if (image != null) setProfileImage(image);
+    try {
+      final image = await ImagePickerHelper.pickImageFromGallery();
+      if (image != null) setProfileImage(image);
+    } catch (e) {
+      print("Error picking profile image: $e");
+      emit(CompleteProfileError("Failed to pick image"));
+    }
   }
 
   void pickCertificationFile() async {
-    final cert = await ImagePickerHelper.pickImageFromGallery();
-    if (cert != null) {
-      setCertificateImage(cert);
-      certificationController.text = cert.path.split('/').last;
+    try {
+      final cert = await ImagePickerHelper.pickImageFromGallery();
+      if (cert != null) {
+        setCertificateImage(cert);
+        certificationController.text = cert.path.split('/').last;
+      }
+    } catch (e) {
+      print("Error picking certification file: $e");
+      emit(CompleteProfileError("Failed to pick certification file"));
     }
   }
 
   void setCurrentLocationFromDevice() async {
-    final location = await repository.getCurrentLocation();
-    locationController.text = location;
+    try {
+      final location = await repository.getCurrentLocation().timeout(
+        const Duration(seconds: 10),
+      );
+      locationController.text = location;
+    } catch (e) {
+      print("Error getting location: $e");
+      emit(CompleteProfileError("Failed to get current location"));
+    }
   }
 
   final int maxBioLength = 500;
@@ -120,6 +148,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       emit(CompleteProfileError("Please fill all required fields"));
       return;
     }
+
     emit(CompleteProfileLoading());
 
     try {
@@ -128,17 +157,24 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         emit(CompleteProfileError("User not logged in"));
         return;
       }
-      // print("Firebase UID: ${user.uid}");
 
       if (profileImage != null) {
-        profileUrl = await repository.uploadFileToCloudinary(profileImage!);
+        profileUrl = await repository
+            .uploadFileToCloudinary(profileImage!)
+            .timeout(const Duration(seconds: 60));
+      } else {
+     
+        profileUrl = _cachedProfile?.profileImageUrl;
       }
 
       if (certificateImage != null) {
-        certificateUrl = await repository.uploadFileToCloudinary(
-          certificateImage!,
-        );
+        certificateUrl = await repository
+            .uploadFileToCloudinary(certificateImage!)
+            .timeout(const Duration(seconds: 60));
+      }else{
+        certificateUrl = _cachedProfile?.fixerData?.certification;
       }
+
       FixerData? fixerData;
       PosterData? posterData;
 
@@ -151,7 +187,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       }
 
       if (role == 'poster') {
-        posterData = PosterData( bio: bioController.text.trim());
+        posterData = PosterData(bio: bioController.text.trim());
       }
 
       final model = UserProfileModel(
@@ -166,18 +202,40 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         createdAt: DateTime.now(),
       );
 
+      // Add timeout for Firebase operations
       if (isEditing) {
-        await repository.updateProfile(model);
-        Navigator.pop(context, true);
+        await repository
+            .updateProfile(model)
+            .timeout(const Duration(seconds: 30));
+
+        // Clear cache after update
+        _cachedProfile = null;
+
+        if (context.mounted) {
+          Navigator.pop(context, true);
+        }
       } else {
-        await repository.saveProfile(model);
+        await repository
+            .saveProfile(model)
+            .timeout(const Duration(seconds: 30));
       }
 
-      print("Profile saved: $model");
+      //  print("Profile saved successfully: $model");
       emit(CompleteProfileSuccess());
     } catch (e) {
       print("Error saving profile: $e");
-      emit(CompleteProfileError(e.toString()));
+      String errorMessage = "Failed to save profile";
+
+      if (e.toString().contains('TimeoutException')) {
+        errorMessage =
+            "Request timed out. Please check your internet connection and try again.";
+      } else if (e.toString().contains('permission-denied')) {
+        errorMessage = "Permission denied. Please check your Firebase rules.";
+      } else if (e.toString().contains('network')) {
+        errorMessage = "Network error. Please check your internet connection.";
+      }
+
+      emit(CompleteProfileError(errorMessage));
     }
   }
 
@@ -195,8 +253,9 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     selectedSkills.clear();
     searchQuery = '';
     remainingBioChars = maxBioLength;
+    _cachedProfile = null; // Clear cache
 
-    emit(CompleteProfileInitial()); // or a custom ResetState if you want
+    emit(CompleteProfileInitial());
   }
 
   @override
@@ -209,18 +268,55 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     return super.close();
   }
 
- Future<void> loadProfileDataForEdit(String role) async {
-  try {
-    emit(CompleteProfileLoading());
- final UserProfileModel user;
-   if(role == 'fixer'){
-     user = await fixerRepo.getProfileData();
-   }else{
-    user = await posterRepo.getProfileData();
-   }
+  Future<void> loadProfileDataForEdit(String role) async {
+    try {
+      emit(CompleteProfileLoading());
 
-    if (user.name.isNotEmpty) isEditing = true;
+      // Use cached data if available and recent
+      if (_cachedProfile != null && _cachedProfile!.role == role) {
+        _populateControllersFromCache(_cachedProfile!, role);
+        emit(CompleteProfileLoaded());
+        return;
+      }
 
+      final UserProfileModel user;
+
+      // Add timeout for profile loading
+      if (role == 'fixer') {
+        user = await fixerRepo.getProfileData().timeout(
+          const Duration(seconds: 30),
+        );
+      } else {
+        user = await posterRepo.getProfileData().timeout(
+          const Duration(seconds: 30),
+        );
+      }
+
+      // Cache the loaded profile
+      _cachedProfile = user;
+
+      if (user.name.isNotEmpty) isEditing = true;
+
+      _populateControllersFromCache(user, role);
+
+      emit(CompleteProfileLoaded());
+    } catch (e) {
+      print("Error loading profile data: $e");
+      String errorMessage = "Failed to load profile data";
+
+      if (e.toString().contains('TimeoutException')) {
+        errorMessage =
+            "Request timed out. Please check your internet connection.";
+      } else if (e.toString().contains('permission-denied')) {
+        errorMessage = "Permission denied. Please check your Firebase rules.";
+      }
+
+      emit(CompleteProfileError(errorMessage));
+    }
+  }
+
+  // Helper method to populate controllers from cached data
+  void _populateControllersFromCache(UserProfileModel user, String role) {
     // Common fields
     nameController.text = user.name;
     locationController.text = user.location;
@@ -233,17 +329,16 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       certificationController.text = user.fixerData?.certification ?? "";
       selectedSkills.clear();
       selectedSkills.addAll(user.fixerData?.skills ?? []);
-      emit(SkillSelectionUpdated(selectedSkills));
     } else if (role == 'poster') {
-      bioController.text = user.posterData?.bio ?? ""; 
-      certificationController.clear(); 
-      selectedSkills.clear(); 
+      bioController.text = user.posterData?.bio ?? "";
+      certificationController.clear();
+      selectedSkills.clear();
     }
-
-    emit(CompleteProfileLoaded());
-  } catch (e) {
-    emit(CompleteProfileError(e.toString()));
   }
-}
 
+  // Method to refresh data from server (bypass cache)
+  Future<void> refreshProfileData(String role) async {
+    _cachedProfile = null; // Clear cache first
+    await loadProfileDataForEdit(role);
+  }
 }

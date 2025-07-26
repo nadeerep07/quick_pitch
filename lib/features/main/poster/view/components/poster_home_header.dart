@@ -39,7 +39,7 @@ class PosterHomeHeader extends StatelessWidget {
                     backgroundColor: Colors.grey.shade200,
                     child: ClipOval(
                       child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/default_user.png',
+                        placeholder: 'assets/images/avatar_photo_placeholder.jpg',
                         image: imageUrl,
                         width: 64,
                         height: 64,

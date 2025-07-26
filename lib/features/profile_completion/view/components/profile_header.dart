@@ -15,23 +15,34 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider imageProvider;
+    Widget imageWidget;
 
     if (profileImage != null) {
-      imageProvider = FileImage(profileImage!);
+      imageWidget = CircleAvatar(
+        radius: 50,
+        backgroundImage: FileImage(profileImage!),
+      );
     } else if (profileImageUrl != null && profileImageUrl!.isNotEmpty) {
-      imageProvider = NetworkImage(profileImageUrl!);
+      imageWidget = ClipOval(
+        child: FadeInImage.assetNetwork(
+          placeholder: 'assets/images/avatar_photo_placeholder.jpg',
+          image: profileImageUrl!,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      );
     } else {
-      imageProvider = const AssetImage('assets/images/default_user.png');
+      imageWidget = const CircleAvatar(
+        radius: 50,
+        backgroundImage: AssetImage('assets/images/avatar_photo_placeholder.jpg'),
+      );
     }
 
     return Center(
       child: Stack(
         children: [
-          CircleAvatar(
-            radius: 50,
-            backgroundImage: imageProvider,
-          ),
+          imageWidget,
           Positioned(
             bottom: 0,
             right: 0,
@@ -40,7 +51,7 @@ class ProfileHeader extends StatelessWidget {
               child: const CircleAvatar(
                 radius: 16,
                 backgroundColor: Colors.black,
-                child: Icon(Icons.edit, size: 16, color: Colors.white),
+                child: Icon(Icons.camera, size: 16, color: Colors.white),
               ),
             ),
           ),

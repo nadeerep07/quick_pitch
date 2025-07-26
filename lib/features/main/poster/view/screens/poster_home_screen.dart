@@ -18,10 +18,18 @@ class PosterHomeScreen extends StatefulWidget {
 }
 
 class _PosterHomeScreenState extends State<PosterHomeScreen> {
+  bool _hasInitialized = false;
+
   @override
   void initState() {
     super.initState();
-    context.read<PosterHomeCubit>().streamPosterHomeData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_hasInitialized) {
+        _hasInitialized = true;
+        print('🏁 Initializing PosterHomeScreen - calling streamPosterHomeData');
+        context.read<PosterHomeCubit>().streamPosterHomeData();
+      }
+    });
   }
 
   @override
@@ -36,32 +44,67 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
           bottom: true,
           child: RefreshIndicator(
             onRefresh: () async {
-               context.read<PosterHomeCubit>().streamPosterHomeData();
+            //  print(' Refresh triggered');
+              context.read<PosterHomeCubit>().streamPosterHomeData();
             },
             child: BlocBuilder<PosterHomeCubit, PosterHomeState>(
               builder: (context, state) {
+               // print('PosterHomeState changed: $state');
+                
                 if (state is PosterHomeLoading) {
-                  return const PosterHomeShimmer(); 
+               //   print(' Showing shimmer loading...');
+                  return const PosterHomeShimmer();
                 }
-
-                return ListView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: res.wp(5),
-                    vertical: res.hp(2),
-                  ),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    PosterHomeHeader(res: res),
-                    const SizedBox(height: 20),
-                    const PosterHomeSummaryCard(),
-                    const SizedBox(height: 20),
-                    const PosterHomeTaskList(),
-                    const SizedBox(height: 20),
-                    const PosterHomeFixerList(),
-                    const SizedBox(height: 20),
-                    const PosterHomeQuickActions(),
-                  ],
-                );
+                
+                if (state is PosterHomeLoaded) {
+                 // print('Showing loaded content with ${state.tasks.length} tasks and ${state.fixers.length} fixers');
+                  return ListView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: res.wp(5),
+                      vertical: res.hp(2),
+                    ),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      PosterHomeHeader(res: res),
+                      const SizedBox(height: 20),
+                      const PosterHomeSummaryCard(),
+                      const SizedBox(height: 20),
+                      const PosterHomeTaskList(),
+                      const SizedBox(height: 20),
+                      const PosterHomeFixerList(),
+                      const SizedBox(height: 20),
+                      const PosterHomeQuickActions(),
+                    ],
+                  );
+                }
+                
+                if (state is PosterHomeError) {
+                 //  print(' Error state: ${state.message}');
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error, size: 64, color: Colors.red),
+                        const SizedBox(height: 16),
+                        Text(
+                          "Error: ${state.message}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<PosterHomeCubit>().streamPosterHomeData();
+                          },
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                
+              //   print(' Unknown state: $state');
+                return const Center(child: Text("Something went wrong!"));
               },
             ),
           ),

@@ -28,7 +28,6 @@ import 'package:quick_pitch_app/features/poster_task/viewmodel/cubit/task_post_c
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
-import 'package:quick_pitch_app/features/user_profile/poster/viewmodel/cubit/poster_profile_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -82,7 +81,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository())),
         BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
         BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
-         BlocProvider(create: (_)=> PosterProfileCubit()..loadPosterProfile()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

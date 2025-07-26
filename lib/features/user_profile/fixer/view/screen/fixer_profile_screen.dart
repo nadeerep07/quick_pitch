@@ -5,6 +5,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_app_bar.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_content.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_header.dart';
+import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_profile_shimmer.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerProfileScreen extends StatelessWidget {
@@ -33,7 +34,7 @@ class _FixerProfileView extends StatelessWidget {
         listener: _handleStateChanges,
         builder: (context, state) {
           if (state is FixerProfileInitial || state is FixerProfileLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const FixerProfileShimmer();
           }
 
           if (state is FixerProfileError) {

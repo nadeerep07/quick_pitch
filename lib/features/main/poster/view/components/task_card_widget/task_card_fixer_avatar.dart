@@ -22,7 +22,7 @@ class TaskCardFixerAvatar extends StatelessWidget {
       ),
       child: ClipOval(
         child: Image.asset(
-          'assets/images/default_user.png',
+          'assets/images/avatar_photo_placeholder.jpg',
           fit: BoxFit.cover,
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  final UserProfileModel userData;
+  final UserProfileModel? userData;
 
   const CustomDrawerHeader({super.key, required this.userData});
 
@@ -27,8 +27,7 @@ class CustomDrawerHeader extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (userData.posterData?.coverImageUrl != null &&
-              userData.posterData!.coverImageUrl!.isNotEmpty)
+          if (userData?.posterData?.coverImageUrl != null )
             ClipRRect(
               borderRadius: const BorderRadius.only(bottomRight: Radius.circular(20)),
               child: ColorFiltered(
@@ -54,8 +53,8 @@ class CustomDrawerHeader extends StatelessWidget {
                     CircleAvatar(
                       radius: 30,
                       backgroundColor: Colors.white,
-                      backgroundImage: (userData.profileImageUrl ?? '').isNotEmpty
-                          ? NetworkImage(userData.profileImageUrl!)
+                      backgroundImage: (userData?.profileImageUrl ?? '').isNotEmpty
+                          ? NetworkImage(userData!.profileImageUrl!)
                           : const AssetImage('assets/images/image_placeholder.png')
                               as ImageProvider,
                     ),
@@ -65,7 +64,7 @@ class CustomDrawerHeader extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hi, ${userData.name}",
+                            "Hi, ${userData?.name}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -80,7 +79,7 @@ class CustomDrawerHeader extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              userData.role.toUpperCase(),
+                              userData?.role.toUpperCase() ?? '',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,

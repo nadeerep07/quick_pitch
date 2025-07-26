@@ -22,10 +22,11 @@ class PosterCustomDrawer extends StatelessWidget {
       ),
       elevation: 10,
       child: BlocBuilder<PosterProfileCubit, PosterProfileState>(
+        
         builder: (context, state) {
           final userData = state is PosterProfileLoaded ? state.posterProfile : null;
           return DrawerContent(
-            userData: userData!,
+            userData: userData,
             onLogout: onLogout,
             onSwitchTap: onSwitchTap,
           );
