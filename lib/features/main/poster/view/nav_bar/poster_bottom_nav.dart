@@ -9,7 +9,7 @@ import 'package:quick_pitch_app/core/common/custom_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/fixer_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/poster/view/nav_bar/components/poster_custom_drawer.dart';
 import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/requests_screen.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/screens/requests_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';

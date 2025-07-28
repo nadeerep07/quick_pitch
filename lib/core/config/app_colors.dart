@@ -12,5 +12,6 @@ class AppColors {
   static const textFieldFill = Color(0xFFFFFFFF);
   static final primaryBackground = Colors.grey[50];
   static const linkColor = Colors.blueAccent;
+  static const  transparent = Colors.transparent;
 }
 

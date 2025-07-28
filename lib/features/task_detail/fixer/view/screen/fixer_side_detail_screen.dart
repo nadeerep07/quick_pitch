@@ -52,7 +52,7 @@ Widget build(BuildContext context) {
           ),
         ],
       ),
-      bottomNavigationBar: SendPitchButton(res: res),
+      bottomNavigationBar: SendPitchButton(res: res, task: task,),
     ),
   );
 }

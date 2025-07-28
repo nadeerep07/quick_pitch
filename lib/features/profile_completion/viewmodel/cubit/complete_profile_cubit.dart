@@ -336,9 +336,13 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     }
   }
 
-  // Method to refresh data from server (bypass cache)
   Future<void> refreshProfileData(String role) async {
     _cachedProfile = null; // Clear cache first
     await loadProfileDataForEdit(role);
   }
 }
+
+
+
+
+

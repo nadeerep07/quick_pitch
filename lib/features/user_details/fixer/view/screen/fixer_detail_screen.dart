@@ -136,7 +136,9 @@ class FixerDetailScreen extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(vertical: res.hp(2)),
           ),
-          onPressed: () {},
+          onPressed: () {
+           
+          },
           child: Text(
             'Hire ${fixerData.name.split(' ').first}',
             style: TextStyle(

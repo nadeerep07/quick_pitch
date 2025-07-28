@@ -19,6 +19,7 @@ import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bl
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
+import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';
@@ -27,6 +28,9 @@ import 'package:quick_pitch_app/features/poster_task/repository/task_post_reposi
 import 'package:quick_pitch_app/features/poster_task/viewmodel/cubit/task_post_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_details_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/viewmodel/cubit/task_filter_cubit.dart';
+import 'package:quick_pitch_app/features/task_pitching/repository/pitch_repository.dart';
+import 'package:quick_pitch_app/features/task_pitching/viewmodel/cubit/pitch_cubit.dart';
+import 'package:quick_pitch_app/features/task_pitching/viewmodel/pitch_form/cubit/pitch_form_cubit.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -81,6 +85,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository())),
         BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
         BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
+        BlocProvider(create: (_)=> PitchCubit(PitchRepository())),
+            BlocProvider(create: (_) => PitchFormCubit(pitchCubit: PitchCubit(PitchRepository()))),
+            BlocProvider(create: (_)=> PitchesCubit()..loadPitches(),)
+
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

@@ -3,8 +3,10 @@ import 'package:quick_pitch_app/features/auth/view/screens/login_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/signup_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/fixer_bottom_nav.dart';
 import 'package:quick_pitch_app/features/main/poster/view/nav_bar/poster_bottom_nav.dart';
+import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/complete_profile_screen.dart';
 import 'package:quick_pitch_app/features/poster_task/view/task_post_screen.dart';
+import 'package:quick_pitch_app/features/task_pitching/view/screen/task_pitching_screen.dart';
 
 class AppRoutes {
   static const String login = '/login';
@@ -13,6 +15,7 @@ class AppRoutes {
   static const String fixerBottomNav = '/fixer-home';
   static const String completeProfile = '/complete-profile';
   static const String posterTask = '/poster-task';
+  static const String taskPicting ='/task-pitch';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,7 +38,9 @@ class AppRoutes {
         );
       case posterTask:
         return MaterialPageRoute(builder: (_) => const TaskPostScreen());
-
+      case taskPicting:
+       final taskData = settings.arguments as TaskPostModel;
+      return MaterialPageRoute(builder: (_)=> TaskPitchingScreen(taskData: taskData,));
       default:
         return MaterialPageRoute(
           builder:
