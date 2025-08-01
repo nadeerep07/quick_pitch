@@ -24,11 +24,22 @@ class FixerDetailPosterCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: res.wp(7),
-            backgroundImage: poster.profileImageUrl != null
-                ? NetworkImage(poster.profileImageUrl!)
-                : const NetworkImage("https://i.pravatar.cc/150?img=12"),
+               ClipRRect(
+            borderRadius: BorderRadius.circular(80), // circular profile image
+            child: poster.profileImageUrl != null
+                ? FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/avatar_photo_placeholder.jpg',
+                    image: poster.profileImageUrl!,
+                    width: res.wp(12),
+                    height: res.wp(12),
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    "assets/images/avatar_photo_placeholder.jpg",
+                    width: res.wp(12),
+                    height: res.wp(12),
+                    fit: BoxFit.cover,
+                  ),
           ),
           SizedBox(width: res.wp(4)),
           Column(

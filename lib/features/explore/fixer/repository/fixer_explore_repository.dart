@@ -36,7 +36,7 @@ class FixerExploreRepositoryImpl implements FixerExploreRepository {
         .orderBy('createdAt', descending: true)
         .get();
 
-    debugPrint('Total tasks fetched from Firestore: ${tasksSnapshot.docs.length}');
+  //  debugPrint('Total tasks fetched from Firestore: ${tasksSnapshot.docs.length}');
 
     final allTasks = tasksSnapshot.docs
         .map((doc) => TaskPostModel.fromMap(doc.data()))
@@ -44,7 +44,7 @@ class FixerExploreRepositoryImpl implements FixerExploreRepository {
 
     // Only apply skill filter if fixer has skills
     if (fixerSkillCategories.isEmpty) {
-      debugPrint('No skills specified - returning all ${allTasks.length} tasks');
+  //    debugPrint('No skills specified - returning all ${allTasks.length} tasks');
       return allTasks;
     }
 
@@ -54,10 +54,10 @@ class FixerExploreRepositoryImpl implements FixerExploreRepository {
       return taskSkills.intersection(fixerSkills).isNotEmpty;
     }).toList();
 
-    debugPrint('After skill matching: ${filtered.length} tasks');
+   // debugPrint('After skill matching: ${filtered.length} tasks');
     return filtered;
   } catch (e) {
-    debugPrint('Error fetching tasks: $e');
+  //  debugPrint('Error fetching tasks: $e');
     rethrow;
   }
 }

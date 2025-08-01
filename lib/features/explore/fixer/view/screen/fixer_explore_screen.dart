@@ -30,7 +30,6 @@ class _FixerExploreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final res = Responsive(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -110,7 +109,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     final cubit = context.read<FixerExploreCubit>();
     final state = context.watch<FixerExploreCubit>().state;
-
+ final res = Responsive(context);
     if (_controller.text != state.searchQuery) {
       _controller.value = _controller.value.copyWith(
         text: state.searchQuery,
@@ -119,6 +118,7 @@ class _SearchBarState extends State<SearchBar> {
     }
 
     return Container(
+      width: res.wp(90) ,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
@@ -135,7 +135,7 @@ class _SearchBarState extends State<SearchBar> {
           filled: true,
           fillColor: Colors.white,
           prefixIcon: const Icon(Icons.search_rounded, color: Colors.grey),
-          hintText: 'Search for painters...',
+          hintText: 'Search for services...',
           hintStyle: TextStyle(color: Colors.grey.shade500),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

@@ -8,7 +8,7 @@ class FixerExploreState extends Equatable {
   final bool showSearchHistory;
   final bool showMoreFilters;
   final Set<String> selectedSkills;
-  final String selectedLocation;
+  final String? selectedLocation;
   final String selectedDeadline;
   final double priceRangeStart;
   final double priceRangeEnd;
@@ -18,6 +18,7 @@ class FixerExploreState extends Equatable {
   final String? errorMessage;
    final double minBudget;
   final double maxBudget;
+  final List<String> popularLocations;
   
 
   const FixerExploreState({
@@ -26,16 +27,17 @@ class FixerExploreState extends Equatable {
     this.showSearchHistory = false,
     this.showMoreFilters = false,
     this.selectedSkills = const {},
-    this.selectedLocation = 'Within 10km',
+    this.selectedLocation,
     this.selectedDeadline = 'Anytime',
-    this.priceRangeStart = 50,
-    this.priceRangeEnd = 10000,
+    this.priceRangeStart = 0,
+    this.priceRangeEnd = 0,
      this.minBudget = 0,
-    this.maxBudget = 10000,
+    this.maxBudget = 0,
     this.tasks = const [],
     this.filteredTasks = const [],
     this.status = RequestStatus.initial,
     this.errorMessage,
+    this.popularLocations = const [],
   });
 
   @override
@@ -53,7 +55,7 @@ class FixerExploreState extends Equatable {
         filteredTasks,
         status,
         errorMessage,
-        minBudget,maxBudget
+        minBudget,maxBudget,popularLocations
       ];
 
   FixerExploreState copyWith({
@@ -72,6 +74,7 @@ class FixerExploreState extends Equatable {
     String? errorMessage,
      double? minBudget,
     double? maxBudget,
+     List<String>? popularLocations,
   }) {
     return FixerExploreState(
       searchQuery: searchQuery ?? this.searchQuery,
@@ -89,6 +92,7 @@ class FixerExploreState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       minBudget: minBudget ?? this.minBudget,
       maxBudget: maxBudget ?? this.maxBudget,
+      popularLocations:  popularLocations ?? this.popularLocations,
     );
   }
 }
