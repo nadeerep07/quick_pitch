@@ -4,14 +4,14 @@ import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/features/earnings/fixer/view/screen/earning_screen.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/screen/explore_screen.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/screen/fixer_explore_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart'
     show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
-import 'package:quick_pitch_app/core/common/custom_bottom_nav.dart';
+import 'package:quick_pitch_app/core/common/glass_morphic_bottom_nav_bar.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_custom_drawer.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/requests_screen.dart';
+import 'package:quick_pitch_app/features/requests/fixer/view/screen/fixer_request_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
@@ -27,9 +27,9 @@ class FixerBottomNavContent extends StatelessWidget {
 
     final screens = [
       FixerHomeScreen(scaffoldKey: scaffoldKey),
-      const ExploreScreen(),
+      const FixerExploreScreen(),
       const FixerChatListScreen(),
-      const RequestsScreen(),
+      const FixerRequestScreen(),
       EarningScreen(),
     ];
 

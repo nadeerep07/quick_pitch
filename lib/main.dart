@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
-import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/explore_screen_cubit.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    
-
+final fixerRepository = FixerRepository();
     final authRepository = AuthRepository();
     return MultiBlocProvider(
       providers: [
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
           create: (context) => TaskDetailsCubit(TaskPostRepository()),
         ),
         BlocProvider(create: (context) => TaskFilterCubit()),
-        BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: FixerRepository())),
+      // BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: fixerRepository)),
         BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
         BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
         BlocProvider(create: (_)=> PitchCubit(PitchRepository())),
