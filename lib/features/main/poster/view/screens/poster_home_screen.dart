@@ -26,7 +26,7 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_hasInitialized) {
         _hasInitialized = true;
-        print('🏁 Initializing PosterHomeScreen - calling streamPosterHomeData');
+    //    print(' Initializing PosterHomeScreen - calling streamPosterHomeData');
         context.read<PosterHomeCubit>().streamPosterHomeData();
       }
     });

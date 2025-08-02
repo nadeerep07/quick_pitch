@@ -59,7 +59,7 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
   //  print("[RoleSwitch] Current role: $currentRole");
     
     final newRole = currentRole == 'poster' ? 'fixer' : 'poster';
-    print("[RoleSwitch] New role will be: $newRole");
+  //  print("[RoleSwitch] New role will be: $newRole");
     
     final newRoleDoc = userDoc.collection('roles').doc(newRole);
     final docSnapshot = await newRoleDoc.get();
@@ -70,11 +70,11 @@ class RoleSwitchCubit extends Cubit<RoleSwitchState> {
     if (newRole == 'fixer') {
     //  print("[RoleSwitch] Checking fixer profile...");
       final fixerData = docSnapshot.data()?['fixerData'];
-      print("[RoleSwitch] Fixer data: $fixerData");
+     // print("[RoleSwitch] Fixer data: $fixerData");
       
       if (fixerData != null && fixerData['skills'] != null) {
         final skills = fixerData['skills'] as List;
-        print("[RoleSwitch] Fixer skills: $skills");
+      //  print("[RoleSwitch] Fixer skills: $skills");
     //    print("[RoleSwitch] Skills length: ${skills.length}");
         
         if (skills.isEmpty) {

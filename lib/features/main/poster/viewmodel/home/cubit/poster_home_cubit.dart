@@ -42,7 +42,7 @@ class PosterHomeCubit extends Cubit<PosterHomeState> {
       emit(PosterHomeError("User not authenticated"));
       return;
     }
-print(' Profile received: ${user.uid}');
+//print(' Profile received: ${user.uid}');
     _profileSub = repository.streamUserProfile(user.uid).listen((profile) {
     //   print(' Profile received: $profile');
       if (profile == null) {

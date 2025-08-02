@@ -22,7 +22,7 @@ class PitchCard extends StatelessWidget {
       child: ListTile(
         title: Text(pitch.pitchText),
         subtitle: Text(
-          '${pitch.paymentType.name.toUpperCase()} • \$${pitch.budget}',
+          '${pitch.paymentType.name.toUpperCase()} • ₹${pitch.budget}',
         ),
         onTap: () {
           Navigator.pop(context);

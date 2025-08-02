@@ -10,8 +10,9 @@ class PitchRepository {
     try {
       await _firestore
           .collection('pitches')
-          .add(pitch.toJson()); // auto-generated doc ID
-      print(" Pitch saved to Firestore");
+          .doc(pitch.id)
+          .set(pitch.toJson()); 
+    //  print(" Pitch saved to Firestore");
     } catch (e) {
       print(" Error saving pitch: $e");
       throw Exception("Failed to submit pitch");
