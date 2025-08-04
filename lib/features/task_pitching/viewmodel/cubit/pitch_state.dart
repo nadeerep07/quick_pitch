@@ -25,3 +25,11 @@ class PitchFailure extends PitchState {
   @override
   List<Object?> get props => [error];
 }
+
+class PitchListSuccess extends PitchState {
+  final List<PitchModel> pitches;
+  PitchListSuccess(this.pitches);
+
+  @override
+  List<Object?> get props => [pitches];
+}

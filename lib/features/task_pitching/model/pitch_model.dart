@@ -11,6 +11,8 @@ class PitchModel {
   final PaymentType paymentType;
   final DateTime createdAt;
   final String status;
+   final String? posterName;
+  final String? posterImage;
 
   PitchModel({
     required this.id,
@@ -23,6 +25,8 @@ class PitchModel {
     required this.paymentType,
     required this.createdAt,
     this.status = 'pending',
+    this.posterName,
+    this.posterImage
   });
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +40,8 @@ class PitchModel {
     'paymentType': paymentType.name,
     'createdAt': createdAt.toIso8601String(),
     'status': status,
+      'posterName': posterName,
+        'posterImage': posterImage,
   };
 
   factory PitchModel.fromJson(Map<String, dynamic> json) {
@@ -53,6 +59,8 @@ class PitchModel {
       ),
       createdAt: DateTime.parse(json['createdAt']),
       status: json['status'] ?? 'pending',
+       posterName: json['posterName'],
+      posterImage: json['posterImage'],
     );
   }
 }

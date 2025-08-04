@@ -15,9 +15,13 @@ class PitchesTab extends StatelessWidget {
         if (state is PitchesLoading) {
           return const LoadingWidget();
         } else if (state is PitchesError) {
-          return ErrorWidget( state.message);
+          return ErrorWidget(state.message);
         } else if (state is PitchesLoaded) {
-          return PitchesContent(groupedPitches: state.groupedPitches);
+          final pending = state.pending;
+          if (pending.isEmpty) {
+            return Center(child: Text("No Pitches Avaialable"));
+          }
+          return PitchesContent(groupedPitches: pending);
         }
         return const SizedBox.shrink();
       },

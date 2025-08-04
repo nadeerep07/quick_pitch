@@ -59,7 +59,60 @@ Future<List<Map<String, dynamic>>> getPitchesGroupedByTask() async {
   }
 }
 
+  Future<List<PitchModel>> fetchFixerPitches(String fixerId) async {
+    try {
+      final snapshot = await _firestore
+          .collection('pitches')
+          .where('fixerId', isEqualTo: fixerId)
+          .get();
 
+      List<PitchModel> pitches = [];
+
+      for (var doc in snapshot.docs) {
+        final pitchData = doc.data();
+
+        // Step 1: fetch related task
+        final taskDoc = await _firestore
+            .collection('poster_tasks')
+            .doc(pitchData['taskId'])
+            .get();
+
+        String? posterName;
+        String? posterImage;
+
+        if (taskDoc.exists) {
+          final posterId = taskDoc['posterId'];
+
+          // Step 2: fetch poster details
+          final posterDoc = await _firestore
+              .collection('users')
+              .doc(posterId)
+              .collection('roles')
+              .doc('poster')
+              .get();
+
+          if (posterDoc.exists) {
+            posterName = posterDoc['name'];
+            posterImage = posterDoc['profileImageUrl'];
+          }
+        }
+
+        // Step 3: build PitchModel with poster info
+        pitches.add(
+          PitchModel.fromJson({
+            ...pitchData,
+            'id': doc.id,
+            'posterName': posterName,
+            'posterImage': posterImage,
+          }),
+        );
+      }
+
+      return pitches;
+    } catch (e) {
+      throw Exception('Error fetching fixer pitches: $e');
+    }
+  }
 
   /// Get live updates for a task
   Stream<List<PitchModel>> getPitchesForTask(String taskId) {

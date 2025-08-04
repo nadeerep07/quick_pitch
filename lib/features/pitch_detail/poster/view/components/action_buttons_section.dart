@@ -27,15 +27,20 @@ class ActionButtonsSection extends StatelessWidget {
       await showLottieConfirmation(
         context,
         message: "Pitch Accepted 🎉",
-        animationPath: 'assets/animations/application completed.json',
+        animationPath: 'assets/animations/contract.json',
+        closeAfter: Duration(seconds: 1),
+
       );
+       Navigator.pop(context);
     } catch (e) {
       print(e);
       await showLottieConfirmation(
         context,
-        message: "Failed to accept pitch ",
-        animationPath: 'assets/animations/error.json',
+        message: "Already Assigned ",
+        animationPath: 'assets/animations/No file found.json',
+        closeAfter: Duration(seconds: 1),
       );
+     Navigator.pop(context);
     }
   },),
         ),

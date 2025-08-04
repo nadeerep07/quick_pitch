@@ -22,7 +22,7 @@ class _RequestsScreenState extends State<RequestsScreen>
   @override
   void initState() {
     super.initState();
-    context.read<PitchesCubit>().loadPitches();
+    context.read<PitchesCubit>().listenToPitches();
     _tabController = TabController(length: 3, vsync: this);
   }
 

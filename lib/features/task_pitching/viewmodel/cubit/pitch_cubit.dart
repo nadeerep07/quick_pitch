@@ -17,4 +17,15 @@ class PitchCubit extends Cubit<PitchState> {
       emit(PitchFailure(e.toString()));
     }
   }
+    Future<List<PitchModel>> fetchFixerPitches(String fixerId) async {
+    emit(PitchSubmitting());
+    try {
+      final pitches = await repository.fetchFixerPitches(fixerId);
+      emit(PitchListSuccess(pitches));
+      return pitches;
+    } catch (e) {
+      emit(PitchFailure(e.toString()));
+      throw Exception(e.toString());
+    }
+  }
 }

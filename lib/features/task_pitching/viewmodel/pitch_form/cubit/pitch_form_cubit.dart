@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -10,9 +11,9 @@ enum PaymentType { fixed, hourly }
 
 class PitchFormCubit extends Cubit<PitchFormState> {
   final PitchCubit pitchCubit;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  PitchFormCubit({required this.pitchCubit}) : super(const PitchFormState());
-
+  PitchFormCubit({required this.pitchCubit,}) : super(const PitchFormState());
   void changePaymentType(PaymentType type) {
     emit(state.copyWith(paymentType: type));
   }
@@ -57,4 +58,22 @@ class PitchFormCubit extends Cubit<PitchFormState> {
       emit(state.copyWith(isSubmitting: false, error: e.toString()));
     }
   }
+   Future<void> fetchFixerPitches(String fixerId) async {
+    try {
+      emit(state.copyWith(isSubmitting: true, error: null));
+
+      final pitches = await pitchCubit.fetchFixerPitches(fixerId);
+
+      emit(state.copyWith(isSubmitting: false, pitches: pitches));
+    } catch (e) {
+      emit(state.copyWith(
+        isSubmitting: false,
+        error: e.toString(),
+      ));
+    }
+  }
+void changeFilter(String filter) {
+  emit(state.copyWith(selectedFilter: filter));
+}
+
 }

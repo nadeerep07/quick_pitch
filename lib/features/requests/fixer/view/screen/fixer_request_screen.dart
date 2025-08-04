@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/requests/fixer/view/screen/hire_requests_tab.dart';
-import 'package:quick_pitch_app/features/requests/fixer/view/screen/pitch_status_tab.dart';
+import 'package:quick_pitch_app/features/requests/fixer/view/screen/fixer_pitch_status_tab.dart';
 
 class FixerRequestScreen extends StatefulWidget {
   const FixerRequestScreen({super.key});
@@ -46,7 +46,7 @@ class _FixerRequestScreenState extends State<FixerRequestScreen>
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
-                  children: const [PitchStatusTab(), HireRequestsTab()],
+                  children: const [FixerPitchStatusTab(), HireRequestsTab()],
                 ),
               ),
             ],

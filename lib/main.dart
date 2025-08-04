@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +51,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    
-final fixerRepository = FixerRepository();
     final authRepository = AuthRepository();
     return MultiBlocProvider(
       providers: [
@@ -86,7 +86,7 @@ final fixerRepository = FixerRepository();
         BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
         BlocProvider(create: (_)=> PitchCubit(PitchRepository())),
             BlocProvider(create: (_) => PitchFormCubit(pitchCubit: PitchCubit(PitchRepository()))),
-            BlocProvider(create: (_)=> PitchesCubit()..loadPitches(),)
+            BlocProvider(create: (_)=> PitchesCubit())
 
       ],
       child: MaterialApp(
