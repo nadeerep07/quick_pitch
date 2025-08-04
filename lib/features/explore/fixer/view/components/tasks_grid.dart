@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/explore_shimmer_loading.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/fixer_explore_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -93,7 +92,7 @@ class _TasksGridState extends State<TasksGrid> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -117,7 +116,7 @@ class _TasksGridState extends State<TasksGrid> {
               child: Container(
                 height: responsive.hp(15),
                 width: double.infinity,
-                color: accentColor.withOpacity(0.1),
+                color: accentColor.withValues(alpha: 0.1),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -140,7 +139,7 @@ class _TasksGridState extends State<TasksGrid> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
+                          color: Colors.black.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(

@@ -3,7 +3,6 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/fixer_pitches_section.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_helper.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class TaskPitchCard extends StatelessWidget {
@@ -27,7 +26,7 @@ class TaskPitchCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(res.wp(4)),
       ),
-      color: colorScheme.surface.withOpacity(0.9),
+      color: colorScheme.surface.withValues(alpha: .9),
       child: ExpansionTile(
         title: Text(
           task.title,

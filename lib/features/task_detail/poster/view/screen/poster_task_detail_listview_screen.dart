@@ -43,10 +43,10 @@ class PosterTaskDetailBody extends StatelessWidget {
           BlocBuilder<PosterHomeCubit, PosterHomeState>(
             builder: (context, homeState) {
                 if (homeState is PosterHomeLoading) {
-                return BuildShimmerLoading(context);
+                return buildShimmerLoading(context);
               }
               if (homeState is! PosterHomeLoaded) {
-                return BuildShimmerLoading(context);
+                return buildShimmerLoading(context);
               }
 
               return BlocBuilder<TaskFilterCubit, TaskFilterState>(

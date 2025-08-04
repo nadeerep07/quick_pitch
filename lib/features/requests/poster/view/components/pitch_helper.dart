@@ -5,10 +5,8 @@ class PitchHelper {
     final Map<String, List<PitchModel>> result = {};
     
     for (final pitch in pitches) {
-      if (pitch.fixerId != null) {
-        result.putIfAbsent(pitch.fixerId!, () => []).add(pitch);
-      }
-    }
+      result.putIfAbsent(pitch.fixerId, () => []).add(pitch);
+        }
     
     return result;
   }

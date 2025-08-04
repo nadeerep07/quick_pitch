@@ -8,7 +8,7 @@ class PaymentTypeCard extends StatelessWidget {
   final VoidCallback onTap;
   final Responsive res;
 
-  const PaymentTypeCard({
+  const PaymentTypeCard({super.key, 
     required this.icon,
     required this.title,
     required this.isSelected,
@@ -26,7 +26,7 @@ class PaymentTypeCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: res.hp(2), horizontal: res.wp(2)),
         decoration: BoxDecoration(
-          color: isSelected ? colorScheme.primary.withOpacity(0.1) : Colors.transparent,
+          color: isSelected ? colorScheme.primary.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(res.wp(3)),
           border: Border.all(
             color: isSelected ? colorScheme.primary : Colors.transparent,
@@ -38,7 +38,7 @@ class PaymentTypeCard extends StatelessWidget {
             Icon(
               icon,
               size: res.wp(7),
-              color: isSelected ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.6),
+              color: isSelected ? colorScheme.primary : colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             SizedBox(height: res.hp(1)),
             Text(

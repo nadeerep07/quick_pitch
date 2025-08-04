@@ -3,7 +3,6 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/dialog_helper.dart' show DialogHelper;
 import 'package:quick_pitch_app/features/requests/poster/view/components/fixer_avatar.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class FixerAvatarsRow extends StatelessWidget {
@@ -11,7 +10,7 @@ class FixerAvatarsRow extends StatelessWidget {
   final TaskPostModel task;
   static const int maxVisibleAvatars = 4;
 
-  const FixerAvatarsRow({
+  const FixerAvatarsRow({super.key, 
     required this.fixerPitches,
     required this.task,
   });

@@ -5,7 +5,6 @@ import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart'
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/avatar_container.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/dialog_helper.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
@@ -14,7 +13,7 @@ class FixerAvatar extends StatelessWidget {
   final PitchModel pitch;
   final TaskPostModel task;
 
-  const FixerAvatar({
+  const FixerAvatar({super.key, 
     required this.fixerId,
     required this.pitch,
     required this.task,

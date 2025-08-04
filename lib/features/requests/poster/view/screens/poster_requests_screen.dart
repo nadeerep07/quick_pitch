@@ -76,7 +76,7 @@ class _RequestsScreenState extends State<RequestsScreen>
         controller: _tabController,
         indicatorColor: colorScheme.primary,
         labelColor: colorScheme.primary,
-        unselectedLabelColor: colorScheme.onSurface.withOpacity(0.6),
+        unselectedLabelColor: colorScheme.onSurface.withValues(alpha: 0.6),
         tabs: const [
           Tab(text: "Pitches"),
           Tab(text: "Assigned"),

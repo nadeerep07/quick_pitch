@@ -59,7 +59,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
       emit(SkillSelectionUpdated(selectedSkills));
     } catch (e) {
-      print("Error loading skills: $e");
+   //   print("Error loading skills: $e");
       emit(CompleteProfileError("Failed to load skills: ${e.toString()}"));
     }
   }
@@ -105,7 +105,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       final image = await ImagePickerHelper.pickImageFromGallery();
       if (image != null) setProfileImage(image);
     } catch (e) {
-      print("Error picking profile image: $e");
+    //  print("Error picking profile image: $e");
       emit(CompleteProfileError("Failed to pick image"));
     }
   }
@@ -118,7 +118,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
         certificationController.text = cert.path.split('/').last;
       }
     } catch (e) {
-      print("Error picking certification file: $e");
+ //     print("Error picking certification file: $e");
       emit(CompleteProfileError("Failed to pick certification file"));
     }
   }
@@ -130,7 +130,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       );
       locationController.text = location;
     } catch (e) {
-      print("Error getting location: $e");
+ //     print("Error getting location: $e");
       emit(CompleteProfileError("Failed to get current location"));
     }
   }
@@ -223,7 +223,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
       //  print("Profile saved successfully: $model");
       emit(CompleteProfileSuccess());
     } catch (e) {
-      print("Error saving profile: $e");
+  //    print("Error saving profile: $e");
       String errorMessage = "Failed to save profile";
 
       if (e.toString().contains('TimeoutException')) {
@@ -301,7 +301,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
       emit(CompleteProfileLoaded());
     } catch (e) {
-      print("Error loading profile data: $e");
+     // print("Error loading profile data: $e");
       String errorMessage = "Failed to load profile data";
 
       if (e.toString().contains('TimeoutException')) {

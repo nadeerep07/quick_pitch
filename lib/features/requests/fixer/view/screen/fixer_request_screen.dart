@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
@@ -73,7 +71,7 @@ class _FixerRequestScreenState extends State<FixerRequestScreen>
         controller: _tabController,
         indicatorColor: colorScheme.primary,
         labelColor: colorScheme.primary,
-        unselectedLabelColor: colorScheme.onSurface.withOpacity(0.6),
+        unselectedLabelColor: colorScheme.onSurface.withValues(alpha: .6),
         tabs: const [Tab(text: "Pitch Status"), Tab(text: "Hire Requests")],
       ),
     );

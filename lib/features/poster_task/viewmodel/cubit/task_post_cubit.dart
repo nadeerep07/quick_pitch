@@ -178,7 +178,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
       if (existingTask != null) {
         await repository.updateTask(task);
       } else {
-        print('task posted ${task.posterId}');
+     //   print('task posted ${task.posterId}');
         await repository.postTask(task);
       }
 

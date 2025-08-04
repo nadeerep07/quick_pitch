@@ -69,7 +69,7 @@ class HireRequestsTab extends StatelessWidget {
                   borderRadius: BorderRadius.circular(res.wp(3)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -121,7 +121,7 @@ class HireRequestsTab extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: _getStatusColor(
                                 request['status'],
-                              ).withOpacity(0.2),
+                              ).withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
@@ -157,7 +157,7 @@ class HireRequestsTab extends StatelessWidget {
                               vertical: res.wp(1.5),
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryColor.withOpacity(0.1),
+                              color: AppColors.primaryColor.withValues(alpha: .1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(

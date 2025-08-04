@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/fixer_list_item.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class AllFixersDialog extends StatelessWidget {
   final Map<String, List<PitchModel>> fixerPitches;
   final TaskPostModel task;
 
-  const AllFixersDialog({
+  const AllFixersDialog({super.key, 
     required this.fixerPitches,
     required this.task,
   });
@@ -20,7 +19,7 @@ class AllFixersDialog extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Dialog(
-      backgroundColor: colorScheme.surface.withOpacity(0.95),
+      backgroundColor: colorScheme.surface.withValues(alpha: .95),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(res.wp(4)),
       ),

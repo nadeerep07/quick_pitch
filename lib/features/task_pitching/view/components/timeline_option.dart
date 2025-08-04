@@ -33,7 +33,7 @@ class TimelineOption extends StatelessWidget {
             Icon(
               icon,
               size: res.wp(5),
-              color: isSelected ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.6),
+              color: isSelected ? colorScheme.primary : colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             SizedBox(width: res.wp(3)),
             Text(

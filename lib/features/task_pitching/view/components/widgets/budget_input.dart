@@ -31,7 +31,7 @@ class BudgetInput extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.currency_rupee,
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
               size: res.wp(5),
             ),
             hintText: formState.paymentType == PaymentType.fixed 
@@ -40,7 +40,7 @@ class BudgetInput extends StatelessWidget {
             hintStyle: TextStyle(fontSize: res.sp(14)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(res.wp(3)),
-              borderSide: BorderSide(color: colorScheme.outline.withOpacity(0.3)),
+              borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.3)),
             ),
             filled: true,
             fillColor: colorScheme.surface,
@@ -52,7 +52,7 @@ class BudgetInput extends StatelessWidget {
                 ? 'Suggested Range: ₹${minBudget.toStringAsFixed(0)} - \$${maxBudget.toStringAsFixed(0)}'
                 : 'Example: ₹100/hour',
             helperStyle: TextStyle(
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
               fontSize: res.sp(12),
             ),
           ),

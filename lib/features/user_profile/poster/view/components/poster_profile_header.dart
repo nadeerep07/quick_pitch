@@ -51,7 +51,7 @@ class PosterProfileHeader extends StatelessWidget {
             vertical: res.hp(0.5),
           ),
           decoration: BoxDecoration(
-            color: colorScheme.primary.withOpacity(0.1),
+            color: colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
           ),
       

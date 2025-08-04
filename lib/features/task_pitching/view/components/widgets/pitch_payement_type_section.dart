@@ -30,7 +30,7 @@ class PitchPayementTypeSection extends StatelessWidget {
           builder: (context, formState) {
             return Container(
               decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(res.wp(3)),
               ),
               child: Row(

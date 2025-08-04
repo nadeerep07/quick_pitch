@@ -171,7 +171,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                         builder: (context, state) {
                           if (state is RoleSwitchLoading) {
                             return Container(
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withValues(alpha: 0.5),
                               alignment: Alignment.center,
                               child: const CircularProgressIndicator(
                                 color: Colors.white,

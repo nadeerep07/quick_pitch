@@ -23,9 +23,9 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
       final maxBudget = budgets.reduce((a, b) => a > b ? a : b);
       final locationCounts = <String, int>{};
       for (var task in tasks) {
-        if (task.location != null && task.location!.isNotEmpty) {
-          locationCounts[task.location!] =
-              (locationCounts[task.location!] ?? 0) + 1;
+        if (task.location.isNotEmpty) {
+          locationCounts[task.location] =
+              (locationCounts[task.location] ?? 0) + 1;
         }
       }
       final popularLocations =
@@ -263,7 +263,7 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
     if (state.selectedLocation != null && state.selectedLocation!.isNotEmpty) {
       filtered =
           filtered.where((task) {
-            final taskLocation = task.location?.toLowerCase() ?? '';
+            final taskLocation = task.location.toLowerCase() ;
             final selectedLocation = state.selectedLocation!.toLowerCase();
 
             final matches = taskLocation.contains(selectedLocation);

@@ -27,14 +27,14 @@ class HoursInput extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.timer_outlined,
-              color: colorScheme.onSurface.withOpacity(0.6),
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
               size: res.wp(5),
             ),
             hintText: 'Enter estimated hours',
             hintStyle: TextStyle(fontSize: res.sp(14)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(res.wp(3)),
-              borderSide: BorderSide(color: colorScheme.outline.withOpacity(0.3)),
+              borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.3)),
             ),
             filled: true,
             fillColor: colorScheme.surface,

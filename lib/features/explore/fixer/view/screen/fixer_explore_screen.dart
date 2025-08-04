@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/fixer/repository/fixer_explore_repository.dart';
@@ -10,8 +8,6 @@ import 'package:quick_pitch_app/features/explore/fixer/view/components/active_fi
 import 'package:quick_pitch_app/features/explore/fixer/view/components/filter_chips.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/tasks_grid.dart';
 import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/fixer_explore_cubit.dart';
-import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
-import 'package:quick_pitch_app/features/task_detail/fixer/view/screen/fixer_side_detail_screen.dart';
 
 class FixerExploreScreen extends StatelessWidget {
   const FixerExploreScreen({super.key});
@@ -83,7 +79,7 @@ class _FixerExploreView extends StatelessWidget {
 }
 
 class SearchBar extends StatefulWidget {
-  const SearchBar();
+  const SearchBar({super.key});
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -123,7 +119,7 @@ class _SearchBarState extends State<SearchBar> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             spreadRadius: 1,
           ),

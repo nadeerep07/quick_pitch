@@ -113,7 +113,7 @@ class PitchesCubit extends Cubit<PitchesState> {
       }
       return null;
     } catch (e) {
-      print("Error fetching fixer details: $e");
+     // print("Error fetching fixer details: $e");
       return null;
     }
   }

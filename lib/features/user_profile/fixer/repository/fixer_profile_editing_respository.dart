@@ -45,7 +45,7 @@ final data = fixerRoleDoc.data();
 
     final fixerSkillCategories =
     List<String>.from(data?['fixerData']?['skills'] ?? []);
-    print(fixerSkillCategories);
+   // print(fixerSkillCategories);
     return fixerSkillCategories;
   }
 

@@ -35,7 +35,7 @@ class ActiveFilters extends StatelessWidget {
                       state.maxBudget,
                     ),
                 deleteIcon: const Icon(Icons.close, size: 16),
-                backgroundColor: const Color(0xFF4E5AF2).withOpacity(0.1),
+                backgroundColor: const Color(0xFF4E5AF2).withValues(alpha: 0.1),
               ),
             if (state.selectedSkills.isNotEmpty)
               ...state.selectedSkills.map(
@@ -43,7 +43,7 @@ class ActiveFilters extends StatelessWidget {
                   label: Text(skill),
                   onDeleted: () => cubit.toggleSkill(skill),
                   deleteIcon: const Icon(Icons.close, size: 16),
-                  backgroundColor: const Color(0xFF4E5AF2).withOpacity(0.1),
+                  backgroundColor: const Color(0xFF4E5AF2).withValues(alpha: 0.1),
                 ),
               ),
           ],

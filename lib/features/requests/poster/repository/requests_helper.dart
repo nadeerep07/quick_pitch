@@ -4,11 +4,9 @@ class RequestsHelper {
   static Map<String, List<PitchModel>> groupPitchesByFixer(List<PitchModel> pitches) {
     final Map<String, List<PitchModel>> result = {};
     for (final pitch in pitches) {
-      if (pitch.fixerId != null) {
-        result.putIfAbsent(pitch.fixerId!, () => []);
-        result[pitch.fixerId!]!.add(pitch);
-      }
-    }
+      result.putIfAbsent(pitch.fixerId, () => []);
+      result[pitch.fixerId]!.add(pitch);
+        }
     return result;
   }
 }

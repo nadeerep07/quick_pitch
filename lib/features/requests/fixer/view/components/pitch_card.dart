@@ -23,7 +23,7 @@ class PitchCard extends StatelessWidget {
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: theme.dividerColor.withOpacity(0.1),
+          color: theme.dividerColor.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -54,7 +54,7 @@ class PitchCard extends StatelessWidget {
                     'Submitted ${_formatDate(pitch.createdAt.toIso8601String())}',
                     style: TextStyle(
                       fontSize: res.sp(12),
-                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
@@ -66,7 +66,7 @@ class PitchCard extends StatelessWidget {
                   vertical: res.wp(1),
                 ),
                 decoration: BoxDecoration(
-                  color: _getStatusColor(pitch.status).withOpacity(0.1),
+                  color: _getStatusColor(pitch.status).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -105,7 +105,7 @@ class PitchCard extends StatelessWidget {
                 "Timeline: ${pitch.timeline}",
                 style: TextStyle(
                   fontSize: res.sp(12),
-                  color: theme.colorScheme.onSurface.withOpacity(0.7),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ],

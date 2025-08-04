@@ -66,7 +66,7 @@ class FixerBottomNavContent extends StatelessWidget {
             arguments: 'poster',
           );
         } else if (state is RoleSwitchError) {
-          print('[UI] Role switch error: ${state.message}');
+     //     print('[UI] Role switch error: ${state.message}');
         }
       },
       child: BlocBuilder<PosterBottomNavCubit, int>(

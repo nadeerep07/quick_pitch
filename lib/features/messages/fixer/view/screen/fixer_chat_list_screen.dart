@@ -212,12 +212,12 @@ class FixerChatListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: const Icon(Icons.message),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
+        child: const Icon(Icons.message),
       ),
     );
   }

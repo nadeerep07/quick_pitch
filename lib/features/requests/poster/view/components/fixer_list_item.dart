@@ -13,7 +13,7 @@ class FixerListItem extends StatelessWidget {
   final List<PitchModel> pitches;
   final TaskPostModel task;
 
-  const FixerListItem({
+  const FixerListItem({super.key, 
     required this.fixerId,
     required this.pitches,
     required this.task,

@@ -78,7 +78,7 @@ class PitchStatusChips extends StatelessWidget {
               radius: res.wp(2.5),
               backgroundColor: isActive
                   ? Colors.white
-                  : theme.primaryColor.withOpacity(0.1),
+                  : theme.primaryColor.withValues(alpha: 0.1),
               child: Text(
                 count.toString(),
                 style: TextStyle(

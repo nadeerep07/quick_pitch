@@ -51,7 +51,7 @@ class PitchFormCubit extends Cubit<PitchFormState> {
         fixerId: currentUser.uid,
         createdAt: DateTime.now(),
       );
-      print(pitch.id);
+    //  print(pitch.id);
       await pitchCubit.submitPitch(pitch);
       emit(state.copyWith(isSubmitting: false, success: true));
     } catch (e) {

@@ -29,7 +29,7 @@ class PitchTaskDetails extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: res.wp(2.5),
             offset: Offset(0, res.hp(0.5)),
           ),
@@ -49,7 +49,7 @@ class PitchTaskDetails extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontSize: res.sp(12),
                     fontWeight: FontWeight.bold,
-                    color: colorScheme.onPrimaryContainer.withOpacity(0.8),
+                    color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
                     letterSpacing: 1.2,
                   ),
                 ),
@@ -69,7 +69,7 @@ class PitchTaskDetails extends StatelessWidget {
               widget.taskData.description,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontSize: res.sp(14),
-                color: colorScheme.onPrimaryContainer.withOpacity(0.9),
+                color: colorScheme.onPrimaryContainer.withValues(alpha: 0.9),
               ),
             ),
             SizedBox(height: res.hp(2)),

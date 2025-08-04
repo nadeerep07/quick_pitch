@@ -14,7 +14,7 @@ class PitchRepository {
           .set(pitch.toJson()); 
     //  print(" Pitch saved to Firestore");
     } catch (e) {
-      print(" Error saving pitch: $e");
+   //   print(" Error saving pitch: $e");
       throw Exception("Failed to submit pitch");
     }
   }
@@ -54,7 +54,7 @@ Future<List<Map<String, dynamic>>> getPitchesGroupedByTask() async {
 
     return result;
   } catch (e) {
-    print("Error fetching grouped pitches: $e");
+  //  print("Error fetching grouped pitches: $e");
     throw Exception("Failed to fetch grouped pitches");
   }
 }

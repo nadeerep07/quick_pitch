@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/loading_widget.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/pitches_content.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 
 class PitchesTab extends StatelessWidget {

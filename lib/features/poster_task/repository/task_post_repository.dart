@@ -55,7 +55,7 @@ Future<void> deleteTask(String taskId) async {
       return TaskPostModel.fromMap(doc.data());
     }).toList();
   } catch (e) {
-    print('Error fetching tasks: $e');
+  //  print('Error fetching tasks: $e');
     return [];
   }
 }

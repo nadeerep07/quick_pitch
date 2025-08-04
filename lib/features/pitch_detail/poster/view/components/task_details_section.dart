@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/detail_row.dart';
-import 'package:quick_pitch_app/features/pitch_detail/poster/view/screen/pitch_detail_screen.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
 /// Task Details Section
@@ -19,7 +18,7 @@ class TaskDetailsSection extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(res.wp(4)),
       ),
-      color: colorScheme.surface.withOpacity(0.9),
+      color: colorScheme.surface.withValues(alpha: 0.9),
       child: Padding(
         padding: EdgeInsets.all(res.wp(4)),
         child: Column(

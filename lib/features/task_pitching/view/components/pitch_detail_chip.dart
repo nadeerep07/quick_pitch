@@ -7,7 +7,7 @@ class DetailChip extends StatelessWidget {
   final Color color;
   final Responsive res;
 
-  const DetailChip({
+  const DetailChip({super.key, 
     required this.icon,
     required this.text,
     required this.color,
@@ -19,7 +19,7 @@ class DetailChip extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: res.hp(0.8), horizontal: res.wp(2.5)),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(res.wp(5)),
       ),
       child: Row(

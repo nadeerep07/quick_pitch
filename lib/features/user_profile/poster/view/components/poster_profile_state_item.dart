@@ -25,7 +25,7 @@ class PosterProfileStateItem extends StatelessWidget {
           padding: EdgeInsets.all(res.wp(3)),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: colorScheme.primary.withOpacity(0.1),
+            color: colorScheme.primary.withValues(alpha: 0.1),
           ),
           child: Icon(icon, size: res.sp(18), color: colorScheme.primary),
         ),
@@ -43,7 +43,7 @@ class PosterProfileStateItem extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: res.sp(12),
-            color: colorScheme.onSurface.withOpacity(0.6),
+            color: colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
       ],

@@ -68,7 +68,7 @@ class FixerRepository {
 
   Future<UserProfileModel> fetchFixerProfile() async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    print('[FixerRepo] Fetching profile for UID: $uid');
+  //  print('[FixerRepo] Fetching profile for UID: $uid');
 
     if (uid == null) throw Exception("Fixer not logged in");
 
@@ -81,7 +81,7 @@ class FixerRepository {
             .get();
 
     if (!fixerDoc.exists) {
-      print('[FixerRepo] Fixer profile not found!');
+   //   print('[FixerRepo] Fixer profile not found!');
       throw Exception("Fixer profile not found");
     }
 

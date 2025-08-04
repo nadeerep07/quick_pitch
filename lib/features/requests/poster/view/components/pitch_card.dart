@@ -8,7 +8,7 @@ class PitchCard extends StatelessWidget {
   final PitchModel pitch;
   final TaskPostModel task;
 
-  const PitchCard({
+  const PitchCard({super.key, 
     required this.pitch,
     required this.task,
   });

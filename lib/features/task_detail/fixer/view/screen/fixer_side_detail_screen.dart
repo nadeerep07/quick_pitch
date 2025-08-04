@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/view/components/fixer_poster_section.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/view/components/fixer_skills_section.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/view/components/fixer_task_overview_section.dart';
-import 'package:quick_pitch_app/features/task_detail/fixer/view/components/send-pitch_button.dart';
+import 'package:quick_pitch_app/features/task_detail/fixer/view/components/send_pitch_button.dart';
 import 'package:quick_pitch_app/features/task_detail/fixer/viewmodel/cubit/fixer_detail_cubit.dart';
 
 class FixerSideDetailScreen extends StatelessWidget {

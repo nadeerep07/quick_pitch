@@ -16,7 +16,7 @@ class PosterProfileDivider extends StatelessWidget {
     return Container(
       height: res.hp(6),
       width: 1,
-      color: colorScheme.outline.withOpacity(0.2),
+      color: colorScheme.outline.withValues(alpha: 0.2),
     );
   }
 }

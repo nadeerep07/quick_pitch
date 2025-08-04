@@ -19,7 +19,7 @@ class PitchInput extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: res.wp(2.5),
             offset: Offset(0, res.hp(0.5)),
           ),
@@ -32,7 +32,7 @@ class PitchInput extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Explain why you\'re the best fit for this task...',
           hintStyle: TextStyle(
-            color: colorScheme.onSurface.withOpacity(0.5),
+            color: colorScheme.onSurface.withValues(alpha: 0.5),
             fontSize: res.sp(14),
           ),
           border: OutlineInputBorder(

@@ -75,7 +75,7 @@ Future<UserProfileModel?> getProfile(String uid, String role) async {
     final place = placemarks.first;
     final locationText =
         '${place.locality}, ${place.administrativeArea}, ${place.country}';
-    print("[DEBUG] Final location: $locationText");
+ //   print("[DEBUG] Final location: $locationText");
 
     return locationText;
   } catch (e) {

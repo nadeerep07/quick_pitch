@@ -5,7 +5,6 @@ import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart'
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/avatar_container.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_card.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/screens/poster_requests_screen.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class FixerPitchesDialog extends StatelessWidget {
@@ -13,7 +12,7 @@ class FixerPitchesDialog extends StatelessWidget {
   final List<PitchModel> pitches;
   final TaskPostModel task;
 
-  const FixerPitchesDialog({
+  const FixerPitchesDialog({super.key, 
     required this.fixer,
     required this.pitches,
     required this.task,
@@ -25,7 +24,7 @@ class FixerPitchesDialog extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Dialog(
-      backgroundColor: colorScheme.surface.withOpacity(0.95),
+      backgroundColor: colorScheme.surface.withValues(alpha: .95),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(res.wp(4)),
       ),

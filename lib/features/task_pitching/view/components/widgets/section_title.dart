@@ -22,7 +22,7 @@ class SectionTitle extends StatelessWidget {
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
         fontSize: res.sp(12),
         fontWeight: FontWeight.bold,
-        color: colorScheme.onSurface.withOpacity(0.6),
+        color: colorScheme.onSurface.withValues(alpha: 0.6),
         letterSpacing: 1.2,
       ),
     );

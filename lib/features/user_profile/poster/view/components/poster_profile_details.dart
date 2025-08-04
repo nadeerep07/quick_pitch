@@ -26,7 +26,7 @@ class PosterProfileDetails extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
+            color: Colors.grey.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -52,12 +52,12 @@ class PosterProfileDetails extends StatelessWidget {
           Text(
             profile.posterData?.bio ?? 'No bio added',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.8),
+              color: colorScheme.onSurface.withValues(alpha: 0.8),
               height: 1.5,
             ),
           ),
           SizedBox(height: res.hp(3)),
-          Divider(height: 1, color: colorScheme.outline.withOpacity(0.3)),
+          Divider(height: 1, color: colorScheme.outline.withValues(alpha: 0.3)),
           SizedBox(height: res.hp(3)),
           Row(
             children: [

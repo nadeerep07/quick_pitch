@@ -7,7 +7,7 @@ class AvatarContainer extends StatelessWidget {
   final UserProfileModel? fixer;
   final double size;
 
-  const AvatarContainer({
+  const AvatarContainer({super.key, 
     required this.fixer,
     required this.size,
   });
@@ -34,7 +34,7 @@ class AvatarContainer extends StatelessWidget {
             : null,
         child: fixer?.profileImageUrl == null
             ? Text(
-                fixer?.name?.substring(0, 1) ?? "?",
+                fixer?.name.substring(0, 1) ?? "?",
                 style: TextStyle(fontSize: res.sp(16)),
               )
             : null,

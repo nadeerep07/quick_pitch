@@ -25,7 +25,7 @@ class FixerProfileSection extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(res.wp(4)),
           ),
-          color: colorScheme.surface.withOpacity(0.9),
+          color: colorScheme.surface.withValues(alpha: .9),
           child: Padding(
             padding: EdgeInsets.all(res.wp(4)),
             child: Row(
@@ -45,7 +45,7 @@ class FixerProfileSection extends StatelessWidget {
                         : null,
                     child: fixer?.profileImageUrl == null
                         ? Text(
-                            fixer?.name?.substring(0, 1) ?? "?",
+                            fixer?.name.substring(0, 1) ?? "?",
                             style: TextStyle(fontSize: res.sp(20)),
                           )
                         : null,

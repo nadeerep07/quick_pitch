@@ -19,7 +19,7 @@ class PitchTimeLineSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: colorScheme.surfaceVariant.withOpacity(0.3),
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(res.wp(3)),
       ),
       child: BlocBuilder<PitchFormCubit, PitchFormState>(

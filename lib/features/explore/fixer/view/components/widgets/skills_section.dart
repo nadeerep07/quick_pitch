@@ -30,7 +30,7 @@ class SkillsSection extends StatelessWidget {
                   onSelected: (_) {
                     context.read<FixerExploreCubit>().toggleSkill(skill);
                   },
-                  selectedColor: AppColors.primaryColor.withOpacity(0.2),
+                  selectedColor: AppColors.primaryColor.withValues(alpha: 0.2),
                   checkmarkColor: AppColors.primaryColor,
                 ),
               )
