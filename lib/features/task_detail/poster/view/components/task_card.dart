@@ -14,56 +14,88 @@ class DetailTaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
-    final imageUrl = task.imagesUrl?.isNotEmpty == true
-        ? task.imagesUrl!.first
-        : 'https://i.pravatar.cc/150?img=${index + 1}';
+    final imageUrl =
+        task.imagesUrl?.isNotEmpty == true
+            ? task.imagesUrl!.first
+            : 'https://i.pravatar.cc/150?img=${index + 1}';
 
     return Container(
       padding: EdgeInsets.all(res.wp(4)),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4))],
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
+        ],
       ),
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: FadeInImage.assetNetwork(placeholder: 'assets/images/image_placeholder.png',
-              image:imageUrl, width: res.wp(20), height: res.wp(20), fit: BoxFit.cover),
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/images/image_placeholder.png',
+              image: imageUrl,
+              width: res.wp(20),
+              height: res.wp(20),
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: res.wp(4)),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(task.title, style: TextStyle(fontSize: res.sp(14), fontWeight: FontWeight.bold)),
+                Text(
+                  task.title,
+                  style: TextStyle(
+                    fontSize: res.sp(14),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(height: res.hp(0.5)),
                 Text(
-                  task.assignedFixerName != null ? 'Fixer: ${task.assignedFixerName}' : 'No fixer assigned',
-                  style: TextStyle(fontSize: res.sp(12), color: Colors.grey[700]),
+                  task.assignedFixerName != null
+                      ? 'Fixer: ${task.assignedFixerName}'
+                      : 'No fixer assigned',
+                  style: TextStyle(
+                    fontSize: res.sp(12),
+                    color: Colors.grey[700],
+                  ),
                 ),
                 SizedBox(height: res.hp(0.8)),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: _statusColor(task.status),
-                    borderRadius: BorderRadius.circular(8),
+                    color: _statusColors(task.status).$2,
+                    borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
                     task.status.toUpperCase(),
-                    style: TextStyle(fontSize: res.sp(11), fontWeight: FontWeight.w600, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: res.sp(10),
+                      fontWeight: FontWeight.w600,
+                      color: _statusColors(task.status).$1,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: Icon(Icons.arrow_forward_ios, size: res.sp(16), color: Colors.blueAccent),
+            icon: Icon(
+              Icons.arrow_forward_ios,
+              size: res.sp(16),
+              color: Colors.blueAccent,
+            ),
             onPressed: () async {
               final result = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => PosterTaskDetailScreen(taskId: task.id)),
+                MaterialPageRoute(
+                  builder: (_) => PosterTaskDetailScreen(taskId: task.id),
+                ),
               );
               if (result == true && context.mounted) {
                 context.read<PosterHomeCubit>().streamPosterHomeData();
@@ -75,18 +107,28 @@ class DetailTaskCard extends StatelessWidget {
     );
   }
 
-  Color _statusColor(String status) {
+  /// Returns a tuple of (statusColor, statusBgColor)
+  (Color?, Color?) _statusColors(String status) {
+    late Color statusColor;
+    late Color statusBgColor;
+
     switch (status.toLowerCase()) {
-      case 'completed':
-        return Colors.green;
-      case 'in progress':
-        return Colors.orange;
       case 'pending':
-        return Colors.grey;
-      case 'rejected':
-        return Colors.red;
+        statusColor = const Color(0xFFF59E0B);
+        statusBgColor = const Color(0xFFFEF3C7);
+        break;
+      case 'assigned':
+        statusColor = const Color(0xFF3B82F6);
+        statusBgColor = const Color(0xFFEFF6FF);
+        break;
+      case 'completed':
+        statusColor = const Color(0xFF10B981);
+        statusBgColor = const Color(0xFFECFDF5);
+        break;
       default:
-        return Colors.blueGrey;
+        statusColor = const Color(0xFF64748B);
+        statusBgColor = const Color(0xFFF1F5F9);
     }
+    return (statusColor, statusBgColor);
   }
 }

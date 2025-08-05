@@ -1,79 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/screen/fixer_detail_screen.dart';
 
 class PosterHomeFixerCard extends StatelessWidget {
   const PosterHomeFixerCard({
     super.key,
+    required this.context,
     required this.res,
-    required this.name,
-    required this.skill,
-    required this.imageUrl,
+    required this.fixer,
   });
 
+  final BuildContext context;
   final Responsive res;
-  final String name;
-  final String skill;
-  final String imageUrl;
+  final dynamic fixer;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: res.wp(40),
-      margin: EdgeInsets.only(right: res.wp(4)),
-      padding: EdgeInsets.all(res.wp(4)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 12,
-            spreadRadius: 1,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => FixerDetailScreen(fixerData: fixer),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: CircleAvatar(
-              radius: res.wp(10),
-              backgroundColor: Colors.grey[200],
-              child: CircleAvatar(
-                radius: res.wp(9),
-                backgroundImage: NetworkImage(imageUrl),
+        ).then((shouldRefresh) {
+          if (shouldRefresh == true && context.mounted) {
+            context.read<PosterHomeCubit>().streamPosterHomeData();
+          }
+        });
+      },
+      child: Container(
+        width: res.wp(32),
+        padding: EdgeInsets.all(res.wp(3)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE2E8F0)),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x08000000),
+              blurRadius: 4,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            // Fixer Avatar
+            CircleAvatar(
+              radius: res.wp(6),
+              backgroundColor: const Color(0xFFF1F5F9),
+              backgroundImage: NetworkImage(
+                fixer.profileImageUrl ?? 'https://i.pravatar.cc/150?img=3',
               ),
+              child:
+                  fixer.profileImageUrl == null
+                      ? Icon(
+                        Icons.person,
+                        color: const Color(0xFF94A3B8),
+                        size: res.wp(6),
+                      )
+                      : null,
             ),
-          ),
-          SizedBox(height: res.hp(1.5)),
-          Text(
-            name,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: res.sp(14),
-            ),
-          ),
-          SizedBox(height: res.hp(0.5)),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: res.wp(2.5),
-              vertical: res.hp(0.5),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.blue.shade50,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Text(
-              skill,
+
+            SizedBox(height: res.hp(1)),
+
+            // Fixer Name
+            Text(
+              fixer.name,
               style: TextStyle(
-                fontSize: res.sp(11),
-                color: Colors.blue.shade700,
-                fontWeight: FontWeight.w500,
+                fontSize: res.sp(12),
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1E293B),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            SizedBox(height: res.hp(0.5)),
+
+            // Fixer Skill
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEFF6FF),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                fixer.fixerData?.skills?.first ?? 'General',
+                style: TextStyle(
+                  fontSize: res.sp(10),
+                  color: const Color(0xFF3B82F6),
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

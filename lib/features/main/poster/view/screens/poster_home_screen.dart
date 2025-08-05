@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_fixer_list.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_header.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_errorstate.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_fixer_section.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_quick_actions.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_shimmer.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_sumary_card.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_list.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_section.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_user_header.dart';
+import 'package:quick_pitch_app/features/main/poster/view/components/poster_homedash_board_state.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
+
 
 class PosterHomeScreen extends StatefulWidget {
   const PosterHomeScreen({super.key});
@@ -26,7 +28,6 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_hasInitialized) {
         _hasInitialized = true;
-    //    print(' Initializing PosterHomeScreen - calling streamPosterHomeData');
         context.read<PosterHomeCubit>().streamPosterHomeData();
       }
     });
@@ -44,66 +45,53 @@ class _PosterHomeScreenState extends State<PosterHomeScreen> {
           bottom: true,
           child: RefreshIndicator(
             onRefresh: () async {
-            //  print(' Refresh triggered');
               context.read<PosterHomeCubit>().streamPosterHomeData();
             },
             child: BlocBuilder<PosterHomeCubit, PosterHomeState>(
               builder: (context, state) {
-               // print('PosterHomeState changed: $state');
-                
                 if (state is PosterHomeLoading) {
-               //   print(' Showing shimmer loading...');
                   return const PosterHomeShimmer();
                 }
-                
+
                 if (state is PosterHomeLoaded) {
-                 // print('Showing loaded content with ${state.tasks.length} tasks and ${state.fixers.length} fixers');
-                  return ListView(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: res.wp(5),
-                      vertical: res.hp(2),
-                    ),
+                  return CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      PosterHomeHeader(res: res),
-                      const SizedBox(height: 20),
-                      const PosterHomeSummaryCard(),
-                      const SizedBox(height: 20),
-                      const PosterHomeTaskList(),
-                      const SizedBox(height: 20),
-                      const PosterHomeFixerList(),
-                      const SizedBox(height: 20),
-                      const PosterHomeQuickActions(),
+                    slivers: [
+                      // Professional App Bar
+                      SliverToBoxAdapter(
+                        child: PosterHomeUserHeader(context: context, res: res, state: state),
+                      ),
+
+                      // Dashboard Stats
+                      SliverToBoxAdapter(
+                        child: PosterHomedashBoardState(res: res, state: state),
+                      ),
+
+                      // Quick Actions
+                      SliverToBoxAdapter(
+                        child: PosterHomeQuickActions(res: res, context: context),
+                      ),
+
+                      // Recent Tasks Section
+                      SliverToBoxAdapter(
+                        child: PosterHomeTaskSection(res: res, state: state, context: context),
+                      ),
+
+                      // Recommended Fixers
+                      SliverToBoxAdapter(
+                        child: PosterHomeFixerSection(res: res, state: state, context: context),
+                      ),
+
+                      // Bottom padding
+                      const SliverToBoxAdapter(child: SizedBox(height: 50)),
                     ],
                   );
                 }
-                
+
                 if (state is PosterHomeError) {
-                 //  print(' Error state: ${state.message}');
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.error, size: 64, color: Colors.red),
-                        const SizedBox(height: 16),
-                        Text(
-                          "Error: ${state.message}",
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.read<PosterHomeCubit>().streamPosterHomeData();
-                          },
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  );
+                  return PosterHomeErrorstate(context: context, state: state);
                 }
-                
-              //   print(' Unknown state: $state');
+
                 return const Center(child: Text("Something went wrong!"));
               },
             ),

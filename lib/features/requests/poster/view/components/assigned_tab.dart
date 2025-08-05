@@ -30,15 +30,76 @@ class AssignedTab extends StatelessWidget {
               final task = assigned[index]['task'] as TaskPostModel;
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  title: Text(task.title),
-                  subtitle: Text(task.description),
-                  trailing: Text(
-                    task.status.toUpperCase(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              task.title,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color:  Colors.orange,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              task.status.toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        task.description,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      if (task.deadline != null) ...[
+                        _buildDetailRow(
+                          Icons.calendar_today,
+                          'Due Date: ${task.deadline!.toLocal().toString().split(' ')[0]}',
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      if (task.priority != null) ...[
+                        _buildDetailRow(
+                          Icons.priority_high,
+                          'Priority: ${task.priority}',
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      if (task.assignedFixerName != null) ...[
+                        _buildDetailRow(
+                          Icons.person,
+                          'Assigned to: ${task.assignedFixerName}',
+                        ),
+                      ],
+                    ],
                   ),
                 ),
               );
@@ -52,6 +113,22 @@ class AssignedTab extends StatelessWidget {
 
         return const SizedBox.shrink();
       },
+    );
+  }
+
+  Widget _buildDetailRow(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey[600]),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 13,
+            color: Colors.grey[800],
+          ),
+        ),
+      ],
     );
   }
 }
