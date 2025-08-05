@@ -43,4 +43,38 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
     _profileSub?.cancel();
     return super.close();
   }
+  void toggleFilter(String filter) {
+  if (state is FixerHomeLoaded) {
+    final current = state as FixerHomeLoaded;
+    final filters = List<String>.from(current.selectedFilters);
+
+    if (filter == 'All Tasks') {
+      filters.clear();
+    } else {
+      if (filters.contains(filter)) {
+        filters.remove(filter);
+      } else {
+        filters.add(filter);
+      }
+    }
+
+    emit(current.copyWith(selectedFilters: filters));
+  }
+}
+
+List<TaskPostModel> getFilteredTasks() {
+  if (state is FixerHomeLoaded) {
+    final current = state as FixerHomeLoaded;
+
+    if (current.selectedFilters.isEmpty) {
+      return current.newTasks;
+    }
+
+    return current.newTasks.where((task) {
+      return current.selectedFilters.any((skill) => task.skills.contains(skill));
+    }).toList();
+  }
+  return [];
+}
+
 }
