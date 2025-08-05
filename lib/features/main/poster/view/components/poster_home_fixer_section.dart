@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_empty_state.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_fixer_card.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 
 class PosterHomeFixerSection extends StatelessWidget {

@@ -79,20 +79,20 @@ class AssignedTab extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      if (task.deadline != null) ...[
-                        _buildDetailRow(
-                          Icons.calendar_today,
-                          'Due Date: ${task.deadline!.toLocal().toString().split(' ')[0]}',
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                      if (task.priority != null) ...[
-                        _buildDetailRow(
-                          Icons.priority_high,
-                          'Priority: ${task.priority}',
-                        ),
-                        const SizedBox(height: 8),
-                      ],
+                      ...[
+                      _buildDetailRow(
+                        Icons.calendar_today,
+                        'Due Date: ${task.deadline.toLocal().toString().split(' ')[0]}',
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                      ...[
+                      _buildDetailRow(
+                        Icons.priority_high,
+                        'Priority: ${task.priority}',
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                       if (task.assignedFixerName != null) ...[
                         _buildDetailRow(
                           Icons.person,

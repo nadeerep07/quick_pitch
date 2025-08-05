@@ -24,7 +24,7 @@ class PosterHomeUserHeader extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(res.wp(5), res.hp(3), res.wp(5), res.hp(2)),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.95),
+        color: Colors.white.withValues(alpha:0.95),
         boxShadow: [
           BoxShadow(
             color: const Color(0x0F000000),
@@ -46,7 +46,7 @@ class PosterHomeUserHeader extends StatelessWidget {
                 border: Border.all(color: const Color(0xFFE2E8F0), width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha:0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),

@@ -61,7 +61,7 @@ class FixerHomeFilterSection extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppColors.primaryColor
-                            : Colors.white.withOpacity(0.9),
+                            : Colors.white.withValues(alpha:0.9),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: isSelected

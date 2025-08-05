@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_quick_action_button.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
 
 class PosterHomeQuickActions extends StatelessWidget {
   const PosterHomeQuickActions({

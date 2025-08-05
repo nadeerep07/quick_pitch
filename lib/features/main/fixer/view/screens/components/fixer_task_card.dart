@@ -25,7 +25,7 @@ class FixerTaskCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: res.hp(2)),
         padding: EdgeInsets.all(res.wp(4)),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.white.withValues(alpha:.9),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFE2E8F0)),
           boxShadow: const [

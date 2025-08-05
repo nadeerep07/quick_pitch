@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_empty_state.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_task_card.dart';
-import 'package:quick_pitch_app/features/main/poster/view/screens/poster_home_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
 
