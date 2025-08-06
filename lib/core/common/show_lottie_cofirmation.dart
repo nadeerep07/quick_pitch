@@ -3,8 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 
 Future<void> showLottieConfirmation(
-  BuildContext context, {
-  required String message,
+  BuildContext context, { String? message,
   required String animationPath,
   bool autoClose = true,
   Duration? closeAfter, // ⬅ custom timer
@@ -40,11 +39,11 @@ Future<void> showLottieConfirmation(
             },
           ),
           const SizedBox(height: 14),
-          if (message.isNotEmpty)
+          if (message?.isNotEmpty ?? false)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                message,
+                message ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 class MainBackgroundPainter extends CustomPainter {
+  
   @override
   void paint(Canvas canvas, Size size) {
    
     final gradientPaint = Paint()
+
       ..shader = LinearGradient(
+        
         colors: [
           Colors.deepPurple.shade100.withValues(alpha: .3),
           Colors.deepPurple.shade200.withValues(alpha: .2),

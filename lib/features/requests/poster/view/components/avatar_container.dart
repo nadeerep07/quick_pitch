@@ -31,7 +31,7 @@ class AvatarContainer extends StatelessWidget {
         backgroundColor: Colors.transparent,
         backgroundImage: fixer?.profileImageUrl != null
             ? CachedNetworkImageProvider(fixer!.profileImageUrl!)
-            : null,
+            : const AssetImage('assets/images/avatar_photo_placeholder.jpg'),
         child: fixer?.profileImageUrl == null
             ? Text(
                 fixer?.name.substring(0, 1) ?? "?",

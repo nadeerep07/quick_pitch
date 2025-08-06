@@ -39,6 +39,14 @@ class PitchFormCubit extends Cubit<PitchFormState> {
       emit(state.copyWith(isSubmitting: false, error: "User not logged in"));
       return;
     }
+    final posterDoc = await FirebaseFirestore.instance
+    .collection('users')
+    .doc(taskData.posterId)
+    .collection('roles').doc('poster')
+    .get();
+
+final posterName = posterDoc.data()?['name'];
+final posterImage = posterDoc.data()?['profileImageUrl'];
     try {
       final pitch = PitchModel(
         id: const Uuid().v4(),
@@ -49,6 +57,8 @@ class PitchFormCubit extends Cubit<PitchFormState> {
         hours: hours,
         timeline: state.timeline ?? "Flexible",
         fixerId: currentUser.uid,
+  posterName: posterName ?? "Unknown",
+  posterImage: posterImage ?? "https://example.com/default_image.png",
         createdAt: DateTime.now(),
       );
     //  print(pitch.id);

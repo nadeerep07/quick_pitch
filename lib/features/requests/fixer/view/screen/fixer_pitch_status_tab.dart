@@ -10,37 +10,53 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/viewmodel/pitch_form/cubit/pitch_form_cubit.dart';
 import 'package:quick_pitch_app/features/task_pitching/viewmodel/pitch_form/cubit/pitch_form_state.dart';
 
-class FixerPitchStatusTab extends StatelessWidget {
+class FixerPitchStatusTab extends StatefulWidget {
   const FixerPitchStatusTab({super.key});
 
   @override
+  State<FixerPitchStatusTab> createState() => _FixerPitchStatusTabState();
+}
+
+class _FixerPitchStatusTabState extends State<FixerPitchStatusTab> {
+  late final String fixerId;
+
+  @override
+  void initState() {
+    super.initState();
+    fixerId = FirebaseAuth.instance.currentUser!.uid;
+    context.read<PitchFormCubit>().fetchFixerPitches(fixerId);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final fixerId = FirebaseAuth.instance.currentUser!.uid;
     final res = Responsive(context);
     final theme = Theme.of(context);
 
-    // Fetch data after build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PitchFormCubit>().fetchFixerPitches(fixerId);
-    });
-
     return BlocBuilder<PitchFormCubit, PitchFormState>(
       builder: (context, state) {
-        if (state.isSubmitting) {
-          return RequestsShimmer(res: res,);
-        }
-        if (state.error != null) {
-          return Center(child: Text(state.error!));
+        if (state.isSubmitting && state.pitches.isEmpty) {
+          return RequestsShimmer(res: res);
         }
 
-        // Filter pitches
+        if (state.error != null && state.pitches.isEmpty) {
+          debugPrint("Error fetching pitches: ${state.error}");
+          return Center(
+            child: Text(
+              "Could not load pitches.\n${state.error}",
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red),
+            ),
+          );
+        }
+
+        // 🔹 Filter pitches
         final filteredPitches = _getFilteredPitches(state);
 
         return Column(
           children: [
             SizedBox(height: res.wp(3)),
 
-            /// Filter Chips Section
+            /// Filter Chips
             PitchStatusChips(
               state: state,
               res: res,
@@ -49,11 +65,13 @@ class FixerPitchStatusTab extends StatelessWidget {
 
             SizedBox(height: res.wp(3)),
 
-            /// Pitches List Section
+            /// Pitches List
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  context.read<PitchFormCubit>().fetchFixerPitches(fixerId);
+                  context
+                      .read<PitchFormCubit>()
+                      .fetchFixerPitches(fixerId); 
                 },
                 child: filteredPitches.isEmpty
                     ? NoPitchesMessage(
@@ -74,17 +92,24 @@ class FixerPitchStatusTab extends StatelessWidget {
     );
   }
 
-  /// Helper to filter pitches
+  /// Helper for filtering pitches by status
   List<PitchModel> _getFilteredPitches(PitchFormState state) {
     switch (state.selectedFilter) {
       case 'Accepted':
-        return state.pitches.where((p) => p.status == 'accepted').toList();
+        return state.pitches
+            .where((p) => p.status.toLowerCase() == 'accepted')
+            .toList();
       case 'Pending':
-        return state.pitches.where((p) => p.status == 'pending').toList();
+        return state.pitches
+            .where((p) => p.status.toLowerCase() == 'pending')
+            .toList();
       case 'Declined':
-        return state.pitches.where((p) => p.status == 'declined').toList();
+        return state.pitches
+            .where((p) => p.status.toLowerCase() == 'rejected') // ✅ fixed
+            .toList();
       default:
         return state.pitches;
     }
   }
 }
+

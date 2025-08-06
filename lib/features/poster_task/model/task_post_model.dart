@@ -41,7 +41,7 @@ class TaskPostModel {
    
   });
 
-  factory TaskPostModel.fromMap(Map<String, dynamic> map) {
+  factory TaskPostModel.fromMap(Map<String, dynamic> map, [ String? id ]) {
     return TaskPostModel(
       id: map['id'] ?? '',
       posterId: map['posterId'] ?? '',

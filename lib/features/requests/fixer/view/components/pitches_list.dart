@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/view/screens/fixer_pitch_detail_screen.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
+import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
 import 'package:quick_pitch_app/features/requests/fixer/view/components/pitch_card.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
+import 'package:quick_pitch_app/features/task_pitching/repository/pitch_repository.dart';
 
 class PitchesList extends StatelessWidget {
   final List<PitchModel> pitches;
@@ -22,7 +27,28 @@ class PitchesList extends StatelessWidget {
       itemCount: pitches.length,
       separatorBuilder: (_, __) => SizedBox(height: res.wp(3)),
       itemBuilder: (context, index) {
-        return PitchCard(pitch: pitches[index], res: res, theme: theme);
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (_) => BlocProvider(
+                      create:
+                          (context) => FixerPitchDetailCubit(
+                            taskRepository: TaskPostRepository(),
+                            pitchRepository: PitchRepository(),
+                          ),
+                      child: FixerPitchDetailScreen(
+                        pitch: pitches[index],
+                        res: res,
+                      ),
+                    ),
+              ),
+            );
+          },
+          child: PitchCard(pitch: pitches[index], res: res, theme: theme),
+        );
       },
     );
   }

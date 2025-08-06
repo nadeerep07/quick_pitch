@@ -33,12 +33,12 @@ Future<void> acceptPitch(PitchModel pitch, TaskPostModel task) async {
       'assignedFixerName':fixerName
     });
 
-    // ✅ Mark this pitch as accepted
+    //  Mark this pitch as accepted
     await _firestore.collection('pitches').doc(pitch.id).update({
       'status': 'accepted',
     });
 
-    // ✅ Reject all other pitches for the same task
+    // Reject all other pitches for the same task
     final allPitchesSnapshot = await _firestore
         .collection('pitches')
         .where('taskId', isEqualTo: task.id)
@@ -56,12 +56,13 @@ Future<void> acceptPitch(PitchModel pitch, TaskPostModel task) async {
 
 
   /// Reject a pitch
-  Future<void> rejectPitch(PitchModel pitch, TaskPostModel task) async {
-    final taskDoc = _firestore.collection('poster_tasks').doc(task.id);
-
+  Future<void> rejectPitch(PitchModel pitch,String reason) async {
+   
     try {
-      await taskDoc.collection('pitches').doc(pitch.id).update({
+      await _firestore.collection('pitches').doc(pitch.id).update({
         'status': 'rejected',
+        'rejectionMessage': reason,  
+        'rejectedAt': FieldValue.serverTimestamp(),
       });
     } catch (e) {
       throw Exception("Failed to reject pitch: $e");

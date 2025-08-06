@@ -1,7 +1,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/explore/fixer/repository/fixer_explore_repository.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
@@ -15,6 +14,7 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
   }
 
   Future<void> loadTasks() async {
+    if(isClosed) return;
     emit(state.copyWith(status: RequestStatus.loading));
     try {
       final tasks = await _repository.fetchCategoryMatchedTasks();
@@ -35,7 +35,7 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
       final topLocations =
           popularLocations
               .map((e) => e.key)
-              .take(4) // only top 4
+              .take(4) //todo only top 4
               .toList();
 
       final newState = state.copyWith(
@@ -47,9 +47,10 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
         priceRangeEnd: maxBudget,
         popularLocations: topLocations,
       );
-
+       if (isClosed) return;
       emit(newState.copyWith(filteredTasks: applyFilters(tasks, newState)));
     } catch (e) {
+       if (isClosed) return; 
       emit(
         state.copyWith(status: RequestStatus.error, errorMessage: e.toString()),
       );
@@ -91,12 +92,42 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
     emit(state.copyWith(showMoreFilters: show));
   }
 
-  void updatePriceRange(double start, double end) {
-    emit(state.copyWith(priceRangeStart: start, priceRangeEnd: end));
-    _applyFiltersToState();
+ void updatePriceRange(double start, double end) {
+  if (isClosed) return;
+
+  double minBudget = state.minBudget;
+  double maxBudget = state.maxBudget;
+
+  // Prevent zero range
+  if (minBudget == maxBudget) {
+    maxBudget = minBudget + 1;
   }
 
+  // Clamp inside range
+  start = start.clamp(minBudget, maxBudget);
+  end = end.clamp(minBudget, maxBudget);
+
+  // Ensure start <= end
+  if (start > end) {
+    final temp = start;
+    start = end;
+    end = temp;
+  }
+
+  emit(state.copyWith(
+    minBudget: minBudget,
+    maxBudget: maxBudget,
+    priceRangeStart: start,
+    priceRangeEnd: end,
+  ));
+
+  _applyFiltersToState();
+}
+
+
+
   void toggleSkill(String skill) {
+     if (isClosed) return;
     final newSkills = Set<String>.from(state.selectedSkills);
     if (newSkills.contains(skill)) {
       newSkills.remove(skill);
@@ -132,6 +163,7 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
   // }
 
   void _applyFiltersToState() {
+     if (isClosed) return; 
     // Start with full task list
     final tasks = state.tasks;
     final filteredTasks = applyFilters(tasks, state);
@@ -219,16 +251,16 @@ class FixerExploreCubit extends Cubit<FixerExploreState> {
       );
 
       if (matchingSkillTasks.isNotEmpty) {
-        final minBudget = matchingSkillTasks
-            .map((t) => t.budget)
-            .reduce((a, b) => a < b ? a : b);
-        final maxBudget = matchingSkillTasks
-            .map((t) => t.budget)
-            .reduce((a, b) => a > b ? a : b);
+        // final minBudget = matchingSkillTasks
+        //     .map((t) => t.budget)
+        //     .reduce((a, b) => a < b ? a : b);
+        // final maxBudget = matchingSkillTasks
+        //     .map((t) => t.budget)
+        //     .reduce((a, b) => a > b ? a : b);
 
-        debugPrint(
-          'Dynamic price range for ${state.selectedSkills.join(", ")}: $minBudget - $maxBudget',
-        );
+        // debugPrint(
+        //   'Dynamic price range for ${state.selectedSkills.join(", ")}: $minBudget - $maxBudget',
+        // );
 
         // Clamp the user-selected range to this dynamic range
         filtered =

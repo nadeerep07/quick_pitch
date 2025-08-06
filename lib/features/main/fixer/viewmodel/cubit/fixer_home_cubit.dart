@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
+import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 part 'fixer_home_state.dart';
 
@@ -28,10 +29,13 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
         final profileData = snapshot.data()!;
          final userProfile = UserProfileModel.fromJson(profileData);
         final newTasks = await _fixerRepository.fetchCategoryMatchedTasks();
+        final activeTasks = await _fixerRepository.fetchActiveTasks(fixerId);
+
 
         emit(FixerHomeLoaded(
           userProfile: userProfile,
           newTasks: newTasks,
+          activeTasks: activeTasks
         ));
       });
     } catch (e) {

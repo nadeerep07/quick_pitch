@@ -83,6 +83,8 @@ class PitchCard extends StatelessWidget {
           SizedBox(height: res.wp(3)),
           Text(
             pitch.pitchText,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: res.sp(16),
               fontWeight: FontWeight.w600,

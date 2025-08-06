@@ -121,7 +121,7 @@ class _FixerHomeScreenState extends State<FixerHomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Available Tasks',
+                'Active Tasks',
                 style: TextStyle(
                   fontSize: res.sp(16),
                   fontWeight: FontWeight.w700,

@@ -58,43 +58,60 @@ class FixerExploreState extends Equatable {
         minBudget,maxBudget,popularLocations
       ];
 
-  FixerExploreState copyWith({
-    String? searchQuery,
-    String? selectedFilter,
-    bool? showSearchHistory,
-    bool? showMoreFilters,
-    Set<String>? selectedSkills,
-    String? selectedLocation,
-    String? selectedDeadline,
-    double? priceRangeStart,
-    double? priceRangeEnd,
-    List<TaskPostModel>? tasks,
-    List<TaskPostModel>? filteredTasks,
-    RequestStatus? status,
-    String? errorMessage,
-     double? minBudget,
-    double? maxBudget,
-     List<String>? popularLocations,
-  }) {
-    return FixerExploreState(
-      searchQuery: searchQuery ?? this.searchQuery,
-      selectedFilter: selectedFilter ?? this.selectedFilter,
-      showSearchHistory: showSearchHistory ?? this.showSearchHistory,
-      showMoreFilters: showMoreFilters ?? this.showMoreFilters,
-      selectedSkills: selectedSkills ?? this.selectedSkills,
-      selectedLocation: selectedLocation ?? this.selectedLocation,
-      selectedDeadline: selectedDeadline ?? this.selectedDeadline,
-      priceRangeStart: priceRangeStart ?? this.priceRangeStart,
-      priceRangeEnd: priceRangeEnd ?? this.priceRangeEnd,
-      tasks: tasks ?? this.tasks,
-      filteredTasks: filteredTasks ?? this.filteredTasks,
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      minBudget: minBudget ?? this.minBudget,
-      maxBudget: maxBudget ?? this.maxBudget,
-      popularLocations:  popularLocations ?? this.popularLocations,
-    );
+ FixerExploreState copyWith({
+  String? searchQuery,
+  String? selectedFilter,
+  bool? showSearchHistory,
+  bool? showMoreFilters,
+  Set<String>? selectedSkills,
+  String? selectedLocation,
+  String? selectedDeadline,
+  double? priceRangeStart,
+  double? priceRangeEnd,
+  List<TaskPostModel>? tasks,
+  List<TaskPostModel>? filteredTasks,
+  RequestStatus? status,
+  String? errorMessage,
+  double? minBudget,
+  double? maxBudget,
+  List<String>? popularLocations,
+}) {
+  double newMin = minBudget ?? this.minBudget;
+  double newMax = maxBudget ?? this.maxBudget;
+  double newStart = priceRangeStart ?? this.priceRangeStart;
+  double newEnd = priceRangeEnd ?? this.priceRangeEnd;
+
+  // 🛠 Normalize budgets
+  if (newMin == newMax) {
+    newMax = newMin + 1;
   }
+  newStart = newStart.clamp(newMin, newMax);
+  newEnd = newEnd.clamp(newMin, newMax);
+  if (newStart > newEnd) {
+    final temp = newStart;
+    newStart = newEnd;
+    newEnd = temp;
+  }
+
+  return FixerExploreState(
+    searchQuery: searchQuery ?? this.searchQuery,
+    selectedFilter: selectedFilter ?? this.selectedFilter,
+    showSearchHistory: showSearchHistory ?? this.showSearchHistory,
+    showMoreFilters: showMoreFilters ?? this.showMoreFilters,
+    selectedSkills: selectedSkills ?? this.selectedSkills,
+    selectedLocation: selectedLocation ?? this.selectedLocation,
+    selectedDeadline: selectedDeadline ?? this.selectedDeadline,
+    priceRangeStart: newStart,
+    priceRangeEnd: newEnd,
+    tasks: tasks ?? this.tasks,
+    filteredTasks: filteredTasks ?? this.filteredTasks,
+    status: status ?? this.status,
+    errorMessage: errorMessage ?? this.errorMessage,
+    minBudget: newMin,
+    maxBudget: newMax,
+    popularLocations: popularLocations ?? this.popularLocations,
+  );
+}
 }
 
 enum RequestStatus {

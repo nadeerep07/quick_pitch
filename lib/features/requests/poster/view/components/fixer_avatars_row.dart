@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/dialog_helper.dart' show DialogHelper;
@@ -8,7 +9,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 class FixerAvatarsRow extends StatelessWidget {
   final Map<String, List<PitchModel>> fixerPitches;
   final TaskPostModel task;
-  static const int maxVisibleAvatars = 4;
+  static const int maxVisibleAvatars = 1;//todo maximum number of fixer to show in row
 
   const FixerAvatarsRow({super.key, 
     required this.fixerPitches,
@@ -47,7 +48,7 @@ class FixerAvatarsRow extends StatelessWidget {
         left: i * res.wp(8),
         child: FixerAvatar(
           fixerId: fixerIds[i],
-          pitch: fixerPitches[fixerIds[i]]!.first,
+          pitch: fixerPitches[fixerIds[i]]!,
           task: task,
         ),
       ),
@@ -56,10 +57,9 @@ class FixerAvatarsRow extends StatelessWidget {
 
   Widget _buildOverflowIndicator(BuildContext context, List<String> fixerIds) {
     final res = Responsive(context);
-    final colorScheme = Theme.of(context).colorScheme;
-    
+  
     return Positioned(
-      left: maxVisibleAvatars * res.wp(8),
+      left: maxVisibleAvatars * res.wp(9),
       child: GestureDetector(
         onTap: () => DialogHelper.showAllFixersDialog(
           context,
@@ -70,7 +70,7 @@ class FixerAvatarsRow extends StatelessWidget {
           width: res.wp(12),
           height: res.wp(12),
           decoration: BoxDecoration(
-            color: colorScheme.primaryContainer,
+            color: Colors.black45,
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -78,7 +78,7 @@ class FixerAvatarsRow extends StatelessWidget {
               '+${fixerIds.length - maxVisibleAvatars}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: colorScheme.onPrimaryContainer,
+                color: AppColors.secondaryText,
               ),
             ),
           ),

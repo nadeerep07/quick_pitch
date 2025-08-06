@@ -10,7 +10,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class FixerAvatar extends StatelessWidget {
   final String fixerId;
-  final PitchModel pitch;
+  final List<PitchModel> pitch;
   final TaskPostModel task;
 
   const FixerAvatar({super.key, 
@@ -31,7 +31,7 @@ class FixerAvatar extends StatelessWidget {
           onTap: () => DialogHelper.showFixerPitchesDialog(
             context,
             fixer: fixer,
-            pitches: [pitch],
+            pitches: pitch,
             task: task,
           ),
           child: AvatarContainer(

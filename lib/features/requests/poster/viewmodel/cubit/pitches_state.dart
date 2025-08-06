@@ -32,7 +32,8 @@ class PitchesError extends PitchesState {
 
 class PitchesCubit extends Cubit<PitchesState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  StreamSubscription? _subscription;
+  StreamSubscription? _taskSubscription;
+  StreamSubscription? _pitchesSubscription;
 
   PitchesCubit() : super(PitchesInitial());
 
@@ -45,17 +46,36 @@ class PitchesCubit extends Cubit<PitchesState> {
       return;
     }
 
-    // Cancel old subscription if exists
-    _subscription?.cancel();
+    _taskSubscription?.cancel();
+    _pitchesSubscription?.cancel();
 
-    _subscription = _firestore
+    _taskSubscription = _firestore
         .collection('poster_tasks')
         .where('posterId', isEqualTo: currentUser.uid)
         .snapshots()
-        .listen((tasksSnapshot) async {
-      try {
-        final tasks = tasksSnapshot.docs
-            .map((doc) => TaskPostModel.fromMap(doc.data()))
+        .listen((tasksSnapshot) {
+      final tasks = tasksSnapshot.docs
+          .map((doc) => TaskPostModel.fromMap(doc.data()))
+          .toList();
+
+      final taskIds = tasks.map((t) => t.id).toList();
+
+      if (taskIds.isEmpty) {
+        emit(PitchesLoaded(pending: [], assigned: [], completed: []));
+        return;
+      }
+
+      // cancel previous pitch subscription before creating a new one
+      _pitchesSubscription?.cancel();
+
+      _pitchesSubscription = _firestore
+          .collection('pitches')
+          .where('taskId', whereIn: taskIds)
+          .snapshots()
+          .listen((pitchesSnapshot) {
+        final allPitches = pitchesSnapshot.docs
+            .map((doc) => PitchModel.fromJson(doc.data()))
+            .where((pitch) => pitch.status != 'rejected')
             .toList();
 
         List<Map<String, dynamic>> pending = [];
@@ -63,38 +83,35 @@ class PitchesCubit extends Cubit<PitchesState> {
         List<Map<String, dynamic>> completed = [];
 
         for (final task in tasks) {
-          final pitchesSnapshot = await _firestore
-              .collection('pitches')
-              .where('taskId', isEqualTo: task.id)
-              .orderBy('createdAt', descending: true)
-              .get();
+          final taskPitches =
+              allPitches.where((p) => p.taskId == task.id).toList();
 
-          final pitches = pitchesSnapshot.docs
-              .map((doc) => PitchModel.fromJson(doc.data()))
-              .toList();
-
-          if (pitches.isNotEmpty) {
+          if (taskPitches.isNotEmpty) {
             if (task.status == 'pending') {
-              pending.add({'task': task, 'pitches': pitches});
+              pending.add({'task': task, 'pitches': taskPitches});
             } else if (task.status == 'assigned') {
-              assigned.add({'task': task, 'pitches': pitches});
+              assigned.add({'task': task, 'pitches': taskPitches});
             } else if (task.status == 'completed') {
-              completed.add({'task': task, 'pitches': pitches});
+              completed.add({'task': task, 'pitches': taskPitches});
             }
           }
         }
 
-        emit(PitchesLoaded(
-            pending: pending, assigned: assigned, completed: completed));
-      } catch (e) {
-        emit(PitchesError('Failed to load pitches: ${e.toString()}'));
-      }
+        if (!isClosed) {
+          emit(PitchesLoaded(
+            pending: pending,
+            assigned: assigned,
+            completed: completed,
+          ));
+        }
+      });
     });
   }
 
   @override
   Future<void> close() {
-    _subscription?.cancel();
+    _taskSubscription?.cancel();
+    _pitchesSubscription?.cancel();
     return super.close();
   }
 
@@ -113,8 +130,20 @@ class PitchesCubit extends Cubit<PitchesState> {
       }
       return null;
     } catch (e) {
-     // print("Error fetching fixer details: $e");
       return null;
     }
   }
+
+  Map<String, List<PitchModel>> getActiveFixerPitches(
+    Map<String, List<PitchModel>> allPitches,
+  ) {
+    return allPitches
+      .map((fixerId, pitches) {
+        final validPitches =
+            pitches.where((p) => p.status != 'rejected').toList();
+        return MapEntry(fixerId, validPitches);
+      })
+      ..removeWhere((key, value) => value.isEmpty);
+  }
 }
+

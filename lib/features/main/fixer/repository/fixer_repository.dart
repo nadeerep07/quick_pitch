@@ -102,4 +102,22 @@ class FixerRepository {
         .doc('fixer')
         .snapshots(); // listens to real-time changes
   }
+
+  Future<List<TaskPostModel>> fetchActiveTasks(String fixerId) async {
+  
+    try {
+      final tasksSnapshot = await FirebaseFirestore.instance
+          .collection('poster_tasks')
+          .where('assignedFixerId', isEqualTo: fixerId)
+          .where('status', isEqualTo: 'assigned')
+          .orderBy('createdAt', descending: true)
+          .get();
+      return tasksSnapshot.docs
+          .map((doc) => TaskPostModel.fromMap(doc.data()))
+          .toList();
+    } catch (e) {
+      // print("[FixerRepo] Error fetching active tasks: $e");
+      rethrow;
+    }
+  }
 }

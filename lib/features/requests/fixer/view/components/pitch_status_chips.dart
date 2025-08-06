@@ -31,6 +31,12 @@ class PitchStatusChips extends StatelessWidget {
             'Accepted',
             state.pitches.where((p) => p.status == 'accepted').length,
           ),
+           SizedBox(width: res.wp(2)),
+          _buildChip(
+            context,
+            'Completed',
+            state.pitches.where((p) => p.status == 'completed').length,
+          ),
           SizedBox(width: res.wp(2)),
           _buildChip(
             context,
@@ -41,8 +47,9 @@ class PitchStatusChips extends StatelessWidget {
           _buildChip(
             context,
             'Declined',
-            state.pitches.where((p) => p.status == 'declined').length,
+            state.pitches.where((p) => p.status == 'rejected').length,
           ),
+           
         ],
       ),
     );
