@@ -28,7 +28,7 @@ class FixerPitchDetailProgressSection extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: colorScheme.outline.withOpacity(0.2),
+          color: colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -40,7 +40,7 @@ class FixerPitchDetailProgressSection extends StatelessWidget {
             Text(
               'WORK PROGRESS',
               style: theme.textTheme.labelSmall?.copyWith(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
                 letterSpacing: 1,
               ),
             ),

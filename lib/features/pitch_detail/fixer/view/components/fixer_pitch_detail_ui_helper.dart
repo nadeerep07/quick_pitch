@@ -231,7 +231,7 @@ class FixerPitchDetailUIHelper {
 
     if (confirmed == true) {
       context.read<FixerPitchDetailCubit>().requestPayment(currentPitch.id);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Payment request sent successfully')));
+    //  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Payment request sent successfully')));
     }
   }
 
@@ -240,7 +240,7 @@ class FixerPitchDetailUIHelper {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: colorScheme.outline.withOpacity(0.2), width: 1),
+        side: BorderSide(color: colorScheme.outline.withValues(alpha: 0.2), width: 1),
       ),
       child: Padding(
         padding: EdgeInsets.all(res.wp(4)),
@@ -251,7 +251,7 @@ class FixerPitchDetailUIHelper {
               height: res.sp(50),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: colorScheme.primary.withOpacity(0.2), width: 2),
+                border: Border.all(color: colorScheme.primary.withValues(alpha: 0.2), width: 2),
               ),
               child: ClipOval(
                 child: currentPitch.posterImage != null
@@ -266,14 +266,14 @@ class FixerPitchDetailUIHelper {
                 children: [
                   Text(currentPitch.posterName ?? 'Unknown Poster', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                   SizedBox(height: res.hp(0.5)),
-                  Text('Submitted ${_formatDate(currentPitch.createdAt)}', style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.onSurface.withOpacity(0.6))),
+                  Text('Submitted ${_formatDate(currentPitch.createdAt)}', style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.onSurface.withValues(alpha: 0.6))),
                 ],
               ),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: res.wp(3), vertical: res.hp(0.8)),
               decoration: BoxDecoration(
-                color: _getStatusColor(currentPitch.status).withOpacity(0.1),
+                color: _getStatusColor(currentPitch.status).withValues(alpha: .1),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: _getStatusColor(currentPitch.status), width: 1),
               ),
@@ -297,14 +297,14 @@ class FixerPitchDetailUIHelper {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: colorScheme.outline.withOpacity(0.2), width: 1),
+        side: BorderSide(color: colorScheme.outline.withValues(alpha: 0.2), width: 1),
       ),
       child: Padding(
         padding: EdgeInsets.all(res.wp(4)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('PITCH DETAILS', style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.onSurface.withOpacity(0.6), letterSpacing: 1)),
+            Text('PITCH DETAILS', style: theme.textTheme.labelSmall?.copyWith(color: colorScheme.onSurface.withValues(alpha: 0.6), letterSpacing: 1)),
             SizedBox(height: res.hp(2)),
             FixerPitchDetailItem(res: res, icon: Icons.message_outlined, label: 'Message', value: currentPitch.pitchText, theme: theme, colorScheme: colorScheme),
             SizedBox(height: res.hp(2)),

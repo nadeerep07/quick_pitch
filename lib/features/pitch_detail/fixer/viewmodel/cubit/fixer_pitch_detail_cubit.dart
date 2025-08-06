@@ -54,7 +54,7 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
             },
           );
     } catch (e) {
-      print("Error initializing: $e");
+   //   print("Error initializing: $e");
       emit(FixerPitchDetailError(e.toString()));
     }
   }

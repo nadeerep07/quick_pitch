@@ -60,7 +60,7 @@ Future<void> deleteTask(String taskId) async {
   }
 }
 Future<TaskPostModel?> fetchTaskById(String taskId) async {
-  print("Fetching task with ID: $taskId");
+ // print("Fetching task with ID: $taskId");
   final doc = await FirebaseFirestore.instance
       .collection('poster_tasks')
       .doc(taskId)

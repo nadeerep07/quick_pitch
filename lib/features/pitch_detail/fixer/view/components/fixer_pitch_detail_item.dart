@@ -27,7 +27,7 @@ class FixerPitchDetailItem extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(res.wp(2.5)),
           decoration: BoxDecoration(
-            color: colorScheme.primary.withOpacity(0.1),
+            color: colorScheme.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, size: res.sp(18), color: colorScheme.primary),
@@ -40,7 +40,7 @@ class FixerPitchDetailItem extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurface.withOpacity(0.6),
+                  color: colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               ),
               SizedBox(height: res.hp(0.3)),
