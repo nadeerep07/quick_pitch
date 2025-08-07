@@ -17,6 +17,7 @@ class AppRoutes {
   static const String posterTask = '/poster-task';
   static const String taskPicting ='/task-pitch';
 
+
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case login:
@@ -41,6 +42,8 @@ class AppRoutes {
       case taskPicting:
        final taskData = settings.arguments as TaskPostModel;
       return MaterialPageRoute(builder: (_)=> TaskPitchingScreen(taskData: taskData,));
+
+
       default:
         return MaterialPageRoute(
           builder:

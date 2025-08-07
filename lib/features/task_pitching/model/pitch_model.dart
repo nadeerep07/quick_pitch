@@ -47,27 +47,27 @@ class PitchModel {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'taskId': taskId,
-        'fixerId': fixerId,
-        'pitchText': pitchText,
-        'budget': budget,
-        'hours': hours,
-        'timeline': timeline,
-        'paymentType': paymentType.name,
-        'createdAt': createdAt,
-        'status': status,
-        'posterName': posterName,
-        'posterImage': posterImage,
-        'rejectionMessage': rejectionMessage,
-        'progress': progress,
-        'latestUpdate': latestUpdate,
-        'completionDate': completionDate,
-        'completionNotes': completionNotes,
-        'paymentStatus': paymentStatus,
-        'paymentRequestedAt': paymentRequestedAt,
-        'updatedAt': updatedAt,
-      };
+    'id': id,
+    'taskId': taskId,
+    'fixerId': fixerId,
+    'pitchText': pitchText,
+    'budget': budget,
+    'hours': hours,
+    'timeline': timeline,
+    'paymentType': paymentType.name,
+    'createdAt': createdAt,
+    'status': status,
+    'posterName': posterName,
+    'posterImage': posterImage,
+    'rejectionMessage': rejectionMessage,
+    'progress': progress,
+    'latestUpdate': latestUpdate,
+    'completionDate': completionDate,
+    'completionNotes': completionNotes,
+    'paymentStatus': paymentStatus,
+    'paymentRequestedAt': paymentRequestedAt,
+    'updatedAt': updatedAt,
+  };
 
   factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
     DateTime parseDate(dynamic value) {
@@ -96,15 +96,18 @@ class PitchModel {
       rejectionMessage: json['rejectionMessage'],
       progress: json['progress'] != null ? json['progress'] as int : null,
       latestUpdate: json['latestUpdate'],
-      completionDate: json['completionDate'] != null
-          ? parseDate(json['completionDate'])
-          : null,
+      completionDate:
+          json['completionDate'] != null
+              ? parseDate(json['completionDate'])
+              : null,
       completionNotes: json['completionNotes'],
       paymentStatus: json['paymentStatus'],
-      paymentRequestedAt: json['paymentRequestedAt'] != null
-          ? parseDate(json['paymentRequestedAt'])
-          : null,
-      updatedAt: json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
+      paymentRequestedAt:
+          json['paymentRequestedAt'] != null
+              ? parseDate(json['paymentRequestedAt'])
+              : null,
+      updatedAt:
+          json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
     );
   }
 }

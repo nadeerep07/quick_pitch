@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/Pitch_detail/poster/view/screen/Pitch_detail_screen.dart';
+import 'package:quick_pitch_app/features/pitch_detail/poster/view/screen/pending_pitch_detail_screen.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
@@ -29,7 +29,7 @@ class PitchCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => PitchDetailScreen(pitch: pitch, task: task),
+              builder: (_) => PendingPitchDetailScreen(pitch: pitch, task: task),
             ),
           );
         },

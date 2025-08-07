@@ -13,7 +13,7 @@ Future<void> acceptPitch(PitchModel pitch, TaskPostModel task) async {
   final taskDoc = _firestore.collection('poster_tasks').doc(task.id);
   final taskSnapshot = await taskDoc.get();
 
-  if (taskSnapshot['status'] == 'assigned') {
+  if (taskSnapshot['status'] == 'accepted') {
     throw Exception("Task already assigned to another fixer");
   }
 
@@ -28,7 +28,7 @@ Future<void> acceptPitch(PitchModel pitch, TaskPostModel task) async {
     final fixerName = fixerRoleDoc.data()?['name'] ?? 'Unknown Fixer';
     // Update task
     await taskDoc.update({
-      'status': 'assigned',
+      'status': 'accepted',
       'assignedFixerId': pitch.fixerId,
       'assignedFixerName':fixerName
     });

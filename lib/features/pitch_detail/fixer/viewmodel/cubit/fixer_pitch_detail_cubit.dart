@@ -1,25 +1,31 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/repository/pitch_repository.dart';
+
 
 part 'fixer_pitch_detail_state.dart';
 
 class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
   final TaskPostRepository taskRepository;
   final PitchRepository pitchRepository;
+  final PitchStatusService pitchStatusService;
+  final PitchUpdateService pitchUpdateService;
 
   StreamSubscription<PitchModel>? _pitchSubscription;
 
   FixerPitchDetailCubit({
     required this.taskRepository,
     required this.pitchRepository,
+    required this.pitchStatusService,
+    required this.pitchUpdateService,
   }) : super(FixerPitchDetailInitial());
 
-  // FIXED: Method signature now matches the call from UI
   Future<void> initialize({
     required String taskId,
     required String pitchId,
@@ -29,32 +35,24 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
       emit(FixerPitchDetailLoading());
 
       final task = await taskRepository.fetchTaskById(taskId);
-
       if (task == null) {
         emit(FixerPitchDetailError('Task not found'));
         return;
       }
 
-      _pitchSubscription = pitchRepository
-          .getPitchStream(pitchId)
-          .listen(
-            (pitch) {
-              if (!isClosed) {
-                //  prevents emit after close
-                emit(FixerPitchDetailLoaded(task: task, pitch: pitch));
-              }
-            },
-            onError: (error) {
-              if (!isClosed) {
-                //  guard errors too
-                emit(
-                  FixerPitchDetailError('Failed to load pitch updates: $error'),
-                );
-              }
-            },
-          );
+      _pitchSubscription = pitchRepository.getPitchStream(pitchId).listen(
+        (pitch) {
+          if (!isClosed) {
+            emit(FixerPitchDetailLoaded(task: task, pitch: pitch));
+          }
+        },
+        onError: (error) {
+          if (!isClosed) {
+            emit(FixerPitchDetailError('Failed to load pitch updates: $error'));
+          }
+        },
+      );
     } catch (e) {
-   //   print("Error initializing: $e");
       emit(FixerPitchDetailError(e.toString()));
     }
   }
@@ -64,21 +62,15 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     if (currentState is! FixerPitchDetailLoaded) return;
 
     try {
-      // Show processing state
-      emit(
-        FixerPitchDetailProcessing(
-          task: currentState.task,
-          pitch: currentState.pitch,
-          message: 'Updating progress...',
-        ),
-      );
+      emit(FixerPitchDetailProcessing(
+        task: currentState.task,
+        pitch: currentState.pitch,
+        message: 'Updating progress...',
+      ));
 
-      await pitchRepository.updatePitchProgress(pitchId, progress);
-
-      // Stream will automatically emit updated state
+      await pitchStatusService.updatePitchProgress(pitchId, progress);
     } catch (e) {
       emit(FixerPitchDetailError('Failed to update progress: ${e.toString()}'));
-      // Restore previous state
       emit(currentState);
     }
   }
@@ -88,21 +80,19 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     if (currentState is! FixerPitchDetailLoaded) return;
 
     try {
-      emit(
-        FixerPitchDetailProcessing(
-          task: currentState.task,
-          pitch: currentState.pitch,
-          message: 'Marking as completed...',
-        ),
+      emit(FixerPitchDetailProcessing(
+        task: currentState.task,
+        pitch: currentState.pitch,
+        message: 'Marking as completed...',
+      ));
+
+      await pitchStatusService.markPitchAsCompleted(
+        pitchId: pitchId,
+        taskId: currentState.task.id,
+        notes: notes,
       );
-
-      await pitchRepository.markPitchAsCompleted(pitchId, notes);
-
-      // Stream will automatically emit updated state
     } catch (e) {
-      emit(
-        FixerPitchDetailError('Failed to mark as completed: ${e.toString()}'),
-      );
+      emit(FixerPitchDetailError('Failed to mark as completed: ${e.toString()}'));
       emit(currentState);
     }
   }
@@ -112,17 +102,13 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     if (currentState is! FixerPitchDetailLoaded) return;
 
     try {
-      emit(
-        FixerPitchDetailProcessing(
-          task: currentState.task,
-          pitch: currentState.pitch,
-          message: 'Adding update...',
-        ),
-      );
+      emit(FixerPitchDetailProcessing(
+        task: currentState.task,
+        pitch: currentState.pitch,
+        message: 'Adding update...',
+      ));
 
-      await pitchRepository.addPitchUpdate(pitchId, update);
-
-      // Stream will automatically emit updated state
+      await pitchUpdateService.addPitchUpdate(pitchId, update);
     } catch (e) {
       emit(FixerPitchDetailError('Failed to add update: ${e.toString()}'));
       emit(currentState);
@@ -134,17 +120,13 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     if (currentState is! FixerPitchDetailLoaded) return;
 
     try {
-      emit(
-        FixerPitchDetailProcessing(
-          task: currentState.task,
-          pitch: currentState.pitch,
-          message: 'Requesting payment...',
-        ),
-      );
+      emit(FixerPitchDetailProcessing(
+        task: currentState.task,
+        pitch: currentState.pitch,
+        message: 'Requesting payment...',
+      ));
 
-      await pitchRepository.requestPayment(pitchId);
-
-      // Stream will automatically emit updated state
+      await pitchStatusService.requestPayment(pitchId);
     } catch (e) {
       emit(FixerPitchDetailError('Failed to request payment: ${e.toString()}'));
       emit(currentState);

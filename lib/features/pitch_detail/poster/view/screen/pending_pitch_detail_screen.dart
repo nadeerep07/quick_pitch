@@ -9,11 +9,11 @@ import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/tas
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
-class PitchDetailScreen extends StatelessWidget {
+class PendingPitchDetailScreen extends StatelessWidget {
   final PitchModel pitch;
   final TaskPostModel task;
 
-  const PitchDetailScreen({super.key, required this.pitch, required this.task});
+  const PendingPitchDetailScreen({super.key, required this.pitch, required this.task});
 
   @override
   Widget build(BuildContext context) {

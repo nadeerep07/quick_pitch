@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/screens/fixer_pitch_detail_screen.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
@@ -36,6 +38,8 @@ class PitchesList extends StatelessWidget {
                     (_) => BlocProvider(
                       create:
                           (context) => FixerPitchDetailCubit(
+                            pitchStatusService: PitchStatusService(),
+                            pitchUpdateService: PitchUpdateService(),
                             taskRepository: TaskPostRepository(),
                             pitchRepository: PitchRepository(),
                           ),

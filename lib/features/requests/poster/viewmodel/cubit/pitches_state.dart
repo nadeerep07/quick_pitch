@@ -89,7 +89,8 @@ class PitchesCubit extends Cubit<PitchesState> {
           if (taskPitches.isNotEmpty) {
             if (task.status == 'pending') {
               pending.add({'task': task, 'pitches': taskPitches});
-            } else if (task.status == 'assigned') {
+            } else if (task.status == 'accepted' ||
+                task.status == 'assigned') {
               assigned.add({'task': task, 'pitches': taskPitches});
             } else if (task.status == 'completed') {
               completed.add({'task': task, 'pitches': taskPitches});

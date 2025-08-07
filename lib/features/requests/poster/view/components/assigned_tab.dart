@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
+import 'package:quick_pitch_app/features/pitch_detail/poster/view/screen/pitch_assigned_detail_screen.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/placeholder_content.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -27,79 +29,107 @@ class AssignedTab extends StatelessWidget {
           return ListView.builder(
             itemCount: assigned.length,
             itemBuilder: (context, index) {
+            
               final task = assigned[index]['task'] as TaskPostModel;
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              task.title,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+    
+              return GestureDetector(
+                onTap: () {
+                  final task = assigned[index]['task'] as TaskPostModel;
+                  final pitches = assigned[index]['pitches'] as List;
+                  if (pitches.isNotEmpty) {
+                    final pitchId = pitches.first.id;
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (_) => PitchAssignedDetailScreen(
+                              task: task,
+                              pitchId: pitchId,
                             ),
+                      ),
+                    );
+                  }
+                },
+
+                child: Card(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                task.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.icon3.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                task.status.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.icon3.withValues(alpha: 0.8),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          task.description,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[700],
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color:  Colors.orange,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              task.status.toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+                        ),
+                        const SizedBox(height: 12),
+                        ...[
+                          _buildDetailRow(
+                            Icons.calendar_today,
+                            'Due Date: ${task.deadline.toLocal().toString().split(' ')[0]}',
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                        ...[
+                          _buildDetailRow(
+                            Icons.priority_high,
+                            'Priority: ${task.priority}',
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                        if (task.assignedFixerName != null) ...[
+                          _buildDetailRow(
+                            Icons.person,
+                            'Assigned to: ${task.assignedFixerName}',
                           ),
                         ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        task.description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      ...[
-                      _buildDetailRow(
-                        Icons.calendar_today,
-                        'Due Date: ${task.deadline.toLocal().toString().split(' ')[0]}',
-                      ),
-                      const SizedBox(height: 8),
-                    ],
-                      ...[
-                      _buildDetailRow(
-                        Icons.priority_high,
-                        'Priority: ${task.priority}',
-                      ),
-                      const SizedBox(height: 8),
-                    ],
-                      if (task.assignedFixerName != null) ...[
-                        _buildDetailRow(
-                          Icons.person,
-                          'Assigned to: ${task.assignedFixerName}',
-                        ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
               );
@@ -121,13 +151,7 @@ class AssignedTab extends StatelessWidget {
       children: [
         Icon(icon, size: 16, color: Colors.grey[600]),
         const SizedBox(width: 8),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 13,
-            color: Colors.grey[800],
-          ),
-        ),
+        Text(text, style: TextStyle(fontSize: 13, color: Colors.grey[800])),
       ],
     );
   }

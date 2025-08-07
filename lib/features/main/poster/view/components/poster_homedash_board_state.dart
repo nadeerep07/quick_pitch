@@ -21,7 +21,7 @@ class PosterHomedashBoardState extends StatelessWidget {
             .length;
     final assignedTasks =
         state.tasks
-            .where((task) => task.status.toLowerCase() == 'assigned')
+            .where((task) => task.status.toLowerCase() == 'accepted')
             .length;
 
     final completedTasks =
