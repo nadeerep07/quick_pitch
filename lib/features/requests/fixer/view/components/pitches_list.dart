@@ -37,12 +37,16 @@ class PitchesList extends StatelessWidget {
                 builder:
                     (_) => BlocProvider(
                       create:
-                          (context) => FixerPitchDetailCubit(
+                          (context) { 
+                            final cubit = FixerPitchDetailCubit(
                             pitchStatusService: PitchStatusService(),
                             pitchUpdateService: PitchUpdateService(),
                             taskRepository: TaskPostRepository(),
                             pitchRepository: PitchRepository(),
-                          ),
+                          );
+                            cubit.initialize(taskId: pitches[index].taskId, pitchId: pitches[index].id);
+                            return cubit;
+                          },
                       child: FixerPitchDetailScreen(
                         pitch: pitches[index],
                         res: res,
@@ -50,6 +54,7 @@ class PitchesList extends StatelessWidget {
                     ),
               ),
             );
+            print("Tapped on pitch: ${pitches[index].id}");
           },
           child: PitchCard(pitch: pitches[index], res: res, theme: theme),
         );

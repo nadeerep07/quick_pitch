@@ -29,12 +29,14 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
          final userProfile = UserProfileModel.fromJson(profileData);
         final newTasks = await _fixerRepository.fetchCategoryMatchedTasks();
         final activeTasks = await _fixerRepository.fetchActiveTasks(fixerId);
+        final completedTasks = await _fixerRepository.fetchCompletedTasks(fixerId);
 
 
         emit(FixerHomeLoaded(
           userProfile: userProfile,
           newTasks: newTasks,
-          activeTasks: activeTasks
+          activeTasks: activeTasks,
+          completedTasks: completedTasks,
         ));
       });
     } catch (e) {

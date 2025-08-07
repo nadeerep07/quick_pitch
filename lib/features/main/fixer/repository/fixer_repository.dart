@@ -109,7 +109,7 @@ class FixerRepository {
       final tasksSnapshot = await FirebaseFirestore.instance
           .collection('poster_tasks')
           .where('assignedFixerId', isEqualTo: fixerId)
-          .where('status', isEqualTo: 'assigned')
+          .where('status', isEqualTo: 'accepted')
           .orderBy('createdAt', descending: true)
           .get();
       return tasksSnapshot.docs
@@ -117,6 +117,22 @@ class FixerRepository {
           .toList();
     } catch (e) {
       // print("[FixerRepo] Error fetching active tasks: $e");
+      rethrow;
+    }
+  }
+  Future<List<TaskPostModel>> fetchCompletedTasks(String fixerId) async {
+    try {
+      final tasksSnapshot = await FirebaseFirestore.instance
+          .collection('poster_tasks')
+          .where('assignedFixerId', isEqualTo: fixerId)
+          .where('status', isEqualTo: 'completed')
+          .orderBy('createdAt', descending: true)
+          .get();
+      return tasksSnapshot.docs
+          .map((doc) => TaskPostModel.fromMap(doc.data()))
+          .toList();
+    } catch (e) {
+      // print("[FixerRepo] Error fetching completed tasks: $e");
       rethrow;
     }
   }

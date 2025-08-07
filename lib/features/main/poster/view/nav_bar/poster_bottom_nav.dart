@@ -32,6 +32,8 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final List<Widget> screens = const [
       PosterHomeScreen(),
       PosterExploreScreen(),

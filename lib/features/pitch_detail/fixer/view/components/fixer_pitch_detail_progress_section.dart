@@ -70,7 +70,11 @@ class FixerPitchDetailProgressSection extends StatelessWidget {
             SizedBox(height: res.hp(2)),
             
             // Updates/Comments
-            FixerPitchDetailItem(res: res, icon: Icons.comment, label: 'Latest Update', value: currentPitch.latestUpdate ?? 'No updates yet', theme: theme, colorScheme: colorScheme),
+            FixerPitchDetailItem(
+              res: res, icon: Icons.comment,
+               label: 'Latest Update', 
+               value: currentPitch.latestUpdate ?? currentPitch.completionNotes ?? 'No updates yet', 
+               theme: theme, colorScheme: colorScheme),
           ],
         ),
       ),

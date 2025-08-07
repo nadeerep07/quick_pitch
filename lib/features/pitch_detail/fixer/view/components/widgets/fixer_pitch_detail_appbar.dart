@@ -26,7 +26,9 @@ AppBar buildPitchAppBar(
       if (isAssigned || isCompleted)
         IconButton(
           icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
-          onPressed: () => Navigator.pop(context), // Replace with options
+          onPressed: () {
+            //! Implement action menu if needed
+          }
         ),
     ],
   );

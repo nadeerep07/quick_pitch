@@ -18,8 +18,7 @@ class FixerPitchDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<FixerPitchDetailCubit>();
-    cubit.initialize(taskId: pitch.taskId, pitchId: pitch.id);
+
   
 
     return BlocConsumer<FixerPitchDetailCubit, FixerPitchDetailState>(
