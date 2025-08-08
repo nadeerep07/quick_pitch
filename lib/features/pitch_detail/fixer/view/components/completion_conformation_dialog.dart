@@ -4,12 +4,8 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
-Future<void> showUpdateDialog(
-  BuildContext context,
-  PitchModel currentPitch,
-  Responsive res,
-) async {
-  final updateController = TextEditingController();
+Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchModel currentPitch) async {
+  final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -18,7 +14,6 @@ Future<void> showUpdateDialog(
     barrierDismissible: false, // Prevent dismissing by tapping outside
     builder: (ctx) => StatefulBuilder(
       builder: (context, setState) {
-        final theme = Theme.of(context);
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),),
@@ -32,23 +27,25 @@ Future<void> showUpdateDialog(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Add Work Update',
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    'Mark Task as Completed',
+                    style: TextStyle(
+                      fontSize: res.wp(5),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: res.hp(2)),
                   Text(
-                    'Share your progress with the poster:',
-                    style: theme.textTheme.bodyMedium?.copyWith(
+                    'Add any completion notes for the poster:',
+                    style: TextStyle(
+                      fontSize: res.wp(4),
                       color: Colors.grey[600],
                     ),
                   ),
                   SizedBox(height: res.hp(2)),
                   TextFormField(
-                    controller: updateController,
+                    controller: controller,
                     decoration: InputDecoration(
-                      hintText: 'Enter your update...',
+                      hintText: 'Enter completion notes...',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey[400]!),
@@ -59,17 +56,16 @@ Future<void> showUpdateDialog(
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: theme.primaryColor),
+                        borderSide: BorderSide(color: Theme.of(context).primaryColor),
                       ),
                       filled: true,
                       fillColor: Colors.grey[100],
                       contentPadding: EdgeInsets.all(res.wp(3)),
                     ),
                     maxLines: 4,
-                    minLines: 3,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Please enter an update';
+                        return 'Please enter completion notes';
                       }
                       return null;
                     },
@@ -98,16 +94,14 @@ Future<void> showUpdateDialog(
                                   setState(() => isLoading = true);
                                   await context
                                       .read<FixerPitchDetailCubit>()
-                                      .addWorkUpdate(
-                                        currentPitch.id,
-                                        updateController.text,
-                                      );
+                                      .markAsCompleted(
+                                          currentPitch.id, controller.text);
                                   setState(() => isLoading = false);
                                   Navigator.pop(ctx);
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.primaryColor,
+                          backgroundColor: Theme.of(context).primaryColor,
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(
                             horizontal: res.wp(4),
@@ -126,10 +120,10 @@ Future<void> showUpdateDialog(
                                   strokeWidth: 2,
                                 ),
                               )
-                            : const Text('SUBMIT'),
+                            : const Text('COMPLETE'),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

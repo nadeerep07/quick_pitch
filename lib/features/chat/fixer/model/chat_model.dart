@@ -68,6 +68,23 @@ class ChatModel {
       unreadCount: unreadCount ?? this.unreadCount,
     );
   }
+factory ChatModel.fromMapWithContext(
+    Map<String, dynamic> map, String currentUserId) {
+  final sender = UserProfileModel.fromJson(map['sender']);
+  final receiver = UserProfileModel.fromJson(map['receiver']);
+
+  final isCurrentUserSender = sender.uid == currentUserId;
+
+  return ChatModel(
+    chatId: map['chatId'],
+    sender: isCurrentUserSender ? sender : receiver,
+    receiver: isCurrentUserSender ? receiver : sender,
+    lastMessage: map['lastMessage'] ?? '',
+    lastMessageTime: (map['lastMessageTime'] as Timestamp).toDate(),
+    isReceiverOnline: map['isReceiverOnline'] ?? false,
+    unreadCount: map['unreadCount'] ?? 0,
+  );
+}
 
   // Helper method for updating online status
   ChatModel copyWithOnlineStatus(bool isOnline) {

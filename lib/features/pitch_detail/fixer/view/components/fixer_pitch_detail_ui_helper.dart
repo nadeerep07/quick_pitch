@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/widgets/fixer_pitch_detail_appbar.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/widgets/fixer_pitch_detail_body.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/widgets/fixer_pitch_detail_status_options.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/fixer_pitch_detail_appbar.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/fixer_pitch_detail_body.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/fixer_pitch_detail_status_options.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';

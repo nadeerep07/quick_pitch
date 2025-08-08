@@ -15,7 +15,7 @@ import 'package:quick_pitch_app/features/requests/fixer/view/screen/fixer_reques
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
-import 'package:quick_pitch_app/features/messages/fixer/view/screen/fixer_chat_list_screen.dart';
+import 'package:quick_pitch_app/features/chat/fixer/view/screen/chat_list_screen.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 
 class FixerBottomNavContent extends StatelessWidget {
@@ -28,7 +28,7 @@ class FixerBottomNavContent extends StatelessWidget {
     final screens = [
       FixerHomeScreen(scaffoldKey: scaffoldKey),
       const FixerExploreScreen(),
-      const FixerChatListScreen(),
+      const ChatListScreen(),
       const FixerRequestScreen(),
       EarningScreen(),
     ];

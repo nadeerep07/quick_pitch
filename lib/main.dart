@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
         BlocProvider(create: (_)=> PitchCubit(PitchRepository())),
             BlocProvider(create: (_) => PitchFormCubit(pitchCubit: PitchCubit(PitchRepository()))),
-            BlocProvider(create: (_)=> PitchesCubit())
+            BlocProvider(create: (_)=> PitchesCubit()),
 
       ],
       child: MaterialApp(

@@ -14,7 +14,7 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
-import 'package:quick_pitch_app/features/messages/fixer/view/screen/fixer_chat_list_screen.dart';
+import 'package:quick_pitch_app/features/chat/fixer/view/screen/chat_list_screen.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/view/components/task_post_wrapper.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
@@ -37,7 +37,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
     final List<Widget> screens = const [
       PosterHomeScreen(),
       PosterExploreScreen(),
-      FixerChatListScreen(),
+    ChatListScreen(),
       RequestsScreen(),
     ];
 

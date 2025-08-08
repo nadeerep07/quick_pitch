@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
+import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/fixer_profile_section.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_detail_card.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_update_history_list.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -50,6 +51,7 @@ class PitchAssignedDetailScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      FixerProfileSection(pitch: pitch),
                       PitchDetailCard(task: task, pitch: pitch),
                       const SizedBox(height: 24),
                       UpdateHistoryList(pitchDocRef: pitchDocRef),

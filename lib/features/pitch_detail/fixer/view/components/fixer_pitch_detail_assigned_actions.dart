@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/app_button.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/papyemt_conformation_dialog.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/completion_conformation_dialog.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/update_dialog.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
