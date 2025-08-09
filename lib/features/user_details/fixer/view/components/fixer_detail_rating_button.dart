@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/features/chat/fixer/repository/chat_repository.dart';
+import 'package:quick_pitch_app/features/chat/fixer/view/screen/chat_screen.dart';
+import 'package:quick_pitch_app/features/chat/fixer/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
+import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class FixerDetailRatingButton extends StatelessWidget {
   const FixerDetailRatingButton({
     super.key,
     required this.res,
     required this.colorScheme,
+    required this.fixer,
   });
 
   final Responsive res;
   final ColorScheme colorScheme;
+  final UserProfileModel fixer;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,57 @@ class FixerDetailRatingButton extends StatelessWidget {
         
         // Action buttons
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+                                final authService =
+                                    AuthServices(); // Your custom auth service
+                                final currentUserId =
+                                    authService.currentUser?.uid;
+
+                                if (currentUserId == null || fixer == null)
+                                  return;
+
+                                // Fetch current user's profile (poster in this case)
+                                final posterProfile = await ChatRepository()
+                                    .fetchCurrentUserProfileByRole(
+                                      currentUserId,
+                                      role: 'poster',
+                                    );
+                                if (posterProfile.uid == fixer.uid) {
+                                  print(
+                                    "⚠️ Prevented self-chat in FixerProfileSection",
+                                  );
+                                  return;
+                                }
+                                // Create or get chatId
+                                final chatId = await ChatRepository()
+                                    .createOrGetChat(
+                                      sender: posterProfile,
+                                      receiver: fixer,
+                                    );
+
+                                // Navigate to ChatScreen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => BlocProvider(
+                                          create:
+                                              (context) => IndividualChatCubit(
+                                                chatRepository:
+                                                    ChatRepository(),
+                                                chatId: chatId,
+                                                currentUserId:
+                                                    posterProfile.uid,
+                                              )..loadMessages(),
+                                          child: ChatScreen(
+                                            chatId: chatId,
+                                            currentUser: posterProfile,
+                                            otherUser: fixer,
+                                          ),
+                                        ),
+                                  ),
+                                );
+                              },
           icon: Icon(Icons.message_outlined),
           style: IconButton.styleFrom(
             backgroundColor: colorScheme.surface,

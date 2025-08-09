@@ -24,7 +24,22 @@ class ChatTile extends StatelessWidget {
             : null,
       ),
       title: Text(chat.receiver.name),
-      subtitle: Text(chat.lastMessage),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(chat.lastMessage),
+          // Show role context for debugging/clarity
+          Text(
+            'You: ${_getCurrentUserRole()} → ${chat.receiver.role}',
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey[600],
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -49,8 +64,22 @@ class ChatTile extends StatelessWidget {
     );
   }
 
+  String _getCurrentUserRole() {
+    // Get current user role from chat context
+    final currentUserId = AuthServices().currentUser?.uid;
+    if (currentUserId == null) return 'unknown';
+    
+    if (chat.sender.uid == currentUserId) {
+      return chat.sender.role;
+    } else if (chat.receiver.uid == currentUserId) {
+      return chat.receiver.role;
+    }
+    return 'unknown';
+  }
+
   Future<void> _handleChatTap(BuildContext context) async {
     try {
+      print("=== CHAT TILE TAP DEBUG ===");
       print("Chat tapped: ${chat.chatId}");
       
       final authService = AuthServices();
@@ -77,10 +106,16 @@ class ChatTile extends StatelessWidget {
       final currentUserProfile = await chatRepository
           .fetchCurrentUserProfileByRole(currentUserId, role: activeRole);
 
-      // Determine the other user (the one we're chatting with)
-      final otherUser = chat.sender.uid == currentUserId
-          ? chat.receiver
-          : chat.sender;
+      // IMPORTANT: Determine the other user based on who is NOT the current user
+      final bool isCurrentUserSender = chat.sender.uid == currentUserId;
+      final otherUser = isCurrentUserSender ? chat.receiver : chat.sender;
+      final currentUserInChat = isCurrentUserSender ? chat.sender : chat.receiver;
+
+      print("Current User ID: $currentUserId");
+      print("Current User Active Role: $activeRole");
+      print("Current User In Chat: ${currentUserInChat.uid} (${currentUserInChat.role})");
+      print("Other User: ${otherUser.uid} (${otherUser.role})");
+      print("Is Sender: $isCurrentUserSender");
 
       // Safety check to prevent self-chat
       if (otherUser.uid == currentUserId) {
@@ -88,13 +123,46 @@ class ChatTile extends StatelessWidget {
         return;
       }
 
-      // Use the existing chat ID from the ChatModel
-      // This ensures consistency with the chat list
-      final chatId = chat.chatId;
+      // Check if current active role matches the role in this chat
+      if (currentUserProfile.role != currentUserInChat.role) {
+        print("⚠️ Role mismatch detected!");
+        print("Active role: ${currentUserProfile.role}");
+        print("Chat role: ${currentUserInChat.role}");
+        
+        // Find or create a new chat with the current active role
+        final String newChatId = await chatRepository.createOrGetChat(
+          sender: currentUserProfile,
+          receiver: otherUser,
+        );
+        
+        print("Using new/existing chat ID: $newChatId");
+        
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) => IndividualChatCubit(
+                  chatRepository: chatRepository,
+                  chatId: newChatId,
+                  currentUserId: currentUserProfile.uid,
+                )..loadMessages(),
+                child: ChatScreen(
+                  chatId: newChatId,
+                  currentUser: currentUserProfile,
+                  otherUser: otherUser,
+                ),
+              ),
+            ),
+          );
+        }
+        return;
+      }
 
-      print("Current user: ${currentUserProfile.uid} (${currentUserProfile.role})");
-      print("Other user: ${otherUser.uid} (${otherUser.role})");
-      print("Using chat ID: $chatId");
+      // Use the existing chat ID from the ChatModel
+      final chatId = chat.chatId;
+      print("Using existing chat ID: $chatId");
+      print("=== END DEBUG ===");
 
       // Navigate to chat screen
       if (context.mounted) {

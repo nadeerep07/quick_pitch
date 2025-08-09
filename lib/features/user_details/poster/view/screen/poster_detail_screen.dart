@@ -85,7 +85,8 @@ class PosterDetailScreen extends StatelessWidget {
                   SizedBox(height: res.hp(2)),
 
                   // Rating and action buttons
-                  PosterDetailRatingButton(res: res, colorScheme: colorScheme),
+                  PosterDetailRatingButton(res: res, colorScheme: colorScheme
+                      , poster: posterData),
                   SizedBox(height: res.hp(3)),
 
                   // About section

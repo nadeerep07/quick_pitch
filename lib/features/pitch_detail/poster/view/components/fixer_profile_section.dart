@@ -93,10 +93,12 @@ class FixerProfileSection extends StatelessWidget {
                                       currentUserId,
                                       role: 'poster',
                                     );
-if (posterProfile.uid == fixer.uid) {
-  print("⚠️ Prevented self-chat in FixerProfileSection");
-  return;
-}
+                                if (posterProfile.uid == fixer.uid) {
+                                  print(
+                                    "⚠️ Prevented self-chat in FixerProfileSection",
+                                  );
+                                  return;
+                                }
                                 // Create or get chatId
                                 final chatId = await ChatRepository()
                                     .createOrGetChat(
@@ -110,11 +112,14 @@ if (posterProfile.uid == fixer.uid) {
                                   MaterialPageRoute(
                                     builder:
                                         (_) => BlocProvider(
-                                          create: (context) => IndividualChatCubit(
-                                            chatRepository: ChatRepository(),
-                                            chatId: chatId,
-                                            currentUserId: posterProfile.uid,
-                                          )..loadMessages(),
+                                          create:
+                                              (context) => IndividualChatCubit(
+                                                chatRepository:
+                                                    ChatRepository(),
+                                                chatId: chatId,
+                                                currentUserId:
+                                                    posterProfile.uid,
+                                              )..loadMessages(),
                                           child: ChatScreen(
                                             chatId: chatId,
                                             currentUser: posterProfile,

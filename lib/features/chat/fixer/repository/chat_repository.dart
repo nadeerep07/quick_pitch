@@ -6,17 +6,19 @@ import 'package:quick_pitch_app/features/profile_completion/model/user_profile_m
 class ChatRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Get chats for any user (fixed role detection)
+  // Get chats for any user (filtered by current active role)
   Stream<List<ChatModel>> getUserChats(String userId) async* {
     try {
-      final userRole = await _detectUserRole(userId);
+      final userRole = await detectUserRole(userId);
       
       if (userRole == null) {
         yield [];
         return;
       }
       
-      // Get chats where user is either sender OR receiver
+      print("🔍 Loading chats for user: $userId with role: $userRole");
+      
+      // Get ALL chats where user is involved, then filter by role
       yield* _firestore
           .collection('chats')
           .where(Filter.or(
@@ -31,13 +33,35 @@ class ChatRepository {
             for (final doc in snapshot.docs) {
               try {
                 final data = doc.data();
-                final chat = ChatModel.fromMapWithContext(data, userId);
-                chats.add(chat);
+                
+                // Check if user's role in this chat matches their current active role
+                final senderUid = data['sender']?['uid'];
+                final senderRole = data['sender']?['role'];
+                final receiverUid = data['receiver']?['uid'];
+                final receiverRole = data['receiver']?['role'];
+                
+                bool shouldIncludeChat = false;
+                
+                if (senderUid == userId && senderRole == userRole) {
+                  shouldIncludeChat = true;
+                } else if (receiverUid == userId && receiverRole == userRole) {
+                  shouldIncludeChat = true;
+                }
+                
+                if (shouldIncludeChat) {
+                  final chat = ChatModel.fromMapWithContext(data, userId);
+                  chats.add(chat);
+                  print("✅ Including chat: ${chat.chatId} (user role: $userRole)");
+                } else {
+                  print("❌ Excluding chat: ${doc.id} (user role mismatch)");
+                }
+                
               } catch (e) {
                 print('Error loading chat: $e');
               }
             }
 
+            print("📋 Total chats for role $userRole: ${chats.length}");
             return chats;
           });
     } catch (e) {
@@ -155,24 +179,19 @@ class ChatRepository {
     }
   }
 
-  // FIXED: Generate consistent chat ID
+  // FIXED: Generate role-specific chat ID - NO MORE SORTING
   String generateChatId({
     required String userId1,
     required String role1,
     required String userId2,
     required String role2,
   }) {
-    // Always use consistent ordering regardless of who initiates the chat
-    final List<String> users = [
-      '$userId1-$role1',
-      '$userId2-$role2',
-    ];
-    users.sort(); // This ensures consistent ordering
-    
-    return '${users[0]}_${users[1]}';
+    // Create role-specific chat ID without sorting
+    // This ensures A(poster)->B(fixer) is different from A(fixer)->B(poster)
+    return '${userId1}-${role1}_${userId2}-${role2}';
   }
 
-  // FIXED: Create or get existing chat
+  // FIXED: Create or get existing chat with proper role-specific logic
   Future<String> createOrGetChat({
     required UserProfileModel sender,
     required UserProfileModel receiver,
@@ -181,33 +200,90 @@ class ChatRepository {
       throw Exception("❌ Cannot create chat with self");
     }
 
-    final chatId = generateChatId(
+    // Generate the primary chat ID (sender->receiver)
+    final primaryChatId = generateChatId(
       userId1: sender.uid,
       role1: sender.role,
       userId2: receiver.uid,
       role2: receiver.role,
     );
 
-    try {
-      final chatDoc = await _firestore.collection('chats').doc(chatId).get();
+    // Generate the reverse chat ID (receiver->sender) to check for existing chats
+    final reverseChatId = generateChatId(
+      userId1: receiver.uid,
+      role1: receiver.role,
+      userId2: sender.uid,
+      role2: sender.role,
+    );
 
-      if (!chatDoc.exists) {
-        await _firestore.collection('chats').doc(chatId).set({
-          'chatId': chatId,
-          'sender': sender.toRoleJson(),
-          'receiver': receiver.toRoleJson(),
-          'lastMessage': '',
-          'lastMessageTime': DateTime.now(),
-          'unreadCount': 0,
-          'isReceiverOnline': false,
-         // 'participants': [sender.uid, receiver.uid],
-        });
+    try {
+      // Check if primary chat exists
+      final primaryChatDoc = await _firestore.collection('chats').doc(primaryChatId).get();
+      if (primaryChatDoc.exists) {
+        return primaryChatId;
       }
 
-      return chatId;
+      // Check if reverse chat exists
+      final reverseChatDoc = await _firestore.collection('chats').doc(reverseChatId).get();
+      if (reverseChatDoc.exists) {
+        return reverseChatId;
+      }
+
+      // Create new chat with primary ID
+      await _firestore.collection('chats').doc(primaryChatId).set({
+        'chatId': primaryChatId,
+        'sender': sender.toRoleJson(),
+        'receiver': receiver.toRoleJson(),
+        'lastMessage': '',
+        'lastMessageTime': DateTime.now(),
+        'unreadCount': 0,
+        'isReceiverOnline': false,
+        // Add role-specific metadata for better querying
+        'senderRole': sender.role,
+        'receiverRole': receiver.role,
+        'participantRoles': ['${sender.uid}-${sender.role}', '${receiver.uid}-${receiver.role}'],
+      });
+
+      return primaryChatId;
     } catch (e) {
       print('Error creating/getting chat: $e');
       throw e;
+    }
+  }
+
+  // NEW: Get chat between specific users with specific roles
+  Future<String?> findExistingChat({
+    required String userId1,
+    required String role1,
+    required String userId2,
+    required String role2,
+  }) async {
+    try {
+      // Try both possible chat IDs
+      final chatId1 = generateChatId(
+        userId1: userId1,
+        role1: role1,
+        userId2: userId2,
+        role2: role2,
+      );
+      
+      final chatId2 = generateChatId(
+        userId1: userId2,
+        role1: role2,
+        userId2: userId1,
+        role2: role1,
+      );
+
+      final chat1Doc = await _firestore.collection('chats').doc(chatId1).get();
+      if (chat1Doc.exists) return chatId1;
+
+      final chat2Doc = await _firestore.collection('chats').doc(chatId2).get();
+      if (chat2Doc.exists) return chatId2;
+
+      return null;
+    } catch (e) {
+      print('Error finding existing chat: $e');
+      return null;
     }
   }
 
@@ -243,7 +319,7 @@ class ChatRepository {
     }
   }
 
-  Future<String?> _detectUserRole(String uid) async {
+  Future<String?> detectUserRole(String uid) async {
     try {
       final userDoc = await _firestore.collection('users').doc(uid).get();
       

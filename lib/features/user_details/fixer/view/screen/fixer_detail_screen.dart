@@ -94,7 +94,8 @@ class FixerDetailScreen extends StatelessWidget {
                   SizedBox(height: res.hp(2)),
 
                   // Rating and action buttons
-                  FixerDetailRatingButton(res: res, colorScheme: colorScheme),
+                  FixerDetailRatingButton(res: res, colorScheme: colorScheme
+                      , fixer: fixerData),
                   SizedBox(height: res.hp(3)),
 
                   // About section
