@@ -70,9 +70,11 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                         );
                       }
                     } else if (state is RoleSwitchError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Error: ${state.message}")),
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                        
+                      //   SnackBar(content: Text("Error: ${state.message}")),
+                      // );
+                      print("Role switch error: ${state.message}");
                     }
                   },
                   child: Stack(

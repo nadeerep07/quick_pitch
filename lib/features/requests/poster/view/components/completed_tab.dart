@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/placeholder_content.dart';
 
 class CompletedTab extends StatelessWidget {
-  const CompletedTab({super.key});
+  const  CompletedTab({super.key});
 
   @override
   Widget build(BuildContext context) {

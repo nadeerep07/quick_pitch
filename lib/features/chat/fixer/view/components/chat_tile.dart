@@ -1,210 +1,161 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
+import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/chat/fixer/model/chat_model.dart';
-import 'package:quick_pitch_app/features/chat/fixer/repository/chat_repository.dart';
-import 'package:quick_pitch_app/features/chat/fixer/view/screen/chat_screen.dart';
-import 'package:quick_pitch_app/features/chat/fixer/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 
 class ChatTile extends StatelessWidget {
   final ChatModel chat;
+  final VoidCallback onTap;
 
-  const ChatTile({super.key, required this.chat});
+  const ChatTile({
+    super.key,
+    required this.chat,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: chat.receiver.profileImageUrl != null
-            ? NetworkImage(chat.receiver.profileImageUrl!)
-            : null,
-        child: chat.receiver.profileImageUrl == null
-            ? const Icon(Icons.person)
-            : null,
-      ),
-      title: Text(chat.receiver.name),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(chat.lastMessage),
-          // Show role context for debugging/clarity
-          Text(
-            'You: ${_getCurrentUserRole()} → ${chat.receiver.role}',
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey[600],
-              fontStyle: FontStyle.italic,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
             ),
-          ),
-        ],
-      ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            _formatTime(chat.lastMessageTime),
-            style: const TextStyle(fontSize: 12),
-          ),
-          const SizedBox(height: 4),
-          if (chat.unreadCount > 0)
-            CircleAvatar(
-              radius: 10,
-              backgroundColor: Colors.red,
-              child: Text(
-                '${chat.unreadCount}',
-                style: const TextStyle(color: Colors.white, fontSize: 12),
+          ],
+        ),
+        child: Row(
+          children: [
+            _buildAvatar(),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          chat.receiver.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        _formatTime(chat.lastMessageTime, context),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          chat.lastMessage,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade700,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (chat.unreadCount > 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            chat.unreadCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${chat.sender.role} → ${chat.receiver.role}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey.shade500,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
               ),
             ),
-        ],
+          ],
+        ),
       ),
-      onTap: () => _handleChatTap(context),
     );
   }
 
-  String _getCurrentUserRole() {
-    // Get current user role from chat context
-    final currentUserId = AuthServices().currentUser?.uid;
-    if (currentUserId == null) return 'unknown';
-    
-    if (chat.sender.uid == currentUserId) {
-      return chat.sender.role;
-    } else if (chat.receiver.uid == currentUserId) {
-      return chat.receiver.role;
-    }
-    return 'unknown';
-  }
-
-  Future<void> _handleChatTap(BuildContext context) async {
-    try {
-      print("=== CHAT TILE TAP DEBUG ===");
-      print("Chat tapped: ${chat.chatId}");
-      
-      final authService = AuthServices();
-      final currentUserId = authService.currentUser?.uid;
-      if (currentUserId == null) {
-        print("❌ No current user found");
-        return;
-      }
-
-      // Determine current user's active role
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUserId)
-          .get();
-      
-      final activeRole = userDoc.data()?['activeRole'];
-      if (activeRole == null) {
-        print("❌ No active role found for user");
-        return;
-      }
-
-      // Get current user's profile
-      final chatRepository = ChatRepository();
-      final currentUserProfile = await chatRepository
-          .fetchCurrentUserProfileByRole(currentUserId, role: activeRole);
-
-      // IMPORTANT: Determine the other user based on who is NOT the current user
-      final bool isCurrentUserSender = chat.sender.uid == currentUserId;
-      final otherUser = isCurrentUserSender ? chat.receiver : chat.sender;
-      final currentUserInChat = isCurrentUserSender ? chat.sender : chat.receiver;
-
-      print("Current User ID: $currentUserId");
-      print("Current User Active Role: $activeRole");
-      print("Current User In Chat: ${currentUserInChat.uid} (${currentUserInChat.role})");
-      print("Other User: ${otherUser.uid} (${otherUser.role})");
-      print("Is Sender: $isCurrentUserSender");
-
-      // Safety check to prevent self-chat
-      if (otherUser.uid == currentUserId) {
-        print("⚠️ Prevented self-chat in ChatTile");
-        return;
-      }
-
-      // Check if current active role matches the role in this chat
-      if (currentUserProfile.role != currentUserInChat.role) {
-        print("⚠️ Role mismatch detected!");
-        print("Active role: ${currentUserProfile.role}");
-        print("Chat role: ${currentUserInChat.role}");
-        
-        // Find or create a new chat with the current active role
-        final String newChatId = await chatRepository.createOrGetChat(
-          sender: currentUserProfile,
-          receiver: otherUser,
-        );
-        
-        print("Using new/existing chat ID: $newChatId");
-        
-        if (context.mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => BlocProvider(
-                create: (_) => IndividualChatCubit(
-                  chatRepository: chatRepository,
-                  chatId: newChatId,
-                  currentUserId: currentUserProfile.uid,
-                )..loadMessages(),
-                child: ChatScreen(
-                  chatId: newChatId,
-                  currentUser: currentUserProfile,
-                  otherUser: otherUser,
+  Widget _buildAvatar() {
+    return Stack(
+      children: [
+        CircleAvatar(
+          radius: 24,
+          backgroundImage: chat.receiver.profileImageUrl != null
+              ? NetworkImage(chat.receiver.profileImageUrl!)
+              : null,
+          child: chat.receiver.profileImageUrl == null
+              ? const Icon(Icons.person, size: 24)
+              : null,
+        ),
+        if (chat.isOnline)
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2,
                 ),
               ),
             ),
-          );
-        }
-        return;
-      }
-
-      // Use the existing chat ID from the ChatModel
-      final chatId = chat.chatId;
-      print("Using existing chat ID: $chatId");
-      print("=== END DEBUG ===");
-
-      // Navigate to chat screen
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (_) => IndividualChatCubit(
-                chatRepository: chatRepository,
-                chatId: chatId,
-                currentUserId: currentUserProfile.uid,
-              )..loadMessages(),
-              child: ChatScreen(
-                chatId: chatId,
-                currentUser: currentUserProfile,
-                otherUser: otherUser,
-              ),
-            ),
           ),
-        );
-      }
-    } catch (e) {
-      print("❌ Error in chat tap: $e");
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error opening chat: $e")),
-        );
-      }
-    }
+      ],
+    );
   }
 
-  String _formatTime(DateTime dateTime) {
+  String _formatTime(DateTime dateTime, BuildContext context) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
     
     if (messageDate == today) {
-      final time = TimeOfDay.fromDateTime(dateTime);
-      return "${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period.name.toUpperCase()}";
+      return TimeOfDay.fromDateTime(dateTime).format(context);
+    } else if (messageDate.year == now.year) {
+      return '${dateTime.day}/${dateTime.month}';
     } else {
-      final time = TimeOfDay.fromDateTime(dateTime);
-      return "${dateTime.day}/${dateTime.month} ${time.hourOfPeriod}:${time.minute.toString().padLeft(2, '0')} ${time.period.name.toUpperCase()}";
+      return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
     }
   }
 }

@@ -48,7 +48,7 @@ class IndividualChatCubit extends Cubit<IndividualChatState> {
   }
 
   void markAsRead() {
-    chatRepository.markAsRead(chatId);
+    chatRepository.markMessagesAsRead(chatId, currentUserId);
   }
 
   @override
