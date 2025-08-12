@@ -29,6 +29,7 @@ class FixerProfileSection extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(res.wp(4)),
           ),
+          // ignore: deprecated_member_use
           color: colorScheme.surface.withOpacity(0.9),
           child: Padding(
             padding: EdgeInsets.all(res.wp(4)),
@@ -44,7 +45,11 @@ class FixerProfileSection extends StatelessWidget {
                   child: ClipOval(
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/images/avatar_photo_placeholder.jpg',
-                      image: fixer?.profileImageUrl ?? '',
+                      image:
+                          fixer?.profileImageUrl?.isNotEmpty == true
+                              ? fixer!.profileImageUrl!
+                              : 'https://via.placeholder.com/150',
+
                       width: res.wp(12),
                       height: res.wp(12),
                       fit: BoxFit.cover,
