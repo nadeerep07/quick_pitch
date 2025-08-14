@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/features/chat/fixer/view/components/chat_app_bar.dart';
-import 'package:quick_pitch_app/features/chat/fixer/view/components/message_input_field.dart';
-import 'package:quick_pitch_app/features/chat/fixer/view/components/message_list.dart';
-import 'package:quick_pitch_app/features/chat/fixer/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
+import 'package:quick_pitch_app/features/chat/view/components/chat_app_bar.dart';
+import 'package:quick_pitch_app/features/chat/view/components/message_input_field.dart';
+import 'package:quick_pitch_app/features/chat/view/components/message_list.dart';
+import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  bool _isListViewInitialized = false;
+//  bool _isListViewInitialized = false;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
       }
-      _isListViewInitialized = true;
+   //   _isListViewInitialized = true;
     });
   }
 
@@ -58,15 +58,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _scrollToBottom() {
-    if (_scrollController.hasClients && _isListViewInitialized) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +70,6 @@ class _ChatScreenState extends State<ChatScreen> {
               currentUser: widget.currentUser,
               otherUser: widget.otherUser,
               scrollController: _scrollController,
-              scrollToBottom: _scrollToBottom,
             ),
           ),
           MessageInputField(

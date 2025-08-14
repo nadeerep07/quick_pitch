@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
+import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
+import 'package:quick_pitch_app/features/chat/viewmodel/chat/cubit/chat_list_view_model_cubit.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
@@ -15,6 +20,7 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/
 import 'package:quick_pitch_app/features/main/poster/viewmodel/home/cubit/poster_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/onboarding/viewmodel/bloc/onboarding_bloc.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
@@ -32,6 +38,7 @@ import 'package:quick_pitch_app/features/task_pitching/viewmodel/cubit/pitch_cub
 import 'package:quick_pitch_app/features/task_pitching/viewmodel/pitch_form/cubit/pitch_form_cubit.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
 import 'core/services/firebase/firebase_options.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
@@ -41,15 +48,15 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
- 
+
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-   
     final authRepository = AuthRepository();
     return MultiBlocProvider(
       providers: [
@@ -80,13 +87,27 @@ class MyApp extends StatelessWidget {
           create: (context) => TaskDetailsCubit(TaskPostRepository()),
         ),
         BlocProvider(create: (context) => TaskFilterCubit()),
-      // BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: fixerRepository)),
-        BlocProvider(create: (_)=> FixerProfileCubit()..loadFixerProfile()),
-        BlocProvider(create: (_)=> ProfileEditCubit(repository: UserProfileRepository())),
-        BlocProvider(create: (_)=> PitchCubit(PitchRepository())),
-            BlocProvider(create: (_) => PitchFormCubit(pitchCubit: PitchCubit(PitchRepository()))),
-            BlocProvider(create: (_)=> PitchesCubit()),
-
+        // BlocProvider(create: (_) => ExploreScreenCubit(fixerRepository: fixerRepository)),
+        BlocProvider(create: (_) => FixerProfileCubit()..loadFixerProfile()),
+        BlocProvider(
+          create: (_) => ProfileEditCubit(repository: UserProfileRepository()),
+        ),
+        BlocProvider(create: (_) => PitchCubit(PitchRepository())),
+        BlocProvider(
+          create:
+              (_) => PitchFormCubit(pitchCubit: PitchCubit(PitchRepository())),
+        ),
+        BlocProvider(create: (_) => PitchesCubit()),
+        BlocProvider(
+          create:
+              (_) => FixerPitchDetailCubit(
+                pitchRepository: PitchRepository(),
+                taskRepository: TaskPostRepository(),
+                pitchStatusService: PitchStatusService(),
+                pitchUpdateService: PitchUpdateService(),
+              ),
+        ),
+        BlocProvider(create: (context) => ChatListViewModel()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

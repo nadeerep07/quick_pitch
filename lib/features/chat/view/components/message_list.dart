@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/chat/fixer/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
+import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'message_bubble.dart';
 import 'date_label.dart';
@@ -9,14 +9,14 @@ class MessageList extends StatelessWidget {
   final UserProfileModel currentUser;
   final UserProfileModel otherUser;
   final ScrollController scrollController;
-  final VoidCallback scrollToBottom;
+//  final VoidCallback scrollToBottom;
 
   const MessageList({
     super.key,
     required this.currentUser,
     required this.otherUser,
     required this.scrollController,
-    required this.scrollToBottom,
+  //  required this.scrollToBottom,
   });
 
   @override
@@ -26,7 +26,11 @@ class MessageList extends StatelessWidget {
         if (state is IndividualChatLoading) {
           return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         } else if (state is IndividualChatLoaded) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (scrollController.hasClients) {
+              scrollController.jumpTo(0); // Always stay at bottom
+            }
+          });
 
           return Container(
             decoration: const BoxDecoration(
@@ -44,17 +48,28 @@ class MessageList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final message = state.messages[index];
                 final isMe = message.senderId == currentUser.uid;
-                final isSameSender = index > 0 &&
+
+                // Check sender continuity
+                final isSameSender =
+                    index > 0 &&
                     state.messages[index - 1].senderId == message.senderId;
-                final showTime = index == 0 ||
-                    state.messages[index - 1].senderId != message.senderId ||
-                    _isDifferentDay(
-                        message.timestamp, state.messages[index - 1].timestamp);
+
+                // Check if we should show date
+                bool showDate = false;
+                if (index == state.messages.length - 1) {
+                  // Last in the reversed list = earliest chronologically
+                  showDate = true;
+                } else {
+                  final nextMessage = state.messages[index + 1];
+                  showDate = _isDifferentDay(
+                    message.timestamp,
+                    nextMessage.timestamp,
+                  );
+                }
 
                 return Column(
                   children: [
-                    if (showTime && !isSameSender)
-                      DateLabel(date: message.timestamp),
+                    if (showDate) DateLabel(date: message.timestamp),
                     MessageBubble(
                       message: message,
                       isMe: isMe,

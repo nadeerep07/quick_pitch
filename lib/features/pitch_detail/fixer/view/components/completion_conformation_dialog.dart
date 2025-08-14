@@ -4,19 +4,27 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
-Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchModel currentPitch) async {
+Future<void> showCompletionDialog(
+  BuildContext context,
+  Responsive res,
+  PitchModel currentPitch,
+) async {
   final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
+  // Get the cubit from the current context
+  final fixerCubit = context.read<FixerPitchDetailCubit>();
+
   await showDialog(
     context: context,
-    barrierDismissible: false, // Prevent dismissing by tapping outside
+    barrierDismissible: false,
     builder: (ctx) => StatefulBuilder(
-      builder: (context, setState) {
+      builder: (dialogContext, setState) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),),
+            borderRadius: BorderRadius.circular(16),
+          ),
           elevation: 4,
           child: Padding(
             padding: EdgeInsets.all(res.wp(4)),
@@ -56,7 +64,9 @@ Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchMod
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                        borderSide: BorderSide(
+                          color: Theme.of(dialogContext).primaryColor,
+                        ),
                       ),
                       filled: true,
                       fillColor: Colors.grey[100],
@@ -75,7 +85,8 @@ Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchMod
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: isLoading ? null : () => Navigator.pop(ctx),
+                        onPressed:
+                            isLoading ? null : () => Navigator.pop(ctx),
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.grey[700],
                           padding: EdgeInsets.symmetric(
@@ -92,16 +103,16 @@ Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchMod
                             : () async {
                                 if (formKey.currentState!.validate()) {
                                   setState(() => isLoading = true);
-                                  await context
-                                      .read<FixerPitchDetailCubit>()
-                                      .markAsCompleted(
-                                          currentPitch.id, controller.text);
+                                  await fixerCubit.markAsCompleted(
+                                    currentPitch.id,
+                                    controller.text,
+                                  );
                                   setState(() => isLoading = false);
                                   Navigator.pop(ctx);
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundColor: Theme.of(dialogContext).primaryColor,
                           foregroundColor: Colors.white,
                           padding: EdgeInsets.symmetric(
                             horizontal: res.wp(4),
@@ -123,7 +134,7 @@ Future<void> showCompletionDialog(BuildContext context, Responsive res, PitchMod
                             : const Text('COMPLETE'),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
