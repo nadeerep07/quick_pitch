@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:quick_pitch_app/features/chat/fixer/model/message_model.dart';
-import 'package:quick_pitch_app/features/chat/fixer/repository/chat_repository.dart';
+import 'package:quick_pitch_app/features/chat/model/message_model.dart';
+import 'package:quick_pitch_app/features/chat/repository/chat_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 part 'individual_chat_state.dart';

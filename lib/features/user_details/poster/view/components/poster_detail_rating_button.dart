@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
-import 'package:quick_pitch_app/features/chat/fixer/repository/chat_repository.dart';
-import 'package:quick_pitch_app/features/chat/fixer/view/screen/chat_screen.dart';
-import 'package:quick_pitch_app/features/chat/fixer/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
+import 'package:quick_pitch_app/features/chat/repository/chat_repository.dart';
+import 'package:quick_pitch_app/features/chat/view/screen/chat_screen.dart';
+import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class PosterDetailRatingButton extends StatelessWidget {

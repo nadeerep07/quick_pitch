@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/features/chat/fixer/model/chat_model.dart';
+import 'package:quick_pitch_app/features/chat/model/chat_model.dart';
 
 class ChatTile extends StatelessWidget {
   final ChatModel chat;
@@ -14,6 +14,7 @@ class ChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
