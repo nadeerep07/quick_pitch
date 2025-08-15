@@ -97,6 +97,6 @@ class ChatRepository {
     required String userId2,
     required String role2,
   }) {
-    return '$userId1-$role1\_$userId2-$role2';
+    return '$userId1-${role1}_$userId2-$role2';
   }
 }
