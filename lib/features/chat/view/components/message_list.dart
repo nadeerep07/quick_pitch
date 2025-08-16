@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/features/chat/view/components/chat_background_painter.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'message_bubble.dart';
@@ -34,14 +35,8 @@ class MessageList extends StatelessWidget {
             }
           });
 
-          return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/chat_bg.jpeg'),
-                fit: BoxFit.cover,
-                opacity: 0.5,
-              ),
-            ),
+          return CustomPaint(
+          painter:ChatBackgroundPainter(),
             child: messages.isEmpty
                 ? _buildEmptyState()
                 : ListView.builder(
