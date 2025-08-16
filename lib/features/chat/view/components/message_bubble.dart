@@ -25,29 +25,14 @@ class MessageBubble extends StatelessWidget {
             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (!isMe && !isSameSender)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: CircleAvatar(
-                radius: 12,
-                backgroundImage: otherUser.profileImageUrl != null
-                    ? NetworkImage(otherUser.profileImageUrl!)
-                    : null,
-                child: otherUser.profileImageUrl == null
-                    ? Text(otherUser.name[0].toUpperCase(),
-                        style: const TextStyle(fontSize: 10))
-                    : null,
-              ),
-            ),
           ConstrainedBox(
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.75),
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
+            ),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: isMe
-                    ? Theme.of(context).primaryColor
-                    : Colors.white,
+                color: isMe ? Theme.of(context).primaryColor : Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
@@ -56,7 +41,7 @@ class MessageBubble extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: .05),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -78,9 +63,10 @@ class MessageBubble extends StatelessWidget {
                     _formatTime(message.timestamp),
                     style: TextStyle(
                       fontSize: 10,
-                      color: isMe
-                          ? Colors.white.withOpacity(0.8)
-                          : Colors.grey[500],
+                      color:
+                          isMe
+                              ? Colors.white.withOpacity(0.8)
+                              : Colors.grey[500],
                     ),
                   ),
                 ],
