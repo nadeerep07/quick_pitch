@@ -29,7 +29,7 @@ class MessageList extends StatelessWidget {
           return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         } else if (state is IndividualChatLoaded || state is IndividualChatSending) {
           final messages = state is IndividualChatLoaded
-              ? (state as IndividualChatLoaded).messages
+              ? (state).messages
               : (state as IndividualChatSending).messages;
 
           WidgetsBinding.instance.addPostFrameCallback((_) {

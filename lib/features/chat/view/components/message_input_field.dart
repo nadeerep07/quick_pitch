@@ -1,251 +1,218 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/image_preview_section.dart';
+import 'package:quick_pitch_app/features/chat/viewmodel/message_input/cubit/message_input_cubit.dart';
+import 'dart:io';
 
-class MessageInputField extends StatefulWidget {
+class MessageInputField extends StatelessWidget {
   final TextEditingController controller;
   final Function(String text, List<File> images) onSend;
-  final VoidCallback? onImagePicked;
 
   const MessageInputField({
     super.key,
     required this.controller,
     required this.onSend,
-    this.onImagePicked,
   });
 
-  @override
-  State<MessageInputField> createState() => _MessageInputFieldState();
-}
-
-class _MessageInputFieldState extends State<MessageInputField> {
-  final ImagePicker _picker = ImagePicker();
-  List<File> _selectedImages = [];
-  bool _showEmojiPicker = false;
-
-  void _sendMessage() {
-    final text = widget.controller.text.trim();
-    if (text.isNotEmpty || _selectedImages.isNotEmpty) {
-      widget.onSend(text, List.from(_selectedImages));
-      widget.controller.clear();
-      setState(() {
-        _selectedImages.clear();
-      });
+  void _sendMessage(BuildContext context, List<File> images) {
+    final text = controller.text.trim();
+    if (text.isNotEmpty || images.isNotEmpty) {
+      onSend(text, images);
+      controller.clear();
+      context.read<MessageInputCubit>().clearImages();
     }
-  }
-
-  Future<void> _pickImages() async {
-    try {
-      final List<XFile> images = await _picker.pickMultiImage(
-        maxWidth: 1920,
-        maxHeight: 1080,
-        imageQuality: 85,
-      );
-      
-      if (images.isNotEmpty) {
-        setState(() {
-          _selectedImages.addAll(images.map((xFile) => File(xFile.path)));
-        });
-        widget.onImagePicked?.call();
-      }
-    } catch (e) {
-      // Handle error - you might want to show a snackbar
-      debugPrint('Error picking images: $e');
-    }
-  }
-
-  Future<void> _pickImageFromCamera() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 1920,
-        maxHeight: 1080,
-        imageQuality: 85,
-      );
-      
-      if (image != null) {
-        setState(() {
-          _selectedImages.add(File(image.path));
-        });
-        widget.onImagePicked?.call();
-      }
-    } catch (e) {
-      debugPrint('Error taking photo: $e');
-    }
-  }
-
-  void _removeImage(int index) {
-    setState(() {
-      _selectedImages.removeAt(index);
-    });
-  }
-
-  void _showImageSourceDialog() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('Photo Library'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImages();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text('Camera'),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImageFromCamera();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _onEmojiSelected(Emoji emoji) {
-    widget.controller.text += emoji.emoji;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Selected images preview
-        if (_selectedImages.isNotEmpty)
-          Container(
-            height: 80,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _selectedImages.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.file(
-                          _selectedImages[index],
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        top: -8,
-                        right: -8,
-                        child: IconButton(
-                          icon: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
-                          onPressed: () => _removeImage(index),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+    return BlocBuilder<MessageInputCubit, MessageInputState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            /// --- Image Preview Section ---
+            if (state.selectedImages.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ImagePreviewSection(
+                  images: state.selectedImages,
+                  onRemove: (index) =>
+                      context.read<MessageInputCubit>().removeImage(index),
+                ),
+              ),
 
-        // Input field
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withValues(alpha: .1),
-                blurRadius: 8,
-                offset: const Offset(0, -2),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              IconButton(
-                icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
-                onPressed: _showImageSourceDialog,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(24),
+            /// --- Input Bar ---
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 6,
+                    offset: const Offset(0, -2),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: widget.controller,
-                          decoration: const InputDecoration(
-                            hintText: 'Type a message...',
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          maxLines: 3,
-                          minLines: 1,
-                          onSubmitted: (_) => _sendMessage(),
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          _showEmojiPicker 
-                            ? Icons.keyboard 
-                            : Icons.emoji_emotions_outlined,
-                          color: Colors.grey[600],
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _showEmojiPicker = !_showEmojiPicker;
-                          });
-                        },
-                      ),
-                    ],
+                ],
+              ),
+              child: Row(
+                children: [
+                  /// Emoji Toggle
+                  IconButton(
+                    icon: Icon(
+                      state.showEmojiPicker ? Icons.keyboard : Icons.emoji_emotions_outlined,
+                      color: Colors.grey[700],
+                    ),
+                    onPressed: () =>
+                        context.read<MessageInputCubit>().toggleEmojiPicker(),
                   ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.send, color: Colors.white),
-                  onPressed: _sendMessage,
-                ),
-              ),
-            ],
-          ),
-        ),
 
-        // Emoji picker
-        if (_showEmojiPicker)
-          SizedBox(
-            height: 250,
-            child: EmojiPicker(
-              onEmojiSelected: (category, emoji) => _onEmojiSelected(emoji)
+                  /// Text Field
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(color: Colors.grey[300]!),
+                      ),
+                      child: TextField(
+                        controller: controller,
+                        minLines: 1,
+                        maxLines: 4,
+                        decoration: const InputDecoration(
+                          hintText: "Type a message...",
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  /// Image Picker Button
+                  IconButton(
+                    icon: const Icon(Icons.attach_file),
+                    color: Colors.grey[700],
+                    onPressed: () => _showImageSourceDialog(context),
+                  ),
+
+                  /// Send Button
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.send, color: Colors.white, size: 20),
+                      onPressed: () => _sendMessage(context, state.selectedImages),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-      ],
+
+            /// --- Emoji Picker Section ---
+            if (state.showEmojiPicker)
+              SizedBox(
+                height: 250,
+                child: EmojiPickerSection(
+                  onEmojiSelected: (emoji) => controller.text += emoji.emoji,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
+
+ void _showImageSourceDialog(BuildContext context) {
+  showModalBottomSheet(
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    context: context,
+    builder: (ctx) => SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Title
+            const Padding(
+              padding: EdgeInsets.only(left: 8, bottom: 16),
+              child: Text(
+                "Choose Option",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            /// Options Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildOption(
+                  icon: Icons.photo_library,
+                  label: "Gallery",
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    context.read<MessageInputCubit>().pickImages();
+                  },
+                ),
+                _buildOption(
+                  icon: Icons.camera_alt,
+                  label: "Camera",
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    context.read<MessageInputCubit>().pickImageFromCamera();
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildOption({
+  required IconData icon,
+  required String label,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Icon(icon, color: Colors.black87, size: 28),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        ),
+      ],
+    ),
+  );
+}
+
 }
