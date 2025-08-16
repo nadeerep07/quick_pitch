@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:quick_pitch_app/features/chat/model/message_model.dart';
-import 'package:quick_pitch_app/features/chat/view/screen/full_screen_image_view.dart';
-import 'package:quick_pitch_app/features/chat/view/screen/image_gallery_view.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/full_screen_image_view.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/image_gallery_view.dart';
 import 'package:quick_pitch_app/main.dart';
 
 
