@@ -17,7 +17,7 @@ class DeadlineSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         DropdownButtonFormField<String>(
-          value: state.selectedDeadline,
+          initialValue: state.selectedDeadline,
           items: ['Anytime', 'Within 1 week', 'Within 2 weeks', 'Urgent']
               .map((value) => DropdownMenuItem(value: value, child: Text(value)))
               .toList(),

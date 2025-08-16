@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/chat/model/chat_model.dart';
 import 'package:quick_pitch_app/features/chat/model/message_model.dart';
 import 'package:quick_pitch_app/features/chat/service/chat_service.dart';
@@ -22,7 +21,8 @@ class ChatRepository {
       }).toList();
     });
   }
-   Future<void> markMessagesAsRead(String chatId, String userId) {
+
+  Future<void> markMessagesAsRead(String chatId, String userId) {
     return _service.markMessagesAsRead(chatId, userId);
   }
 
@@ -37,8 +37,21 @@ class ChatRepository {
     required UserProfileModel sender,
     required UserProfileModel receiver,
     required String messageText,
+    MessageType messageType = MessageType.text,
+    List<AttachmentModel> attachments = const [],
   }) {
     final now = DateTime.now();
+    
+    // Determine last message text for chat preview
+    String lastMessageText = messageText;
+    if (messageType == MessageType.image && messageText.isEmpty) {
+      lastMessageText = '📷 Image';
+    } else if (messageType == MessageType.mixed) {
+      lastMessageText = '📷 $messageText';
+    } else if (attachments.isNotEmpty && messageText.isEmpty) {
+      lastMessageText = '📎 Attachment';
+    }
+
     return _service.updateChatAndSendMessage(
       chatId: chatId,
       messageData: {
@@ -47,9 +60,11 @@ class ChatRepository {
         'receiverId': receiver.uid,
         'timestamp': now,
         'isRead': false,
+        'messageType': messageType.name,
+        'attachments': attachments.map((attachment) => attachment.toMap()).toList(),
       },
       chatUpdates: {
-        'lastMessage': messageText,
+        'lastMessage': lastMessageText,
         'lastMessageTime': now,
         'unreadCount.${receiver.uid}': FieldValue.increment(1),
       },
@@ -65,8 +80,8 @@ class ChatRepository {
     final doc = await _service.getUserProfileDoc(uid, role);
     return UserProfileModel.fromJson(doc.data()!);
   }
-
-    Future<String> createOrGetChat({
+    
+  Future<String> createOrGetChat({
     required UserProfileModel sender,
     required UserProfileModel receiver,
   }) async {

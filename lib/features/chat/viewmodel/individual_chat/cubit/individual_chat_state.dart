@@ -9,6 +9,11 @@ class IndividualChatLoaded extends IndividualChatState {
   IndividualChatLoaded(this.messages);
 }
 
+class IndividualChatSending extends IndividualChatState {
+  final List<MessageModel> messages;
+  IndividualChatSending(this.messages);
+}
+
 class IndividualChatError extends IndividualChatState {
   final String message;
   IndividualChatError(this.message);
