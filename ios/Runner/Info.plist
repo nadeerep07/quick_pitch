@@ -13,6 +13,8 @@
 
 	<key>CFBundleDisplayName</key>
 	<string>Quick Pitch App</string>
+	<key>NSCameraUsageDescription</key>
+<string>This app needs access to camera to take photos for messages</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

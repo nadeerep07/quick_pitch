@@ -21,7 +21,7 @@ class PitchProgressSection extends StatelessWidget {
         const SizedBox(height: 8),
         LinearProgressIndicator(
           value: progress / 100,
-          backgroundColor: theme.colorScheme.surfaceVariant,
+          backgroundColor: theme.colorScheme.surfaceContainerHighest,
           color: theme.colorScheme.primary,
           minHeight: 8,
           borderRadius: BorderRadius.circular(4),

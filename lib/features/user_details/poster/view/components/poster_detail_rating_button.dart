@@ -62,7 +62,7 @@ class PosterDetailRatingButton extends StatelessWidget {
             final authService = AuthServices(); // Your custom auth service
             final currentUserId = authService.currentUser?.uid;
 
-            if (currentUserId == null || poster == null) return;
+            if (currentUserId == null) return;
 
             // Fetch current user's profile (poster in this case)
             final posterProfile = await ChatRepository()

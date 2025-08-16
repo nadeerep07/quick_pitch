@@ -39,7 +39,7 @@ void showTaskFilterBottomSheet(BuildContext context) {
 
               /// Status Dropdown
               DropdownButtonFormField<String>(
-                value: selectedStatus,
+                initialValue: selectedStatus,
                 decoration: const InputDecoration(
                   labelText: 'Task Status',
                   border: OutlineInputBorder(),
@@ -58,7 +58,7 @@ void showTaskFilterBottomSheet(BuildContext context) {
 
               /// Sort Order Dropdown
               DropdownButtonFormField<bool>(
-                value: isDescending,
+                initialValue: isDescending,
                 decoration: const InputDecoration(
                   labelText: 'Sort by Posting Date',
                   border: OutlineInputBorder(),

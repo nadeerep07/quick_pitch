@@ -89,8 +89,9 @@ class FixerProfileSection extends StatelessWidget {
                                 final currentUserId =
                                     authService.currentUser?.uid;
 
-                                if (currentUserId == null || fixer == null)
+                                if (currentUserId == null || fixer == null) {
                                   return;
+                                }
 
                                 // Fetch current user's profile (poster in this case)
                                 final posterProfile = await ChatRepository()
