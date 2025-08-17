@@ -113,38 +113,46 @@ class ChatTile extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar() {
-    return Stack(
-      children: [
-        CircleAvatar(
-          radius: 24,
-          backgroundImage: chat.receiver.profileImageUrl != null
-              ? NetworkImage(chat.receiver.profileImageUrl!)
-              : null,
-          child: chat.receiver.profileImageUrl == null
-              ? const Icon(Icons.person, size: 24)
-              : null,
-        ),
-        if (chat.isOnline)
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
+Widget _buildAvatar() {
+  return Stack(
+    children: [
+      CircleAvatar(
+        radius: 24,
+        backgroundColor: Colors.grey.shade300,
+        backgroundImage: chat.receiver.profileImageUrl != null
+            ? NetworkImage(chat.receiver.profileImageUrl!)
+            : null,
+        child: chat.receiver.profileImageUrl == null
+            ? ClipOval(
+                child: Image.asset(
+                  'assets/images/avatar_photo_placeholder.jpg',
+                  fit: BoxFit.cover,
+                  width: 48,
+                  height: 48,
                 ),
+              )
+            : null,
+      ),
+      if (chat.isOnline)
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: Container(
+            width: 12,
+            height: 12,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: Colors.white,
+                width: 2,
               ),
             ),
           ),
-      ],
-    );
-  }
+        ),
+    ],
+  );
+}
 
   String _formatTime(DateTime dateTime, BuildContext context) {
     final now = DateTime.now();
