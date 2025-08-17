@@ -115,6 +115,38 @@ void updateProfileImageUrl(String newUrl) {
 void clear() {
   emit(FixerProfileInitial());
 }
+Future<void> updateCertificate() async {
+  emit(FixerProfileLoading());
+  try {
+    final url = await fixerProfileRepository.pickAndUploadCertificate();
+    if (url == null) {
+      emit(FixerProfileError(message: "No certificate selected"));
+      return;
+    }
+
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      emit(FixerProfileError(message: "User not logged in"));
+      return;
+    }
+
+    // Update Firestore with new certificate and reset status to pending
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('roles')
+        .doc('fixer')
+        .update({
+      'fixerData.certification': url,
+      'fixerData.certificateStatus': 'Pending',
+    });
+
+    emit(FixerProfileUpdated(coverImageUrl: url));
+    await loadFixerProfile(); // Reload the profile after update
+  } catch (e) {
+    emit(FixerProfileError(message: "Failed to update certificate: $e"));
+  }
+}
 
 
 }
