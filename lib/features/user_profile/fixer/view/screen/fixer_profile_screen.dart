@@ -55,7 +55,11 @@ class _FixerProfileView extends StatelessWidget {
                         const SizedBox(height: 16),
                         FixerProfileHeader(profile: state.fixerProfile, theme: theme, res: res),
                         const SizedBox(height: 24),
-                        FixerProfileContent(profile: state.fixerProfile, theme: theme),
+                        FixerProfileContent(profile: state.fixerProfile, theme: theme,
+                          onUpdateCertificate: state.fixerProfile.fixerData?.certificateStatus.toLowerCase() == 'rejected'
+                              ? () => context.read<FixerProfileCubit>().updateCertificate()
+                              : null,
+                        ),
                         const SizedBox(height: 32),
                       ],
                     ),

@@ -3,14 +3,17 @@ class FixerData {
   final String? certification;
   final String? coverImageUrl;
    final String bio;
+   final String certificateStatus;
 
-  FixerData({this.skills, this.certification, this.coverImageUrl, required this.bio,});
+  FixerData({this.skills, this.certification, this.coverImageUrl, required this.bio,
+    this.certificateStatus = 'pending'});
 
   Map<String, dynamic> toJson() => {
     if (skills != null) 'skills': skills,
      'bio': bio,
     if (certification != null) 'certification': certification,
     if (coverImageUrl != null) 'coverImageUrl': coverImageUrl,
+    'certificateStatus': certificateStatus,
 
   };
 
@@ -19,6 +22,7 @@ class FixerData {
     certification: json['certification'],
     coverImageUrl: json['coverImageUrl'],
      bio: json['bio'] ?? '',
+    certificateStatus: json['certificateStatus'] ?? 'pending',
   );
 }
  
