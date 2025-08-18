@@ -68,12 +68,6 @@
     </array>
   </dict>
 </array>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>googlechrome</string>
-    <string>comgooglemaps</string>
-</array>
-
 <key>NSAppTransportSecurity</key>
 <dict>
     <key>NSAllowsArbitraryLoads</key>
@@ -81,10 +75,13 @@
 </dict>
 <key>LSApplicationQueriesSchemes</key>
 <array>
-  <string>https</string>
-  <string>http</string>
-  <string>geo</string>
+    <string>googlechrome</string>
+    <string>comgooglemaps</string>
+    <string>https</string>
+    <string>http</string>
+    <string>geo</string>
 </array>
+
 
 </dict>
 </plist>

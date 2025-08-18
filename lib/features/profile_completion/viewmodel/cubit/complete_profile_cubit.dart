@@ -47,6 +47,8 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
 
   // Cache for improved performance
   UserProfileModel? _cachedProfile;
+  double? fixerLatitude;
+double? fixerLongitude;
 
   Future<void> loadSkillsFromAdmin() async {
     try {
@@ -123,17 +125,20 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     }
   }
 
-  void setCurrentLocationFromDevice() async {
-    try {
-      final location = await repository.getCurrentLocation().timeout(
-        const Duration(seconds: 10),
-      );
-      locationController.text = location;
-    } catch (e) {
- //     print("Error getting location: $e");
-      emit(CompleteProfileError("Failed to get current location"));
-    }
+ void setCurrentLocationFromDevice() async {
+  try {
+    final locData = await repository.getCurrentLocation().timeout(
+      const Duration(seconds: 10),
+    );
+
+    locationController.text = locData['address'] ?? '';
+    fixerLatitude = locData['latitude'];
+    fixerLongitude = locData['longitude'];
+
+  } catch (e) {
+    emit(CompleteProfileError("Failed to get current location"));
   }
+}
 
   final int maxBioLength = 500;
   int remainingBioChars = 500;
@@ -183,6 +188,8 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
           skills: selectedSkills,
           certification: certificateUrl,
           bio: bioController.text.trim(),
+          latitude: fixerLatitude ?? 0.0,
+          longitude: fixerLongitude ?? 0.0,
         );
       }
 
@@ -245,6 +252,7 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
     locationController.clear();
     bioController.clear();
     certificationController.clear();
+    
 
     profileImage = null;
     certificateImage = null;

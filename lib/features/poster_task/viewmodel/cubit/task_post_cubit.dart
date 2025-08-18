@@ -215,7 +215,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
         await rep.getCurrentLocation(); // should print all [DEBUG] logs
  //   print("Current location set: $location");
 
-    locationController.text = location;
+    locationController.text = location['address'] ?? '';
   }
 
   void initializeWithTask(TaskPostModel task) {

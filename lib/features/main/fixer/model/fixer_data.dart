@@ -4,8 +4,12 @@ class FixerData {
   final String? coverImageUrl;
    final String bio;
    final String certificateStatus;
+   final double latitude;
+  final double longitude;
 
   FixerData({this.skills, this.certification, this.coverImageUrl, required this.bio,
+    this.latitude = 0.0,
+    this.longitude = 0.0,
     this.certificateStatus = 'pending'});
 
   Map<String, dynamic> toJson() => {
@@ -14,6 +18,8 @@ class FixerData {
     if (certification != null) 'certification': certification,
     if (coverImageUrl != null) 'coverImageUrl': coverImageUrl,
     'certificateStatus': certificateStatus,
+    'latitude': latitude,
+    'longitude': longitude,
 
   };
 
@@ -23,6 +29,8 @@ class FixerData {
     coverImageUrl: json['coverImageUrl'],
      bio: json['bio'] ?? '',
     certificateStatus: json['certificateStatus'] ?? 'pending',
+    latitude: json['latitude']?.toDouble() ?? 0.0,
+    longitude: json['longitude']?.toDouble() ?? 0.0,
   );
 }
  
