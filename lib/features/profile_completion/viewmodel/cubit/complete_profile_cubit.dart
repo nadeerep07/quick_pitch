@@ -7,6 +7,7 @@ import 'package:quick_pitch_app/features/main/fixer/model/fixer_data.dart';
 import 'package:quick_pitch_app/features/main/poster/model/poster_data.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
+import 'package:quick_pitch_app/features/profile_completion/services/geoapify_services.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/repository/fixer_profile_editing_respository.dart';
 import 'package:quick_pitch_app/features/user_profile/poster/repository/poster_profile_repository.dart';
 
@@ -48,7 +49,9 @@ class CompleteProfileCubit extends Cubit<CompleteProfileState> {
   // Cache for improved performance
   UserProfileModel? _cachedProfile;
   double? fixerLatitude;
-double? fixerLongitude;
+  double? fixerLongitude;
+  final GeoapifyService _geoapifyService = GeoapifyService();
+  List<String> placeSuggestions = [];
 
   Future<void> loadSkillsFromAdmin() async {
     try {
@@ -61,7 +64,7 @@ double? fixerLongitude;
 
       emit(SkillSelectionUpdated(selectedSkills));
     } catch (e) {
-   //   print("Error loading skills: $e");
+      //   print("Error loading skills: $e");
       emit(CompleteProfileError("Failed to load skills: ${e.toString()}"));
     }
   }
@@ -107,7 +110,7 @@ double? fixerLongitude;
       final image = await ImagePickerHelper.pickImageFromGallery();
       if (image != null) setProfileImage(image);
     } catch (e) {
-    //  print("Error picking profile image: $e");
+      //  print("Error picking profile image: $e");
       emit(CompleteProfileError("Failed to pick image"));
     }
   }
@@ -120,25 +123,36 @@ double? fixerLongitude;
         certificationController.text = cert.path.split('/').last;
       }
     } catch (e) {
- //     print("Error picking certification file: $e");
+      //     print("Error picking certification file: $e");
       emit(CompleteProfileError("Failed to pick certification file"));
     }
   }
 
- void setCurrentLocationFromDevice() async {
-  try {
-    final locData = await repository.getCurrentLocation().timeout(
-      const Duration(seconds: 10),
-    );
+  Future<void> fetchPlaceSuggestions(String query) async {
+    if (query.isEmpty) {
+      placeSuggestions = [];
+      emit(PlaceSuggestionsUpdated([]));
+      return;
+    }
 
-    locationController.text = locData['address'] ?? '';
-    fixerLatitude = locData['latitude'];
-    fixerLongitude = locData['longitude'];
-
-  } catch (e) {
-    emit(CompleteProfileError("Failed to get current location"));
+    final results = await _geoapifyService.fetchPlaceSuggestions(query);
+    placeSuggestions = results;
+    emit(PlaceSuggestionsUpdated(results));
   }
-}
+
+  void setCurrentLocationFromDevice() async {
+    try {
+      final locData = await repository.getCurrentLocation().timeout(
+        const Duration(seconds: 10),
+      );
+
+      locationController.text = locData['address'] ?? '';
+      fixerLatitude = locData['latitude'];
+      fixerLongitude = locData['longitude'];
+    } catch (e) {
+      emit(CompleteProfileError("Failed to get current location"));
+    }
+  }
 
   final int maxBioLength = 500;
   int remainingBioChars = 500;
@@ -168,7 +182,6 @@ double? fixerLongitude;
             .uploadFileToCloudinary(profileImage!)
             .timeout(const Duration(seconds: 60));
       } else {
-     
         profileUrl = _cachedProfile?.profileImageUrl;
       }
 
@@ -176,7 +189,7 @@ double? fixerLongitude;
         certificateUrl = await repository
             .uploadFileToCloudinary(certificateImage!)
             .timeout(const Duration(seconds: 60));
-      }else{
+      } else {
         certificateUrl = _cachedProfile?.fixerData?.certification;
       }
 
@@ -230,7 +243,7 @@ double? fixerLongitude;
       //  print("Profile saved successfully: $model");
       emit(CompleteProfileSuccess());
     } catch (e) {
-  //    print("Error saving profile: $e");
+      //    print("Error saving profile: $e");
       String errorMessage = "Failed to save profile";
 
       if (e.toString().contains('TimeoutException')) {
@@ -252,7 +265,6 @@ double? fixerLongitude;
     locationController.clear();
     bioController.clear();
     certificationController.clear();
-    
 
     profileImage = null;
     certificateImage = null;
@@ -273,6 +285,7 @@ double? fixerLongitude;
     phoneController.dispose();
     bioController.dispose();
     certificationController.dispose();
+    locationFocusNode.dispose(); // Add this line
     return super.close();
   }
 
@@ -309,7 +322,7 @@ double? fixerLongitude;
 
       emit(CompleteProfileLoaded());
     } catch (e) {
-     // print("Error loading profile data: $e");
+      // print("Error loading profile data: $e");
       String errorMessage = "Failed to load profile data";
 
       if (e.toString().contains('TimeoutException')) {
@@ -348,9 +361,89 @@ double? fixerLongitude;
     _cachedProfile = null; // Clear cache first
     await loadProfileDataForEdit(role);
   }
+
+  // Add these properties to your CompleteProfileCubit class:
+
+  final FocusNode locationFocusNode = FocusNode();
+  bool showLocationSuggestions = false;
+  List<LocationSuggestion> locationSuggestionsWithCoords = [];
+
+  // Add these methods to your CompleteProfileCubit class:
+
+  Future<void> fetchPlaceSuggestionsWithCoords(String query) async {
+    if (query.isEmpty) {
+      placeSuggestions = [];
+      locationSuggestionsWithCoords = [];
+      showLocationSuggestions = false;
+      emit(PlaceSuggestionsUpdated([]));
+      return;
+    }
+
+    try {
+      // Fetch suggestions with coordinates
+      locationSuggestionsWithCoords = await _geoapifyService
+          .fetchPlaceSuggestionsWithCoordinates(query);
+
+      // Extract just the addresses for backward compatibility
+      placeSuggestions =
+          locationSuggestionsWithCoords.map((loc) => loc.address).toList();
+
+      showLocationSuggestions = true;
+      emit(PlaceSuggestionsUpdated(placeSuggestions));
+    } catch (e) {
+      //    print("Error fetching place suggestions: $e");
+      placeSuggestions = [];
+      locationSuggestionsWithCoords = [];
+      showLocationSuggestions = false;
+      emit(PlaceSuggestionsUpdated([]));
+    }
+  }
+
+  void onLocationTextChanged(String value) {
+    if (value.isEmpty) {
+      showLocationSuggestions = false;
+      emit(PlaceSuggestionsUpdated([]));
+    } else {
+      fetchPlaceSuggestionsWithCoords(value);
+    }
+  }
+
+  void onLocationFieldTapped() {
+    if (placeSuggestions.isNotEmpty) {
+      showLocationSuggestions = true;
+      emit(PlaceSuggestionsUpdated(placeSuggestions));
+    }
+  }
+
+  void selectLocationSuggestion(String suggestion, int index) {
+    locationController.text = suggestion;
+
+    if (index < locationSuggestionsWithCoords.length) {
+      final selectedLocation = locationSuggestionsWithCoords[index];
+      fixerLatitude = selectedLocation.latitude;
+      fixerLongitude = selectedLocation.longitude;
+    }
+
+    // Hide suggestions and unfocus
+    showLocationSuggestions = false;
+    locationFocusNode.unfocus();
+
+    // Clear suggestions
+    placeSuggestions = [];
+    locationSuggestionsWithCoords = [];
+    emit(PlaceSuggestionsUpdated([]));
+  }
+
+  void clearLocationField() {
+    locationController.clear();
+    showLocationSuggestions = false;
+    placeSuggestions = [];
+    locationSuggestionsWithCoords = [];
+
+    // Clear coordinates as well
+    fixerLatitude = null;
+    fixerLongitude = null;
+
+    emit(PlaceSuggestionsUpdated([]));
+  }
 }
-
-
-
-
-
