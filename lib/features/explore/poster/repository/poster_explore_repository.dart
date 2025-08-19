@@ -67,7 +67,9 @@ Future<List<UserProfileModel>> fetchFixers() async {
       }
 
       return await Geolocator.getCurrentPosition(
+        // ignore: deprecated_member_use
         desiredAccuracy: LocationAccuracy.medium,
+        // ignore: deprecated_member_use
         timeLimit: const Duration(seconds: 10),
       ).timeout(
         const Duration(seconds: 15),

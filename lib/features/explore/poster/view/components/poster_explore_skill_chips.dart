@@ -51,10 +51,10 @@ class PosterExploreSkillChips extends StatelessWidget {
                   vertical: res.hp(1),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha:0.2),
                   borderRadius: BorderRadius.circular(25),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha:0.5),
                   ),
                 ),
                 child: Text(
@@ -82,18 +82,18 @@ class PosterExploreSkillChips extends StatelessWidget {
                 vertical: res.hp(1),
               ),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white : Colors.white.withOpacity(0.2),
+                color: isSelected ? Colors.white : Colors.white.withValues(alpha:0.2),
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(
                   color: isSelected
                       ? theme.primaryColor
-                      : Colors.white.withOpacity(0.5),
+                      : Colors.white.withValues(alpha:0.5),
                   width: isSelected ? 2 : 1,
                 ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha:0.1),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),

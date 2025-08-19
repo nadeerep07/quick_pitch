@@ -21,7 +21,7 @@ class HeaderSection extends StatelessWidget {
           child: Icon(
             Icons.auto_awesome,
             size: 40,
-            color: primaryColor.withOpacity(0.3),
+            color: primaryColor.withValues(alpha:0.3),
           ),
         ),
         Column(

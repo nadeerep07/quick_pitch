@@ -31,8 +31,8 @@ class BubbleBackgroundPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        (isDarkMode ? Colors.black : Colors.white).withOpacity(0.8),
-        (isDarkMode ? Colors.black : Colors.white).withOpacity(0.9),
+        (isDarkMode ? Colors.black : Colors.white).withValues(alpha:0.8),
+        (isDarkMode ? Colors.black : Colors.white).withValues(alpha:0.9),
       ],
     );
     paint.shader = gradient.createShader(Rect.fromLTRB(0, 0, size.width, size.height));

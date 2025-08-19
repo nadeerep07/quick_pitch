@@ -68,7 +68,7 @@ class PosterDetailRatingButton extends StatelessWidget {
             final posterProfile = await ChatRepository()
                 .fetchCurrentUserProfileByRole(currentUserId, role: 'fixer');
             if (posterProfile.uid == poster.uid) {
-              print("⚠️ Prevented self-chat in FixerProfileSection");
+           //   print("⚠️ Prevented self-chat in FixerProfileSection");
               return;
             }
             // Create or get chatId

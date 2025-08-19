@@ -27,7 +27,7 @@ class PosterExploreFixerCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -43,7 +43,7 @@ class PosterExploreFixerCard extends StatelessWidget {
               height: res.wp(16),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: theme.primaryColor.withOpacity(0.1),
+                color: theme.primaryColor.withValues(alpha:0.1),
               ),
               child:
                   fixer.profileImageUrl?.isNotEmpty == true
@@ -94,7 +94,7 @@ class PosterExploreFixerCard extends StatelessWidget {
                           vertical: res.hp(0.2),
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.amber.withOpacity(0.1),
+                          color: Colors.amber.withValues(alpha:0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -135,7 +135,7 @@ class PosterExploreFixerCard extends StatelessWidget {
                                 vertical: res.hp(0.3),
                               ),
                               decoration: BoxDecoration(
-                                color: theme.primaryColor.withOpacity(0.1),
+                                color: theme.primaryColor.withValues(alpha:0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
@@ -180,7 +180,7 @@ class PosterExploreFixerCard extends StatelessWidget {
                             vertical: res.hp(0.2),
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.1),
+                            color: Colors.green.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(

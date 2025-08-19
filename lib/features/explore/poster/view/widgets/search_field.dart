@@ -13,7 +13,7 @@ class SearchField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor:
-            isDarkMode ? Colors.grey[800]!.withOpacity(0.6) : Colors.grey[50],
+            isDarkMode ? Colors.grey[800]!.withValues(alpha:0.6) : Colors.grey[50],
         prefixIcon: const Icon(Icons.search, color: Colors.grey),
         hintText: "Search skills...",
         border: OutlineInputBorder(

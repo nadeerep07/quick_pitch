@@ -33,7 +33,7 @@ class SkillsList extends StatelessWidget {
                     Icon(
                       Icons.search_off_rounded,
                       size: 48,
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withValues(alpha:0.5),
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -59,7 +59,7 @@ class SkillsList extends StatelessWidget {
                       boxShadow: isSelected
                           ? [
                               BoxShadow(
-                                color: primaryColor.withOpacity(0.2),
+                                color: primaryColor.withValues(alpha:0.2),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               )
@@ -81,7 +81,7 @@ class SkillsList extends StatelessWidget {
                       ),
                       selected: isSelected,
                       onSelected: (_) => onToggleSkill(skill),
-                      selectedColor: primaryColor.withOpacity(0.15),
+                      selectedColor: primaryColor.withValues(alpha:0.15),
                       checkmarkColor: primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -95,7 +95,7 @@ class SkillsList extends StatelessWidget {
                         ),
                       ),
                       backgroundColor: isDarkMode
-                          ? Colors.grey[800]!.withOpacity(0.6)
+                          ? Colors.grey[800]!.withValues(alpha:0.6)
                           : Colors.white,
                     ),
                   );

@@ -57,8 +57,8 @@ class AllSkillsBottomSheet extends StatelessWidget {
           Positioned.fill(
             child: CustomPaint(
               painter: BubbleBackgroundPainter(
-                primaryColor: primaryColor.withOpacity(0.1),
-                secondaryColor: secondaryColor.withOpacity(0.05),
+                primaryColor: primaryColor.withValues(alpha:0.1),
+                secondaryColor: secondaryColor.withValues(alpha:0.05),
                 isDarkMode: isDarkMode,
               ),
             ),

@@ -55,6 +55,7 @@ Future<Map<String, dynamic>> getCurrentLocation() async {
     Position? pos;
     try {
       pos = await Geolocator.getCurrentPosition(
+        // ignore: deprecated_member_use
         desiredAccuracy: LocationAccuracy.low,
       ).timeout(
         const Duration(seconds: 8),

@@ -1,10 +1,7 @@
-// features/explore/poster/repository/poster_explore_repository.dart
-
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/screen/poster_explore_screen.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 

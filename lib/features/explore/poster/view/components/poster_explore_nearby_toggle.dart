@@ -31,7 +31,7 @@ class PosterExploreNearbyToggle extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -59,6 +59,7 @@ class PosterExploreNearbyToggle extends StatelessWidget {
               Switch.adaptive(
                 value: enabled && hasLocation,
                 onChanged: hasLocation ? onToggle : null,
+                // ignore: deprecated_member_use
                 activeColor: theme.primaryColor,
               ),
             ],
@@ -109,7 +110,7 @@ class PosterExploreNearbyToggle extends StatelessWidget {
               data: SliderTheme.of(context).copyWith(
                 activeTrackColor: theme.primaryColor,
                 thumbColor: theme.primaryColor,
-                overlayColor: theme.primaryColor.withOpacity(0.1),
+                overlayColor: theme.primaryColor.withValues(alpha:0.1),
                 trackHeight: 4,
               ),
               child: Slider(

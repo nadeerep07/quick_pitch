@@ -1,9 +1,6 @@
-// features/explore/poster/repository/poster_explore_repository.dart
-
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/model/fixer_data_extension.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/screen/poster_explore_screen.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 abstract class PosterExploreState {

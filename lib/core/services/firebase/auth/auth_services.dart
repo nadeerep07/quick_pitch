@@ -58,7 +58,7 @@ class AuthServices {
         await googleSignIn.signOut();
       }
     } catch (e) {
-      print('Logout error: $e');
+   //   print('Logout error: $e');
     }
   }
 }

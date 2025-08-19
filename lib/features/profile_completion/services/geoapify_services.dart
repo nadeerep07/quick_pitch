@@ -39,11 +39,11 @@ class GeoapifyService {
       } else {
         return [];
       }
-    } on DioException catch (e) {
-      print("Dio error: ${e.message}");
+    } on DioException {
+    //  print("Dio error: ${e.message}");
       return [];
     } catch (e) {
-      print("Unexpected error: $e");
+    //  print("Unexpected error: $e");
       return [];
     }
   }
@@ -76,11 +76,11 @@ class GeoapifyService {
       } else {
         return [];
       }
-    } on DioException catch (e) {
-      print("Dio error: ${e.message}");
+    } on DioException {
+   //   print("Dio error: ${e.message}");
       return [];
     } catch (e) {
-      print("Unexpected error: $e");
+    //  print("Unexpected error: $e");
       return [];
     }
   }
