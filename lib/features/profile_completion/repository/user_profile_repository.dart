@@ -9,42 +9,47 @@ import 'package:geocoding/geocoding.dart' as geo;
 class UserProfileRepository {
   final UserProfileService service = UserProfileService();
   final CloudinaryService _cloudinary = CloudinaryService();
-    final FirebaseFirestore _db = FirebaseFirestore.instance;
-
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> saveProfile(UserProfileModel profile) async {
     await service.saveProfile(profile);
   }
 
- Future<void> updateProfile(UserProfileModel newProfile) async {
-  final oldProfile = await service.getProfile(newProfile.uid, newProfile.role);
-  final updatedFields = newProfile.toUpdatedFieldsMap(oldProfile!);
+  Future<void> updateProfile(UserProfileModel newProfile) async {
+    final oldProfile = await service.getProfile(
+      newProfile.uid,
+      newProfile.role,
+    );
+    final updatedFields = newProfile.toUpdatedFieldsMap(oldProfile!);
 
-  if (updatedFields.isNotEmpty) {
-    await service.updateFields(newProfile.uid, newProfile.role, updatedFields);
+    if (updatedFields.isNotEmpty) {
+      await service.updateFields(
+        newProfile.uid,
+        newProfile.role,
+        updatedFields,
+      );
+    }
   }
-}
-Future<UserProfileModel?> getProfile(String uid, String role) async {
-  return await service.getProfile(uid, role);
-}
 
-
+  Future<UserProfileModel?> getProfile(String uid, String role) async {
+    return await service.getProfile(uid, role);
+  }
 
   Future<String> uploadFileToCloudinary(File file) async {
     return await _cloudinary.uploadFile(file);
   }
 
- Future<String> getCurrentLocation() async {
- // print("[DEBUG] Inside getCurrentLocation()");
-
+Future<Map<String, dynamic>> getCurrentLocation() async {
   try {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) return 'Location services disabled';
+    if (!serviceEnabled) throw Exception('Location services disabled');
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) return 'Permission denied';
+      if (permission == LocationPermission.denied) {
+        throw Exception('Permission denied');
+      }
     }
 
     Position? pos;
@@ -57,45 +62,45 @@ Future<UserProfileModel?> getProfile(String uid, String role) async {
         onTimeout: () => throw Exception('Location timeout'),
       );
     } catch (e) {
-  //    print('[DEBUG] Primary position fetch failed: $e');
       pos = await Geolocator.getLastKnownPosition();
-      if (pos == null) return 'Unable to get current position';
+      if (pos == null) throw Exception('Unable to get current position');
     }
-
-  //  print("[DEBUG] Current Position: ${pos.latitude}, ${pos.longitude}");
 
     final placemarks = await geo.placemarkFromCoordinates(
       pos.latitude,
       pos.longitude,
     );
 
-  //  print("[DEBUG] Placemarks: $placemarks");
-
-    if (placemarks.isEmpty) return 'Unable to fetch address';
+    if (placemarks.isEmpty) throw Exception('Unable to fetch address');
     final place = placemarks.first;
-    final locationText =
-        '${place.locality}, ${place.administrativeArea}, ${place.country}';
- //   print("[DEBUG] Final location: $locationText");
 
-    return locationText;
+    final address =
+        '${place.locality}, ${place.administrativeArea}, ${place.country}';
+
+    return {
+      'address': address,
+      'latitude': pos.latitude,
+      'longitude': pos.longitude,
+    };
   } catch (e) {
-  //  print("[DEBUG] getCurrentLocation error: $e");
-    return 'Location error: ${e.toString()}';
+    throw Exception('Location error: ${e.toString()}');
   }
 }
+
+
   Future<List<String>> fetchSkillsFromAdmin() async {
     final snapshot = await _db.collection('skills').orderBy('name').get();
     return snapshot.docs.map((doc) => doc['name'].toString()).toList();
   }
-Future<List<String>> getFixerSkills(String userId) async {
-  final doc = await _db.collection('users').doc(userId).get();
-  if (doc.exists) {
-    final data = doc.data();
-    if (data != null && data['skills'] != null) {
-      return List<String>.from(data['skills']);
-    }
-  }
-  return [];
-}
 
+  Future<List<String>> getFixerSkills(String userId) async {
+    final doc = await _db.collection('users').doc(userId).get();
+    if (doc.exists) {
+      final data = doc.data();
+      if (data != null && data['skills'] != null) {
+        return List<String>.from(data['skills']);
+      }
+    }
+    return [];
+  }
 }

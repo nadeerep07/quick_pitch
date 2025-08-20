@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/apply_button.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/deadline_section.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/header_section.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/location_section.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/price_range_section.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/widgets/skills_section.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/apply_button.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/deadline_section.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/header_section.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/location_section.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/price_range_section.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/widgets/skills_section.dart';
 import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/fixer_explore_cubit.dart';
 
 class FilterChips extends StatelessWidget {

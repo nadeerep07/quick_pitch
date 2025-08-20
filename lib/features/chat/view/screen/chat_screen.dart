@@ -56,18 +56,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _onImagePicked() {
-    // Optionally scroll to bottom when image is picked
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

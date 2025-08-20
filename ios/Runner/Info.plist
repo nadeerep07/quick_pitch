@@ -10,7 +10,8 @@
 
 <key>NSLocationAlwaysUsageDescription</key>
 <string>This app needs constant access to your location even in the background.</string>
-
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to show nearby fixers on the map.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Quick Pitch App</string>
 	<key>NSCameraUsageDescription</key>
@@ -68,12 +69,6 @@
     </array>
   </dict>
 </array>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>googlechrome</string>
-    <string>comgooglemaps</string>
-</array>
-
 <key>NSAppTransportSecurity</key>
 <dict>
     <key>NSAllowsArbitraryLoads</key>
@@ -81,10 +76,13 @@
 </dict>
 <key>LSApplicationQueriesSchemes</key>
 <array>
-  <string>https</string>
-  <string>http</string>
-  <string>geo</string>
+    <string>googlechrome</string>
+    <string>comgooglemaps</string>
+    <string>https</string>
+    <string>http</string>
+    <string>geo</string>
 </array>
+
 
 </dict>
 </plist>

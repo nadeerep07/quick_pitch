@@ -54,7 +54,7 @@ class PitchesList extends StatelessWidget {
                     ),
               ),
             );
-            print("Tapped on pitch: ${pitches[index].id}");
+         //   print("Tapped on pitch: ${pitches[index].id}");
           },
           child: PitchCard(pitch: pitches[index], res: res, theme: theme),
         );

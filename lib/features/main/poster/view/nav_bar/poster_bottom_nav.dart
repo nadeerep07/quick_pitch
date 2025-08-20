@@ -74,7 +74,7 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                         
                       //   SnackBar(content: Text("Error: ${state.message}")),
                       // );
-                      print("Role switch error: ${state.message}");
+                  //    print("Role switch error: ${state.message}");
                     }
                   },
                   child: Stack(

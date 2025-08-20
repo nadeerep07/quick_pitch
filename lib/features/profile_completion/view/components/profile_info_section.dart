@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/features/profile_completion/view/components/location_search_field.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/profile_input_text_field.dart';
 
@@ -17,12 +18,10 @@ class PersonalInfoSection extends StatelessWidget {
           isRequired: true,
         ),
         const SizedBox(height: 16),
-        ProfileInputField(
+         LocationSearchField(
+          cubit: cubit,
           label: "Location",
-          controller: cubit.locationController,
-          icon: Icons.my_location,
           isRequired: true,
-          onLocationTap: cubit.setCurrentLocationFromDevice,
         ),
         const SizedBox(height: 16),
         ProfileInputField(
