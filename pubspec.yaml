@@ -59,6 +59,9 @@ dependencies:
   shimmer: ^3.0.0
   pull_to_refresh: ^2.0.0
   emoji_picker_flutter: ^4.3.0
+  flutter_map: ^8.2.1
+  latlong2: ^0.9.1
+  google_maps_flutter: ^2.12.3
 
 dev_dependencies:
   flutter_test:

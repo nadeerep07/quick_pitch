@@ -42,9 +42,19 @@ class PosterExploreCubit extends Cubit<PosterExploreState> {
         nearbyEnabled: false,
         radiusKm: 15.0,
         posterLocation: position,
+        isMapView: false, // Default to list view
       ));
     } catch (e) {
       emit(PosterExploreError('Failed to load data: ${e.toString()}'));
+    }
+  }
+
+  void toggleMapView() {
+    final currentState = state;
+    if (currentState is PosterExploreLoaded) {
+      emit(currentState.copyWith(
+        isMapView: !currentState.isMapView,
+      ));
     }
   }
 

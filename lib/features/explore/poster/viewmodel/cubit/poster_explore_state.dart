@@ -6,6 +6,7 @@ import 'package:quick_pitch_app/features/profile_completion/model/user_profile_m
 abstract class PosterExploreState {
   const PosterExploreState();
 }
+
 class PosterExploreInitial extends PosterExploreState {
   const PosterExploreInitial();
 }
@@ -24,6 +25,7 @@ class PosterExploreLoaded extends PosterExploreState {
   final double radiusKm;
   final Position? posterLocation;
   final bool isLoadingMore;
+  final bool isMapView; // New field for map toggle
 
   const PosterExploreLoaded({
     required this.allFixers,
@@ -35,6 +37,7 @@ class PosterExploreLoaded extends PosterExploreState {
     required this.radiusKm,
     this.posterLocation,
     this.isLoadingMore = false,
+    this.isMapView = false, // Default to list view
   });
 
   PosterExploreLoaded copyWith({
@@ -47,6 +50,7 @@ class PosterExploreLoaded extends PosterExploreState {
     double? radiusKm,
     Position? posterLocation,
     bool? isLoadingMore,
+    bool? isMapView,
   }) {
     return PosterExploreLoaded(
       allFixers: allFixers ?? this.allFixers,
@@ -58,6 +62,7 @@ class PosterExploreLoaded extends PosterExploreState {
       radiusKm: radiusKm ?? this.radiusKm,
       posterLocation: posterLocation ?? this.posterLocation,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      isMapView: isMapView ?? this.isMapView,
     );
   }
 
@@ -86,7 +91,20 @@ class PosterExploreLoaded extends PosterExploreState {
         .toList()
       ..sort((a, b) => a.fixerData!.distance!.compareTo(b.fixerData!.distance!));
   }
+
+  // Get fixers with valid coordinates for map display
+  List<UserProfileModel> get fixersWithLocation {
+    return filteredFixers
+        .where((fixer) => 
+            fixer.fixerData != null &&
+            fixer.fixerData!.latitude != null &&
+            fixer.fixerData!.longitude != null &&
+            fixer.fixerData!.latitude != 0.0 &&
+            fixer.fixerData!.longitude != 0.0)
+        .toList();
+  }
 }
+
 class PosterExploreError extends PosterExploreState {
   final String message;
   final PosterExploreLoaded? previousState;

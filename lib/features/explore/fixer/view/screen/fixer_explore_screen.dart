@@ -6,6 +6,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/fixer/repository/fixer_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/active_filters.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/filter_chips.dart';
+import 'package:quick_pitch_app/features/explore/fixer/view/components/fixer_explore_search_bar.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/tasks_grid.dart';
 import 'package:quick_pitch_app/features/explore/fixer/viewmodel/cubit/fixer_explore_cubit.dart';
 
@@ -60,7 +61,7 @@ class _FixerExploreView extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const SearchBar(),
+                    const FixerExploreSearchBar(),
                     const SizedBox(height: 16),
                     const FilterChips(),
                     const SizedBox(height: 16),
@@ -78,78 +79,4 @@ class _FixerExploreView extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
 
-  @override
-  State<SearchBar> createState() => _SearchBarState();
-}
-
-class _SearchBarState extends State<SearchBar> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    final state = context.read<FixerExploreCubit>().state;
-    _controller = TextEditingController(text: state.searchQuery);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<FixerExploreCubit>();
-    final state = context.watch<FixerExploreCubit>().state;
- final res = Responsive(context);
-    if (_controller.text != state.searchQuery) {
-      _controller.value = _controller.value.copyWith(
-        text: state.searchQuery,
-        selection: TextSelection.collapsed(offset: state.searchQuery.length),
-      );
-    }
-
-    return Container(
-      width: res.wp(90) ,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: _controller,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          prefixIcon: const Icon(Icons.search_rounded, color: Colors.grey),
-          hintText: 'Search for services...',
-          hintStyle: TextStyle(color: Colors.grey.shade500),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-          suffixIcon:
-              state.searchQuery.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.clear_rounded, color: Colors.grey),
-                    onPressed: () => cubit.updateSearchQuery(''),
-                  )
-                  : null,
-        ),
-        onTap: () => cubit.toggleSearchHistory(true),
-        onChanged: cubit.updateSearchQuery,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-}
