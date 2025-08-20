@@ -11,11 +11,11 @@ part 'chat_list_view_model_state.dart';
 class ChatListViewModel extends Cubit<ChatListState> {
   final ChatRepository _chatRepository;
   final AuthServices _authServices;
-  
+
   StreamSubscription<List<ChatModel>>? _chatSubscription;
   Timer? _refreshTimer;
   Timer? _roleCheckTimer;
-  
+
   String? _currentUserId;
   String? _lastKnownRole;
   bool _isDisposed = false;
@@ -24,22 +24,18 @@ class ChatListViewModel extends Cubit<ChatListState> {
     ChatRepository? chatRepository,
     AuthServices? authServices,
   }) : _chatRepository = chatRepository ?? ChatRepository(),
-        _authServices = authServices ?? AuthServices(),
-        super(ChatListInitial());
+       _authServices = authServices ?? AuthServices(),
+       super(ChatListInitial());
 
-  // ====================
-  // INITIALIZATION
-  // ====================
-  
   Future<void> initialize() async {
     if (_isDisposed) return;
-    
+
     _currentUserId = _authServices.currentUser?.uid;
     if (_currentUserId?.isEmpty ?? true) {
       emit(ChatListError('User not authenticated'));
       return;
     }
-    
+
     await _initializeRole();
     await _loadChats();
     _setupPeriodicRefresh();
@@ -58,38 +54,31 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   void _setupPeriodicRefresh() {
     _refreshTimer = Timer.periodic(
-      const Duration(seconds: 30), 
+      const Duration(seconds: 30),
       (_) => _silentRefresh(),
     );
   }
 
   void _setupRoleMonitoring() {
     _roleCheckTimer = Timer.periodic(
-      const Duration(minutes: 1), 
+      const Duration(minutes: 1),
       (_) => _checkForRoleChange(),
     );
   }
 
-  // ====================
-  // CHAT OPERATIONS
-  // ====================
-  
   Future<void> _loadChats() async {
     if (_isDisposed || _currentUserId == null) return;
-    
+
     try {
       emit(ChatListLoading());
-      
+
       // Cancel existing subscription
       await _chatSubscription?.cancel();
-      
+
       // Subscribe to chat updates
       _chatSubscription = _chatRepository
           .getUserChats(_currentUserId!)
-          .listen(
-            _onChatsReceived,
-            onError: _onChatsError,
-          );
+          .listen(_onChatsReceived, onError: _onChatsError);
     } catch (e) {
       debugPrint('Error loading chats: $e');
       if (!_isDisposed) emit(ChatListError(e.toString()));
@@ -98,7 +87,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   void _onChatsReceived(List<ChatModel> chats) {
     if (_isDisposed) return;
-    
+
     final filteredChats = _filterChatsByRole(chats);
     emit(ChatListLoaded(filteredChats, _lastKnownRole));
   }
@@ -110,19 +99,15 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   List<ChatModel> _filterChatsByRole(List<ChatModel> chats) {
     if (_lastKnownRole == null || _currentUserId == null) return chats;
-    
+
     return chats.where((chat) {
-      return (chat.sender.uid == _currentUserId && 
+      return (chat.sender.uid == _currentUserId &&
               chat.sender.role == _lastKnownRole) ||
-             (chat.receiver.uid == _currentUserId && 
+          (chat.receiver.uid == _currentUserId &&
               chat.receiver.role == _lastKnownRole);
     }).toList();
   }
 
-  // ====================
-  // USER ACTIONS
-  // ====================
-  
   Future<void> refreshChats() async {
     debugPrint('Manual refresh triggered');
     await _loadChats();
@@ -130,7 +115,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   Future<void> _silentRefresh() async {
     if (_isDisposed || _currentUserId == null) return;
-    
+
     try {
       final currentState = state;
       if (currentState is ChatListLoaded) {
@@ -147,10 +132,10 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   Future<void> _checkForRoleChange() async {
     if (_isDisposed || _currentUserId == null) return;
-    
+
     try {
       final currentRole = await _chatRepository.detectUserRole(_currentUserId!);
-      
+
       if (currentRole != _lastKnownRole) {
         _lastKnownRole = currentRole;
         debugPrint('Role changed to $currentRole - reloading chats');
@@ -163,19 +148,20 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
   Future<void> markChatAsRead(String chatId) async {
     if (_isDisposed || _currentUserId == null) return;
-    
+
     try {
       await _chatRepository.markMessagesAsRead(chatId, _currentUserId!);
-      
+
       // Update local state immediately
       final currentState = state;
       if (currentState is ChatListLoaded) {
-        final updatedChats = currentState.chats.map((chat) {
-          return chat.chatId == chatId 
-              ? chat.copyWith(unreadCount: 0) 
-              : chat;
-        }).toList();
-        
+        final updatedChats =
+            currentState.chats.map((chat) {
+              return chat.chatId == chatId
+                  ? chat.copyWith(unreadCount: 0)
+                  : chat;
+            }).toList();
+
         if (!_isDisposed) {
           emit(ChatListLoaded(updatedChats, _lastKnownRole));
         }
@@ -188,10 +174,6 @@ class ChatListViewModel extends Cubit<ChatListState> {
     }
   }
 
-  // ====================
-  // LIFECYCLE MANAGEMENT
-  // ====================
-  
   void onAppResumed() {
     _checkForRoleChange();
     refreshChats();
@@ -206,10 +188,6 @@ class ChatListViewModel extends Cubit<ChatListState> {
     return super.close();
   }
 
-  // ====================
-  // GETTERS
-  // ====================
-  
   String? get currentRole => _lastKnownRole;
   String? get currentUserId => _currentUserId;
 }
