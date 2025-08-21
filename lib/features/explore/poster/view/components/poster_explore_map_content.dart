@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_e
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/view_toggle_switch.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/view_toggle_switch.dart';
 
 class PosterExploreMapContent extends StatelessWidget {
   final PosterExploreLoaded state;

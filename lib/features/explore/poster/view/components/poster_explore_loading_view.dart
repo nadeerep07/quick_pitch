@@ -7,7 +7,7 @@ class PosterExploreLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
-      hasScrollBody: false, // ensures it fills the remaining space
+      hasScrollBody: false, 
       child: Center(
         child: PosterExploreShimmer(),
       ),

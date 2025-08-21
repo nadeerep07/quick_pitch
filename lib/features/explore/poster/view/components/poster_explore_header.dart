@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/all_skills_bottom_sheet.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/all_skills_bottom_sheet.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/poster_explore_search_bar.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/poster_explore_skill_chips.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/view_toggle_switch.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/view_toggle_switch.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_cubit.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
 

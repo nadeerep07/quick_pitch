@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/custome_mark_painter.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer-detail_bottom_sheet.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_bottom_sheet/fixer-detail_bottom_sheet.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class PosterExploreMapView extends StatefulWidget {
