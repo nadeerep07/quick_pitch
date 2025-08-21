@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
-import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/fixer/repository/fixer_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/active_filters.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/components/filter_chips.dart';

@@ -178,7 +178,7 @@ class FixerDetailsBottomSheet extends StatelessWidget {
           
           // Bio
           if (fixer.fixerData?.bio != null && 
-              fixer.fixerData!.bio!.isNotEmpty) ...[
+              fixer.fixerData!.bio.isNotEmpty) ...[
             Text(
               'About',
               style: theme.textTheme.titleMedium?.copyWith(
@@ -189,7 +189,7 @@ class FixerDetailsBottomSheet extends StatelessWidget {
             SizedBox(height: res.hp(1)),
             
             Text(
-              fixer.fixerData!.bio!,
+              fixer.fixerData!.bio,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: Colors.grey[700],
                 height: 1.4,

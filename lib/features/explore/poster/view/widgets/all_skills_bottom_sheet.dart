@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/bubble_background_painter.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/bubble_background_painter.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/confirm_button.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/drag_handle.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/header_section.dart';
