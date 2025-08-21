@@ -84,6 +84,7 @@ class TaskPostScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       TaskWorkTypeSelector(cubit: cubit),
                       const SizedBox(height: 16),
+                       if (cubit.selectedWorkType == "On-site")
                       TaskLocationSelector(cubit: cubit),
                       const SizedBox(height: 16),
                       if (cubit.selectedWorkType == "On-site")

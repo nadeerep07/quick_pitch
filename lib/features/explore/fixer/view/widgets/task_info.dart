@@ -38,7 +38,7 @@ class TaskInfo extends StatelessWidget {
               SizedBox(width: responsive.wp(2)),
               Expanded(
                 child: Text(
-                  task.location,
+                  task.location ?? 'Remote',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w500,

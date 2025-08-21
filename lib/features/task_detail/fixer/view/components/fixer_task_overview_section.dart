@@ -44,12 +44,13 @@ class FixerTaskOverviewSection extends StatelessWidget {
             res: res,
           ),
         ),
+        if(task.location != null)
         FixerDetailInfoCard(
           res: res,
           child: FixerDetailGoToLocation(
             context: context,
             label: 'Location:',
-            location: task.location,
+            location: task.location ?? 'Remote' ,
             res: res,
           ),
         ),

@@ -8,6 +8,7 @@ class AppTextField extends StatelessWidget {
   final int maxLines;
   final IconData? sufixicon;
   final VoidCallback? onLocationTap;
+  final ValueChanged<String>? onChanged;
 
   const AppTextField({
     super.key,
@@ -18,6 +19,7 @@ class AppTextField extends StatelessWidget {
     this.maxLines = 1,
     this.sufixicon,
     this.onLocationTap,
+    this.onChanged,
   });
 
   @override
@@ -25,7 +27,7 @@ class AppTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextFormField(
-     
+        onChanged: onChanged, 
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,

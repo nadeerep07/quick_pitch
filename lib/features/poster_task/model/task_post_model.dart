@@ -4,7 +4,7 @@ class TaskPostModel {
   final String title;
   final String description;
   final double budget;
-  final String location;
+  final String? location;
   final List<String> skills;
   final String priority;
   final String preferredTime;
@@ -25,7 +25,7 @@ class TaskPostModel {
     required this.title,
     required this.description,
     required this.budget,
-    required this.location,
+     this.location,
     required this.skills,
     required this.priority,
     required this.preferredTime,

@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/features/main/fixer/model/fixer_data.dart';
 import 'package:quick_pitch_app/features/main/poster/model/poster_data.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
-import 'package:quick_pitch_app/features/profile_completion/services/geoapify_services.dart';
+import 'package:quick_pitch_app/core/services/geopify/geoapify_services.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/repository/fixer_profile_editing_respository.dart';
 import 'package:quick_pitch_app/features/user_profile/poster/repository/poster_profile_repository.dart';
 

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/core/services/firebase/skill/skills_service.dart';
+import 'package:quick_pitch_app/core/services/geopify/geoapify_services.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -229,7 +230,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     selectedSkills = List.from(task.skills);
     selectedPriority = task.priority;
     selectedWorkType = task.workType;
-    locationController.text = task.location;
+    locationController.text = task.location ?? '';
     selectedTimeSlot = task.preferredTime;
     uploadedImageUrls = List.from(task.imagesUrl ?? []);
     selectedImages = [];
@@ -281,4 +282,24 @@ class TaskPostCubit extends Cubit<TaskPostState> {
         selectedSkills.isNotEmpty ||
         selectedImages.isNotEmpty;
   }
+  final geoService = GeoapifyService();
+List<LocationSuggestion> locationSuggestions = [];
+
+Future<void> fetchLocationSuggestions(String query) async {
+  if (query.isEmpty) {
+    locationSuggestions = [];
+    emit(TaskPostUpdated());
+    return;
+  }
+
+  final results = await geoService.fetchPlaceSuggestionsWithCoordinates(query);
+  locationSuggestions = results;
+  emit(TaskPostUpdated());
+}
+
+void selectLocation(LocationSuggestion suggestion) {
+  locationController.text = suggestion.address;
+  locationSuggestions.clear();
+  emit(TaskPostUpdated());
+}
 }
