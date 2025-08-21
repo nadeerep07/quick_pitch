@@ -37,13 +37,14 @@ class FixerDetailsBottomSheet extends StatelessWidget {
           HandleBar(res: res),
           SizedBox(height: res.hp(2)),
           ProfileHeader(fixer: fixer, res: res, distance: distance),
+          SizedBox(height: res.hp(2)),
           if (fixer.fixerData?.skills != null &&
               fixer.fixerData!.skills!.isNotEmpty)
             SkillsSection(fixer: fixer, res: res),
           if (fixer.fixerData?.bio != null &&
               fixer.fixerData!.bio.isNotEmpty)
             BioSection(fixer: fixer, res: res),
-          ActionButtons(res: res),
+          ActionButtons(res: res,fixerData: fixer),
           SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
@@ -53,7 +54,9 @@ class FixerDetailsBottomSheet extends StatelessWidget {
   double? _calculateDistance() {
     if (posterLocation == null ||
         fixer.fixerData?.latitude == null ||
-        fixer.fixerData?.longitude == null) return null;
+        fixer.fixerData?.longitude == null) {
+      return null;
+    }
 
     return PosterExploreRepository.haversineKm(
       posterLocation!.latitude,

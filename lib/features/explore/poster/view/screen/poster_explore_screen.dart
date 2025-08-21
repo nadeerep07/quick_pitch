@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:quick_pitch_app/core/common/main_background_painter.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_service.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/poster_explore_error_view.dart';

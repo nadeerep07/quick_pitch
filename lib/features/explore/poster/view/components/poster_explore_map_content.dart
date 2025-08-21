@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/poster_explore_map_view.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/explore_map/poster_explore_map_view.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
