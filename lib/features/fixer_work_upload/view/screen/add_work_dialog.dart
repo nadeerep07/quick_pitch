@@ -1,12 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_bloc.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_event.dart' show UpdateFixerWork, AddFixerWork;
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_event.dart'
+    show UpdateFixerWork, AddFixerWork;
 
 class AddWorkDialog extends StatefulWidget {
   final String fixerId;
@@ -73,7 +73,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
             _isLoading = false;
             _isSubmitted = false; // Reset submission flag on error
           });
-          
+
           // Show error message
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
@@ -109,11 +109,14 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
                     ),
                   ),
                   IconButton(
-                    onPressed: _isLoading ? null : () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.of(context).pop();
-                      }
-                    },
+                    onPressed:
+                        _isLoading
+                            ? null
+                            : () {
+                              if (Navigator.canPop(context)) {
+                                Navigator.of(context).pop();
+                              }
+                            },
                     icon: const Icon(Icons.close),
                   ),
                 ],
@@ -222,10 +225,11 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
               width: 80,
               height: 80,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey[200],
-                child: const Icon(Icons.error),
-              ),
+              errorBuilder:
+                  (context, error, stackTrace) => Container(
+                    color: Colors.grey[200],
+                    child: const Icon(Icons.error),
+                  ),
             ),
           ),
           if (!_isLoading)
@@ -378,22 +382,26 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: _isLoading ? null : () {
-            if (Navigator.canPop(context)) {
-              Navigator.of(context).pop();
-            }
-          },
+          onPressed:
+              _isLoading
+                  ? null
+                  : () {
+                    if (Navigator.canPop(context)) {
+                      Navigator.of(context).pop();
+                    }
+                  },
           child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: _isLoading ? null : _submitWork,
-          child: _isLoading
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(widget.editingWork != null ? 'Update' : 'Add Work'),
+          child:
+              _isLoading
+                  ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : Text(widget.editingWork != null ? 'Update' : 'Add Work'),
         ),
       ],
     );
@@ -401,7 +409,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
 
   Future<void> _pickImages() async {
     if (_isLoading) return;
-    
+
     try {
       final ImagePicker picker = ImagePicker();
       final List<XFile> images = await picker.pickMultiImage(
@@ -447,7 +455,7 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
 
   void _submitWork() {
     if (_isLoading || _isSubmitted) return; // Prevent multiple submissions
-    
+
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isSubmitted = true;
@@ -467,24 +475,25 @@ class _AddWorkDialogState extends State<AddWorkDialog> {
 
       if (widget.editingWork != null) {
         // Calculate images to delete
-        final imagesToDelete = widget.editingWork!.images
-            .where((url) => !_existingImages.contains(url))
-            .toList();
+        final imagesToDelete =
+            widget.editingWork!.images
+                .where((url) => !_existingImages.contains(url))
+                .toList();
 
         context.read<FixerWorksBloc>().add(
-              UpdateFixerWork(
-                work,
-                newImageFiles: _selectedImages.isEmpty ? null : _selectedImages,
-                imagesToDelete: imagesToDelete.isEmpty ? null : imagesToDelete,
-              ),
-            );
+          UpdateFixerWork(
+            work,
+            newImageFiles: _selectedImages.isEmpty ? null : _selectedImages,
+            imagesToDelete: imagesToDelete.isEmpty ? null : imagesToDelete,
+          ),
+        );
       } else {
         context.read<FixerWorksBloc>().add(
-              AddFixerWork(
-                work,
-                imageFiles: _selectedImages.isEmpty ? null : _selectedImages,
-              ),
-            );
+          AddFixerWork(
+            work,
+            imageFiles: _selectedImages.isEmpty ? null : _selectedImages,
+          ),
+        );
       }
     }
   }
