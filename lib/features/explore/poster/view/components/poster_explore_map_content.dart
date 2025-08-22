@@ -64,37 +64,37 @@ class PosterExploreMapContent extends StatelessWidget {
             ),
           ),
 
-          // Filters overlay
-          if (state.query.isNotEmpty || state.selectedSkills.isNotEmpty)
-            Positioned(
-              bottom: res.hp(2),
-              left: res.wp(5),
-              right: res.wp(5),
-              child: Container(
-                padding: EdgeInsets.all(res.wp(4)),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 2))],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Active Filters', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-                    SizedBox(height: res.hp(1)),
-                    if (state.query.isNotEmpty) Text('Search: "${state.query}"'),
-                    if (state.selectedSkills.isNotEmpty) Text('Skills: ${state.selectedSkills.join(", ")}'),
-                    SizedBox(height: res.hp(1)),
-                    TextButton.icon(
-                      onPressed: () => context.read<PosterExploreCubit>().clearFilters(),
-                      icon: const Icon(Icons.clear),
-                      label: const Text('Clear Filters'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          // // Filters overlay
+          // if (state.query.isNotEmpty || state.selectedSkills.isNotEmpty)
+          //   Positioned(
+          //     bottom: res.hp(2),
+          //     left: res.wp(5),
+          //     right: res.wp(5),
+          //     child: Container(
+          //       padding: EdgeInsets.all(res.wp(4)),
+          //       decoration: BoxDecoration(
+          //         color: Colors.white,
+          //         borderRadius: BorderRadius.circular(15),
+          //         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 2))],
+          //       ),
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text('Active Filters', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          //           SizedBox(height: res.hp(1)),
+          //           if (state.query.isNotEmpty) Text('Search: "${state.query}"'),
+          //           if (state.selectedSkills.isNotEmpty) Text('Skills: ${state.selectedSkills.join(", ")}'),
+          //           SizedBox(height: res.hp(1)),
+          //           TextButton.icon(
+          //             onPressed: () => context.read<PosterExploreCubit>().clearFilters(),
+          //             icon: const Icon(Icons.clear),
+          //             label: const Text('Clear Filters'),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/poster_explore_header.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/poster_explore_empty.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/poster_explore_empty.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/poster_explore_fixer_card.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
