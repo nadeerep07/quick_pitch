@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/explore/fixer/view/components/tasks_grid.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/widgets/skills_row.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
@@ -39,7 +38,7 @@ class TaskInfo extends StatelessWidget {
               SizedBox(width: responsive.wp(2)),
               Expanded(
                 child: Text(
-                  task.location,
+                  task.location ?? 'Remote',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w500,

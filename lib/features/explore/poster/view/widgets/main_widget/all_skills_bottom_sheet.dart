@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/bubble_background_painter.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/confirm_button.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/bubble_background_painter.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/confirm_button.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/drag_handle.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/header_section.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/header_section.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/search_field.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/skills_list.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/widgets/main_widget/skills_list.dart';
 
 class AllSkillsBottomSheet extends StatelessWidget {
   final List<String> skills;

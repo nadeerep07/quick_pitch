@@ -106,7 +106,8 @@ class _PosterTaskDetailScreenState extends State<PosterTaskDetailScreen> {
                         res: res,
                       ),
                       const SizedBox(height: 16),
-                      InfoCard(title: "Location", value: task.location),
+                      if(task.location != null)
+                      InfoCard(title: "Location", value: task.location ?? 'Remote'),
                       InfoCard(title: "Budget", value: "₹ ${task.budget}"),
                       InfoCard(
                         title: "Preferred Time",

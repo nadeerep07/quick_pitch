@@ -97,8 +97,6 @@ class PosterExploreLoaded extends PosterExploreState {
     return filteredFixers
         .where((fixer) => 
             fixer.fixerData != null &&
-            fixer.fixerData!.latitude != null &&
-            fixer.fixerData!.longitude != null &&
             fixer.fixerData!.latitude != 0.0 &&
             fixer.fixerData!.longitude != 0.0)
         .toList();
