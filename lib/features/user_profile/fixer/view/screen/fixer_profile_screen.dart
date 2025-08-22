@@ -59,6 +59,7 @@ class _FixerProfileView extends StatelessWidget {
                           onUpdateCertificate: state.fixerProfile.fixerData?.certificateStatus.toLowerCase() == 'rejected'
                               ? () => context.read<FixerProfileCubit>().updateCertificate()
                               : null,
+                              isOwner: true,
                         ),
                         const SizedBox(height: 32),
                       ],

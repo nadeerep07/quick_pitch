@@ -17,6 +17,14 @@ class AppColors {
   static const icon2 =  Color(0xFF10B981);
   static const icon3 = Color(0xFF8B5CF6);
   static const iconbg3 = Color(0xFFF3E8FF);
+  static const LinearGradient primaryGradient = LinearGradient(
+  colors: [
+    Color(0xFF3B5998), // your primaryColor
+    Color(0xFF192F6A), // darker/lighter shade to blend
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
 
 }
 
