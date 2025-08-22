@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/work_upload_screen.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/add_button.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/add_button.dart';
 
 class SectionHeader extends StatelessWidget {
   final ThemeData theme;

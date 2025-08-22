@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/empty_state.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/show_less_button.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/view_more_button.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/works_grid.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/empty_state.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/show_less_button.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/view_more_button.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/works_grid.dart';
 
 class WorksContent extends StatelessWidget {
   final ThemeData theme;

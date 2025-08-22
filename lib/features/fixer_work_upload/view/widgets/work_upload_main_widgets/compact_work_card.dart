@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/work_detail_dialog.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/compact_content.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/compact_image.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_bloc.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_content.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_image.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_bloc.dart';
 
 class CompactWorkCard extends StatelessWidget {
   final ThemeData theme;

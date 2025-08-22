@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/compact_work_card.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_card.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_work_card.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/work_card.dart';
 
 class WorksGrid extends StatelessWidget {
   final ThemeData theme;
@@ -24,7 +24,7 @@ class WorksGrid extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.75,
+          childAspectRatio: 0.64,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
         ),

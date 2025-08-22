@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/work_detail_dialog.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/card_content.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/image_section.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_bloc.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/card_content.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/image_section.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_bloc.dart';
 
 class WorkCard extends StatelessWidget {
   final ThemeData theme;
@@ -23,9 +23,7 @@ class WorkCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.1),
-        ),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
             color: theme.colorScheme.shadow.withOpacity(0.08),
@@ -42,8 +40,8 @@ class WorkCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(flex: 3, child: ImageSection(theme: theme, work: work)),
-              Expanded(flex: 2, child: CardContent(theme: theme, work: work)),
+              Expanded(flex: 2, child: ImageSection(theme: theme, work: work)),
+              CardContent(theme: theme, work: work),
             ],
           ),
         ),
@@ -54,14 +52,11 @@ class WorkCard extends StatelessWidget {
   void _showWorkDetail(BuildContext context, FixerWork work) {
     showDialog(
       context: context,
-      builder: (dialogContext) => BlocProvider.value(
-        value: BlocProvider.of<FixerWorksBloc>(context),
-        child: WorkDetailDialog(
-          work: work,
-          theme: theme,
-          isOwner: isOwner,
-        ),
-      ),
+      builder:
+          (dialogContext) => BlocProvider.value(
+            value: BlocProvider.of<FixerWorksBloc>(context),
+            child: WorkDetailDialog(work: work, theme: theme, isOwner: isOwner),
+          ),
     );
   }
 }

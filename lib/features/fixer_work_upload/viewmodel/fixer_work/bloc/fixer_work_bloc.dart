@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/repository/fixer_works_repository.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/bloc/fixer_work_event.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_event.dart';
 
 part 'fixer_work_state.dart';
 
