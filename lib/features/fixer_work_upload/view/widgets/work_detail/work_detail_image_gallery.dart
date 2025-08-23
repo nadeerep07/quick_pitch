@@ -7,7 +7,7 @@ class WorkDetailImageGallery extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailImageGallery({required this.work, required this.theme});
+  const WorkDetailImageGallery({super.key, required this.work, required this.theme});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ class AddButton extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onPressed;
 
-  const AddButton({
+  const AddButton({super.key, 
     required this.theme,
     required this.onPressed,
   });

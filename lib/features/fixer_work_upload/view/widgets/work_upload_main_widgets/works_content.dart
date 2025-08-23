@@ -12,7 +12,7 @@ class WorksContent extends StatelessWidget {
   final bool isOwner;
   final VoidCallback onToggleView;
 
-  const WorksContent({
+  const WorksContent({super.key, 
     required this.theme,
     required this.works,
     required this.showAll,

@@ -6,7 +6,7 @@ class ImageSection extends StatelessWidget {
   final ThemeData theme;
   final FixerWork work;
 
-  const ImageSection({
+  const ImageSection({super.key, 
     required this.theme,
     required this.work,
   });
@@ -24,7 +24,7 @@ class ImageSection extends StatelessWidget {
                   height: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
-                    color: theme.colorScheme.surfaceVariant,
+                    color: theme.colorScheme.surfaceContainerHighest,
                     child: Center(
                       child: CircularProgressIndicator(
                         color: theme.primaryColor,
@@ -33,7 +33,7 @@ class ImageSection extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) => Container(
-                    color: theme.colorScheme.surfaceVariant,
+                    color: theme.colorScheme.surfaceContainerHighest,
                     child: Icon(
                       Icons.image_not_supported_outlined,
                       size: 32,
@@ -42,7 +42,7 @@ class ImageSection extends StatelessWidget {
                   ),
                 )
               : Container(
-                  color: theme.colorScheme.surfaceVariant,
+                  color: theme.colorScheme.surfaceContainerHighest,
                   child: Center(
                     child: Icon(
                       Icons.work_outline,

@@ -12,7 +12,7 @@ class WorkCard extends StatelessWidget {
   final FixerWork work;
   final bool isOwner;
 
-  const WorkCard({
+  const WorkCard({super.key, 
     required this.theme,
     required this.work,
     required this.isOwner,

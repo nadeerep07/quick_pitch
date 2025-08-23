@@ -33,8 +33,8 @@ class FixerProfileContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (profile.fixerData?.bio?.isNotEmpty == true)
-            AboutSection(bio: profile.fixerData!.bio!, theme: theme),
+          if (profile.fixerData?.bio.isNotEmpty == true)
+            AboutSection(bio: profile.fixerData!.bio, theme: theme),
           const SizedBox(height: 16),
           if (profile.fixerData?.skills?.isNotEmpty == true)
             SkillsSection(skills: profile.fixerData!.skills!, theme: theme),

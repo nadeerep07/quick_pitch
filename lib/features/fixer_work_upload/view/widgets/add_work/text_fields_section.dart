@@ -11,7 +11,7 @@ class TextFieldsSection extends StatelessWidget {
   final TextEditingController timeController;
   final TextEditingController amountController;
 
-  const TextFieldsSection({
+  const TextFieldsSection({super.key, 
     required this.theme,
     required this.titleController,
     required this.descriptionController,

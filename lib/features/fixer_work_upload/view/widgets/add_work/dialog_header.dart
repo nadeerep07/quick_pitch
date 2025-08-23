@@ -8,7 +8,7 @@ class DialogHeader extends StatelessWidget {
   final FixerWork? editingWork;
   final VoidCallback onClose;
 
-  const DialogHeader({
+  const DialogHeader({super.key, 
     required this.theme,
     required this.editingWork,
     required this.onClose,

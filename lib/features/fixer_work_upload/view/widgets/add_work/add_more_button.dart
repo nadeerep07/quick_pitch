@@ -5,7 +5,7 @@ class AddMoreButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPickImages;
 
-  const AddMoreButton({
+  const AddMoreButton({super.key, 
     required this.theme,
     required this.isLoading,
     required this.onPickImages,

@@ -9,7 +9,7 @@ class SelectedImageItem extends StatelessWidget {
   final XFile imageFile;
   final bool isLoading;
 
-  const SelectedImageItem({
+  const SelectedImageItem({super.key, 
     required this.theme,
     required this.imageFile,
     required this.isLoading,

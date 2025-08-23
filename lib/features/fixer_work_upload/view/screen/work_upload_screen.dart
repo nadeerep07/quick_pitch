@@ -1,23 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/add_work_dialog.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/image_full_screen_dialog.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/card_content.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_content.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_image.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/compact_work_card.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/empty_state.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/fixer_work_error.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/image_section.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/loading_state.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/section_header.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/show_less_button.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/view_more_button.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/work_card.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/works_content.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/works_grid.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_event.dart';
 

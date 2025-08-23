@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/app_button.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/screen/fixer_detail_screen.dart';

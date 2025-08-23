@@ -8,7 +8,7 @@ class WorkDetailImageCard extends StatelessWidget {
   final int index;
   final ThemeData theme;
 
-  const WorkDetailImageCard({required this.url, required this.index, required this.theme});
+  const WorkDetailImageCard({super.key, required this.url, required this.index, required this.theme});
 
   @override
   Widget build(BuildContext context) {

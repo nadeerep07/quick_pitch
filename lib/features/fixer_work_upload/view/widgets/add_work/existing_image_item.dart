@@ -7,7 +7,7 @@ class ExistingImageItem extends StatelessWidget {
   final String imageUrl;
   final bool isLoading;
 
-  const ExistingImageItem({
+  const ExistingImageItem({super.key, 
     required this.theme,
     required this.imageUrl,
     required this.isLoading,

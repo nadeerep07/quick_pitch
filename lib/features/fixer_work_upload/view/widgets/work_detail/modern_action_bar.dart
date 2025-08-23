@@ -10,7 +10,7 @@ class WorkDetailActionBar extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailActionBar({required this.work, required this.theme});
+  const WorkDetailActionBar({super.key, required this.work, required this.theme});
 
   @override
   Widget build(BuildContext context) {

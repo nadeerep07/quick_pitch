@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingState extends StatelessWidget {
   final ThemeData theme;
 
-  const LoadingState({required this.theme});
+  const LoadingState({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {

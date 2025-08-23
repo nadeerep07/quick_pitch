@@ -10,7 +10,7 @@ class AddImageSection extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onPickImages;
 
-  const AddImageSection({
+  const AddImageSection({super.key, 
     required this.theme,
     required this.onPickImages,
   });

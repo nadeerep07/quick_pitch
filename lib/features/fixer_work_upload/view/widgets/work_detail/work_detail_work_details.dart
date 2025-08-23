@@ -8,7 +8,7 @@ class WorkDetailWorkDetails extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailWorkDetails({required this.work, required this.theme});
+  const WorkDetailWorkDetails({super.key, required this.work, required this.theme});
 
   @override
 

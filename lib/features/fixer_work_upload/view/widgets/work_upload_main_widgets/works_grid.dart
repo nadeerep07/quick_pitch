@@ -9,7 +9,7 @@ class WorksGrid extends StatelessWidget {
   final bool showAll;
   final bool isOwner;
 
-  const WorksGrid({
+  const WorksGrid({super.key, 
     required this.theme,
     required this.works,
     required this.showAll,

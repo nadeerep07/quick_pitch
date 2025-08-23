@@ -10,7 +10,7 @@ class ImageList extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPickImages;
 
-  const ImageList({
+  const ImageList({super.key, 
     required this.theme,
     required this.dialogState,
     required this.isLoading,

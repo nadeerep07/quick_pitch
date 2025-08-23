@@ -18,7 +18,7 @@ class CompactImage extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: theme.colorScheme.surfaceVariant,
+        color: theme.colorScheme.surfaceContainerHighest,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
@@ -27,7 +27,7 @@ class CompactImage extends StatelessWidget {
                 imageUrl: work.images.first,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: theme.colorScheme.surfaceVariant,
+                  color: theme.colorScheme.surfaceContainerHighest,
                   child: Center(
                     child: SizedBox(
                       width: 20,

@@ -5,7 +5,7 @@ class EmptyImagePlaceholder extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPickImages;
 
-  const EmptyImagePlaceholder({
+  const EmptyImagePlaceholder({super.key, 
     required this.theme,
     required this.isLoading,
     required this.onPickImages,

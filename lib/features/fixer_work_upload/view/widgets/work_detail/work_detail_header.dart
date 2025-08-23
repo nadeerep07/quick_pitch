@@ -5,7 +5,7 @@ class WorkDetailHeader extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailHeader({required this.work, required this.theme});
+  const WorkDetailHeader({super.key, required this.work, required this.theme});
 
   @override
   Widget build(BuildContext context) {

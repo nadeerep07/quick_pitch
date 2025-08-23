@@ -7,7 +7,7 @@ class SectionHeader extends StatelessWidget {
   final bool isOwner;
   final VoidCallback onAddPressed;
 
-  const SectionHeader({
+  const SectionHeader({super.key, 
     required this.theme,
     required this.isOwner,
     required this.onAddPressed,

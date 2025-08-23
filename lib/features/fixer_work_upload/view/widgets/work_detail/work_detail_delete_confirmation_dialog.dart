@@ -8,7 +8,7 @@ class WorkDetailDeleteConfirmationDialog extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailDeleteConfirmationDialog({required this.work, required this.theme});
+  const WorkDetailDeleteConfirmationDialog({super.key, required this.work, required this.theme});
 
   @override
   Widget build(BuildContext context) {
