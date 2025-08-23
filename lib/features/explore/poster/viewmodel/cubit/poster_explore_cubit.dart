@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_service.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_state.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class PosterExploreCubit extends Cubit<PosterExploreState> {
   final PosterExploreService _service;
   Timer? _debounceTimer;
+  final Map<String, List<FixerWork>> _fixerWorksCache = {};
 
   PosterExploreCubit({required PosterExploreService service})
       : _service = service,
@@ -28,6 +30,9 @@ class PosterExploreCubit extends Cubit<PosterExploreState> {
       final skills = results[1] as List<String>;
       final position = results[2] as Position?;
 
+      // Pre-load works for first few fixers for better UX
+      await _preloadFixerWorks(fixers.take(5).toList());
+
       emit(PosterExploreLoaded(
         allFixers: fixers,
         filteredFixers: fixers,
@@ -38,10 +43,47 @@ class PosterExploreCubit extends Cubit<PosterExploreState> {
         radiusKm: 15.0,
         posterLocation: position,
         isMapView: false,
+        fixerWorks: Map.from(_fixerWorksCache),
       ));
     } catch (e) {
       emit(PosterExploreError('Failed to load data: ${e.toString()}'));
     }
+  }
+
+  Future<void> _preloadFixerWorks(List<UserProfileModel> fixers) async {
+    for (final fixer in fixers) {
+      try {
+        final works = await _service.fetchFixerWorks(fixer.uid);
+        _fixerWorksCache[fixer.uid] = works;
+      } catch (e) {
+        // Silent fail for works loading
+        _fixerWorksCache[fixer.uid] = [];
+      }
+    }
+  }
+
+  Future<void> loadFixerWorks(String fixerId) async {
+    if (_fixerWorksCache.containsKey(fixerId)) {
+      return; // Already loaded
+    }
+
+    try {
+      final works = await _service.fetchFixerWorks(fixerId);
+      _fixerWorksCache[fixerId] = works;
+      
+      final currentState = state;
+      if (currentState is PosterExploreLoaded) {
+        emit(currentState.copyWith(
+          fixerWorks: Map.from(_fixerWorksCache),
+        ));
+      }
+    } catch (e) {
+      _fixerWorksCache[fixerId] = [];
+    }
+  }
+
+  List<FixerWork> getFixerWorks(String fixerId) {
+    return _fixerWorksCache[fixerId] ?? [];
   }
 
   void toggleMapView() {

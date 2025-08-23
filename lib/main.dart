@@ -11,6 +11,9 @@ import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/chat/cubit/chat_list_view_model_cubit.dart';
+import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
+import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_service.dart';
+import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_cubit.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
@@ -107,6 +110,7 @@ class MyApp extends StatelessWidget {
               ),
         ),
         BlocProvider(create: (context) => ChatListViewModel()),
+        BlocProvider(create: (_)=> PosterExploreCubit(service: PosterExploreService(PosterExploreRepository()))),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

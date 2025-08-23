@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class PosterExploreService {
@@ -15,8 +16,13 @@ class PosterExploreService {
       _repository.getCurrentPositionWithFallback(),
     ]);
   }
-   Future<Position?> fetchCurrentPosition() async {
+
+  Future<Position?> fetchCurrentPosition() async {
     return _repository.getCurrentPositionWithFallback();
+  }
+
+  Future<List<FixerWork>> fetchFixerWorks(String fixerId) async {
+    return _repository.fetchFixerWorks(fixerId);
   }
 
   List<UserProfileModel> applyFilters({

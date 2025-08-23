@@ -1,10 +1,9 @@
-// features/explore/poster/repository/poster_explore_repository.dart
-
 import 'dart:async';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/core/services/firebase/skill/skills_service.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class PosterExploreRepository {
@@ -21,36 +20,53 @@ class PosterExploreRepository {
   }
 
   /// Fetch fixers with pagination support
-Future<List<UserProfileModel>> fetchFixers() async {
-  try {
-    final usersSnapshot = await _firestore.collection('users').get();
+  Future<List<UserProfileModel>> fetchFixers() async {
+    try {
+      final usersSnapshot = await _firestore.collection('users').get();
 
-    List<UserProfileModel> fixers = [];
+      List<UserProfileModel> fixers = [];
 
-    for (var userDoc in usersSnapshot.docs) {
-      final fixerDoc = await userDoc.reference
-          .collection('roles')
-          .doc('fixer')
+      for (var userDoc in usersSnapshot.docs) {
+        final fixerDoc = await userDoc.reference
+            .collection('roles')
+            .doc('fixer')
+            .get();
+
+        if (fixerDoc.exists) {
+          fixers.add(UserProfileModel.fromJson(fixerDoc.data()!));
+        }
+      }
+
+      return fixers;
+    } catch (e) {
+      throw Exception('Failed to fetch fixers: $e');
+    }
+  }
+
+  /// Fetch works for a specific fixer
+  Future<List<FixerWork>> fetchFixerWorks(String fixerId) async {
+    try {
+      final worksSnapshot = await _firestore
+          .collection('users')
+          .doc(fixerId)
+          .collection('works')
+          .orderBy('createdAt', descending: true)
+          .limit(10) // Limit to recent works
           .get();
 
-      if (fixerDoc.exists) {
-        fixers.add(UserProfileModel.fromJson(fixerDoc.data()!));
-      }
+      return worksSnapshot.docs
+          .map((doc) => FixerWork.fromFirestore(doc))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to fetch fixer works: $e');
     }
-
-    return fixers;
-  } catch (e) {
-    throw Exception('Failed to fetch fixers: $e');
   }
-}
-
 
   /// Get current position with fallback to last known position
   Future<Position?> getCurrentPositionWithFallback() async {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        // Try to get last known position
         return await Geolocator.getLastKnownPosition();
       }
 
@@ -67,15 +83,12 @@ Future<List<UserProfileModel>> fetchFixers() async {
       }
 
       return await Geolocator.getCurrentPosition(
-        // ignore: deprecated_member_use
         desiredAccuracy: LocationAccuracy.medium,
-        // ignore: deprecated_member_use
         timeLimit: const Duration(seconds: 10),
       ).timeout(
         const Duration(seconds: 15),
         onTimeout: () async {
           final lastKnown = await Geolocator.getLastKnownPosition();
-          // If lastKnown is null, throw a TimeoutException to match the expected type
           if (lastKnown == null) {
             throw TimeoutException('Location request timed out and no last known position available');
           }
@@ -83,13 +96,11 @@ Future<List<UserProfileModel>> fetchFixers() async {
         },
       );
     } catch (e) {
-      // Return last known position as fallback
       return await Geolocator.getLastKnownPosition();
     }
   }
 
   /// Calculate distance between two points using Haversine formula
-  /// Returns distance in kilometers
   static double haversineKm(double lat1, double lon1, double lat2, double lon2) {
     const double earthRadiusKm = 6371.0;
     

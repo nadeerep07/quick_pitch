@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/model/fixer_data_extension.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 abstract class PosterExploreState {
@@ -25,7 +26,8 @@ class PosterExploreLoaded extends PosterExploreState {
   final double radiusKm;
   final Position? posterLocation;
   final bool isLoadingMore;
-  final bool isMapView; // New field for map toggle
+  final bool isMapView;
+  final Map<String, List<FixerWork>> fixerWorks; // New field
 
   const PosterExploreLoaded({
     required this.allFixers,
@@ -37,7 +39,8 @@ class PosterExploreLoaded extends PosterExploreState {
     required this.radiusKm,
     this.posterLocation,
     this.isLoadingMore = false,
-    this.isMapView = false, // Default to list view
+    this.isMapView = false,
+    this.fixerWorks = const {}, // New field
   });
 
   PosterExploreLoaded copyWith({
@@ -51,6 +54,7 @@ class PosterExploreLoaded extends PosterExploreState {
     Position? posterLocation,
     bool? isLoadingMore,
     bool? isMapView,
+    Map<String, List<FixerWork>>? fixerWorks,
   }) {
     return PosterExploreLoaded(
       allFixers: allFixers ?? this.allFixers,
@@ -63,6 +67,7 @@ class PosterExploreLoaded extends PosterExploreState {
       posterLocation: posterLocation ?? this.posterLocation,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       isMapView: isMapView ?? this.isMapView,
+      fixerWorks: fixerWorks ?? this.fixerWorks,
     );
   }
 
@@ -92,7 +97,6 @@ class PosterExploreLoaded extends PosterExploreState {
       ..sort((a, b) => a.fixerData!.distance!.compareTo(b.fixerData!.distance!));
   }
 
-  // Get fixers with valid coordinates for map display
   List<UserProfileModel> get fixersWithLocation {
     return filteredFixers
         .where((fixer) => 
@@ -101,11 +105,14 @@ class PosterExploreLoaded extends PosterExploreState {
             fixer.fixerData!.longitude != 0.0)
         .toList();
   }
+
+  // Get recent works for a fixer
+  List<FixerWork> getFixerWorks(String fixerId) {
+    return fixerWorks[fixerId] ?? [];
+  }
 }
 
 class PosterExploreError extends PosterExploreState {
   final String message;
-  final PosterExploreLoaded? previousState;
-
-  const PosterExploreError(this.message, {this.previousState});
+  const PosterExploreError(this.message);
 }
