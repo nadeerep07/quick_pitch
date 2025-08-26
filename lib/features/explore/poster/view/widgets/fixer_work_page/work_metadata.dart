@@ -8,7 +8,7 @@ import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_uplo
 class WorkMetadata extends StatelessWidget {
   final FixerWork work;
 
-  const WorkMetadata({required this.work});
+  const WorkMetadata({super.key, required this.work});
 
   String _formatDate(DateTime date) {
     final now = DateTime.now();

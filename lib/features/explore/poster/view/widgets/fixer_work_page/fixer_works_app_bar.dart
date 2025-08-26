@@ -10,7 +10,7 @@ class FixerWorksAppBar extends StatelessWidget {
   final FixerWorksState state;
   final VoidCallback onClose;
 
-  const FixerWorksAppBar({
+  const FixerWorksAppBar({super.key, 
     required this.fixer,
     required this.state,
     required this.onClose,

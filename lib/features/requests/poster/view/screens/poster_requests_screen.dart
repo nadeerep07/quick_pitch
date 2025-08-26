@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/assigned_tab.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/completed_tab.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/screens/assigned_tab.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/screens/completed_tab.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/pitches_tab.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 
@@ -40,7 +40,8 @@ class _RequestsScreenState extends State<RequestsScreen>
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        extendBodyBehindAppBar: true,
+        // Remove this line to prevent body from extending behind AppBar
+        // extendBodyBehindAppBar: true,
         appBar: _buildAppBar(res, colorScheme),
         body: Stack(
           children: [

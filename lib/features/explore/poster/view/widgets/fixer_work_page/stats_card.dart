@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class StatsCard extends StatelessWidget {
   final int worksCount;
 
-  const StatsCard({required this.worksCount});
+  const StatsCard({super.key, required this.worksCount});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class StatsCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '$worksCount Completed Project${worksCount != 1 ? 's' : ''}',
+                  '$worksCount Available Project${worksCount != 1 ? 's' : ''}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,

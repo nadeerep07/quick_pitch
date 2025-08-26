@@ -10,7 +10,7 @@ class WorksContentWithLoadingMore extends StatelessWidget {
   final List<FixerWork> works;
   final VoidCallback onRefresh;
 
-  const WorksContentWithLoadingMore({
+  const WorksContentWithLoadingMore({super.key, 
     required this.works,
     required this.onRefresh,
   });

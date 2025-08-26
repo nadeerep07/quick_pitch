@@ -1,9 +1,10 @@
 // Updated FixerWorksPage
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ProjectTypeChip extends StatelessWidget {
+  const ProjectTypeChip({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +29,7 @@ class ProjectTypeChip extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            'Completed Project',
+            'New Project',
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,

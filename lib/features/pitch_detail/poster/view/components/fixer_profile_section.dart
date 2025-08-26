@@ -43,25 +43,30 @@ class FixerProfileSection extends StatelessWidget {
                     border: Border.all(color: colorScheme.primary, width: 2),
                   ),
                   child: ClipOval(
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/avatar_photo_placeholder.jpg',
-                      image:
-                          fixer?.profileImageUrl?.isNotEmpty == true
-                              ? fixer!.profileImageUrl!
-                              : 'https://via.placeholder.com/150',
-
-                      width: res.wp(12),
-                      height: res.wp(12),
-                      fit: BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) {
-                        return CircleAvatar(
-                          radius: res.wp(6),
-                          backgroundImage: AssetImage(
-                            'assets/images/avatar_photo_placeholder.jpg', // Placeholder image
-                          ),
-                        );
-                      },
-                    ),
+                    child:
+                        fixer?.profileImageUrl?.isNotEmpty == true
+                            ? FadeInImage.assetNetwork(
+                              placeholder:
+                                  'assets/images/avatar_photo_placeholder.jpg',
+                              image: fixer!.profileImageUrl!,
+                              width: res.wp(12),
+                              height: res.wp(12),
+                              fit: BoxFit.cover,
+                              imageErrorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/images/avatar_photo_placeholder.jpg',
+                                  width: res.wp(12),
+                                  height: res.wp(12),
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                            : Image.asset(
+                              'assets/images/avatar_photo_placeholder.jpg',
+                              width: res.wp(12),
+                              height: res.wp(12),
+                              fit: BoxFit.cover,
+                            ),
                   ),
                 ),
                 SizedBox(width: res.wp(4)),

@@ -8,7 +8,7 @@ class MetadataItem extends StatelessWidget {
   final String text;
   final MaterialColor color;
 
-  const MetadataItem({
+  const MetadataItem({super.key, 
     required this.icon,
     required this.text,
     required this.color,

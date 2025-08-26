@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/dialog_content.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/work_detail_image_gallery.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/work_detail_work_details.dart';
 

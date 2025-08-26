@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DescriptionCard extends StatelessWidget {
   final String description;
 
-  const DescriptionCard({required this.description});
+  const DescriptionCard({super.key, required this.description});
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class WorkCard extends StatelessWidget {
   final FixerWork work;
   final int index;
 
-  const WorkCard({required this.work, required this.index});
+  const WorkCard({super.key, required this.work, required this.index});
 
   @override
   Widget build(BuildContext context) {

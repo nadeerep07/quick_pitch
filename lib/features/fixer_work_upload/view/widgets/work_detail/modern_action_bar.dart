@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/add_work_dialog.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/dialog_content.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/work_detail_delete_confirmation_dialog.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/fixer_work/bloc/fixer_work_bloc.dart';
 

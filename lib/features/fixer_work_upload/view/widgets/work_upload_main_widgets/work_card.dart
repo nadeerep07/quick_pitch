@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/image_full_screen_dialog.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/screen/work_detail_dialog.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/card_content.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_upload_main_widgets/image_section.dart';

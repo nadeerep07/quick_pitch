@@ -8,7 +8,7 @@ import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_
 class ImageCarousel extends StatelessWidget {
   final List<String> images;
 
-  const ImageCarousel({required this.images});
+  const ImageCarousel({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

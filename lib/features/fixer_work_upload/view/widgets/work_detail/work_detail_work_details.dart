@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/dialog_content.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/work_detail_detail_card.dart';
 
 class WorkDetailWorkDetails extends StatelessWidget {
