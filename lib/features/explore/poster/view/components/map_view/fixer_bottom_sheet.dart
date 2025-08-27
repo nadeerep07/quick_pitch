@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/bottom_sheet/fixer_action_buttons.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/bottom_sheet/fixer_bio_section.dart';

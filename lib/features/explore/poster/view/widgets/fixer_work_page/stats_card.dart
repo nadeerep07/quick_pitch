@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class StatsCard extends StatelessWidget {
   final int worksCount;
 
-  const StatsCard({required this.worksCount});
+  const StatsCard({super.key, required this.worksCount});
 
   @override
   Widget build(BuildContext context) {

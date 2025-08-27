@@ -11,7 +11,7 @@ class WorksContent extends StatelessWidget {
   final VoidCallback onRefresh;
   final bool isRefreshing;
 
-  const WorksContent({
+  const WorksContent({super.key, 
     required this.state,
     required this.onRefresh,
     this.isRefreshing = false,

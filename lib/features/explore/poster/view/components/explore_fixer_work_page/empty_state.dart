@@ -8,7 +8,7 @@ class EmptyState extends StatelessWidget {
   final UserProfileModel fixer;
   final Animation<double> fadeAnimation;
 
-  const EmptyState({
+  const EmptyState({super.key, 
     required this.fixer,
     required this.fadeAnimation,
   });

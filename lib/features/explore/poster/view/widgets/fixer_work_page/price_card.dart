@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class PriceCard extends StatelessWidget {
   final double amount;
 
-  const PriceCard({required this.amount});
+  const PriceCard({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {

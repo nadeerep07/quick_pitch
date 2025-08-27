@@ -1,27 +1,9 @@
 // Updated FixerWorksPage
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/explore_fixer_works_repository.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/description_card.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/empty_state.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/error_state.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/fixer_works_app_bar.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/fixer_works_content.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/image_carousel.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/image_loader.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/image_placeholder.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/loading_state.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/price_card.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/project_type_chip.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/single_image.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/stats_card.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/work_card.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/work_image_section.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/work_metadata.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/works_content.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/works_content_with_loading_more.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/fixer_wroks/cubit/fixer_works_cubit.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/fixer_wroks/cubit/fixer_works_state.dart';

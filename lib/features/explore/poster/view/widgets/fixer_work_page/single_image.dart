@@ -8,7 +8,7 @@ import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_
 class SingleImage extends StatelessWidget {
   final String imageUrl;
 
-  const SingleImage({required this.imageUrl});
+  const SingleImage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {

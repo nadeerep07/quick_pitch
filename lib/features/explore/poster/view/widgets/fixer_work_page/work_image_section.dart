@@ -8,11 +8,11 @@ import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_
 class WorkImageSection extends StatelessWidget {
   final List<String> images;
 
-  const WorkImageSection({required this.images});
+  const WorkImageSection({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 220,
       width: double.infinity,
       child: Stack(

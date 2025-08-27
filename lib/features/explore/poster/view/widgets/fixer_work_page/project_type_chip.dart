@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ProjectTypeChip extends StatelessWidget {
+  const ProjectTypeChip({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -17,7 +17,7 @@ class FixerWorksContent extends StatelessWidget {
   final VoidCallback onRefresh;
   final VoidCallback onRetry;
 
-  const FixerWorksContent({
+  const FixerWorksContent({super.key, 
     required this.state,
     required this.fixer,
     required this.fadeAnimation,

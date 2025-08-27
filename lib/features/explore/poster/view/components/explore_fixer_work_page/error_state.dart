@@ -8,7 +8,7 @@ class ErrorState extends StatelessWidget {
   final VoidCallback onRetry;
   final Animation<double> fadeAnimation;
 
-  const ErrorState({
+  const ErrorState({super.key, 
     required this.errorMessage,
     required this.onRetry,
     required this.fadeAnimation,

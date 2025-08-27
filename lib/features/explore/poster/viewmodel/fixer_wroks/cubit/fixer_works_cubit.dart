@@ -1,9 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/explore_fixer_works_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/fixer_wroks/cubit/fixer_works_state.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/repository/fixer_works_repository.dart';
 
 class FixerWorksCubit extends Cubit<FixerWorksState> {
   final ExploreFixerWorksRepository _repository;
