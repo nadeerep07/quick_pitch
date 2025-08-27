@@ -48,7 +48,7 @@ class PitchDetailCard extends StatelessWidget {
                     pitch.status.toUpperCase(),
                     style: theme.textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.icon1,
+                      color: AppColors.iconbg1,
                     ),
                   ),
                 ),

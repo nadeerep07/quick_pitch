@@ -72,7 +72,7 @@ class FixerWorksBloc extends Bloc<FixerWorksEvent, FixerWorksState> {
 
       // Delete old images if specified
       if (event.imagesToDelete != null && event.imagesToDelete!.isNotEmpty) {
-        await _repository.deleteImages(event.imagesToDelete!);
+      //  await _repository.deleteImages(event.imagesToDelete!);
         imageUrls.removeWhere((url) => event.imagesToDelete!.contains(url));
       }
 
@@ -100,10 +100,7 @@ class FixerWorksBloc extends Bloc<FixerWorksEvent, FixerWorksState> {
     try {
       emit(FixerWorksLoading());
 
-      // Delete images from storage
-      if (event.work.images.isNotEmpty) {
-        await _repository.deleteImages(event.work.images);
-      }
+      
 
       // Delete work from Firestore
       await _repository.deleteWork(event.work.id);

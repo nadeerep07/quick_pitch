@@ -5,7 +5,7 @@ class StatusColorUtil {
   static Color getStatusColor(String status, ThemeData theme) {
     switch (status.toLowerCase()) {
       case 'completed':
-        return Colors.green;
+        return AppColors.icon2;
       case 'accepted':
         return AppColors.icon1.withValues(
           alpha: 0.2,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/date_formatter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/screen/pitch_assigned_detail_screen.dart';
+import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/components/placeholder_content.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
@@ -32,7 +33,7 @@ class AssignedTab extends StatelessWidget {
             itemBuilder: (context, index) {
               final task = assigned[index]['task'] as TaskPostModel;
               final pitches = assigned[index]['pitches'] as List;
-              
+
               return GestureDetector(
                 onTap: () {
                   if (pitches.isNotEmpty) {
@@ -40,10 +41,11 @@ class AssignedTab extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => PitchAssignedDetailScreen(
-                          task: task,
-                          pitchId: pitchId,
-                        ),
+                        builder:
+                            (_) => PitchAssignedDetailScreen(
+                              task: task,
+                              pitchId: pitchId,
+                            ),
                       ),
                     );
                   }
@@ -115,9 +117,9 @@ class AssignedTab extends StatelessWidget {
                             ),
                           ],
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // Title
                         Text(
                           task.title,
@@ -127,9 +129,9 @@ class AssignedTab extends StatelessWidget {
                             color: Colors.black87,
                           ),
                         ),
-                        
+
                         const SizedBox(height: 8),
-                        
+
                         // Description
                         Text(
                           task.description,
@@ -139,30 +141,52 @@ class AssignedTab extends StatelessWidget {
                             height: 1.4,
                           ),
                         ),
-                        
+
                         const SizedBox(height: 16),
-                        
+
                         // Expandable section with assignee info and details
                         if (task.assignedFixerName != null) ...[
                           Theme(
-                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                            data: Theme.of(
+                              context,
+                            ).copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
                               tilePadding: EdgeInsets.zero,
                               childrenPadding: const EdgeInsets.only(top: 8),
-                              leading: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: AppColors.icon3.withValues(alpha: 0.15),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: CircleAvatar(
-                                  radius: 16,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: AssetImage(
-                                    'assets/images/avatar_photo_placeholder.jpg',
-                                  ),
-                                ),
+                              leading: FutureBuilder<UserProfileModel?>(
+                                future: context
+                                    .read<PitchesCubit>()
+                                    .getFixerDetails(task.assignedFixerId),
+                                builder: (context, snapshot) {
+                                  return CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor: Colors.blue.shade100,
+                                    backgroundImage:
+                                        (snapshot.hasData &&
+                                                snapshot.data != null &&
+                                                snapshot
+                                                        .data!
+                                                        .profileImageUrl !=
+                                                    null)
+                                            ? NetworkImage(
+                                              snapshot.data!.profileImageUrl!,
+                                            )
+                                            : null,
+                                    child:
+                                        (snapshot.hasData &&
+                                                snapshot.data != null &&
+                                                snapshot
+                                                        .data!
+                                                        .profileImageUrl !=
+                                                    null)
+                                            ? null
+                                            : Icon(
+                                              Icons.person,
+                                              color: Colors.blue.shade600,
+                                              size: 16,
+                                            ),
+                                  );
+                                },
                               ),
                               title: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,7 +231,8 @@ class AssignedTab extends StatelessWidget {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Task Details',
@@ -231,14 +256,16 @@ class AssignedTab extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                
+
                                 const SizedBox(height: 12),
-                                
+
                                 // Status section
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: Colors.orange.withValues(alpha: 0.08),
+                                    color: Colors.orange.withValues(
+                                      alpha: 0.08,
+                                    ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Row(
@@ -251,7 +278,8 @@ class AssignedTab extends StatelessWidget {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Work Status',
@@ -279,7 +307,9 @@ class AssignedTab extends StatelessWidget {
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.orange[100],
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                         ),
                                         child: Text(
                                           'Active',
@@ -314,6 +344,4 @@ class AssignedTab extends StatelessWidget {
       },
     );
   }
-
-
 }

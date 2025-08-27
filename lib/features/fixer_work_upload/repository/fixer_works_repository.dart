@@ -70,15 +70,4 @@ class FixerWorksRepository {
     return urls;
   }
 
-  // Delete images from storage
-  Future<void> deleteImages(List<String> imageUrls) async {
-    for (final url in imageUrls) {
-      try {
-        final ref = _storage.refFromURL(url);
-        await ref.delete();
-      } catch (e) {
-        print('Error deleting image: $e');
-      }
-    }
-  }
 }

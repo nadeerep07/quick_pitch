@@ -6,24 +6,18 @@ import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pit
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
-class PitchAssignedDetailScreen extends StatelessWidget {
+class PitchCompleteDetailScreen extends StatelessWidget {
   final TaskPostModel task;
   final String? pitchId;
-
-  const PitchAssignedDetailScreen({
-    super.key,
-    required this.task,
-    required this.pitchId,
-  });
+  const PitchCompleteDetailScreen({super.key,required this.task,required this.pitchId});
 
   @override
   Widget build(BuildContext context) {
-    final pitchDocRef = FirebaseFirestore.instance.collection('pitches').doc(pitchId);
+       final pitchDocRef = FirebaseFirestore.instance.collection('pitches').doc(pitchId);
     final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assigned Details'),
+        title: const Text('Completed Details'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
