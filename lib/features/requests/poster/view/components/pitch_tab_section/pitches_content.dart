@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/placeholder_content.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/task_pitch_card.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/placeholder_content.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/task_pitch_card.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PitchesContent extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/screens/assigned_tab.dart';
 import 'package:quick_pitch_app/features/requests/poster/view/screens/completed_tab.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/pitches_tab.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/screens/pitches_tab.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 
 class RequestsScreen extends StatefulWidget {

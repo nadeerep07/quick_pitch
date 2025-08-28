@@ -3,8 +3,8 @@ import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/avatar_container.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_card.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/avatar_container.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/pitch_card.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class FixerPitchesDialog extends StatelessWidget {

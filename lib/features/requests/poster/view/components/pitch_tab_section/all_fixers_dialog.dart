@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/fixer_list_item.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/fixer_list_item.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class AllFixersDialog extends StatelessWidget {

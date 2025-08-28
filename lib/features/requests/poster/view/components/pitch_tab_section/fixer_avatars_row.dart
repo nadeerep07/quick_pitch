@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/dialog_helper.dart' show DialogHelper;
-import 'package:quick_pitch_app/features/requests/poster/view/components/fixer_avatar.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/dialog_helper.dart' show DialogHelper;
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/fixer_avatar.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class FixerAvatarsRow extends StatelessWidget {

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/avatar_container.dart';
-import 'package:quick_pitch_app/features/requests/poster/view/components/dialog_helper.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/avatar_container.dart';
+import 'package:quick_pitch_app/features/requests/poster/view/components/pitch_tab_section/dialog_helper.dart';
 import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
