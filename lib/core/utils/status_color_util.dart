@@ -7,9 +7,7 @@ class StatusColorUtil {
       case 'completed':
         return AppColors.icon2;
       case 'accepted':
-        return AppColors.icon1.withValues(
-          alpha: 0.2,
-        );
+        return AppColors.secondaryColor;
       case 'pending':
         return Colors.orange;
       case 'rejected':

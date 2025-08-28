@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/view/components/fixer_prodile_modern.dart';
 
 class CertificationSection extends StatelessWidget {
@@ -15,6 +16,7 @@ class CertificationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ModernProfileSection(
       title: 'Certifications',
       child: Column(
@@ -41,7 +43,8 @@ class CertificationSection extends StatelessWidget {
                 margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _getStatusColor(),
+                  color:  StatusColorUtil.getStatusColor(
+                                status, theme),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -62,16 +65,4 @@ class CertificationSection extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor() {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return Colors.green;
-      case 'pending':
-        return Colors.orange;
-      case 'rejected':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
 }

@@ -13,7 +13,7 @@ class PitchFormCubit extends Cubit<PitchFormState> {
   final PitchCubit pitchCubit;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  PitchFormCubit({required this.pitchCubit,}) : super(const PitchFormState());
+  PitchFormCubit({required this.pitchCubit}) : super(const PitchFormState());
   void changePaymentType(PaymentType type) {
     emit(state.copyWith(paymentType: type));
   }
@@ -39,14 +39,16 @@ class PitchFormCubit extends Cubit<PitchFormState> {
       emit(state.copyWith(isSubmitting: false, error: "User not logged in"));
       return;
     }
-    final posterDoc = await FirebaseFirestore.instance
-    .collection('users')
-    .doc(taskData.posterId)
-    .collection('roles').doc('poster')
-    .get();
+    final posterDoc =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(taskData.posterId)
+            .collection('roles')
+            .doc('poster')
+            .get();
 
-final posterName = posterDoc.data()?['name'];
-final posterImage = posterDoc.data()?['profileImageUrl'];
+    final posterName = posterDoc.data()?['name'];
+    final posterImage = posterDoc.data()?['profileImageUrl'];
     try {
       final pitch = PitchModel(
         id: const Uuid().v4(),
@@ -57,18 +59,20 @@ final posterImage = posterDoc.data()?['profileImageUrl'];
         hours: hours,
         timeline: state.timeline ?? "Flexible",
         fixerId: currentUser.uid,
-  posterName: posterName ?? "Unknown",
-  posterImage: posterImage ?? "https://example.com/default_image.png",
+        posterId: taskData.posterId,
+        posterName: posterName ?? "Unknown",
+        posterImage: posterImage ?? "https://example.com/default_image.png",
         createdAt: DateTime.now(),
       );
-    //  print(pitch.id);
+      //  print(pitch.id);
       await pitchCubit.submitPitch(pitch);
       emit(state.copyWith(isSubmitting: false, success: true));
     } catch (e) {
       emit(state.copyWith(isSubmitting: false, error: e.toString()));
     }
   }
-   Future<void> fetchFixerPitches(String fixerId) async {
+
+  Future<void> fetchFixerPitches(String fixerId) async {
     try {
       emit(state.copyWith(isSubmitting: true, error: null));
 
@@ -76,14 +80,11 @@ final posterImage = posterDoc.data()?['profileImageUrl'];
 
       emit(state.copyWith(isSubmitting: false, pitches: pitches));
     } catch (e) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        error: e.toString(),
-      ));
+      emit(state.copyWith(isSubmitting: false, error: e.toString()));
     }
   }
-void changeFilter(String filter) {
-  emit(state.copyWith(selectedFilter: filter));
-}
 
+  void changeFilter(String filter) {
+    emit(state.copyWith(selectedFilter: filter));
+  }
 }

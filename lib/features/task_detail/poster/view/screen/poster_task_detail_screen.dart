@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/build_app_bar.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/build_chip.dart';
 import 'package:quick_pitch_app/features/task_detail/poster/view/components/build_image_carousel.dart';
@@ -33,6 +34,7 @@ class _PosterTaskDetailScreenState extends State<PosterTaskDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       body: BlocBuilder<TaskDetailsCubit, TaskDetailsState>(
@@ -87,7 +89,8 @@ class _PosterTaskDetailScreenState extends State<PosterTaskDetailScreen> {
                         children: [
                           BuildChip(
                             label: "Status: ${task.status}",
-                            color: _statusColor(task.status),
+                            color: StatusColorUtil.getStatusColor(
+                                task.status, theme),
                           ),
                           BuildChip(
                             label: "Work: ${task.workType}",
@@ -165,16 +168,4 @@ class _PosterTaskDetailScreenState extends State<PosterTaskDetailScreen> {
     );
   }
 
-  Color _statusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'completed':
-        return Colors.green;
-      case 'pending':
-        return Colors.orange;
-      case 'rejected':
-        return Colors.redAccent;
-      default:
-        return Colors.blueGrey;
-    }
-  }
 }

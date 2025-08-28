@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 
 class HireRequestsTab extends StatelessWidget {
   const HireRequestsTab({super.key});
@@ -8,6 +9,7 @@ class HireRequestsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
+    final theme = Theme.of(context);
 
     final List<Map<String, dynamic>> requests = [
       {
@@ -119,8 +121,7 @@ class HireRequestsTab extends StatelessWidget {
                               vertical: res.wp(1),
                             ),
                             decoration: BoxDecoration(
-                              color: _getStatusColor(
-                                request['status'],
+                              color: StatusColorUtil.getStatusColor( request['status'],theme
                               ).withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -128,7 +129,8 @@ class HireRequestsTab extends StatelessWidget {
                               request['status'],
                               style: TextStyle(
                                 fontSize: res.sp(12),
-                                color: _getStatusColor(request['status']),
+                                color:  StatusColorUtil.getStatusColor( request['status'],theme
+                              ),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -224,18 +226,4 @@ class HireRequestsTab extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'new':
-        return Colors.blue;
-      case 'pending':
-        return Colors.orange;
-      case 'accepted':
-        return Colors.green;
-      case 'declined':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
 }
