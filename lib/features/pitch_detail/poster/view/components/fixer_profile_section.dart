@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/features/chat/repository/chat_repository.dart';
 import 'package:quick_pitch_app/features/chat/view/screen/chat_screen.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
+import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 /// Fixer Profile Section

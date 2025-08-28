@@ -11,7 +11,7 @@ import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_c
     show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;
 import 'package:quick_pitch_app/core/common/glass_morphic_bottom_nav_bar.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_custom_drawer.dart';
-import 'package:quick_pitch_app/features/requests/fixer/view/screen/fixer_request_screen.dart';
+import 'package:quick_pitch_app/features/requests_pitches/fixer/view/screen/fixer_request_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
