@@ -80,6 +80,19 @@ class ChatRepository {
     final doc = await _service.getUserProfileDoc(uid, role);
     return UserProfileModel.fromJson(doc.data()!);
   }
+    String _generateChatId({
+    required String userId1,
+    required String role1,
+    required String userId2,
+    required String role2,
+  }) {
+    final ids = [
+      '${userId1}_$role1',
+      '${userId2}_$role2',
+    ]..sort(); // sorting fixes the order problem
+
+    return ids.join('_');
+  }
     
   Future<String> createOrGetChat({
     required UserProfileModel sender,
@@ -89,7 +102,12 @@ class ChatRepository {
       throw Exception("Cannot create chat with self");
     }
 
-    final chatId = '${sender.uid}-${sender.role}_${receiver.uid}-${receiver.role}';
+       final chatId = _generateChatId(
+      userId1: sender.uid,
+      role1: sender.role,
+      userId2: receiver.uid,
+      role2: receiver.role,
+    );
     final doc = await _service.getChatDoc(chatId);
 
     if (!doc.exists) {
