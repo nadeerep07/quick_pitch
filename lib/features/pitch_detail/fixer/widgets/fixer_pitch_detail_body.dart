@@ -37,59 +37,60 @@ Widget buildPitchDetailBody({
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           FixerPitchHeaderCard(
+            FixerPitchHeaderCard(
               currentPitch: currentPitch,
               res: res,
               theme: theme,
               colorScheme: colorScheme,
+              isAssigned: isAssigned,
+              isCompleted: isCompleted,
             ),
             SizedBox(height: res.hp(2)),
-            if(isCompleted)
-            FixerPitchDetailCompletionSection(
-              res: res,
-              theme: theme,
-              colorScheme: colorScheme,
-              currentPitch: currentPitch,
-            ),
+            if (isCompleted)
+              FixerPitchDetailCompletionSection(
+                res: res,
+                theme: theme,
+                colorScheme: colorScheme,
+                currentPitch: currentPitch,
+              ),
             if (isRejected)
-            FixerPitchDetailRejectionCard(
-              res: res,
-              theme: theme,
-              colorScheme: colorScheme,
-              currentPitch: currentPitch,
-            ),
-              FixerPitchDetailTaskCard(
+              FixerPitchDetailRejectionCard(
+                res: res,
+                theme: theme,
+                colorScheme: colorScheme,
+                currentPitch: currentPitch,
+              ),
+            FixerPitchDetailTaskCard(
               res: res,
               task: currentTask!, // Ensure non-null value
               theme: theme,
               colorScheme: colorScheme,
             ),
-            if(isAssigned || isCompleted)
-          FixerPitchDetailProgressSection(
-              res: res,
-              context: context,
-              theme: theme,
-              colorScheme: colorScheme,
-              currentPitch: currentPitch,
-            ),
+            if (isAssigned || isCompleted)
+              FixerPitchDetailProgressSection(
+                res: res,
+                context: context,
+                theme: theme,
+                colorScheme: colorScheme,
+                currentPitch: currentPitch,
+              ),
             SizedBox(height: res.hp(2)),
-            if(isRejected)
-            FixerPitchDetailRepitchButton(
-              context: context,
-              theme: theme,
-              colorScheme: colorScheme,
-              currentPitch: currentPitch,
-            ),
+            if (isRejected)
+              FixerPitchDetailRepitchButton(
+                context: context,
+                theme: theme,
+                colorScheme: colorScheme,
+                currentPitch: currentPitch,
+              ),
             if (isAssigned)
-          FixerPitchDetailAssignedActions(
-              context: context,
-              res: res,
-              currentPitch: currentPitch,
-              colorScheme: colorScheme,
-              theme: theme,
-            ),
+              FixerPitchDetailAssignedActions(
+                context: context,
+                res: res,
+                currentPitch: currentPitch,
+                colorScheme: colorScheme,
+                theme: theme,
+              ),
             SizedBox(height: res.hp(2)),
-   
           ],
         ),
       ),

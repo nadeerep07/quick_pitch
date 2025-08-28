@@ -70,6 +70,7 @@ class DetailTaskCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: _statusColors(task.status).$2,
+                    
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(

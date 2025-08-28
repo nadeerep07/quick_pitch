@@ -12,6 +12,7 @@ class PitchModel {
   final PaymentType paymentType;
   final DateTime createdAt;
   final String status;
+  final String posterId;
   final String? posterName;
   final String? posterImage;
   final String? rejectionMessage;
@@ -34,6 +35,7 @@ class PitchModel {
     required this.paymentType,
     required this.createdAt,
     this.status = 'pending',
+    required this.posterId,
     this.posterName,
     this.posterImage,
     this.rejectionMessage,
@@ -57,6 +59,7 @@ class PitchModel {
     'paymentType': paymentType.name,
     'createdAt': createdAt,
     'status': status,
+    'posterId': posterId,
     'posterName': posterName,
     'posterImage': posterImage,
     'rejectionMessage': rejectionMessage,
@@ -67,6 +70,7 @@ class PitchModel {
     'paymentStatus': paymentStatus,
     'paymentRequestedAt': paymentRequestedAt,
     'updatedAt': updatedAt,
+
   };
 
   factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
@@ -91,6 +95,7 @@ class PitchModel {
       ),
       createdAt: parseDate(json['createdAt']),
       status: json['status'] ?? 'pending',
+      posterId: json['posterId'] ?? '',
       posterName: json['posterName'],
       posterImage: json['posterImage'],
       rejectionMessage: json['rejectionMessage'],

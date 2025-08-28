@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PitchCard extends StatelessWidget {
@@ -66,7 +67,7 @@ class PitchCard extends StatelessWidget {
                   vertical: res.wp(1),
                 ),
                 decoration: BoxDecoration(
-                  color: _getStatusColor(pitch.status).withValues(alpha: 0.1),
+                  color: StatusColorUtil.getStatusColor(pitch.status,theme).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -74,7 +75,7 @@ class PitchCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: res.sp(10),
                     fontWeight: FontWeight.w600,
-                    color: _getStatusColor(pitch.status),
+                    color:  StatusColorUtil.getStatusColor(pitch.status,theme),
                   ),
                 ),
               ),
@@ -117,18 +118,7 @@ class PitchCard extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'accepted':
-        return Colors.green;
-      case 'declined':
-        return Colors.red;
-      case 'pending':
-        return Colors.orange;
-      default:
-        return Colors.grey;
-    }
-  }
+
 
   String _formatDate(String date) {
     try {
