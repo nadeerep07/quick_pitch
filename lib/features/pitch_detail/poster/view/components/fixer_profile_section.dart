@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/features/chat/repository/chat_repository.dart';
 import 'package:quick_pitch_app/features/chat/view/screen/chat_screen.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
+import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 /// Fixer Profile Section
@@ -43,25 +43,30 @@ class FixerProfileSection extends StatelessWidget {
                     border: Border.all(color: colorScheme.primary, width: 2),
                   ),
                   child: ClipOval(
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/avatar_photo_placeholder.jpg',
-                      image:
-                          fixer?.profileImageUrl?.isNotEmpty == true
-                              ? fixer!.profileImageUrl!
-                              : 'https://via.placeholder.com/150',
-
-                      width: res.wp(12),
-                      height: res.wp(12),
-                      fit: BoxFit.cover,
-                      imageErrorBuilder: (context, error, stackTrace) {
-                        return CircleAvatar(
-                          radius: res.wp(6),
-                          backgroundImage: AssetImage(
-                            'assets/images/avatar_photo_placeholder.jpg', // Placeholder image
-                          ),
-                        );
-                      },
-                    ),
+                    child:
+                        fixer?.profileImageUrl?.isNotEmpty == true
+                            ? FadeInImage.assetNetwork(
+                              placeholder:
+                                  'assets/images/avatar_photo_placeholder.jpg',
+                              image: fixer!.profileImageUrl!,
+                              width: res.wp(12),
+                              height: res.wp(12),
+                              fit: BoxFit.cover,
+                              imageErrorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/images/avatar_photo_placeholder.jpg',
+                                  width: res.wp(12),
+                                  height: res.wp(12),
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                            : Image.asset(
+                              'assets/images/avatar_photo_placeholder.jpg',
+                              width: res.wp(12),
+                              height: res.wp(12),
+                              fit: BoxFit.cover,
+                            ),
                   ),
                 ),
                 SizedBox(width: res.wp(4)),

@@ -26,7 +26,7 @@ import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixe
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
-import 'package:quick_pitch_app/features/requests/poster/viewmodel/cubit/pitches_state.dart';
+import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';

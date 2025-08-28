@@ -9,14 +9,20 @@ class WorkDetailActionBar extends StatelessWidget {
   final FixerWork work;
   final ThemeData theme;
 
-  const WorkDetailActionBar({super.key, required this.work, required this.theme});
+  const WorkDetailActionBar({
+    super.key,
+    required this.work,
+    required this.theme,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.1))),
+        border: Border(
+          top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.1)),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -41,14 +47,29 @@ class WorkDetailActionBar extends StatelessWidget {
     Navigator.of(context).pop();
     showDialog(
       context: context,
-      builder: (ctx) => BlocProvider.value(
-        value: context.read<FixerWorksBloc>(),
-        child: AddWorkDialog(fixerId: work.fixerId, theme: theme, editingWork: work),
-      ),
+      builder:
+          (ctx) => BlocProvider.value(
+            value: context.read<FixerWorksBloc>(),
+            child: AddWorkDialog(
+              fixerId: work.fixerId,
+              theme: theme,
+              editingWork: work,
+            ),
+          ),
     );
   }
 
-  void _showDeleteDialog(BuildContext context) {
-    showDialog(context: context, builder: (_) => WorkDetailDeleteConfirmationDialog(work: work, theme: theme));
-  }
+void _showDeleteDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => BlocProvider.value(
+      value: context.read<FixerWorksBloc>(),
+      child: WorkDetailDeleteConfirmationDialog(
+        work: work,
+        theme: theme,
+      ),
+    ),
+  );
+}
+
 }

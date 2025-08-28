@@ -44,7 +44,7 @@ class StatsCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '$worksCount Completed Project${worksCount != 1 ? 's' : ''}',
+                  '$worksCount Available Project${worksCount != 1 ? 's' : ''}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
