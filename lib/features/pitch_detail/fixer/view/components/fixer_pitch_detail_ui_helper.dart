@@ -45,16 +45,9 @@ class FixerPitchDetailUIHelper {
         isAssigned: isAssigned,
         isCompleted: isCompleted,
         isRejected: isRejected,
-        onRequestPayment: _requestPayment,
       );
 
-  void _requestPayment() async {
-    final confirmed =
-        await showRequestPaymentDialog(context, res, currentPitch);
-    if (confirmed == true) {
-      context.read<FixerPitchDetailCubit>().requestPayment(currentPitch.id);
-    }
-  }
+
 
   PitchModel _extractPitch(FixerPitchDetailState state) {
     if (state is FixerPitchDetailLoaded) return state.pitch;

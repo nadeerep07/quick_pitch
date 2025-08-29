@@ -23,7 +23,7 @@ Widget buildPitchDetailBody({
   required bool isAssigned,
   required bool isCompleted,
   required bool isRejected,
-  required VoidCallback onRequestPayment,
+
 }) {
   return Stack(
     children: [

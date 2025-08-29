@@ -22,6 +22,8 @@ class PitchModel {
   final String? completionNotes;
   final String? paymentStatus;
   final DateTime? paymentRequestedAt;
+  final double? requestedPaymentAmount; // New field
+  final String? paymentRequestNotes; // New field
   final DateTime? updatedAt;
 
   PitchModel({
@@ -45,6 +47,8 @@ class PitchModel {
     this.completionNotes,
     this.paymentStatus,
     this.paymentRequestedAt,
+    this.requestedPaymentAmount,
+    this.paymentRequestNotes,
     this.updatedAt,
   });
 
@@ -69,8 +73,9 @@ class PitchModel {
     'completionNotes': completionNotes,
     'paymentStatus': paymentStatus,
     'paymentRequestedAt': paymentRequestedAt,
+    'requestedPaymentAmount': requestedPaymentAmount,
+    'paymentRequestNotes': paymentRequestNotes,
     'updatedAt': updatedAt,
-
   };
 
   factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
@@ -111,6 +116,10 @@ class PitchModel {
           json['paymentRequestedAt'] != null
               ? parseDate(json['paymentRequestedAt'])
               : null,
+      requestedPaymentAmount: json['requestedPaymentAmount'] != null 
+          ? (json['requestedPaymentAmount'] as num).toDouble()
+          : null,
+      paymentRequestNotes: json['paymentRequestNotes'],
       updatedAt:
           json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
     );
