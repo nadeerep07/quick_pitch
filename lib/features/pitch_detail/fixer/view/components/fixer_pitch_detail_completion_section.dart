@@ -12,27 +12,14 @@ class FixerPitchDetailCompletionSection extends StatelessWidget {
     required this.theme,
     required this.colorScheme,
     required this.currentPitch,
-    this.onRequestPayment,
   });
 
   final Responsive res;
   final ThemeData theme;
   final ColorScheme colorScheme;
   final PitchModel currentPitch;
-  final VoidCallback? onRequestPayment;
 
-  bool get _canRequestPayment => 
-      currentPitch.paymentStatus == null || 
-      currentPitch.paymentStatus == 'pending_request' ||
-      currentPitch.paymentStatus == 'rejected';
 
-  bool get _paymentRequested => 
-      currentPitch.paymentStatus == 'payment_requested' ||
-      currentPitch.paymentStatus == 'processing';
-
-  bool get _paymentCompleted => 
-      currentPitch.paymentStatus == 'completed' ||
-      currentPitch.paymentStatus == 'paid';
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +28,7 @@ class FixerPitchDetailCompletionSection extends StatelessWidget {
       color: Colors.green[50],
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Colors.green[100]!,
-          width: 1,
-        ),
+        side: BorderSide(color: Colors.green[100]!, width: 1),
       ),
       child: Padding(
         padding: EdgeInsets.all(res.wp(4)),
@@ -65,42 +49,35 @@ class FixerPitchDetailCompletionSection extends StatelessWidget {
               ],
             ),
             SizedBox(height: res.hp(1.5)),
-            
+
             if (currentPitch.completionDate != null) ...[
               FixerPitchDetailItem(
-                res: res, 
-                icon: Icons.calendar_today, 
-                label: 'Completed On', 
-                value: DateFormat('MMM dd, yyyy').format(currentPitch.completionDate!), 
-                theme: theme, 
-                colorScheme: colorScheme
+                res: res,
+                icon: Icons.calendar_today,
+                label: 'Completed On',
+                value: DateFormat(
+                  'MMM dd, yyyy',
+                ).format(currentPitch.completionDate!),
+                theme: theme,
+                colorScheme: colorScheme,
               ),
               SizedBox(height: res.hp(1)),
             ],
-            
+
             if (currentPitch.completionNotes != null) ...[
               FixerPitchDetailItem(
-                res: res, 
-                icon: Icons.note, 
-                label: 'Completion Notes', 
-                value: currentPitch.completionNotes!, 
-                theme: theme, 
-                colorScheme: colorScheme
+                res: res,
+                icon: Icons.note,
+                label: 'Completion Notes',
+                value: currentPitch.completionNotes!,
+                theme: theme,
+                colorScheme: colorScheme,
               ),
               SizedBox(height: res.hp(1.5)),
             ],
-
-           
           ],
         ),
       ),
     );
   }
-
-
- 
-
-
-
-
 }

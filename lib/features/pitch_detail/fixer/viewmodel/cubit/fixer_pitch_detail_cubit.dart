@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/service/payment_request_service.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/repository/pitch_repository.dart';
-
 
 part 'fixer_pitch_detail_state.dart';
 
@@ -16,6 +16,7 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
   final PitchRepository pitchRepository;
   final PitchStatusService pitchStatusService;
   final PitchUpdateService pitchUpdateService;
+  final PaymentRequestService paymentRequestService; // Add this
 
   StreamSubscription<PitchModel>? _pitchSubscription;
 
@@ -24,6 +25,7 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     required this.pitchRepository,
     required this.pitchStatusService,
     required this.pitchUpdateService,
+    required this.paymentRequestService, // Add this
   }) : super(FixerPitchDetailInitial());
 
   Future<void> initialize({
@@ -115,7 +117,12 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
     }
   }
 
-  Future<void> requestPayment(String pitchId) async {
+  // Add payment request methods
+  Future<void> requestPayment({
+    required String pitchId,
+    required double amount,
+    required String notes,
+  }) async {
     final currentState = state;
     if (currentState is! FixerPitchDetailLoaded) return;
 
@@ -126,9 +133,39 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
         message: 'Requesting payment...',
       ));
 
-      await pitchStatusService.requestPayment(pitchId);
+      await paymentRequestService.requestPayment(
+        pitchId: pitchId,
+        taskId: currentState.task.id,
+        requestedAmount: amount,
+        notes: notes,
+      );
+
+      // Success state will be automatically updated through the stream
     } catch (e) {
       emit(FixerPitchDetailError('Failed to request payment: ${e.toString()}'));
+      emit(currentState);
+    }
+  }
+
+  Future<void> cancelPaymentRequest(String pitchId) async {
+    final currentState = state;
+    if (currentState is! FixerPitchDetailLoaded) return;
+
+    try {
+      emit(FixerPitchDetailProcessing(
+        task: currentState.task,
+        pitch: currentState.pitch,
+        message: 'Canceling payment request...',
+      ));
+
+      await paymentRequestService.cancelPaymentRequest(
+        pitchId: pitchId,
+        taskId: currentState.task.id,
+      );
+
+      // Success state will be automatically updated through the stream
+    } catch (e) {
+      emit(FixerPitchDetailError('Failed to cancel payment request: ${e.toString()}'));
       emit(currentState);
     }
   }

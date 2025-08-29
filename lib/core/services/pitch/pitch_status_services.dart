@@ -25,17 +25,6 @@ class PitchStatusService {
     }
   }
 
-  Future<void> requestPayment(String pitchId) async {
-    try {
-      await _firestore.collection('pitches').doc(pitchId).update({
-        'paymentStatus': 'requested',
-        'paymentRequestedAt': FieldValue.serverTimestamp(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
-    } catch (e) {
-      throw Exception('Failed to request payment: $e');
-    }
-  }
 
   Future<void> markPitchAsCompleted({
     required String pitchId,

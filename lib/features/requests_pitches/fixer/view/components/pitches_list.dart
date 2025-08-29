@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/service/payment_request_service.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/screens/fixer_pitch_detail_screen.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixer_pitch_detail_cubit.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
@@ -42,7 +43,7 @@ class PitchesList extends StatelessWidget {
                             pitchStatusService: PitchStatusService(),
                             pitchUpdateService: PitchUpdateService(),
                             taskRepository: TaskPostRepository(),
-                            pitchRepository: PitchRepository(),
+                            pitchRepository: PitchRepository(), paymentRequestService: PaymentRequestService(),
                           );
                             cubit.initialize(taskId: pitches[index].taskId, pitchId: pitches[index].id);
                             return cubit;
