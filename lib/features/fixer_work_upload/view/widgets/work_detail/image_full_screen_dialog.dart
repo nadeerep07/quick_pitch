@@ -6,7 +6,7 @@ import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_det
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/close_button.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/image_pager.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/top_bar.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/cubit/image_full_screen_dialog_dart_cubit.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/image_full_screen_dialog_dart_cubit.dart';
 
 class ImageFullscreenDialog extends StatefulWidget {
   final List<String> images;

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/cubit/image_full_screen_dialog_dart_cubit.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/image_full_screen_dialog_dart_cubit.dart';
 
 /// ---------------------------
 /// PageView (swipeable images)

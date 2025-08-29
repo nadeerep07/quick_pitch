@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/cubit/image_full_screen_dialog_dart_cubit.dart';
+import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/image_full_screen_dialog_dart_cubit.dart';
 
 /// ---------------------------
 /// Top bar (close + counter)
