@@ -47,3 +47,41 @@ class FixerPitchDetailError extends FixerPitchDetailState {
   @override
   List<Object?> get props => [message];
 }
+
+/// 🔹 New states for Completion Dialog
+class FixerPitchDetailCompletionLoading extends FixerPitchDetailState {}
+
+class FixerPitchDetailCompletionSuccess extends FixerPitchDetailState {
+  final String message;
+
+  const FixerPitchDetailCompletionSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class FixerPitchDetailCompletionFailure extends FixerPitchDetailState {
+  final String error;
+
+  const FixerPitchDetailCompletionFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+class FixerPitchDetailUpdateLoading extends FixerPitchDetailState {}
+
+class FixerPitchDetailUpdateSuccess extends FixerPitchDetailState {
+  final String message;
+  const FixerPitchDetailUpdateSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class FixerPitchDetailUpdateFailure extends FixerPitchDetailState {
+  final String error;
+  const FixerPitchDetailUpdateFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
