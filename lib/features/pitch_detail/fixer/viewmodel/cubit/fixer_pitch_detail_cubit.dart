@@ -169,6 +169,7 @@ class FixerPitchDetailCubit extends Cubit<FixerPitchDetailState> {
       emit(currentState);
     }
   }
+  
 
   @override
   Future<void> close() {

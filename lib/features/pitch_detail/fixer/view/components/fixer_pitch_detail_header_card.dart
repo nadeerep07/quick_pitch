@@ -102,17 +102,26 @@ class FixerPitchHeaderCard extends StatelessWidget {
                     vertical: res.hp(0.8),
                   ),
                   decoration: BoxDecoration(
-                    color: StatusColorUtil.getStatusColor(currentPitch.status, theme).withValues(alpha: .1),
+                    color: StatusColorUtil.getStatusColor(
+                      currentPitch.status,
+                      theme,
+                    ).withValues(alpha: .1),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: StatusColorUtil.getStatusColor(currentPitch.status, theme),
+                      color: StatusColorUtil.getStatusColor(
+                        currentPitch.status,
+                        theme,
+                      ),
                       width: 1,
-                    )
+                    ),
                   ),
                   child: Text(
                     currentPitch.status.toUpperCase(),
                     style: theme.textTheme.labelSmall?.copyWith(
-                      color: StatusColorUtil.getStatusColor(currentPitch.status, theme),
+                      color: StatusColorUtil.getStatusColor(
+                        currentPitch.status,
+                        theme,
+                      ),
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
                     ),
@@ -144,7 +153,7 @@ class FixerPitchHeaderCard extends StatelessWidget {
                           .fetchCurrentUserProfileByRole(
                             currentPitch.posterId,
                             role: 'poster',
-                          ); 
+                          );
 
                       // Create or get chatId
                       final chatId = await ChatRepository().createOrGetChat(
@@ -195,6 +204,4 @@ class FixerPitchHeaderCard extends StatelessWidget {
     final formatter = DateFormat('MMM dd, yyyy');
     return formatter.format(date);
   }
-
-
 }
