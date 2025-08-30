@@ -76,6 +76,14 @@
 </dict>
 <key>LSApplicationQueriesSchemes</key>
 <array>
+    <string>upi</string>
+    <string>phonepe</string>
+    <string>tez</string>
+    <string>paytm</string>
+    <string>bhim</string>
+</array>
+<key>LSApplicationQueriesSchemes</key>
+<array>
     <string>googlechrome</string>
     <string>comgooglemaps</string>
     <string>https</string>

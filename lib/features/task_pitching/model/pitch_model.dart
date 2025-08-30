@@ -22,8 +22,12 @@ class PitchModel {
   final String? completionNotes;
   final String? paymentStatus;
   final DateTime? paymentRequestedAt;
-  final double? requestedPaymentAmount; // New field
-  final String? paymentRequestNotes; // New field
+  final double? requestedPaymentAmount;
+  final String? paymentRequestNotes;
+  final String? paymentDeclineReason; // New field
+  final DateTime? paymentDeclinedAt; // New field
+  final DateTime? paymentCompletedAt; // New field
+  final String? transactionId; // New field
   final DateTime? updatedAt;
 
   PitchModel({
@@ -49,6 +53,10 @@ class PitchModel {
     this.paymentRequestedAt,
     this.requestedPaymentAmount,
     this.paymentRequestNotes,
+    this.paymentDeclineReason,
+    this.paymentDeclinedAt,
+    this.paymentCompletedAt,
+    this.transactionId,
     this.updatedAt,
   });
 
@@ -75,6 +83,10 @@ class PitchModel {
     'paymentRequestedAt': paymentRequestedAt,
     'requestedPaymentAmount': requestedPaymentAmount,
     'paymentRequestNotes': paymentRequestNotes,
+    'paymentDeclineReason': paymentDeclineReason,
+    'paymentDeclinedAt': paymentDeclinedAt,
+    'paymentCompletedAt': paymentCompletedAt,
+    'transactionId': transactionId,
     'updatedAt': updatedAt,
   };
 
@@ -120,6 +132,16 @@ class PitchModel {
           ? (json['requestedPaymentAmount'] as num).toDouble()
           : null,
       paymentRequestNotes: json['paymentRequestNotes'],
+      paymentDeclineReason: json['paymentDeclineReason'],
+      paymentDeclinedAt:
+          json['paymentDeclinedAt'] != null
+              ? parseDate(json['paymentDeclinedAt'])
+              : null,
+      paymentCompletedAt:
+          json['paymentCompletedAt'] != null
+              ? parseDate(json['paymentCompletedAt'])
+              : null,
+      transactionId: json['transactionId'],
       updatedAt:
           json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
     );

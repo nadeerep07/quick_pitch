@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/utils/status_color_util.dart';
-import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_progress_section.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/poster_a_ssigned_fixer_detail_row.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
-
 
 class PitchDetailCard extends StatelessWidget {
   final TaskPostModel task;
   final PitchModel pitch;
 
-  const PitchDetailCard({
-    super.key,
-    required this.task,
-    required this.pitch,
-  });
+  const PitchDetailCard({super.key, required this.task, required this.pitch});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +31,9 @@ class PitchDetailCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     "Pitch for: ${task.title}",
-                    style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -103,20 +99,6 @@ class PitchDetailCard extends StatelessWidget {
               value: pitch.paymentType.name,
             ),
             const SizedBox(height: 16),
-
-            Divider(color: theme.colorScheme.outlineVariant),
-            const SizedBox(height: 8),
-
-            PitchProgressSection(pitch: pitch),
-            if (pitch.latestUpdate != null) ...[
-              const SizedBox(height: 12),
-              PosterASsignedFixerDetailRow(
-                context: context,
-                icon: Icons.update,
-                label: "Latest Update:",
-                value: pitch.latestUpdate!,
-              ),
-            ],
           ],
         ),
       ),

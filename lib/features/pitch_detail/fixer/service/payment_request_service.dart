@@ -53,6 +53,7 @@ class PaymentRequestService {
         'requestedPaymentAmount': null,
         'paymentRequestNotes': null,
         'paymentRequestedAt': null,
+        'paymentDeclineReason': null, // Clear any previous decline reason
         'updatedAt': FieldValue.serverTimestamp(),
       });
 
@@ -64,6 +65,36 @@ class PaymentRequestService {
       await batch.commit();
     } catch (e) {
       throw Exception('Failed to cancel payment request: $e');
+    }
+  }
+
+  /// Decline a payment request with reason
+  Future<void> declinePaymentRequest({
+    required String pitchId,
+    required String taskId,
+    required String reason,
+  }) async {
+    final batch = _firestore.batch();
+
+    try {
+      final pitchRef = _firestore.collection('pitches').doc(pitchId);
+      final taskRef = _firestore.collection('poster_tasks').doc(taskId);
+
+      batch.update(pitchRef, {
+        'paymentStatus': 'declined',
+        'paymentDeclineReason': reason,
+        'paymentDeclinedAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      batch.update(taskRef, {
+        'paymentStatus': 'declined',
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      await batch.commit();
+    } catch (e) {
+      throw Exception('Failed to decline payment request: $e');
     }
   }
 
@@ -81,6 +112,7 @@ class PaymentRequestService {
 
       final updateData = {
         'paymentStatus': 'completed',
+        'paymentCompletedAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       };
 
@@ -95,5 +127,45 @@ class PaymentRequestService {
     } catch (e) {
       throw Exception('Failed to mark payment as completed: $e');
     }
+  }
+
+  /// Get payment status for a pitch
+  Future<Map<String, dynamic>?> getPaymentStatus(String pitchId) async {
+    try {
+      final doc = await _firestore.collection('pitches').doc(pitchId).get();
+      if (!doc.exists) return null;
+
+      final data = doc.data() as Map<String, dynamic>;
+      return {
+        'paymentStatus': data['paymentStatus'],
+        'requestedPaymentAmount': data['requestedPaymentAmount'],
+        'paymentRequestNotes': data['paymentRequestNotes'],
+        'paymentRequestedAt': data['paymentRequestedAt'],
+        'transactionId': data['transactionId'],
+      };
+    } catch (e) {
+      throw Exception('Failed to get payment status: $e');
+    }
+  }
+
+  /// Stream payment status changes for real-time updates
+  Stream<Map<String, dynamic>?> getPaymentStatusStream(String pitchId) {
+    return _firestore
+        .collection('pitches')
+        .doc(pitchId)
+        .snapshots()
+        .map((doc) {
+      if (!doc.exists) return null;
+      
+      final data = doc.data() as Map<String, dynamic>;
+      return {
+        'paymentStatus': data['paymentStatus'],
+        'requestedPaymentAmount': data['requestedPaymentAmount'],
+        'paymentRequestNotes': data['paymentRequestNotes'],
+        'paymentRequestedAt': data['paymentRequestedAt'],
+        'paymentDeclineReason': data['paymentDeclineReason'],
+        'transactionId': data['transactionId'],
+      };
+    });
   }
 }

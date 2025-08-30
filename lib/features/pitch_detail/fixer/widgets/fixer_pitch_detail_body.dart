@@ -99,7 +99,7 @@ Widget buildPitchDetailBody({
             ),
             SizedBox(height: res.hp(2)),
 
-            if (isAssigned || isCompleted) ...[
+            if (isAssigned) ...[
               FixerPitchDetailProgressSection(
                 res: res,
                 context: context,
