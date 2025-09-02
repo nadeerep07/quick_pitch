@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/service/payment_request_service.dart';
+import 'package:quick_pitch_app/features/payment/service/payment_request_service.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';

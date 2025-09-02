@@ -10,6 +10,7 @@ import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/fixe
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/fixer_pitch_detail_task_card.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/payemnt_request/payment_status_widget.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/fixer_detail_actions.dart';
+import 'package:quick_pitch_app/features/review/view/components/fixer_review_section.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/fixer_pitch_processing_overlay.dart';
@@ -71,6 +72,16 @@ Widget buildPitchDetailBody({
                     .onCancelPaymentClicked(context, currentPitch),
               ),
               SizedBox(height: res.hp(2)),
+            
+
+  // Add the review section here
+  FixerReviewSection(
+    pitch: currentPitch,
+    posterId: currentTask?.posterId ?? '', // You'll need this field in TaskPostModel
+    posterName: currentTask?.posterName ?? '', // You'll need this field in TaskPostModel
+    posterImageUrl: currentTask?.posterImageUrl, // You'll need this field in TaskPostModel
+  ),
+  SizedBox(height: res.hp(2)),
             ],
 
             if (isRejected) ...[

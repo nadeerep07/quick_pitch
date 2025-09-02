@@ -17,6 +17,8 @@ class TaskPostModel {
   final String? assignedFixerId;
   final String? assignedFixerName;
   final String status;
+  final String posterName;
+  final String posterImageUrl;
 
 
   TaskPostModel({
@@ -35,6 +37,8 @@ class TaskPostModel {
     required this.createdAt,
     required this.workType,
     required this.status,
+    required this.posterName,
+    required this.posterImageUrl,
     this.assignedFixerId,
     this.imagesUrl,
     this.assignedFixerName,
@@ -45,6 +49,8 @@ class TaskPostModel {
     return TaskPostModel(
       id: map['id'] ?? '',
       posterId: map['posterId'] ?? '',
+      posterName: map['posterName'] ?? '',
+      posterImageUrl: map['posterImageUrl'] ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       budget: map['budget'] is num
@@ -91,6 +97,8 @@ class TaskPostModel {
       'assignedFixerId': assignedFixerId,
       'assignedFixerName': assignedFixerName,
       'imagesUrl': imagesUrl,
+      'posterName': posterName,
+      'posterImageUrl': posterImageUrl
       
     };
   }

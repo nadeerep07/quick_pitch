@@ -5,6 +5,8 @@ class PitchModel {
   final String id;
   final String taskId;
   final String fixerId;
+  final String fixerName;
+  final String fixerimageUrl;
   final String pitchText;
   final double budget;
   final String? hours;
@@ -36,6 +38,8 @@ class PitchModel {
     required this.fixerId,
     required this.pitchText,
     required this.budget,
+    required this.fixerName,
+    required this.fixerimageUrl,
     this.hours,
     required this.timeline,
     required this.paymentType,
@@ -88,6 +92,8 @@ class PitchModel {
     'paymentCompletedAt': paymentCompletedAt,
     'transactionId': transactionId,
     'updatedAt': updatedAt,
+    'fixerName': fixerName,
+    'fixerimageUrl': fixerimageUrl
   };
 
   factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
@@ -112,9 +118,11 @@ class PitchModel {
       ),
       createdAt: parseDate(json['createdAt']),
       status: json['status'] ?? 'pending',
+      fixerName: json['fixerName'],
+      fixerimageUrl: json['fixerimageUrl'],
       posterId: json['posterId'] ?? '',
-      posterName: json['posterName'],
-      posterImage: json['posterImage'],
+      posterName: json['posterName'] ?? '',
+      posterImage: json['posterImage'] ?? '',
       rejectionMessage: json['rejectionMessage'],
       progress: json['progress'] != null ? json['progress'] as int : null,
       latestUpdate: json['latestUpdate'],

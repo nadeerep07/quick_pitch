@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/viewmodel/cubit/pitch_cubit.dart';
@@ -12,6 +13,7 @@ enum PaymentType { fixed, hourly }
 class PitchFormCubit extends Cubit<PitchFormState> {
   final PitchCubit pitchCubit;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final UserProfileService userProfileService = UserProfileService();
 
   PitchFormCubit({required this.pitchCubit}) : super(const PitchFormState());
   void changePaymentType(PaymentType type) {
@@ -39,16 +41,12 @@ class PitchFormCubit extends Cubit<PitchFormState> {
       emit(state.copyWith(isSubmitting: false, error: "User not logged in"));
       return;
     }
-    final posterDoc =
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(taskData.posterId)
-            .collection('roles')
-            .doc('poster')
-            .get();
+    final posterProfile =
+        await userProfileService.getProfile(taskData.posterId, 'poster');
+        final fixerProfile = await userProfileService.getProfile(currentUser.uid, 'fixer');
 
-    final posterName = posterDoc.data()?['name'];
-    final posterImage = posterDoc.data()?['profileImageUrl'];
+    final posterName = posterProfile?.name;
+    final posterImage = posterProfile?.profileImageUrl ?? 'No Image Found';
     try {
       final pitch = PitchModel(
         id: const Uuid().v4(),
@@ -59,9 +57,11 @@ class PitchFormCubit extends Cubit<PitchFormState> {
         hours: hours,
         timeline: state.timeline ?? "Flexible",
         fixerId: currentUser.uid,
+        fixerName: fixerProfile?.name ?? "Unknown",
+        fixerimageUrl: fixerProfile?.profileImageUrl ?? "no Image Found",
         posterId: taskData.posterId,
         posterName: posterName ?? "Unknown",
-        posterImage: posterImage ?? "https://example.com/default_image.png",
+        posterImage: posterImage,
         createdAt: DateTime.now(),
       );
       //  print(pitch.id);

@@ -69,7 +69,9 @@ class ActionButtonsSection extends StatelessWidget {
                       'assets/animations/Loading 40 _ Paperplane.json',
                   closeAfter: const Duration(seconds: 2),
                 );
-               Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               }
             },
             style: OutlinedButton.styleFrom(

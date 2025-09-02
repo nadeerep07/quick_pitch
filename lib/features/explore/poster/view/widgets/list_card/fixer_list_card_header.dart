@@ -40,34 +40,35 @@ class FixerCardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final res = Responsive(context);
     final distance = _getDistance();
-
+    final ratingStats = fixer.fixerData?.ratingStats;
+    final averageRating = ratingStats?.averageRating;
+    final totalReviews = ratingStats?.totalReviews;
     return Row(
       children: [
         // Profile Image
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.grey.withOpacity(0.2),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
           ),
           child: CircleAvatar(
             radius: res.wp(7),
             backgroundColor: AppColors.primary.withOpacity(0.1),
-            backgroundImage: fixer.profileImageUrl != null
-                ? NetworkImage(fixer.profileImageUrl!)
-                : null,
-            child: fixer.profileImageUrl == null
-                ? Text(
-                    fixer.name.isNotEmpty ? fixer.name[0].toUpperCase() : 'F',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: res.sp(22),
-                    ),
-                  )
-                : null,
+            backgroundImage:
+                fixer.profileImageUrl != null
+                    ? NetworkImage(fixer.profileImageUrl!)
+                    : null,
+            child:
+                fixer.profileImageUrl == null
+                    ? Text(
+                      fixer.name.isNotEmpty ? fixer.name[0].toUpperCase() : 'F',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: res.sp(22),
+                      ),
+                    )
+                    : null,
           ),
         ),
         SizedBox(width: res.wp(3.5)),
@@ -87,7 +88,11 @@ class FixerCardHeader extends StatelessWidget {
                 ),
               ),
               SizedBox(height: res.hp(0.8)),
-              FixerCardRatingDistance(distance: distance),
+              FixerCardRatingDistance(
+                distance: distance,
+                averageRating: averageRating,
+                totalReviews: totalReviews,
+              ),
             ],
           ),
         ),

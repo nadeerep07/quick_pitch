@@ -4,12 +4,13 @@ import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/payment/components/payment_decline_dialog.dart';
 import 'package:quick_pitch_app/features/payment/components/razorpay_config.dart';
-import 'package:quick_pitch_app/features/pitch_detail/fixer/service/payment_request_service.dart';
+import 'package:quick_pitch_app/features/payment/service/payment_request_service.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/fixer_profile_section.dart';
 import 'package:quick_pitch_app/features/payment/payment_confirmation_dialog.dart';
 import 'package:quick_pitch_app/features/payment/poster_payment_section.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_detail_card.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
+import 'package:quick_pitch_app/features/review/view/components/poster_review_section.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PitchCompleteDetailScreen extends StatefulWidget {
@@ -260,7 +261,13 @@ class _PitchCompleteDetailScreenState extends State<PitchCompleteDetailScreen> {
                             : null,
                       ),
                       SizedBox(height: res.hp(2)),
-
+                           PosterReviewSection(
+      pitch: pitch,
+      fixerId: pitch.fixerId, // You'll need to add this to your PitchModel
+     fixerName: pitch.fixerName, // You'll need to add this to your PitchModel  
+     fixerImageUrl: pitch.fixerimageUrl, // You'll need to add this to your PitchModel
+    ),
+    SizedBox(height: res.hp(2)),
                       // Update history if available
                       if (pitch.latestUpdate != null) ...[
                   //      PitchAssignedUpdateHistoryList(pitch: pitch),

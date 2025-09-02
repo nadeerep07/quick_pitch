@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/core/services/firebase/skill/skills_service.dart';
+import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/core/services/geopify/geoapify_services.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
@@ -27,6 +28,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     _loadSkills();
   }
   final UserProfileRepository rep = UserProfileRepository();
+  final UserProfileService userProfileService = UserProfileService();
 
   // Form Controllers
   final titleController = TextEditingController();
@@ -142,6 +144,7 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     final taskId = existingTask?.id ?? const Uuid().v4();
     final posterId = existingTask?.posterId ?? user!.uid;
     final createdAt = existingTask?.createdAt ?? DateTime.now();
+    final posterProfile = await userProfileService.getProfile( posterId, 'poster');
 
     // Upload new images only if user picked new ones
     if (selectedImages.isNotEmpty) {
@@ -157,6 +160,8 @@ class TaskPostCubit extends Cubit<TaskPostState> {
     final task = TaskPostModel(
       id: taskId,
       posterId: posterId,
+      posterName: posterProfile!.name,
+      posterImageUrl: posterProfile.profileImageUrl ?? 'No Image Found',
       title: titleController.text.trim(),
       description: descriptionController.text.trim(),
      budget: double.tryParse(budgetController.text.trim()) ?? 0.0,

@@ -1,5 +1,5 @@
 class RazorpayConfig {
-  static const String keyId = 'rzp_test_RBVpctnSopqcnF'; // Replace with your actual key
+  static const String keyId = 'rzp_test_RBVpctnSopqcnF'; 
   static const String keySecret = '8WZXJWqURb5cQP8rON82ccIV'; // Keep this secure, don't expose in frontend
   
   // Payment options builder
