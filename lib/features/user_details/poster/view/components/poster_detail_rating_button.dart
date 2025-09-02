@@ -39,7 +39,10 @@ class PosterDetailRatingButton extends StatelessWidget {
               Icon(Icons.star_rounded, size: res.sp(16), color: Colors.amber),
               SizedBox(width: res.wp(1)),
               Text(
-                "4.5",
+                poster.posterData?.ratingStats?.averageRating.toStringAsFixed(
+                      1,
+                    ) ??
+                    '0.0',
                 style: TextStyle(
                   fontSize: res.sp(14),
                   fontWeight: FontWeight.w600,
@@ -47,7 +50,7 @@ class PosterDetailRatingButton extends StatelessWidget {
               ),
               SizedBox(width: res.wp(1)),
               Text(
-                "(12 reviews)",
+                ' (${poster.posterData?.ratingStats?.totalReviews.toString() ?? '0'})',
                 style: TextStyle(fontSize: res.sp(12), color: Colors.grey[600]),
               ),
             ],
@@ -68,7 +71,7 @@ class PosterDetailRatingButton extends StatelessWidget {
             final posterProfile = await ChatRepository()
                 .fetchCurrentUserProfileByRole(currentUserId, role: 'fixer');
             if (posterProfile.uid == poster.uid) {
-           //   print("⚠️ Prevented self-chat in FixerProfileSection");
+              //   print("⚠️ Prevented self-chat in FixerProfileSection");
               return;
             }
             // Create or get chatId

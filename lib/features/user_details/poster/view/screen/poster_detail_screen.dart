@@ -7,6 +7,7 @@ import 'package:quick_pitch_app/features/user_details/poster/view/components/pos
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_build_header.dart';
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_rating_button.dart';
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_task_section.dart';
+import 'package:quick_pitch_app/features/user_details/poster/widgets/poster_style_background_painter.dart';
 
 class PosterDetailScreen extends StatelessWidget {
   final UserProfileModel posterData;
@@ -39,7 +40,7 @@ class PosterDetailScreen extends StatelessWidget {
                       )
                       : CustomPaint(
                         size: Size(double.infinity, res.hp(25)),
-                        painter: MainBackgroundPainter(),
+                        painter: PosterStyleBackgroundPainter(),
                       ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -98,7 +99,7 @@ class PosterDetailScreen extends StatelessWidget {
                   SizedBox(height: res.hp(3)),
 
                   // Tasks section
-                  PosterDetailTaskSection(res: res, theme: theme),
+                  PosterDetailTaskSection(res: res, theme: theme,posterId: posterData.uid,),
                   SizedBox(height: res.hp(4)),
                 ],
               ),

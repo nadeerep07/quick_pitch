@@ -42,7 +42,7 @@ class FixerProfileContent extends StatelessWidget {
 
           // Add the Works Section
           FixerWorksSection(
-            fixerId: profile.uid, // Assuming profile has an ID
+            fixerId: profile.uid, 
             theme: theme,
             isOwner: isOwner,
           ),

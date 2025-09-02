@@ -39,7 +39,7 @@ class FixerDetailRatingButton extends StatelessWidget {
               Icon(Icons.star_rounded, size: res.sp(16), color: Colors.amber),
               SizedBox(width: res.wp(1)),
               Text(
-                "4.5",
+              fixer.fixerData?.ratingStats?.averageRating.toStringAsFixed(1) ?? '0.0',
                 style: TextStyle(
                   fontSize: res.sp(14),
                   fontWeight: FontWeight.w600,
@@ -47,7 +47,7 @@ class FixerDetailRatingButton extends StatelessWidget {
               ),
               SizedBox(width: res.wp(1)),
               Text(
-                "(23 reviews)",
+               "(${fixer.fixerData?.ratingStats?.totalReviews.toString()} ) ?? '0' " ,
                 style: TextStyle(fontSize: res.sp(12), color: Colors.grey[600]),
               ),
             ],
@@ -57,7 +57,7 @@ class FixerDetailRatingButton extends StatelessWidget {
         Spacer(),
 
         // Action buttons
-        IconButton(
+        TextButton.icon(
           onPressed: () async {
             final authService = AuthServices(); // Your custom auth service
             final currentUserId = authService.currentUser?.uid;
@@ -70,7 +70,7 @@ class FixerDetailRatingButton extends StatelessWidget {
             final posterProfile = await ChatRepository()
                 .fetchCurrentUserProfileByRole(currentUserId, role: 'poster');
             if (posterProfile.uid == fixer.uid) {
-           //   print("⚠️ Prevented self-chat in FixerProfileSection");
+              //   print("⚠️ Prevented self-chat in FixerProfileSection");
               return;
             }
             // Create or get chatId
@@ -100,25 +100,16 @@ class FixerDetailRatingButton extends StatelessWidget {
               ),
             );
           },
+          label: Text('Message'),
           icon: Icon(Icons.message_outlined),
-          style: IconButton.styleFrom(
+          style: TextButton.styleFrom(
             backgroundColor: colorScheme.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
         ),
-        SizedBox(width: res.wp(2)),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.favorite_border_outlined),
-          style: IconButton.styleFrom(
-            backgroundColor: colorScheme.surface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ),
+        SizedBox(width: res.wp(7)),
       ],
     );
   }

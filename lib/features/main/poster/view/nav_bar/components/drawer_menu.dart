@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart';
 import 'package:quick_pitch_app/features/user_profile/poster/view/screen/poster_profile_screen.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -13,12 +14,18 @@ class DrawerMenu extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       children: [
         _buildMenuItem(context, Icons.person_outline, 'My Profile', () {Navigator.push(context,  MaterialPageRoute(builder:(_)=>PosterProfileScreen() ));}),
-        _buildMenuItem(context, Icons.settings_outlined, 'Settings', () {}),
+        _buildMenuItem(context, Icons.settings_outlined, 'Settings', () {
+    Navigator.pop(context); // Close drawer
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AppSettings()),
+    );
+  }),
         _buildMenuItem(context, Icons.help_outline, 'Help Center', () {}),
         _buildMenuItem(context, Icons.info_outline, 'About App', () {}),
         const Divider(height: 20, thickness: 1, indent: 20, endIndent: 20),
-        _buildMenuItem(context, Icons.sync_alt, 'Switch Role', onSwitchTap, true),
-        _buildMenuItem(context, Icons.logout, 'Sign Out', onLogout, true),
+        // _buildMenuItem(context, Icons.sync_alt, 'Switch Role', onSwitchTap, true),
+        // _buildMenuItem(context, Icons.logout, 'Sign Out', onLogout, true),
       ],
     );
   }

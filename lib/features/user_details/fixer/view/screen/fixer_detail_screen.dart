@@ -117,7 +117,7 @@ class FixerDetailScreen extends StatelessWidget {
                     SizedBox(height: res.hp(3)),
 
                   // Portfolio section
-                  FixerDetailPortfolioSection(res: res, theme: theme),
+                  FixerDetailPortfolioSection(res: res, theme: theme,fixerId: fixerData.uid,),
                   SizedBox(height: res.hp(4)),
                 ],
               ),
