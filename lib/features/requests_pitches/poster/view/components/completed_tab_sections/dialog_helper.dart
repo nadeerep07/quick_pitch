@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 /// Completion note widget
 class CompletionNote extends StatelessWidget {
   final PitchModel pitch;
-  const CompletionNote({required this.pitch});
+  const CompletionNote({super.key, required this.pitch});
 
   @override
   Widget build(BuildContext context) {

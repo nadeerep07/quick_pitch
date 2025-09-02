@@ -8,7 +8,7 @@ class ActionButtons extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onSubmit;
 
-  const ActionButtons({
+  const ActionButtons({super.key, 
     required this.res,
     required this.isLoading,
     required this.onCancel,

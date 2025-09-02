@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/requests_pitches/poster/view/components/completed_tab_sections/empty_icon.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState();
+  const EmptyState({super.key});
 
   @override
   Widget build(BuildContext context) => Center(

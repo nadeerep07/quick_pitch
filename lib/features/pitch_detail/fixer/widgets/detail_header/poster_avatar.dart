@@ -9,7 +9,7 @@ class PosterAvatar extends StatelessWidget {
   final ColorScheme colorScheme;
   final Responsive res;
 
-  const PosterAvatar({
+  const PosterAvatar({super.key, 
     required this.imageUrl,
     required this.colorScheme,
     required this.res,

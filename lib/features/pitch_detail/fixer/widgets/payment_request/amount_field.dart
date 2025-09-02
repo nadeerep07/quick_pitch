@@ -7,7 +7,7 @@ class AmountField extends StatelessWidget {
   final Responsive res;
   final TextEditingController controller;
   final ThemeData theme;
-  const AmountField({required this.res, required this.controller, required this.theme});
+  const AmountField({super.key, required this.res, required this.controller, required this.theme});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/detail_header/poster_avatar.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/detail_header/poster_info.dart';

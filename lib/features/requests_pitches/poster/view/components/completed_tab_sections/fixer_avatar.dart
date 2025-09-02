@@ -6,7 +6,7 @@ import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit
 /// Fixer avatar widget
 class FixerAvatar extends StatelessWidget {
   final String fixerId;
-  const FixerAvatar({required this.fixerId});
+  const FixerAvatar({super.key, required this.fixerId});
 
   @override
   Widget build(BuildContext context) => FutureBuilder<UserProfileModel?>(

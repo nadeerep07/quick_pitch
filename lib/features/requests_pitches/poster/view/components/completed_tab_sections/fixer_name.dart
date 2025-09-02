@@ -6,7 +6,7 @@ import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit
 /// Fixer name widget
 class FixerName extends StatelessWidget {
   final String fixerId;
-  const FixerName({required this.fixerId});
+  const FixerName({super.key, required this.fixerId});
 
   @override
   Widget build(BuildContext context) => FutureBuilder<UserProfileModel?>(

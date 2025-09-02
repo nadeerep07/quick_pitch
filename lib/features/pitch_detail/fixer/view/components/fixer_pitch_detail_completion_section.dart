@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/view/components/fixer_pitch_detail_item.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';

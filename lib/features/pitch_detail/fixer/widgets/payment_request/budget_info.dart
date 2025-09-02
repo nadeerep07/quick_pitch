@@ -6,7 +6,7 @@ class BudgetInfo extends StatelessWidget {
   final Responsive res;
   final PitchModel pitch;
   final ThemeData theme;
-  const BudgetInfo({required this.res, required this.pitch, required this.theme});
+  const BudgetInfo({super.key, required this.res, required this.pitch, required this.theme});
 
   @override
   Widget build(BuildContext context) {

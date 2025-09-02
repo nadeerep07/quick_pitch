@@ -1,6 +1,5 @@
 // Updated FixerWorksPage
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/empty_state.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_fixer_work_page/error_state.dart';

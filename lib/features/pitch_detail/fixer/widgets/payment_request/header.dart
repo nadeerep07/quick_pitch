@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 class Header extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
-  const Header({required this.res, required this.theme});
+  const Header({super.key, required this.res, required this.theme});
 
   @override
   Widget build(BuildContext context) {

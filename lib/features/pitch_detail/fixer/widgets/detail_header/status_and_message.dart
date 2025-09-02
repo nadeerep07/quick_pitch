@@ -14,7 +14,7 @@ class StatusAndMessage extends StatelessWidget {
   final bool isAssigned;
   final bool isCompleted;
 
-  const StatusAndMessage({
+  const StatusAndMessage({super.key, 
     required this.pitch,
     required this.theme,
     required this.res,

@@ -1,7 +1,6 @@
 // Updated FixerWorksPage
 
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/screen/fixer_work_page.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/metadata_item.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 

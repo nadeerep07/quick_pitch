@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/bottom_bar.dart';
-import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/close_button.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/image_pager.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/view/widgets/work_detail/top_bar.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/image_full_screen_dialog_dart_cubit.dart';

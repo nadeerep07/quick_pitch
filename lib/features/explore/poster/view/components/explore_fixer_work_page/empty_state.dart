@@ -1,6 +1,5 @@
 // Updated FixerWorksPage
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 

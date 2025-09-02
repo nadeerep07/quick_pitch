@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
-import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/payment_request_cubit.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/widgets/payment_request/payment_request_form.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';

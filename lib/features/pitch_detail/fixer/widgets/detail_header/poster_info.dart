@@ -12,7 +12,7 @@ class PosterInfo extends StatelessWidget {
   final ColorScheme colorScheme;
   final Responsive res;
 
-  const PosterInfo({
+  const PosterInfo({super.key, 
     required this.posterName,
     required this.createdAt,
     required this.theme,

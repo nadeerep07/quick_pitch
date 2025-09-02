@@ -10,7 +10,7 @@ class ImagePager extends StatelessWidget {
   final PageController controller;
   final List<String> images;
 
-  const ImagePager({
+  const ImagePager({super.key, 
     required this.controller,
     required this.images,
   });

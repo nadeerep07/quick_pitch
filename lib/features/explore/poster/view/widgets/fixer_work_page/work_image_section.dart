@@ -1,6 +1,5 @@
 // Updated FixerWorksPage
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/image_carousel.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/fixer_work_page/single_image.dart';

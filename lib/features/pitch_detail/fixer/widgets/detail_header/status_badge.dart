@@ -10,7 +10,7 @@ class StatusBadge extends StatelessWidget {
   final ThemeData theme;
   final Responsive res;
 
-  const StatusBadge({
+  const StatusBadge({super.key, 
     required this.status,
     required this.theme,
     required this.res,

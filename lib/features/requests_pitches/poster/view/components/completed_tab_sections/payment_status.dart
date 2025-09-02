@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 /// Payment status widget
 class PaymentStatus extends StatelessWidget {
   final PitchModel pitch;
-  const PaymentStatus({required this.pitch});
+  const PaymentStatus({super.key, required this.pitch});
 
   @override
   Widget build(BuildContext context) {

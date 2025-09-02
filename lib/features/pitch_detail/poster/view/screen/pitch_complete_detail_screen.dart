@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/payment/components/payment_decline_dialog.dart';
+import 'package:quick_pitch_app/features/payment/components/razorpay_config.dart';
 import 'package:quick_pitch_app/features/pitch_detail/fixer/service/payment_request_service.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/fixer_profile_section.dart';
-import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/payment_section/payment_confirmation_dialog.dart';
-import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/payment_section/poster_payment_section.dart';
+import 'package:quick_pitch_app/features/payment/payment_confirmation_dialog.dart';
+import 'package:quick_pitch_app/features/payment/poster_payment_section.dart';
 import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_detail_card.dart';
-import 'package:quick_pitch_app/features/pitch_detail/poster/view/components/pitch_assigned_detail/pitch_assigned_update_history_list.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
@@ -39,7 +40,6 @@ class _PitchCompleteDetailScreenState extends State<PitchCompleteDetailScreen> {
         onPaymentSuccess: (paymentId, amount) => _processPayment(pitch, amount),
         onPaymentError: (error) => _showPaymentDeclineDialog(pitch),
         razorpayKeyId: RazorpayConfig.keyId,
-     //   userEmail: 'user@example.com', // Get from your user model
         userPhone: '+919876543210', // Get from your user model
         userName: 'John Doe', // Get from your user model
 

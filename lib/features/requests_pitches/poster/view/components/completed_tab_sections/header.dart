@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 /// --------------------
 class Header extends StatelessWidget {
   final PitchModel acceptedPitch;
-  const Header({required this.acceptedPitch});
+  const Header({super.key, required this.acceptedPitch});
 
   @override
   Widget build(BuildContext context) => Row(

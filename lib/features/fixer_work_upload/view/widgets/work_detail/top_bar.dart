@@ -8,7 +8,7 @@ import 'package:quick_pitch_app/features/fixer_work_upload/viewmodel/cubit/image
 class TopBar extends StatelessWidget {
   final List<String> images;
 
-  const TopBar({required this.images});
+  const TopBar({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

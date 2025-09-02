@@ -9,7 +9,7 @@ import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 class FixerSection extends StatelessWidget {
   final TaskPostModel task;
   final PitchModel acceptedPitch;
-  const FixerSection({required this.task, required this.acceptedPitch});
+  const FixerSection({super.key, required this.task, required this.acceptedPitch});
 
   @override
   Widget build(BuildContext context) => Theme(

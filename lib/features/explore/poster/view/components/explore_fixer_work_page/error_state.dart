@@ -1,6 +1,5 @@
 // Updated FixerWorksPage
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ErrorState extends StatelessWidget {

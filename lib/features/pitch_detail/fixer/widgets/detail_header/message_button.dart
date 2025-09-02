@@ -14,7 +14,7 @@ class MessageButton extends StatelessWidget {
   final PitchModel pitch;
   final ThemeData theme;
 
-  const MessageButton({
+  const MessageButton({super.key, 
     required this.pitch,
     required this.theme,
   });
