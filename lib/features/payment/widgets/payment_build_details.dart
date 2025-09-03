@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
-import 'package:quick_pitch_app/features/payment/payment_confirmation_dialog.dart';
+import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PaymentBuildDetails extends StatelessWidget {
-  final PaymentConfirmationDialog widget;
+  final bool isFromRequest;
+  final PitchModel pitch;
   final Responsive res;
   final ThemeData theme;
   final double paymentAmount;
 
   const PaymentBuildDetails({
     super.key,
-    required this.widget,
+    required this.isFromRequest,
+    required this.pitch,
     required this.res,
     required this.theme,
     required this.paymentAmount,
@@ -51,16 +53,16 @@ class PaymentBuildDetails extends StatelessWidget {
                   Text('Razorpay', style: theme.textTheme.bodySmall),
             ),
           ),
-          if (widget.isFromRequest &&
-              widget.pitch.paymentRequestNotes != null &&
-              widget.pitch.paymentRequestNotes!.isNotEmpty) ...[
+          if (isFromRequest &&
+              pitch.paymentRequestNotes != null &&
+              pitch.paymentRequestNotes!.isNotEmpty) ...[
             SizedBox(height: res.hp(1.5)),
             Divider(color: Colors.grey[300]),
             SizedBox(height: res.hp(1)),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Notes: ${widget.pitch.paymentRequestNotes!}',
+                'Notes: ${pitch.paymentRequestNotes!}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.grey[600],
                   fontStyle: FontStyle.italic,

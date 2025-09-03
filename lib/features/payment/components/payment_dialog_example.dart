@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/payment/components/payment_decline_dialog.dart';
 import 'package:quick_pitch_app/features/payment/components/razorpay_config.dart';
-import 'package:quick_pitch_app/features/payment/payment_confirmation_dialog.dart';
+import 'package:quick_pitch_app/features/payment/view/payment_confirmation_dialog.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PaymentDialogExample extends StatelessWidget {

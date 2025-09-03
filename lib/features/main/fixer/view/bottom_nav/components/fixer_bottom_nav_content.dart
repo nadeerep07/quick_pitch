@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
-import 'package:quick_pitch_app/features/earnings/fixer/view/screen/earning_screen.dart';
+import 'package:quick_pitch_app/features/earnings/view/screen/earning_screen.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/screen/fixer_explore_screen.dart';
 import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
@@ -22,15 +23,15 @@ class FixerBottomNavContent extends StatelessWidget {
   const FixerBottomNavContent({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  final fixerId =  FirebaseAuth.instance.currentUser!.uid;
     final screens = [
       FixerHomeScreen(scaffoldKey: scaffoldKey),
       const FixerExploreScreen(),
       const ChatListScreen(),
       const FixerRequestScreen(),
-      EarningScreen(),
+      EarningScreen(fixerId: fixerId),
     ];
 
     return BlocListener<RoleSwitchCubit, RoleSwitchState>(

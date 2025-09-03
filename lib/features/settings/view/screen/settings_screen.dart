@@ -9,7 +9,6 @@ import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';
 import 'package:quick_pitch_app/features/user_profile/fixer/viewmodel/cubit/fixer_profile_cubit.dart';
-import 'package:quick_pitch_app/features/user_profile/poster/viewmodel/cubit/poster_profile_cubit.dart';
 
 class AppSettings extends StatelessWidget {
   const AppSettings({super.key});

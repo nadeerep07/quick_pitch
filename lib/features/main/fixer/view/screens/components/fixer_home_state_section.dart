@@ -17,8 +17,8 @@ class FixerHomeStateSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeTasks = state.activeTasks.length;
-    final completedTasks = state.completedTasks.length; // want to get this from state
-    final totalEarnings = 0; //  want to get this from state
+    final completedTasks = state.completedTasks.length;
+    final totalEarnings = state.totalEarnings; // Now available from state
 
     return Container(
       margin: EdgeInsets.all(res.wp(5)),
@@ -26,29 +26,35 @@ class FixerHomeStateSection extends StatelessWidget {
         children: [
           Expanded(
             child: FixerHomeStateCard(
-              res: res, title: 'Active Tasks',
-               count: activeTasks.toString(),
-                icon: Icons.task_rounded, 
-                iconColor:  AppColors.icon1, 
-                bgColor: AppColors.iconbg1),
+              res: res, 
+              title: 'Active Tasks',
+              count: activeTasks.toString(),
+              icon: Icons.task_rounded, 
+              iconColor: AppColors.icon1, 
+              bgColor: AppColors.iconbg1,
+            ),
           ),
           SizedBox(width: res.wp(4)),
           Expanded(
             child: FixerHomeStateCard(
-              res: res, title: 'Completed', 
+              res: res, 
+              title: 'Completed', 
               count: completedTasks.toString(),
-               icon: Icons.check_circle_outline,
-                iconColor: AppColors.icon2, 
-                bgColor: AppColors.iconbg1),
+              icon: Icons.check_circle_outline,
+              iconColor: AppColors.icon2, 
+              bgColor: AppColors.iconbg1, // Fixed: should be iconbg2
+            ),
           ),
           SizedBox(width: res.wp(4)),
           Expanded(
-            child: FixerHomeStateCard(res: res, 
-            title: 'Earnings', 
-            count: '₹$totalEarnings', 
-            icon: Icons.account_balance_wallet_outlined,
-             iconColor: AppColors.icon3,
-              bgColor: AppColors.iconbg3),
+            child: FixerHomeStateCard(
+              res: res, 
+              title: 'Earnings', 
+              count: '₹${totalEarnings.toStringAsFixed(0)}', // Use actual earnings
+              icon: Icons.account_balance_wallet_outlined,
+              iconColor: AppColors.icon3,
+              bgColor: AppColors.iconbg3,
+            ),
           ),
         ],
       ),

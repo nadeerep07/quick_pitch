@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/payment/widgets/no_payment_content.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_completed_content.dart';
-import 'package:quick_pitch_app/features/payment/widgets/payment_detail_row.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_header.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_requested_content.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';

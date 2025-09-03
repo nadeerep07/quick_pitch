@@ -96,62 +96,52 @@ class PitchModel {
     'fixerimageUrl': fixerimageUrl
   };
 
-  factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
-    DateTime parseDate(dynamic value) {
-      if (value == null) return DateTime.now();
-      if (value is Timestamp) return value.toDate();
-      if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
-      return DateTime.now();
-    }
-
-    return PitchModel(
-      id: json['id'] ?? '',
-      taskId: json['taskId'] ?? '',
-      fixerId: json['fixerId'] ?? '',
-      pitchText: json['pitchText'] ?? '',
-      budget: (json['budget'] ?? 0).toDouble(),
-      hours: json['hours'],
-      timeline: json['timeline'] ?? '',
-      paymentType: PaymentType.values.firstWhere(
-        (e) => e.name == json['paymentType'],
-        orElse: () => PaymentType.fixed,
-      ),
-      createdAt: parseDate(json['createdAt']),
-      status: json['status'] ?? 'pending',
-      fixerName: json['fixerName'],
-      fixerimageUrl: json['fixerimageUrl'],
-      posterId: json['posterId'] ?? '',
-      posterName: json['posterName'] ?? '',
-      posterImage: json['posterImage'] ?? '',
-      rejectionMessage: json['rejectionMessage'],
-      progress: json['progress'] != null ? json['progress'] as int : null,
-      latestUpdate: json['latestUpdate'],
-      completionDate:
-          json['completionDate'] != null
-              ? parseDate(json['completionDate'])
-              : null,
-      completionNotes: json['completionNotes'],
-      paymentStatus: json['paymentStatus'],
-      paymentRequestedAt:
-          json['paymentRequestedAt'] != null
-              ? parseDate(json['paymentRequestedAt'])
-              : null,
-      requestedPaymentAmount: json['requestedPaymentAmount'] != null 
-          ? (json['requestedPaymentAmount'] as num).toDouble()
-          : null,
-      paymentRequestNotes: json['paymentRequestNotes'],
-      paymentDeclineReason: json['paymentDeclineReason'],
-      paymentDeclinedAt:
-          json['paymentDeclinedAt'] != null
-              ? parseDate(json['paymentDeclinedAt'])
-              : null,
-      paymentCompletedAt:
-          json['paymentCompletedAt'] != null
-              ? parseDate(json['paymentCompletedAt'])
-              : null,
-      transactionId: json['transactionId'],
-      updatedAt:
-          json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
-    );
+factory PitchModel.fromJson(Map<String, dynamic> json, [String? id]) {
+  DateTime parseDate(dynamic value) {
+    if (value == null) return DateTime.now();
+    if (value is Timestamp) return value.toDate();
+    if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
+    return DateTime.now();
   }
+
+  return PitchModel(
+    id: json['id'] as String? ?? '',
+    taskId: json['taskId'] as String? ?? '',
+    fixerId: json['fixerId'] as String? ?? '',
+    pitchText: json['pitchText'] as String? ?? '',
+    budget: (json['budget'] as num?)?.toDouble() ?? 0.0,
+    hours: json['hours'] as String?,                        // fixed
+    timeline: json['timeline'] as String? ?? '',
+    paymentType: PaymentType.values.firstWhere(
+      (e) => e.name == json['paymentType'],
+      orElse: () => PaymentType.fixed,
+    ),
+    createdAt: parseDate(json['createdAt']),
+    status: json['status'] as String? ?? 'pending',
+    fixerName: json['fixerName'] as String? ?? '',
+    fixerimageUrl: json['fixerimageUrl'] as String? ?? '',
+    posterId: json['posterId'] as String? ?? '',
+    posterName: json['posterName'] as String?,              // fixed
+    posterImage: json['posterImage'] as String?,            // fixed
+    rejectionMessage: json['rejectionMessage'] as String?,  // fixed
+    progress: json['progress'] is int ? json['progress'] as int : null,
+    latestUpdate: json['latestUpdate'] as String?,          // fixed
+    completionDate:
+        json['completionDate'] != null ? parseDate(json['completionDate']) : null,
+    completionNotes: json['completionNotes'] as String?,    // fixed
+    paymentStatus: json['paymentStatus'] as String?,        // fixed
+    paymentRequestedAt:
+        json['paymentRequestedAt'] != null ? parseDate(json['paymentRequestedAt']) : null,
+    requestedPaymentAmount: (json['requestedPaymentAmount'] as num?)?.toDouble(),
+    paymentRequestNotes: json['paymentRequestNotes'] as String?,  // fixed
+    paymentDeclineReason: json['paymentDeclineReason'] as String?,// fixed
+    paymentDeclinedAt:
+        json['paymentDeclinedAt'] != null ? parseDate(json['paymentDeclinedAt']) : null,
+    paymentCompletedAt:
+        json['paymentCompletedAt'] != null ? parseDate(json['paymentCompletedAt']) : null,
+    transactionId: json['transactionId'] as String?,        // fixed
+    updatedAt: json['updatedAt'] != null ? parseDate(json['updatedAt']) : null,
+  );
+}
+
 }

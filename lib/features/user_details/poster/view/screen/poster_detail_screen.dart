@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/common/app_button.dart';
-import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_about_section.dart';

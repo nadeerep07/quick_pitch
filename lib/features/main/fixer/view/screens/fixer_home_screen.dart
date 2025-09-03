@@ -35,7 +35,8 @@ class _FixerHomeScreenState extends State<FixerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
-
+    
+ final uid = FirebaseAuth.instance.currentUser?.uid;
     return Container(
       decoration: const BoxDecoration(color: Colors.transparent),
       child: CustomPaint(
@@ -63,7 +64,7 @@ class _FixerHomeScreenState extends State<FixerHomeScreen> {
                         child: FixerHomeUserHeader(widget: widget, context: context, res: res, state: state),
                       ),
                       SliverToBoxAdapter(
-                        child: FixerHomeStateSection(res: res, state: state),
+                        child: FixerHomeStateSection(res: res, state: state,),
                       ),
                       SliverToBoxAdapter(
                         child: FixerHomeFilterSection(res: res),

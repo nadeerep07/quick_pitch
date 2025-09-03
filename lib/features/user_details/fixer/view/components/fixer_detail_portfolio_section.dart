@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/repository/fixer_works_repository.dart';
-import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_content.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_empty_view.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_error_view.dart';
-import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_image_carousel.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_item.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/widgets/portfolio_loading_view.dart';
 

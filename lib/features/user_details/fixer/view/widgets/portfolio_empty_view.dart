@@ -20,7 +20,7 @@ class PortfolioEmptyView extends StatelessWidget {
       padding: EdgeInsets.all(res.wp(6)),
       margin: EdgeInsets.only(bottom: res.hp(2)),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: theme.colorScheme.outline.withOpacity(0.1),

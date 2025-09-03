@@ -4,6 +4,7 @@ import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart'
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class FixerRepository {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Future<List<TaskPostModel>> fetchCategoryMatchedTasks() async {
     try {
       final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -136,4 +137,58 @@ class FixerRepository {
       rethrow;
     }
   }
+  // Add this method to your FixerRepository class
+
+Future<double> fetchTotalEarnings(String fixerId) async {
+  try {
+    // Query completed pitches for earnings (without orderBy to avoid index requirement)
+    final QuerySnapshot querySnapshot = await _firestore
+        .collectionGroup('pitches')
+        .where('fixerId', isEqualTo: fixerId)
+        .where('paymentStatus', isEqualTo: 'completed')
+        .get();
+
+    double totalEarnings = 0.0;
+    
+    for (var doc in querySnapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      // Get amount from requestedPaymentAmount or budget
+      final amount = (data['requestedPaymentAmount'] ?? data['budget'] ?? 0.0);
+      if (amount is num) {
+        totalEarnings += amount.toDouble();
+      }
+    }
+
+    return totalEarnings;
+  } catch (e) {
+    print('Error fetching total earnings: $e');
+    throw Exception('Failed to fetch earnings: ${e.toString()}');
+  }
+}
+
+// Alternative version if you want it to return 0 instead of throwing an exception
+Future<double> fetchTotalEarningsSafe(String fixerId) async {
+  try {
+    final QuerySnapshot querySnapshot = await _firestore
+        .collectionGroup('pitches')
+        .where('fixerId', isEqualTo: fixerId)
+        .where('paymentStatus', isEqualTo: 'completed')
+        .get();
+
+    double totalEarnings = 0.0;
+    
+    for (var doc in querySnapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      final amount = (data['requestedPaymentAmount'] ?? data['budget'] ?? 0.0);
+      if (amount is num) {
+        totalEarnings += amount.toDouble();
+      }
+    }
+
+    return totalEarnings;
+  } catch (e) {
+    print('Error fetching total earnings: $e');
+    return 0.0; // Return 0 instead of throwing
+  }
+}
 }
