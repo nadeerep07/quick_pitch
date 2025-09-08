@@ -45,7 +45,7 @@ class PosterReviewSection extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<PosterReviewCubit>();
 
-          void _showReviewDialog() {
+          void showReviewDialog() {
             showDialog(
               context: context,
               builder: (context) => ReviewRatingWidget(
@@ -99,7 +99,7 @@ class PosterReviewSection extends StatelessWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: _showReviewDialog,
+                            onPressed: showReviewDialog,
                             icon: Icon(Icons.edit, size: res.wp(4)),
                             label: const Text('Edit Review'),
                           ),
@@ -110,7 +110,7 @@ class PosterReviewSection extends StatelessWidget {
 
                   /// Can review
                   else if (state.canReview && pitch.status == 'completed') ...[
-                    _reviewPrompt(res, theme, _showReviewDialog),
+                    _reviewPrompt(res, theme, showReviewDialog),
                   ]
 
                   /// Can't review yet

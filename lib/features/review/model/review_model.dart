@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ReviewModel {
   final String id;
   final String reviewerId;
@@ -36,7 +38,15 @@ class ReviewModel {
     'updatedAt': updatedAt.toIso8601String(),
   };
 
-  factory ReviewModel.fromJson(Map<String, dynamic> json) => ReviewModel(
+factory ReviewModel.fromJson(Map<String, dynamic> json) {
+  DateTime parseDate(dynamic value) {
+    if (value == null) return DateTime.now();
+    if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
+    if (value is Timestamp) return value.toDate();
+    return DateTime.now();
+  }
+
+  return ReviewModel(
     id: json['id'] ?? '',
     reviewerId: json['reviewerId'] ?? '',
     revieweeId: json['revieweeId'] ?? '',
@@ -45,13 +55,11 @@ class ReviewModel {
     rating: (json['rating'] ?? 0.0).toDouble(),
     comment: json['comment'] ?? '',
     reviewerType: json['reviewerType'] ?? '',
-    createdAt: json['createdAt'] != null 
-        ? DateTime.parse(json['createdAt']) 
-        : DateTime.now(),
-    updatedAt: json['updatedAt'] != null 
-        ? DateTime.parse(json['updatedAt']) 
-        : DateTime.now(),
+    createdAt: parseDate(json['createdAt']),
+    updatedAt: parseDate(json['updatedAt']),
   );
+}
+
 
   ReviewModel copyWith({
     String? id,

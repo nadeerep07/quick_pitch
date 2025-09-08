@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/earnings/view/components/error_view.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/earning_summary.dart';
@@ -36,8 +37,8 @@ class EarningScreenView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Earnings'),
-        backgroundColor: AppColors.primaryColor,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.transparent,
+        foregroundColor: AppColors.primaryText,
         elevation: 0,
       ),
       body: BlocBuilder<EarningsCubit, EarningsState>(
@@ -51,19 +52,22 @@ class EarningScreenView extends StatelessWidget {
           }
 
           if (state is EarningsLoaded) {
-            return RefreshIndicator(
-              onRefresh: () => context.read<EarningsCubit>().loadEarnings(),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    EarningSummary(state: state),
-                    const SizedBox(height: 24),
-                    EarningsChart(monthlyEarnings: state.monthlyEarnings),
-                    const SizedBox(height: 24),
-                    PaymentHistory(payments: state.paymentHistory),
-                  ],
+            return CustomPaint(
+              painter: MainBackgroundPainter(),
+              child: RefreshIndicator(
+                onRefresh: () => context.read<EarningsCubit>().loadEarnings(),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      EarningSummary(state: state),
+                      const SizedBox(height: 24),
+                      EarningsChart(monthlyEarnings: state.monthlyEarnings),
+                      const SizedBox(height: 24),
+                      PaymentHistory(payments: state.paymentHistory),
+                    ],
+                  ),
                 ),
               ),
             );

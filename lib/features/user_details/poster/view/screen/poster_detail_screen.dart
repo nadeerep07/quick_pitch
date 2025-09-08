@@ -106,17 +106,6 @@ class PosterDetailScreen extends StatelessWidget {
           ),
         ],
       ),
-
-      // Fixed bottom button
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(res.wp(4)),
-        child: AppButton(
-          text: 'Contact ${posterData.name.split(' ').first}',
-          onPressed: () {
-            // Handle contact poster action
-          },
-        ),
-      ),
     );
   }
 }

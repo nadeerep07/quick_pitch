@@ -91,7 +91,7 @@ class PosterDetailTaskSection extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<PosterTasksCubit>();
 
-          Widget _buildTaskCard(TaskPostModel task) {
+          Widget buildTaskCard(TaskPostModel task) {
             return Container(
               margin: EdgeInsets.only(bottom: res.hp(2)),
               decoration: BoxDecoration(
@@ -302,7 +302,7 @@ class PosterDetailTaskSection extends StatelessWidget {
                 )
               else
                 Column(
-                  children: state.tasks.map((task) => _buildTaskCard(task)).toList(),
+                  children: state.tasks.map((task) => buildTaskCard(task)).toList(),
                 ),
             ],
           );

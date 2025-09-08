@@ -7,6 +7,7 @@ import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixe
 import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_portfolio_section.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_rating_button.dart';
 import 'package:quick_pitch_app/features/user_details/fixer/view/components/fixer_detail_skill_section.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/components/hire_request_bar.dart';
 
 class FixerDetailScreen extends StatelessWidget {
   final UserProfileModel fixerData;
@@ -25,7 +26,7 @@ class FixerDetailScreen extends StatelessWidget {
         slivers: [
           // Header with profile image and background
           SliverAppBar(
-            backgroundColor: Colors.grey[50] ,
+            backgroundColor: Colors.grey[50],
             expandedHeight: res.hp(25),
             floating: false,
             pinned: true,
@@ -35,8 +36,8 @@ class FixerDetailScreen extends StatelessWidget {
                   fixerData.fixerData?.coverImageUrl?.isNotEmpty == true
                       ? Image.network(
                         fixerData.fixerData?.coverImageUrl ?? '',
-                          width: double.infinity, 
-                          height: 200,
+                        width: double.infinity,
+                        height: 200,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
@@ -53,7 +54,10 @@ class FixerDetailScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: res.hp(2),left: res.wp(3)),
+                      padding: EdgeInsets.only(
+                        bottom: res.hp(2),
+                        left: res.wp(3),
+                      ),
                       child: Hero(
                         tag: 'fixer-${fixerData.name}',
                         child: CircleAvatar(
@@ -94,8 +98,11 @@ class FixerDetailScreen extends StatelessWidget {
                   SizedBox(height: res.hp(2)),
 
                   // Rating and action buttons
-                  FixerDetailRatingButton(res: res, colorScheme: colorScheme
-                      , fixer: fixerData),
+                  FixerDetailRatingButton(
+                    res: res,
+                    colorScheme: colorScheme,
+                    fixer: fixerData,
+                  ),
                   SizedBox(height: res.hp(3)),
 
                   // About section
@@ -117,7 +124,11 @@ class FixerDetailScreen extends StatelessWidget {
                     SizedBox(height: res.hp(3)),
 
                   // Portfolio section
-                  FixerDetailPortfolioSection(res: res, theme: theme,fixerId: fixerData.uid,),
+                  FixerDetailPortfolioSection(
+                    res: res,
+                    theme: theme,
+                    fixerId: fixerData.uid,
+                  ),
                   SizedBox(height: res.hp(4)),
                 ],
               ),
@@ -127,28 +138,8 @@ class FixerDetailScreen extends StatelessWidget {
       ),
 
       // Fixed bottom button
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(res.wp(4)),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: EdgeInsets.symmetric(vertical: res.hp(2)),
-          ),
-          onPressed: () {
-           
-          },
-          child: Text(
-            'Hire ${fixerData.name.split(' ').first}',
-            style: TextStyle(
-              fontSize: res.sp(16),
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onPrimary,
-            ),
-          ),
-        ),
+      bottomNavigationBar: HireRequestBar(
+        fixerData: fixerData,
       ),
     );
   }

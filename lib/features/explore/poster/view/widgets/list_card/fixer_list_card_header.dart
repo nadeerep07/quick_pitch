@@ -5,6 +5,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/list_card/fixer_card_rating_distance.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/screen/fixer_detail_screen.dart';
 
 class FixerCardHeader extends StatelessWidget {
   final UserProfileModel fixer;
@@ -118,7 +119,7 @@ class FixerCardHeader extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                // TODO: implement message action
+               Navigator.push(context, MaterialPageRoute(builder:(context)=> FixerDetailScreen(fixerData: fixer)));
               },
               borderRadius: BorderRadius.circular(res.wp(3)),
               child: Container(

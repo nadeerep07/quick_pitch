@@ -5,45 +5,56 @@ class ReviewService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Submit a review
-  Future<void> submitReview(ReviewModel review) async {
+  Future<void> addReview(ReviewModel review) async {
     try {
-      // Add review to reviews collection
       final reviewRef = _firestore.collection('reviews').doc();
       final reviewWithId = review.copyWith(id: reviewRef.id);
-      
-      print('Submitting review: ${reviewWithId.toJson()}'); // Debug log
-      
-      // First save the review
+
       await reviewRef.set(reviewWithId.toJson());
-      
-      print('Review saved, updating stats...'); // Debug log
-      
-      // Then update reviewee's rating stats
+
       await _updateUserRatingStats(
-        review.revieweeId, 
-        review.reviewerType == 'poster' ? 'fixer' : 'poster'
+        review.revieweeId,
+        review.reviewerType == 'poster' ? 'fixer' : 'poster',
       );
-      
-      print('Stats updated successfully'); // Debug log
-      
     } catch (e) {
-      print('Error in submitReview: $e'); // Debug log
       rethrow;
     }
   }
 
   // Get reviews for a user
-  Stream<List<ReviewModel>> getUserReviews(String userId, {int limit = 10}) {
-    return _firestore
-        .collection('reviews')
-        .where('revieweeId', isEqualTo: userId)
-        .orderBy('createdAt', descending: true)
-        .limit(limit)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => ReviewModel.fromJson(doc.data()))
-            .toList());
-  }
+Stream<List<ReviewModel>> getUserReviews(String userId, {int limit = 4}) {
+  return FirebaseFirestore.instance
+      .collection('reviews')
+      .where('revieweeId', isEqualTo: userId)
+      .orderBy('createdAt', descending: true)
+      .limit(limit)
+      .snapshots()
+      .map((snapshot) {
+        print("DEBUG: ReviewService fetched ${snapshot.docs.length} docs for userId=$userId");
+
+        return snapshot.docs.map((doc) {
+          print("DEBUG raw data: ${doc.data()}");
+          return ReviewModel.fromJson(doc.data());
+        }).toList();
+      });
+}
+
+Future<List<ReviewModel>> fetchUserReviews(String userId, {int limit = 4}) async {
+  print("DEBUG: fetchUserReviews called for userId=$userId with limit=$limit");
+  final snapshot = await FirebaseFirestore.instance
+      .collectionGroup('reviews')
+      .where('revieweeId', isEqualTo: userId)
+      .orderBy('createdAt', descending: true)
+      .limit(limit)
+      .get();
+
+  print("DEBUG: fetchUserReviews found ${snapshot.docs.length} docs for userId=$userId");
+
+  return snapshot.docs.map((doc) {
+    print("DEBUG review doc: ${doc.data()}");
+    return ReviewModel.fromJson(doc.data());
+  }).toList();
+}
 
   // Check if user can review (hasn't reviewed this pitch before)
   Future<bool> canUserReview(String reviewerId, String pitchId) async {

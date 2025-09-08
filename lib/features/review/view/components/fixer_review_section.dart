@@ -38,7 +38,7 @@ class FixerReviewSection extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<FixerReviewCubit>();
 
-          void _showReviewDialog() {
+          void showReviewDialog() {
             showDialog(
               context: context,
               builder: (context) => ReviewRatingWidget(
@@ -92,7 +92,7 @@ class FixerReviewSection extends StatelessWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: _showReviewDialog,
+                            onPressed: showReviewDialog,
                             icon: Icon(Icons.edit, size: res.wp(4)),
                             label: const Text('Edit Review'),
                           ),
@@ -105,7 +105,7 @@ class FixerReviewSection extends StatelessWidget {
                   else if (state.canReview &&
                       pitch.status == 'completed' &&
                       pitch.paymentStatus == 'completed') ...[
-                    _reviewPrompt(res, theme, _showReviewDialog),
+                    _reviewPrompt(res, theme, showReviewDialog),
                   ]
 
                   /// Payment not completed

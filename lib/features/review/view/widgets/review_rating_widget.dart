@@ -44,7 +44,7 @@ class ReviewRatingWidget extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<ReviewRatingCubit>();
 
-          Widget _buildStarRating() {
+          Widget buildStarRating() {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(5, (index) {
@@ -87,7 +87,7 @@ class ReviewRatingWidget extends StatelessWidget {
                   SizedBox(height: res.hp(3)),
 
                   // Star Rating
-                  _buildStarRating(),
+                  buildStarRating(),
                   SizedBox(height: res.hp(2)),
 
                   Text(
