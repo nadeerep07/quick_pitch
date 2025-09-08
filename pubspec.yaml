@@ -64,6 +64,8 @@ dependencies:
   google_maps_flutter: ^2.12.3
   razorpay_flutter: ^1.4.0
   fl_chart: ^1.1.0
+  google_generative_ai: ^0.4.7
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +94,7 @@ flutter:
      - assets/animations/
      - assets/images/
      - assets/icons/
+     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

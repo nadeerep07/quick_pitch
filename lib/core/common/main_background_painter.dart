@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
+
 class MainBackgroundPainter extends CustomPainter {
-  
   @override
   void paint(Canvas canvas, Size size) {
-   
     final gradientPaint = Paint()
-
       ..shader = LinearGradient(
-        
         colors: [
           Colors.deepPurple.shade100.withValues(alpha: .3),
           Colors.deepPurple.shade200.withValues(alpha: .2),
@@ -20,7 +17,6 @@ class MainBackgroundPainter extends CustomPainter {
     final circleCenter = Offset(size.width * 0.2, size.height * 0.2);
     canvas.drawCircle(circleCenter, size.width * 0.6, gradientPaint);
 
-   
     final path = Path()
       ..moveTo(size.width, size.height * 0.6)
       ..quadraticBezierTo(

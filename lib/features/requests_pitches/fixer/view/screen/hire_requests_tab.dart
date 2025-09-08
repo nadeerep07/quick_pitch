@@ -1,162 +1,231 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/repository/hire_request_repository.dart';
+import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_bloc.dart';
+import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_event.dart';
+import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_state.dart';
 
-class HireRequestsTab extends StatefulWidget {
+class HireRequestsTab extends StatelessWidget {
   const HireRequestsTab({super.key});
 
   @override
-  State<HireRequestsTab> createState() => _HireRequestsTabState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        final currentUser = FirebaseAuth.instance.currentUser;
+        final bloc = HireRequestsBloc(
+          hireRequestRepository: HireRequestRepository(),
+        );
+        if (currentUser != null) {
+          bloc.add(LoadHireRequests(currentUser.uid));
+        }
+        return bloc;
+      },
+      child: const HireRequestsView(),
+    );
+  }
 }
 
-class _HireRequestsTabState extends State<HireRequestsTab> {
-  final HireRequestRepository _hireRequestRepository = HireRequestRepository();
-  HireRequestStatus? _selectedFilter;
-  bool _isProcessing = false;
+class HireRequestsView extends StatelessWidget {
+  const HireRequestsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser == null) {
       return _buildLoginRequired(res, theme);
     }
 
-    return Column(
-      children: [
-        // Header with filter
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: res.wp(4),
-            vertical: res.wp(3),
-          ),
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            border: Border(
-              bottom: BorderSide(
-                color: colorScheme.outline.withOpacity(0.2),
-                width: 1,
+    return BlocListener<HireRequestsBloc, HireRequestsState>(
+      listener: (context, state) {
+        if (state is RequestProcessingSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    state.message.contains('accepted') ? Icons.check_circle : Icons.info,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(state.message)),
+                ],
               ),
+              backgroundColor: state.message.contains('accepted') ? Colors.green : Colors.orange,
+              behavior: SnackBarBehavior.floating,
             ),
-          ),
-          child: Row(
-            children: [
-              Text(
-                'Hire Requests',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+          );
+        } else if (state is RequestProcessingError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Theme.of(context).colorScheme.error,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          // Header with filter
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: res.wp(4),
+              vertical: res.wp(3),
+            ),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              border: Border(
+                bottom: BorderSide(
+                  color: theme.colorScheme.outline.withOpacity(0.2),
+                  width: 1,
                 ),
               ),
-              Spacer(),
-              _buildFilterButton(res, theme),
-            ],
-          ),
-        ),
-
-        // Requests list
-        Expanded(
-          child: StreamBuilder<List<HireRequest>>(
-            stream: _hireRequestRepository.getFixerHireRequests(
-              currentUser.uid,
             ),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return _buildLoadingView(res);
-              }
-
-              if (snapshot.hasError) {
-                return _buildErrorView(res, theme, snapshot.error.toString());
-              }
-
-              final allRequests = snapshot.data ?? [];
-              final filteredRequests =
-                  _selectedFilter == null
-                      ? allRequests
-                      : allRequests
-                          .where((r) => r.status == _selectedFilter)
-                          .toList();
-
-              if (filteredRequests.isEmpty) {
-                return _buildEmptyView(res, theme);
-              }
-
-              return RefreshIndicator(
-                onRefresh: () async {
-                  setState(() {});
-                },
-                child: ListView.builder(
-                  padding: EdgeInsets.all(res.wp(2)),
-                  itemCount: filteredRequests.length,
-                  itemBuilder: (context, index) {
-                    final request = filteredRequests[index];
-                    return _buildRequestCard(request, res, theme);
+            child: Row(
+              children: [
+                Text(
+                  'Hire Requests',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const Spacer(),
+                BlocBuilder<HireRequestsBloc, HireRequestsState>(
+                  builder: (context, state) {
+                    HireRequestStatus? selectedFilter;
+                    if (state is HireRequestsLoaded) {
+                      selectedFilter = state.selectedFilter;
+                    } else if (state is HireRequestsEmpty) {
+                      selectedFilter = state.selectedFilter;
+                    } else if (state is RequestProcessingSuccess) {
+                      selectedFilter = state.selectedFilter;
+                    } else if (state is RequestProcessingError) {
+                      selectedFilter = state.selectedFilter;
+                    }
+                    
+                    return _buildFilterButton(res, theme, selectedFilter, context);
                   },
                 ),
-              );
-            },
+              ],
+            ),
           ),
-        ),
-      ],
+
+          // Requests list
+          Expanded(
+            child: BlocBuilder<HireRequestsBloc, HireRequestsState>(
+              builder: (context, state) {
+                if (state is HireRequestsLoading) {
+                  return _buildLoadingView(res);
+                }
+
+                if (state is HireRequestsError) {
+                  return _buildErrorView(res, theme, state.message, context);
+                }
+
+                if (state is HireRequestsEmpty) {
+                  return _buildEmptyView(res, theme, state.selectedFilter, context);
+                }
+
+                if (state is HireRequestsLoaded ||
+                    state is RequestProcessingSuccess ||
+                    state is RequestProcessingError) {
+                  
+                  List<HireRequest> filteredRequests = [];
+                  bool isProcessing = false;
+                  
+                  if (state is HireRequestsLoaded) {
+                    filteredRequests = state.filteredRequests;
+                    isProcessing = state.isProcessing;
+                  } else if (state is RequestProcessingSuccess) {
+                    filteredRequests = state.filteredRequests;
+                  } else if (state is RequestProcessingError) {
+                    filteredRequests = state.filteredRequests;
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<HireRequestsBloc>().add(RefreshRequests(currentUser.uid));
+                    },
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(res.wp(2)),
+                      itemCount: filteredRequests.length,
+                      itemBuilder: (context, index) {
+                        final request = filteredRequests[index];
+                        return _buildRequestCard(request, res, theme, context, isProcessing);
+                      },
+                    ),
+                  );
+                }
+
+                return _buildEmptyView(res, theme, null, context);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildFilterButton(Responsive res, ThemeData theme) {
+  Widget _buildFilterButton(
+    Responsive res,
+    ThemeData theme,
+    HireRequestStatus? selectedFilter,
+    BuildContext context,
+  ) {
     return PopupMenuButton<HireRequestStatus?>(
       icon: Icon(
         Icons.filter_list,
         size: res.wp(6),
-        color:
-            _selectedFilter != null
-                ? theme.colorScheme.primary
-                : theme.colorScheme.onSurface,
+        color: selectedFilter != null
+            ? theme.colorScheme.primary
+            : theme.colorScheme.onSurface,
       ),
       onSelected: (status) {
-        setState(() {
-          _selectedFilter = status;
-        });
+        context.read<HireRequestsBloc>().add(FilterRequests(status));
       },
-      itemBuilder:
-          (context) => [
-            PopupMenuItem<HireRequestStatus?>(
-              value: null,
-              child: Row(
-                children: [
-                  Icon(
-                    _selectedFilter == null ? Icons.check : null,
-                    size: 20,
-                    color: theme.colorScheme.primary,
-                  ),
-                  SizedBox(width: 8),
-                  Text('All Requests'),
-                ],
+      itemBuilder: (context) => [
+        PopupMenuItem<HireRequestStatus?>(
+          value: null,
+          child: Row(
+            children: [
+              Icon(
+                selectedFilter == null ? Icons.check : null,
+                size: 20,
+                color: theme.colorScheme.primary,
               ),
-            ),
-            ...HireRequestStatus.values
-                .map(
-                  (status) => PopupMenuItem(
-                    value: status,
-                    child: Row(
-                      children: [
-                        Icon(
-                          _selectedFilter == status ? Icons.check : null,
-                          size: 20,
-                          color: theme.colorScheme.primary,
-                        ),
-                        SizedBox(width: 8),
-                        Text(status.displayName),
-                      ],
+              const SizedBox(width: 8),
+              const Text('All Requests'),
+            ],
+          ),
+        ),
+        ...HireRequestStatus.values
+            .map(
+              (status) => PopupMenuItem(
+                value: status,
+                child: Row(
+                  children: [
+                    Icon(
+                      selectedFilter == status ? Icons.check : null,
+                      size: 20,
+                      color: theme.colorScheme.primary,
                     ),
-                  ),
-                )
-                .toList(),
-          ],
+                    const SizedBox(width: 8),
+                    Text(status.displayName),
+                  ],
+                ),
+              ),
+            )
+            .toList(),
+      ],
     );
   }
 
@@ -164,6 +233,8 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
     HireRequest request,
     Responsive res,
     ThemeData theme,
+    BuildContext context,
+    bool isProcessing,
   ) {
     final colorScheme = theme.colorScheme;
 
@@ -193,14 +264,12 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
               children: [
                 CircleAvatar(
                   radius: res.wp(5),
-                  backgroundImage:
-                      request.posterImage.isNotEmpty
-                          ? NetworkImage(request.posterImage)
-                          : null,
-                  child:
-                      request.posterImage.isEmpty
-                          ? Icon(Icons.person, size: res.wp(5))
-                          : null,
+                  backgroundImage: request.posterImage.isNotEmpty
+                      ? NetworkImage(request.posterImage)
+                      : null,
+                  child: request.posterImage.isEmpty
+                      ? Icon(Icons.person, size: res.wp(5))
+                      : null,
                 ),
                 SizedBox(width: res.wp(3)),
                 Expanded(
@@ -333,7 +402,6 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
                           if (request.workTime.isNotEmpty) ...[
                             SizedBox(width: res.wp(2)),
                             Flexible(
-                              // 👈 This prevents overflow
                               child: Container(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: res.wp(2),
@@ -349,9 +417,7 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
                                     fontSize: res.sp(12),
                                     color: colorScheme.onSecondaryContainer,
                                   ),
-                                  overflow:
-                                      TextOverflow
-                                          .ellipsis, // 👈 truncates long text
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
@@ -412,10 +478,9 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
                         ),
                         padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
                       ),
-                      onPressed:
-                          _isProcessing
-                              ? null
-                              : () => _showDeclineDialog(request),
+                      onPressed: isProcessing
+                          ? null
+                          : () => _showDeclineDialog(request, context),
                       child: Text(
                         'Decline',
                         style: TextStyle(
@@ -435,27 +500,29 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
                         ),
                         padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
                       ),
-                      onPressed:
-                          _isProcessing ? null : () => _acceptRequest(request),
-                      child:
-                          _isProcessing
-                              ? SizedBox(
-                                height: res.sp(16),
-                                width: res.sp(16),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                              : Text(
-                                'Accept',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                      onPressed: isProcessing
+                          ? null
+                          : () => context
+                              .read<HireRequestsBloc>()
+                              .add(AcceptRequest(request.id)),
+                      child: isProcessing
+                          ? SizedBox(
+                              height: res.sp(16),
+                              width: res.sp(16),
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
                                 ),
                               ),
+                            )
+                          : const Text(
+                              'Accept',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -472,7 +539,7 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
           SizedBox(height: res.hp(2)),
           Text(
             'Loading hire requests...',
@@ -483,7 +550,7 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
     );
   }
 
-  Widget _buildErrorView(Responsive res, ThemeData theme, String error) {
+  Widget _buildErrorView(Responsive res, ThemeData theme, String error, BuildContext context) {
     print(error);
     return Center(
       child: Padding(
@@ -514,10 +581,13 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
             SizedBox(height: res.hp(3)),
             ElevatedButton.icon(
               onPressed: () {
-                setState(() {});
+                final currentUser = FirebaseAuth.instance.currentUser;
+                if (currentUser != null) {
+                  context.read<HireRequestsBloc>().add(LoadHireRequests(currentUser.uid));
+                }
               },
-              icon: Icon(Icons.refresh),
-              label: Text('Retry'),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
             ),
           ],
         ),
@@ -525,11 +595,10 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
     );
   }
 
-  Widget _buildEmptyView(Responsive res, ThemeData theme) {
-    final filterText =
-        _selectedFilter == null
-            ? 'hire requests'
-            : '${_selectedFilter!.displayName.toLowerCase()} requests';
+  Widget _buildEmptyView(Responsive res, ThemeData theme, HireRequestStatus? selectedFilter, BuildContext context) {
+    final filterText = selectedFilter == null
+        ? 'hire requests'
+        : '${selectedFilter.displayName.toLowerCase()} requests';
 
     return Center(
       child: Padding(
@@ -557,15 +626,13 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
               ),
               textAlign: TextAlign.center,
             ),
-            if (_selectedFilter != null) ...[
+            if (selectedFilter != null) ...[
               SizedBox(height: res.hp(2)),
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    _selectedFilter = null;
-                  });
+                  context.read<HireRequestsBloc>().add(const FilterRequests(null));
                 },
-                child: Text('View All Requests'),
+                child: const Text('View All Requests'),
               ),
             ],
           ],
@@ -607,136 +674,55 @@ class _HireRequestsTabState extends State<HireRequestsTab> {
     );
   }
 
-  void _acceptRequest(HireRequest request) async {
-    setState(() {
-      _isProcessing = true;
-    });
-
-    try {
-      await _hireRequestRepository.acceptRequest(request.id);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.check_circle, color: Colors.white),
-                SizedBox(width: 8),
-                Expanded(child: Text('Request accepted successfully!')),
-              ],
-            ),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to accept request: ${error.toString()}'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isProcessing = false;
-        });
-      }
-    }
-  }
-
-  void _showDeclineDialog(HireRequest request) {
+  void _showDeclineDialog(HireRequest request, BuildContext context) {
     final messageController = TextEditingController();
 
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Decline Request'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Are you sure you want to decline this request from ${request.posterName}?',
-                ),
-                SizedBox(height: 16),
-                TextField(
-                  controller: messageController,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    hintText: 'Optional: Add a reason for declining',
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ],
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Decline Request'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Are you sure you want to decline this request from ${request.posterName}?',
             ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: messageController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                hintText: 'Optional: Add a reason for declining',
+                border: OutlineInputBorder(),
+                isDense: true,
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                onPressed: () {
-                  Navigator.pop(context);
-                  _declineRequest(request, messageController.text.trim());
-                },
-                child: Text('Decline', style: TextStyle(color: Colors.white)),
-              ),
-            ],
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
           ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              context.read<HireRequestsBloc>().add(
+                DeclineRequest(
+                  request.id,
+                  message: messageController.text.trim().isEmpty 
+                      ? null 
+                      : messageController.text.trim(),
+                ),
+              );
+            },
+            child: const Text('Decline', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
     );
-  }
-
-  void _declineRequest(HireRequest request, String message) async {
-    setState(() {
-      _isProcessing = true;
-    });
-
-    try {
-      await _hireRequestRepository.declineRequest(
-        request.id,
-        message: message.isEmpty ? null : message,
-      );
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(Icons.info, color: Colors.white),
-                SizedBox(width: 8),
-                Expanded(child: Text('Request declined')),
-              ],
-            ),
-            backgroundColor: Colors.orange,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to decline request: ${error.toString()}'),
-            backgroundColor: Theme.of(context).colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isProcessing = false;
-        });
-      }
-    }
   }
 
   String _formatDate(DateTime date) {

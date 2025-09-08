@@ -9,8 +9,9 @@ import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/in
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:quick_pitch_app/features/review/model/review_model.dart';
 import 'package:quick_pitch_app/features/review/service/review_service.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/viewmodel/cubit/review_visibility_cubit.dart';
 
-class FixerDetailRatingButton extends StatefulWidget {
+class FixerDetailRatingButton extends StatelessWidget {
   final Responsive res;
   final ColorScheme colorScheme;
   final UserProfileModel fixer;
@@ -23,318 +24,320 @@ class FixerDetailRatingButton extends StatefulWidget {
   });
 
   @override
-  State<FixerDetailRatingButton> createState() =>
-      _FixerDetailRatingButtonState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => ReviewVisibilityCubit(),
+      child: _FixerDetailRatingContent(
+        res: res,
+        colorScheme: colorScheme,
+        fixer: fixer,
+      ),
+    );
+  }
 }
-
-class _FixerDetailRatingButtonState extends State<FixerDetailRatingButton> {
+class _FixerDetailRatingContent extends StatelessWidget {
+  final Responsive res;
+  final ColorScheme colorScheme;
+  final UserProfileModel fixer;
   final ReviewService _reviewService = ReviewService();
   final UserProfileService _userProfileService = UserProfileService();
-  bool _showReviews = false;
-  Map<String, UserProfileModel> _reviewerProfiles = {};
 
-  Future<UserProfileModel?> _getReviewerProfile(String reviewerId) async {
-    if (_reviewerProfiles.containsKey(reviewerId)) {
-      return _reviewerProfiles[reviewerId];
-    }
-    try {
-      UserProfileModel? profile =
-          await _userProfileService.getProfile(reviewerId, 'poster');
-      if (profile == null) {
-        profile = await _userProfileService.getProfile(reviewerId, 'fixer');
-      }
-      if (profile != null) {
-        _reviewerProfiles[reviewerId] = profile;
-      }
-      return profile;
-    } catch (e) {
-      print('Error fetching reviewer profile: $e');
-      return null;
-    }
+  _FixerDetailRatingContent({
+    required this.res,
+    required this.colorScheme,
+    required this.fixer,
+  });
+
+  Future<UserProfileModel?> _getReviewerProfile(
+    String reviewerId,
+    Map<String, UserProfileModel> cache,
+  ) async {
+    if (cache.containsKey(reviewerId)) return cache[reviewerId];
+
+    UserProfileModel? profile =
+        await _userProfileService.getProfile(reviewerId, 'poster') ??
+            await _userProfileService.getProfile(reviewerId, 'fixer');
+
+    if (profile != null) cache[reviewerId] = profile;
+    return profile;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    final Map<String, UserProfileModel> reviewerProfiles = {};
+
+    return BlocBuilder<ReviewVisibilityCubit, bool>(
+      builder: (context, showReviews) {
+        return Column(
           children: [
-            // Rating chip (clickable to expand reviews)
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _showReviews = !_showReviews;
-                });
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: widget.res.wp(3),
-                  vertical: widget.res.hp(0.8),
-                ),
-                decoration: BoxDecoration(
-                  color: widget.colorScheme.primary.withValues(alpha: .1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.star_rounded,
-                        size: widget.res.sp(16), color: Colors.amber),
-                    SizedBox(width: widget.res.wp(1)),
-                    Text(
-                      widget.fixer.fixerData?.ratingStats?.averageRating
-                              .toStringAsFixed(1) ??
-                          '0.0',
-                      style: TextStyle(
-                        fontSize: widget.res.sp(14),
-                        fontWeight: FontWeight.w600,
-                      ),
+            Row(
+              children: [
+                // Rating chip
+                GestureDetector(
+                  onTap: () => context.read<ReviewVisibilityCubit>().toggle(),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: res.wp(3),
+                      vertical: res.hp(0.8),
                     ),
-                    SizedBox(width: widget.res.wp(1)),
-                    Text(
-                      '(${widget.fixer.fixerData?.ratingStats?.totalReviews.toString() ?? '0'})',
-                      style: TextStyle(
-                        fontSize: widget.res.sp(12),
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    SizedBox(width: widget.res.wp(1)),
-                    Icon(
-                      _showReviews
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      size: widget.res.sp(16),
-                      color: Colors.grey[600],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            Spacer(),
-
-            // Message button
-            TextButton.icon(
-              onPressed: () async {
-                final authService = AuthServices();
-                final currentUserId = authService.currentUser?.uid;
-                if (currentUserId == null) return;
-
-                final posterProfile = await ChatRepository()
-                    .fetchCurrentUserProfileByRole(currentUserId, role: 'poster');
-
-                if (posterProfile.uid == widget.fixer.uid) return;
-
-                final chatId = await ChatRepository().createOrGetChat(
-                  sender: posterProfile,
-                  receiver: widget.fixer,
-                );
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => BlocProvider(
-                      create: (context) => IndividualChatCubit(
-                        chatRepository: ChatRepository(),
-                        chatId: chatId,
-                        currentUserId: posterProfile.uid,
-                      )..loadMessages(),
-                      child: ChatScreen(
-                        chatId: chatId,
-                        currentUser: posterProfile,
-                        otherUser: widget.fixer,
-                      ),
-                    ),
-                  ),
-                );
-              },
-              icon: Icon(Icons.message_outlined),
-              label: Text('Message'),
-              style: TextButton.styleFrom(
-                backgroundColor: widget.colorScheme.surface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ],
-        ),
-
-        // Reviews Section
-        if (_showReviews)
-          Container(
-            margin: EdgeInsets.only(top: widget.res.hp(2)),
-            child: FutureBuilder<List<ReviewModel>>(
-              future: _reviewService.fetchUserReviews(
-                widget.fixer.uid,
-                limit: 4,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    height: widget.res.hp(10),
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (snapshot.hasError) {
-                  return Container(
-                    height: widget.res.hp(10),
                     decoration: BoxDecoration(
-                      color: widget.colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
+                      color: colorScheme.primary.withValues(alpha: .1),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Center(
-                      child: Text(
-                        'Error loading reviews',
-                        style: TextStyle(
-                          fontSize: widget.res.sp(14),
-                          color: Colors.red[600],
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.star_rounded,
+                            size: res.sp(16), color: Colors.amber),
+                        SizedBox(width: res.wp(1)),
+                        Text(
+                          fixer.fixerData?.ratingStats?.averageRating
+                                  .toStringAsFixed(1) ??
+                              '0.0',
+                          style: TextStyle(
+                            fontSize: res.sp(14),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }
-
-                if (snapshot.data == null || snapshot.data!.isEmpty) {
-                  return Container(
-                    height: widget.res.hp(10),
-                    decoration: BoxDecoration(
-                      color: widget.colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'No reviews yet',
-                        style: TextStyle(
-                          fontSize: widget.res.sp(14),
+                        SizedBox(width: res.wp(1)),
+                        Text(
+                          '(${fixer.fixerData?.ratingStats?.totalReviews.toString() ?? '0'})',
+                          style: TextStyle(
+                            fontSize: res.sp(12),
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(width: res.wp(1)),
+                        Icon(
+                          showReviews
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          size: res.sp(16),
                           color: Colors.grey[600],
                         ),
-                      ),
+                      ],
                     ),
-                  );
-                }
+                  ),
+                ),
 
-                final reviews = snapshot.data!;
-                return Container(
-                  height: widget.res.hp(14),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: reviews.length,
-                    itemBuilder: (context, index) {
-                      final review = reviews[index];
-                      return FutureBuilder<UserProfileModel?>(
-                        future: _getReviewerProfile(review.reviewerId),
-                        builder: (context, profileSnapshot) {
-                          final reviewerProfile = profileSnapshot.data;
-                          final reviewerName =
-                              reviewerProfile?.name ?? 'Unknown User';
-                          final reviewerImage =
-                              reviewerProfile?.profileImageUrl;
+                Spacer(),
 
-                          return Container(
-                            width: widget.res.wp(70),
-                            margin: EdgeInsets.only(right: widget.res.wp(3)),
-                            padding: EdgeInsets.all(widget.res.wp(3)),
-                            decoration: BoxDecoration(
-                              color: widget.colorScheme.surface,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: widget.colorScheme.outline
-                                    .withOpacity(0.2),
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: widget.res.wp(8),
-                                      height: widget.res.wp(8),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: reviewerImage != null &&
-                                                reviewerImage.isNotEmpty
-                                            ? DecorationImage(
-                                                image:
-                                                    NetworkImage(reviewerImage),
-                                                fit: BoxFit.cover,
-                                              )
-                                            : DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/images/avatar_photo_placeholder.jpg',
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
-                                      ),
-                                    ),
-                                    SizedBox(width: widget.res.wp(2)),
-                                    Expanded(
-                                      child: Text(
-                                        reviewerName,
-                                        style: TextStyle(
-                                          fontSize: widget.res.sp(12),
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey[800],
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          children: List.generate(5, (i) {
-                                            return Icon(
-                                              i < (review.rating ?? 0)
-                                                  ? Icons.star_rounded
-                                                  : Icons.star_border_rounded,
-                                              size: widget.res.sp(12),
-                                              color: Colors.amber,
-                                            );
-                                          }),
-                                        ),
-                                        SizedBox(height: widget.res.hp(0.5)),
-                                        Text(
-                                          review.createdAt != null
-                                              ? '${DateTime.now().difference(review.createdAt!).inDays}d ago'
-                                              : '',
-                                          style: TextStyle(
-                                            fontSize: widget.res.sp(10),
-                                            color: Colors.grey[600],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: widget.res.hp(1)),
-                                Expanded(
-                                  child: Text(
-                                    review.comment ?? 'No comment provided',
-                                    style: TextStyle(
-                                      fontSize: widget.res.sp(12),
-                                      color: Colors.grey[700],
-                                    ),
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
+                // Message button (unchanged)
+                TextButton.icon(
+                  onPressed: () async {
+                    final authService = AuthServices();
+                    final currentUserId = authService.currentUser?.uid;
+                    if (currentUserId == null) return;
+
+                    final posterProfile =
+                        await ChatRepository().fetchCurrentUserProfileByRole(
+                      currentUserId,
+                      role: 'poster',
+                    );
+
+                    if (posterProfile.uid == fixer.uid) return;
+
+                    final chatId = await ChatRepository().createOrGetChat(
+                      sender: posterProfile,
+                      receiver: fixer,
+                    );
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                          create: (context) => IndividualChatCubit(
+                            chatRepository: ChatRepository(),
+                            chatId: chatId,
+                            currentUserId: posterProfile.uid,
+                          )..loadMessages(),
+                          child: ChatScreen(
+                            chatId: chatId,
+                            currentUser: posterProfile,
+                            otherUser: fixer,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.message_outlined),
+                  label: Text('Message'),
+                  style: TextButton.styleFrom(
+                    backgroundColor: colorScheme.surface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Reviews section
+            if (showReviews)
+              Container(
+                margin: EdgeInsets.only(top: res.hp(2)),
+                child: FutureBuilder<List<ReviewModel>>(
+                  future: _reviewService.fetchUserReviews(
+                    fixer.uid,
+                    limit: 4,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SizedBox(
+                        height: res.hp(10),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    if (snapshot.hasError) {
+                      return _errorBox('Error loading reviews');
+                    }
+
+                    if (snapshot.data == null || snapshot.data!.isEmpty) {
+                      return _errorBox('No reviews yet');
+                    }
+
+                    final reviews = snapshot.data!;
+                    return SizedBox(
+                      height: res.hp(14),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: reviews.length,
+                        itemBuilder: (context, index) {
+                          final review = reviews[index];
+                          return FutureBuilder<UserProfileModel?>(
+                            future: _getReviewerProfile(
+                                review.reviewerId, reviewerProfiles),
+                            builder: (context, profileSnapshot) {
+                              final reviewerProfile = profileSnapshot.data;
+                              final reviewerName =
+                                  reviewerProfile?.name ?? 'Unknown User';
+                              final reviewerImage =
+                                  reviewerProfile?.profileImageUrl;
+
+                              return _reviewCard(
+                                  review, reviewerName, reviewerImage);
+                            },
                           );
                         },
-                      );
-                    },
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _errorBox(String text) {
+    return Container(
+      height: res.hp(10),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: res.sp(14),
+            color: Colors.grey[600],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _reviewCard(
+      ReviewModel review, String reviewerName, String? reviewerImage) {
+    return Container(
+      width: res.wp(70),
+      margin: EdgeInsets.only(right: res.wp(3)),
+      padding: EdgeInsets.all(res.wp(3)),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.outline.withOpacity(0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: res.wp(8),
+                height: res.wp(8),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: reviewerImage != null && reviewerImage.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage(reviewerImage),
+                          fit: BoxFit.cover,
+                        )
+                      : DecorationImage(
+                          image: AssetImage(
+                            'assets/images/avatar_photo_placeholder.jpg',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
+              SizedBox(width: res.wp(2)),
+              Expanded(
+                child: Text(
+                  reviewerName,
+                  style: TextStyle(
+                    fontSize: res.sp(12),
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[800],
                   ),
-                );
-              },
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: List.generate(5, (i) {
+                      return Icon(
+                        i < (review.rating ?? 0)
+                            ? Icons.star_rounded
+                            : Icons.star_border_rounded,
+                        size: res.sp(12),
+                        color: Colors.amber,
+                      );
+                    }),
+                  ),
+                  SizedBox(height: res.hp(0.5)),
+                  Text(
+                    review.createdAt != null
+                        ? '${DateTime.now().difference(review.createdAt!).inDays}d ago'
+                        : '',
+                    style: TextStyle(
+                      fontSize: res.sp(10),
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: res.hp(1)),
+          Expanded(
+            child: Text(
+              review.comment ?? 'No comment provided',
+              style: TextStyle(
+                fontSize: res.sp(12),
+                color: Colors.grey[700],
+              ),
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }

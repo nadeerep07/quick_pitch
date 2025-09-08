@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_update_services.dart';
+import 'package:quick_pitch_app/features/Fixie_ai/viewmodel/bloc/chat_bloc.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/button_visibility_state.dart';
@@ -45,7 +46,9 @@ import 'core/services/firebase/firebase_options.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+    await dotenv.load(fileName: ".env");
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -113,6 +116,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (context) => ChatListViewModel()),
         BlocProvider(create: (_)=> PosterExploreCubit(service: PosterExploreService(PosterExploreRepository()))),
+        BlocProvider(create: (_)=> ChatBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

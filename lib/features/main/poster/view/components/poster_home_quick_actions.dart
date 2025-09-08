@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/Fixie_ai/view/screen/fixie_ai_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_quick_action_button.dart';
+import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart' ;
+import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
 
 class PosterHomeQuickActions extends StatelessWidget {
   const PosterHomeQuickActions({
@@ -31,15 +34,22 @@ class PosterHomeQuickActions extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: PosterHomeQuickActionButton(res: res, title: 'Post Task', icon: Icons.add_task, color: const Color(0xFF3B82F6), onTap: () {}),
+                child: PosterHomeQuickActionButton(res: res, title: 'Fixie AI', icon: Icons.auto_awesome, color: const Color(0xFF3B82F6), onTap: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=> FixieAiScreen()));
+                }),
               ),
               SizedBox(width: res.wp(3)),
               Expanded(
-                child: PosterHomeQuickActionButton(res: res, title: 'Find Fixer', icon: Icons.search, color: const Color(0xFF10B981), onTap: () {}),
+                child: PosterHomeQuickActionButton(res: res, title: 'My Tasks', icon: Icons.add_task, color: const Color(0xFF10B981), onTap: () {
+                   Navigator.push(context,MaterialPageRoute(builder: (context)=>PosterTaskDetailListviewScreen()));
+                }),
               ),
               SizedBox(width: res.wp(3)),
               Expanded(
-                child: PosterHomeQuickActionButton(res: res, title: 'Messages', icon: Icons.chat_bubble_outline, color: const Color(0xFF8B5CF6), onTap: () {}),
+                child: PosterHomeQuickActionButton(res: res, title: 'Settings', icon: Icons.settings, color: const Color(0xFF8B5CF6), onTap: () {
+                  // Navigate to Messages Screen
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AppSettings()));
+                }),
               ),
             ],
           ),
