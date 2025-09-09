@@ -1,5 +1,3 @@
-// earnings_cubit.dart
-
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PaymentModel {
@@ -11,6 +9,7 @@ class PaymentModel {
   final DateTime paidAt;
   final String transactionId;
   final String status;
+  final String paymentType; // 'pitch' or 'hire_request'
 
   PaymentModel({
     required this.id,
@@ -21,6 +20,7 @@ class PaymentModel {
     required this.paidAt,
     required this.transactionId,
     required this.status,
+    this.paymentType = 'pitch', // default to pitch for backward compatibility
   });
 
   factory PaymentModel.fromPitch(PitchModel pitch) {
@@ -33,6 +33,10 @@ class PaymentModel {
       paidAt: pitch.paymentCompletedAt ?? DateTime.now(),
       transactionId: pitch.transactionId ?? '',
       status: pitch.paymentStatus ?? 'completed',
+      paymentType: 'pitch',
     );
   }
+
+  bool get isPitchPayment => paymentType == 'pitch';
+  bool get isHireRequestPayment => paymentType == 'hire_request';
 }

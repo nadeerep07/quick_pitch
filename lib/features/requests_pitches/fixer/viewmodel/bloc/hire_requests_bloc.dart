@@ -29,6 +29,7 @@ class HireRequestsBloc extends Bloc<HireRequestsEvent, HireRequestsState> {
     on<AcceptRequest>(_onAcceptRequest);
     on<DeclineRequest>(_onDeclineRequest);
     on<RefreshRequests>(_onRefreshRequests);
+    on<CompleteRequest>(_onCompleteRequest);
   }
 
 Future<void> _onLoadHireRequests(
@@ -223,7 +224,41 @@ Future<void> _onLoadHireRequests(
     return requests.where((request) => request.status == filter).toList();
   }
 
-  @override
+ 
+Future<void> _onCompleteRequest(
+  CompleteRequest event,
+  Emitter<HireRequestsState> emit,
+) async {
+  print('Processing complete request for ID: ${event.requestId}');
+  
+  // If not in loaded state, we need to load first or handle it differently
+  if (state is! HireRequestsLoaded) {
+    print('State is not loaded, processing completion anyway');
+    emit(HireRequestsLoading());
+  } else {
+    // Show processing state for loaded state
+    emit((state as HireRequestsLoaded).copyWith(isProcessing: true));
+  }
+
+  try {
+    print('Calling repository.completeRequest');
+    await _hireRequestRepository.completeRequest(event.requestId);
+    print('Repository call successful');
+
+    // Rest of the success handling...
+    emit(
+      RequestProcessingSuccess(
+        message: 'Request marked as completed successfully!',
+        allRequests: _allRequests,
+        filteredRequests: _getFilteredRequests(_allRequests, _currentFilter),
+        selectedFilter: _currentFilter,
+      ),
+    );
+  } catch (error) {
+    // Error handling...
+  }
+}
+   @override
   Future<void> close() {
     _requestsSubscription?.cancel();
     return super.close();

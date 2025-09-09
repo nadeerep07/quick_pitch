@@ -15,6 +15,7 @@ import 'package:quick_pitch_app/features/chat/viewmodel/chat/cubit/chat_list_vie
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_service.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_cubit.dart';
+import 'package:quick_pitch_app/features/fixer_work_selection/repository/hire_request_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
@@ -28,6 +29,7 @@ import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixe
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
+import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_bloc.dart';
 import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
@@ -117,6 +119,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ChatListViewModel()),
         BlocProvider(create: (_)=> PosterExploreCubit(service: PosterExploreService(PosterExploreRepository()))),
         BlocProvider(create: (_)=> ChatBloc()),
+          BlocProvider(
+      create: (context) => HireRequestsBloc(
+        hireRequestRepository: HireRequestRepository(),
+      ),
+    )
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

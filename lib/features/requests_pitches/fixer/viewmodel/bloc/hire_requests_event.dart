@@ -54,3 +54,13 @@ class RefreshRequests extends HireRequestsEvent {
   @override
   List<Object?> get props => [fixerUserId];
 }
+// Add this to your existing hire_requests_event.dart file
+
+class CompleteRequest extends HireRequestsEvent {
+  final String requestId;
+
+  const CompleteRequest(this.requestId);
+
+  @override
+  List<Object?> get props => [requestId];
+}

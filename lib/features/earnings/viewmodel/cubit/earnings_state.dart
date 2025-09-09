@@ -1,6 +1,5 @@
 part of 'earnings_cubit.dart';
 
-
 abstract class EarningsState extends Equatable {
   const EarningsState();
 
@@ -17,16 +16,27 @@ class EarningsLoaded extends EarningsState {
   final double thisMonthEarnings;
   final List<PaymentModel> paymentHistory;
   final List<MonthlyEarning> monthlyEarnings;
+  final double pitchEarnings;
+  final double hireRequestEarnings;
 
   const EarningsLoaded({
     required this.totalEarnings,
     required this.thisMonthEarnings,
     required this.paymentHistory,
     required this.monthlyEarnings,
+    required this.pitchEarnings,
+    required this.hireRequestEarnings,
   });
 
   @override
-  List<Object?> get props => [totalEarnings, thisMonthEarnings, paymentHistory, monthlyEarnings];
+  List<Object?> get props => [
+    totalEarnings, 
+    thisMonthEarnings, 
+    paymentHistory, 
+    monthlyEarnings,
+    pitchEarnings,
+    hireRequestEarnings,
+  ];
 }
 
 class EarningsError extends EarningsState {

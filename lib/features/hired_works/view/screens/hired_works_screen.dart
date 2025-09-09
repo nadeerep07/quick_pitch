@@ -193,24 +193,7 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
                     // Replace this section in your _buildHireRequestsList method:
 
                     // Add payment section for completed tasks that haven't been paid
-                    if (hireRequest.status == HireRequestStatus.completed &&
-                        userPhone.isNotEmpty &&
-                        userName.isNotEmpty &&
-                        (hireRequest.paymentStatus == null ||
-                            hireRequest.paymentStatus == 'requested' ||
-                            hireRequest.paymentStatus == 'declined'))
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: HirePaymentSection(
-                          hireRequest: hireRequest,
-                          userPhone: userPhone,
-                          userName: userName,
-                          onPaymentCompleted:
-                              () => _handlePaymentCompleted(hireRequest),
-                          onPaymentDeclined:
-                              () => _handlePaymentDeclined(hireRequest),
-                        ),
-                      ),
+                   
                   ],
                 ),
               );
@@ -845,7 +828,24 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
                             ),
                           ),
                         ],
-
+ if (hireRequest.status == HireRequestStatus.completed &&
+                        userPhone.isNotEmpty &&
+                        userName.isNotEmpty &&
+                        (hireRequest.paymentStatus == null ||
+                            hireRequest.paymentStatus == 'requested' ||
+                            hireRequest.paymentStatus == 'declined'))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: HirePaymentSection(
+                          hireRequest: hireRequest,
+                          userPhone: userPhone,
+                          userName: userName,
+                          onPaymentCompleted:
+                              () => _handlePaymentCompleted(hireRequest),
+                          onPaymentDeclined:
+                              () => _handlePaymentDeclined(hireRequest),
+                        ),
+                      ),
                         const SizedBox(height: 20),
                       ],
                     ),

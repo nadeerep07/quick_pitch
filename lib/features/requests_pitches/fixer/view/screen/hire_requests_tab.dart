@@ -6,6 +6,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/repository/hire_request_repository.dart';
+import 'package:quick_pitch_app/features/pitch_detail/fixer/view/screens/hire_request_detail_screen.dart';
 import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_bloc.dart';
 import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_event.dart';
 import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_state.dart';
@@ -238,297 +239,335 @@ class HireRequestsView extends StatelessWidget {
   ) {
     final colorScheme = theme.colorScheme;
 
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: res.wp(3),
-        vertical: res.wp(1.5),
-      ),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(res.wp(3)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: () {
+        // Navigate to detail screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: context.read<HireRequestsBloc>(),
+              child: HireRequestDetailScreen(request: request),
+            ),
           ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(res.wp(4)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with client info and status
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: res.wp(5),
-                  backgroundImage: request.posterImage.isNotEmpty
-                      ? NetworkImage(request.posterImage)
-                      : null,
-                  child: request.posterImage.isEmpty
-                      ? Icon(Icons.person, size: res.wp(5))
-                      : null,
-                ),
-                SizedBox(width: res.wp(3)),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        request.posterName,
-                        style: TextStyle(
-                          fontSize: res.sp(16),
-                          fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface,
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: res.wp(3),
+          vertical: res.wp(1.5),
+        ),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(res.wp(3)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(res.wp(4)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header with client info and status
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: res.wp(5),
+                    backgroundImage: request.posterImage.isNotEmpty
+                        ? NetworkImage(request.posterImage)
+                        : null,
+                    child: request.posterImage.isEmpty
+                        ? Icon(Icons.person, size: res.wp(5))
+                        : null,
+                  ),
+                  SizedBox(width: res.wp(3)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          request.posterName,
+                          style: TextStyle(
+                            fontSize: res.sp(16),
+                            fontWeight: FontWeight.w600,
+                            color: colorScheme.onSurface,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: res.wp(0.5)),
-                      Text(
-                        _formatDate(request.createdAt),
-                        style: TextStyle(
-                          fontSize: res.sp(12),
-                          color: colorScheme.onSurface.withOpacity(0.7),
+                        SizedBox(height: res.wp(0.5)),
+                        Text(
+                          _formatDate(request.createdAt),
+                          style: TextStyle(
+                            fontSize: res.sp(12),
+                            color: colorScheme.onSurface.withOpacity(0.7),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: res.wp(3),
-                    vertical: res.wp(1),
-                  ),
-                  decoration: BoxDecoration(
-                    color: StatusColorUtil.getStatusColor(
-                      request.status.displayName,
-                      theme,
-                    ).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    request.status.displayName,
-                    style: TextStyle(
-                      fontSize: res.sp(12),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: res.wp(3),
+                      vertical: res.wp(1),
+                    ),
+                    decoration: BoxDecoration(
                       color: StatusColorUtil.getStatusColor(
                         request.status.displayName,
                         theme,
+                      ).withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      request.status.displayName,
+                      style: TextStyle(
+                        fontSize: res.sp(12),
+                        color: StatusColorUtil.getStatusColor(
+                          request.status.displayName,
+                          theme,
+                        ),
+                        fontWeight: FontWeight.w500,
                       ),
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: res.wp(3)),
+                ],
+              ),
+              SizedBox(height: res.wp(3)),
 
-            // Work details
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Work image
-                if (request.workImages.isNotEmpty)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      request.workImages.first,
-                      width: res.wp(16),
-                      height: res.wp(16),
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: res.wp(16),
-                          height: res.wp(16),
-                          color: colorScheme.outline.withOpacity(0.1),
-                          child: Icon(
-                            Icons.image_not_supported_outlined,
-                            color: colorScheme.outline,
+              // Work details
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Work image
+                  if (request.workImages.isNotEmpty)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        request.workImages.first,
+                        width: res.wp(16),
+                        height: res.wp(16),
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: res.wp(16),
+                            height: res.wp(16),
+                            color: colorScheme.outline.withOpacity(0.1),
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: colorScheme.outline,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  SizedBox(width: res.wp(3)),
+
+                  // Work info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          request.workTitle,
+                          style: TextStyle(
+                            fontSize: res.sp(16),
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
                           ),
-                        );
-                      },
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (request.workDescription.isNotEmpty) ...[
+                          SizedBox(height: res.wp(1)),
+                          Text(
+                            request.workDescription,
+                            style: TextStyle(
+                              fontSize: res.sp(14),
+                              color: colorScheme.onSurface.withOpacity(0.7),
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        SizedBox(height: res.wp(2)),
+                        Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: res.wp(2),
+                                vertical: res.wp(0.5),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                '₹${request.workAmount.toStringAsFixed(0)}',
+                                style: TextStyle(
+                                  fontSize: res.sp(14),
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                            if (request.workTime.isNotEmpty) ...[
+                              SizedBox(width: res.wp(2)),
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: res.wp(2),
+                                    vertical: res.wp(0.5),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.secondaryContainer,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    request.workTime,
+                                    style: TextStyle(
+                                      fontSize: res.sp(12),
+                                      color: colorScheme.onSecondaryContainer,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                SizedBox(width: res.wp(3)),
+                ],
+              ),
 
-                // Work info
-                Expanded(
+              // Message if available (truncated)
+              if (request.message != null && request.message!.isNotEmpty) ...[
+                SizedBox(height: res.wp(3)),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(res.wp(3)),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceVariant.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request.workTitle,
+                        'Message:',
                         style: TextStyle(
-                          fontSize: res.sp(16),
-                          fontWeight: FontWeight.bold,
+                          fontSize: res.sp(12),
+                          fontWeight: FontWeight.w500,
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
+                      SizedBox(height: res.wp(1)),
+                      Text(
+                        request.message!,
+                        style: TextStyle(
+                          fontSize: res.sp(14),
                           color: colorScheme.onSurface,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      if (request.workDescription.isNotEmpty) ...[
-                        SizedBox(height: res.wp(1)),
-                        Text(
-                          request.workDescription,
-                          style: TextStyle(
-                            fontSize: res.sp(14),
-                            color: colorScheme.onSurface.withOpacity(0.7),
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                      SizedBox(height: res.wp(2)),
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: res.wp(2),
-                              vertical: res.wp(0.5),
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              '${request.workAmount.toStringAsFixed(0)}',
-                              style: TextStyle(
-                                fontSize: res.sp(14),
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                          ),
-                          if (request.workTime.isNotEmpty) ...[
-                            SizedBox(width: res.wp(2)),
-                            Flexible(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: res.wp(2),
-                                  vertical: res.wp(0.5),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: colorScheme.secondaryContainer,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  request.workTime,
-                                  style: TextStyle(
-                                    fontSize: res.sp(12),
-                                    color: colorScheme.onSecondaryContainer,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
                     ],
                   ),
                 ),
               ],
-            ),
 
-            // Message if available
-            if (request.message != null && request.message!.isNotEmpty) ...[
-              SizedBox(height: res.wp(3)),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(res.wp(3)),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceVariant.withOpacity(0.5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              // Quick action buttons for pending requests only
+              if (request.status.canRespond) ...[
+                SizedBox(height: res.wp(3)),
+                Row(
                   children: [
-                    Text(
-                      'Message:',
-                      style: TextStyle(
-                        fontSize: res.sp(12),
-                        fontWeight: FontWeight.w500,
-                        color: colorScheme.onSurface.withOpacity(0.7),
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: colorScheme.outline),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
+                        ),
+                        onPressed: isProcessing
+                            ? null
+                            : () => _showDeclineDialog(request, context),
+                        child: Text(
+                          'Decline',
+                          style: TextStyle(
+                            color: colorScheme.onSurface.withOpacity(0.8),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(height: res.wp(1)),
-                    Text(
-                      request.message!,
-                      style: TextStyle(
-                        fontSize: res.sp(14),
-                        color: colorScheme.onSurface,
+                    SizedBox(width: res.wp(3)),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
+                        ),
+                        onPressed: isProcessing
+                            ? null
+                            : () => context
+                                .read<HireRequestsBloc>()
+                                .add(AcceptRequest(request.id)),
+                        child: isProcessing
+                            ? SizedBox(
+                                height: res.sp(16),
+                                width: res.sp(16),
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Accept',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
 
-            // Action buttons for pending requests
-            if (request.status.canRespond) ...[
-              SizedBox(height: res.wp(3)),
+              // Tap to view more hint
+              SizedBox(height: res.wp(2)),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: colorScheme.outline),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
-                      ),
-                      onPressed: isProcessing
-                          ? null
-                          : () => _showDeclineDialog(request, context),
-                      child: Text(
-                        'Decline',
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withOpacity(0.8),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                  Icon(
+                    Icons.touch_app,
+                    size: res.sp(14),
+                    color: colorScheme.onSurface.withOpacity(0.5),
                   ),
-                  SizedBox(width: res.wp(3)),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: res.wp(2.5)),
-                      ),
-                      onPressed: isProcessing
-                          ? null
-                          : () => context
-                              .read<HireRequestsBloc>()
-                              .add(AcceptRequest(request.id)),
-                      child: isProcessing
-                          ? SizedBox(
-                              height: res.sp(16),
-                              width: res.sp(16),
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                          : const Text(
-                              'Accept',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                  SizedBox(width: res.wp(1)),
+                  Text(
+                    'Tap for details',
+                    style: TextStyle(
+                      fontSize: res.sp(12),
+                      color: colorScheme.onSurface.withOpacity(0.5),
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
                 ],
               ),
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -551,7 +590,6 @@ class HireRequestsView extends StatelessWidget {
   }
 
   Widget _buildErrorView(Responsive res, ThemeData theme, String error, BuildContext context) {
-    print(error);
     return Center(
       child: Padding(
         padding: EdgeInsets.all(res.wp(8)),

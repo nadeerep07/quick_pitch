@@ -19,7 +19,64 @@ class EarningsCubit extends Cubit<EarningsState> {
     try {
       emit(EarningsLoading());
 
-      // Query all completed pitches for the fixer
+      print('Loading earnings for fixerId: $fixerId');
+
+      // Load both pitch and hire request earnings in parallel
+      final results = await Future.wait([
+        _loadPitchEarnings(),
+        _loadHireRequestEarnings(),
+      ]);
+
+      final List<PaymentModel> pitchPayments = results[0] as List<PaymentModel>;
+      final List<PaymentModel> hirePayments = results[1] as List<PaymentModel>;
+
+      print('Pitch payments: ${pitchPayments.length}');
+      print('Hire payments: ${hirePayments.length}');
+
+      // Combine all payments
+      final List<PaymentModel> allPayments = [
+        ...pitchPayments,
+        ...hirePayments,
+      ]..sort((a, b) => b.paidAt.compareTo(a.paidAt)); // Sort by date descending
+
+      // Calculate total earnings
+      final double totalEarnings = allPayments.fold(
+        0.0,
+        (sum, payment) => sum + payment.amount,
+      );
+
+      // Calculate this month's earnings
+      final DateTime now = DateTime.now();
+      final DateTime startOfMonth = DateTime(now.year, now.month, 1);
+      final double thisMonthEarnings = allPayments
+          .where((payment) => payment.paidAt.isAfter(startOfMonth))
+          .fold(0.0, (sum, payment) => sum + payment.amount);
+
+      // Calculate monthly earnings for chart (last 6 months)
+      final List<MonthlyEarning> monthlyEarnings = _calculateMonthlyEarnings(allPayments);
+
+      // Calculate earnings breakdown
+      final double pitchEarnings = pitchPayments.fold(0.0, (sum, payment) => sum + payment.amount);
+      final double hireEarnings = hirePayments.fold(0.0, (sum, payment) => sum + payment.amount);
+
+      print('Total earnings: $totalEarnings (Pitch: $pitchEarnings, Hire: $hireEarnings)');
+
+      emit(EarningsLoaded(
+        totalEarnings: totalEarnings,
+        thisMonthEarnings: thisMonthEarnings,
+        paymentHistory: allPayments,
+        monthlyEarnings: monthlyEarnings,
+        pitchEarnings: pitchEarnings,
+        hireRequestEarnings: hireEarnings,
+      ));
+    } catch (e) {
+      print('Error in loadEarnings: $e');
+      emit(EarningsError('Failed to load earnings: ${e.toString()}'));
+    }
+  }
+
+  Future<List<PaymentModel>> _loadPitchEarnings() async {
+    try {
       final QuerySnapshot querySnapshot = await _firestore
           .collectionGroup('pitches')
           .where('fixerId', isEqualTo: fixerId)
@@ -34,35 +91,72 @@ class EarningsCubit extends Cubit<EarningsState> {
               ))
           .toList();
 
-      // Convert to payment models
-      final List<PaymentModel> payments = completedPitches
+      return completedPitches
           .map((pitch) => PaymentModel.fromPitch(pitch))
           .toList();
-
-      // Calculate total earnings
-      final double totalEarnings = payments.fold(
-        0.0,
-        (sum, payment) => sum + payment.amount,
-      );
-
-      // Calculate this month's earnings
-      final DateTime now = DateTime.now();
-      final DateTime startOfMonth = DateTime(now.year, now.month, 1);
-      final double thisMonthEarnings = payments
-          .where((payment) => payment.paidAt.isAfter(startOfMonth))
-          .fold(0.0, (sum, payment) => sum + payment.amount);
-
-      // Calculate monthly earnings for chart (last 6 months)
-      final List<MonthlyEarning> monthlyEarnings = _calculateMonthlyEarnings(payments);
-
-      emit(EarningsLoaded(
-        totalEarnings: totalEarnings,
-        thisMonthEarnings: thisMonthEarnings,
-        paymentHistory: payments,
-        monthlyEarnings: monthlyEarnings,
-      ));
     } catch (e) {
-      emit(EarningsError('Failed to load earnings: ${e.toString()}'));
+      return [];
+    }
+  }
+
+  Future<List<PaymentModel>> _loadHireRequestEarnings() async {
+    try {
+      final QuerySnapshot querySnapshot = await _firestore
+          .collection('hire_requests')
+          .where('fixerId', isEqualTo: fixerId)
+          .where('paymentStatus', isEqualTo: 'completed')
+          .orderBy('paymentCompletedAt', descending: true)
+          .get();
+print('Hire requests fetched: ${querySnapshot.docs.length}');
+      final List<PaymentModel> hirePayments = [];
+
+      for (final doc in querySnapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+          print('Hire request data: $data');  // 👈 log raw data
+        // Try to get poster details from the hire request or associated task
+        String posterName = 'Unknown Client';
+        String? posterImage;
+        
+        if (data['posterName'] != null) {
+          posterName = data['posterName'];
+          posterImage = data['posterImage'];
+        } else if (data['clientId'] != null) {
+          // Fetch client details if needed
+          try {
+            final clientDoc = await _firestore
+                .collection('users')
+                .doc(data['clientId'])
+                .get();
+            
+            if (clientDoc.exists) {
+              final clientData = clientDoc.data() as Map<String, dynamic>;
+              posterName = clientData['name'] ?? clientData['displayName'] ?? 'Unknown Client';
+              posterImage = clientData['profileImage'] ?? clientData['photoURL'];
+            }
+          } catch (e) {
+            // Continue with default values if client fetch fails
+              print('Error fetching hire request earnings: $e');
+          }
+        }
+
+        final payment = PaymentModel(
+          id: doc.id,
+          taskId: data['fixerWorkId'] ?? data['taskId'] ?? doc.id,
+          posterName: posterName,
+          posterImage: posterImage,
+          amount: (data['paidAmount'] ?? 0.0).toDouble(),
+          paidAt: (data['paymentCompletedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          transactionId: data['transactionId'] ?? '',
+          status: data['paymentStatus'] ?? 'completed',
+          paymentType: 'hire_request', // Add this field to distinguish payment types
+        );
+
+        hirePayments.add(payment);
+      }
+
+      return hirePayments;
+    } catch (e) {
+      return [];
     }
   }
 
@@ -108,10 +202,9 @@ class EarningsCubit extends Cubit<EarningsState> {
     ];
     return months[month];
   }
-  @override
-Future<void> close() {
-  // cancel any subscriptions, timers, or requests here
-  return super.close();
-}
 
+  @override
+  Future<void> close() {
+    return super.close();
+  }
 }
