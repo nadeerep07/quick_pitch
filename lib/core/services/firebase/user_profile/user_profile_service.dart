@@ -32,6 +32,14 @@ class UserProfileService {
   }
 }
 
+Future<DocumentSnapshot> getProfileDocument(String userId, String role) {
+  return FirebaseFirestore.instance
+        .collection('users')
+            .doc(userId)
+            .collection('roles')
+            .doc(role)
+            .get();
+}
 
   /// Get role-specific profile
   Future<UserProfileModel?> getProfile(String uid, String role) async {

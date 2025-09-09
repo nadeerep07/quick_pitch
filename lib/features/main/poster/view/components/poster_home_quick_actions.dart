@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/Fixie_ai/view/screen/fixie_ai_screen.dart';
-import 'package:quick_pitch_app/features/main/poster/view/components/poster_home_quick_action_button.dart';
+import 'package:quick_pitch_app/features/hired_works/view/screens/hired_works_screen.dart';
+import 'package:quick_pitch_app/features/main/poster/view/widegts/poster_home_quick_action_button.dart';
 import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart' ;
 import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
 
@@ -40,8 +41,8 @@ class PosterHomeQuickActions extends StatelessWidget {
               ),
               SizedBox(width: res.wp(3)),
               Expanded(
-                child: PosterHomeQuickActionButton(res: res, title: 'My Tasks', icon: Icons.add_task, color: const Color(0xFF10B981), onTap: () {
-                   Navigator.push(context,MaterialPageRoute(builder: (context)=>PosterTaskDetailListviewScreen()));
+                child: PosterHomeQuickActionButton(res: res, title: 'Hired Tasks', icon: Icons.task, color: const Color(0xFF10B981), onTap: () {
+                   Navigator.push(context,MaterialPageRoute(builder: (context)=>HiredWorksScreen()));
                 }),
               ),
               SizedBox(width: res.wp(3)),
