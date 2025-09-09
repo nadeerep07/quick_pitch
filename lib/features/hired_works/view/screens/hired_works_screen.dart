@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
-import 'package:quick_pitch_app/features/hired_works/view/components/hire_paymentSection.dart';
+import 'package:quick_pitch_app/features/hired_works/view/components/hire_payment_section.dart';
 import 'package:quick_pitch_app/features/payment/service/hire_payment_services.dart';
 
 class HiredWorksScreen extends StatefulWidget {
