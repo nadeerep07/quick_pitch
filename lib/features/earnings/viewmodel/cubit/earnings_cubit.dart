@@ -108,4 +108,10 @@ class EarningsCubit extends Cubit<EarningsState> {
     ];
     return months[month];
   }
+  @override
+Future<void> close() {
+  // cancel any subscriptions, timers, or requests here
+  return super.close();
+}
+
 }

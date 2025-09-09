@@ -16,6 +16,17 @@ class HireRequest {
   final DateTime createdAt;
   final DateTime? respondedAt;
   final String? message;
+  
+  // Payment related fields
+  final String? paymentStatus;
+  final double? requestedPaymentAmount;
+  final String? paymentRequestNotes;
+  final DateTime? paymentRequestedAt;
+  final DateTime? paymentCompletedAt;
+  final DateTime? paymentDeclinedAt;
+  final String? paymentDeclineReason;
+  final double? paidAmount;
+  final String? transactionId;
 
   const HireRequest({
     required this.id,
@@ -33,6 +44,15 @@ class HireRequest {
     required this.createdAt,
     this.respondedAt,
     this.message,
+    this.paymentStatus,
+    this.requestedPaymentAmount,
+    this.paymentRequestNotes,
+    this.paymentRequestedAt,
+    this.paymentCompletedAt,
+    this.paymentDeclinedAt,
+    this.paymentDeclineReason,
+    this.paidAmount,
+    this.transactionId,
   });
 
   factory HireRequest.fromFirestore(DocumentSnapshot doc) {
@@ -58,6 +78,21 @@ class HireRequest {
           ? (data['respondedAt'] as Timestamp).toDate()
           : null,
       message: data['message'],
+      paymentStatus: data['paymentStatus'],
+      requestedPaymentAmount: data['requestedPaymentAmount']?.toDouble(),
+      paymentRequestNotes: data['paymentRequestNotes'],
+      paymentRequestedAt: data['paymentRequestedAt'] != null
+          ? (data['paymentRequestedAt'] as Timestamp).toDate()
+          : null,
+      paymentCompletedAt: data['paymentCompletedAt'] != null
+          ? (data['paymentCompletedAt'] as Timestamp).toDate()
+          : null,
+      paymentDeclinedAt: data['paymentDeclinedAt'] != null
+          ? (data['paymentDeclinedAt'] as Timestamp).toDate()
+          : null,
+      paymentDeclineReason: data['paymentDeclineReason'],
+      paidAmount: data['paidAmount']?.toDouble(),
+      transactionId: data['transactionId'],
     );
   }
 
@@ -77,6 +112,18 @@ class HireRequest {
       'createdAt': Timestamp.fromDate(createdAt),
       'respondedAt': respondedAt != null ? Timestamp.fromDate(respondedAt!) : null,
       'message': message,
+      'paymentStatus': paymentStatus,
+      'requestedPaymentAmount': requestedPaymentAmount,
+      'paymentRequestNotes': paymentRequestNotes,
+      'paymentRequestedAt': paymentRequestedAt != null 
+          ? Timestamp.fromDate(paymentRequestedAt!) : null,
+      'paymentCompletedAt': paymentCompletedAt != null 
+          ? Timestamp.fromDate(paymentCompletedAt!) : null,
+      'paymentDeclinedAt': paymentDeclinedAt != null 
+          ? Timestamp.fromDate(paymentDeclinedAt!) : null,
+      'paymentDeclineReason': paymentDeclineReason,
+      'paidAmount': paidAmount,
+      'transactionId': transactionId,
     };
   }
 
@@ -96,6 +143,15 @@ class HireRequest {
     DateTime? createdAt,
     DateTime? respondedAt,
     String? message,
+    String? paymentStatus,
+    double? requestedPaymentAmount,
+    String? paymentRequestNotes,
+    DateTime? paymentRequestedAt,
+    DateTime? paymentCompletedAt,
+    DateTime? paymentDeclinedAt,
+    String? paymentDeclineReason,
+    double? paidAmount,
+    String? transactionId,
   }) {
     return HireRequest(
       id: id ?? this.id,
@@ -113,8 +169,25 @@ class HireRequest {
       createdAt: createdAt ?? this.createdAt,
       respondedAt: respondedAt ?? this.respondedAt,
       message: message ?? this.message,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      requestedPaymentAmount: requestedPaymentAmount ?? this.requestedPaymentAmount,
+      paymentRequestNotes: paymentRequestNotes ?? this.paymentRequestNotes,
+      paymentRequestedAt: paymentRequestedAt ?? this.paymentRequestedAt,
+      paymentCompletedAt: paymentCompletedAt ?? this.paymentCompletedAt,
+      paymentDeclinedAt: paymentDeclinedAt ?? this.paymentDeclinedAt,
+      paymentDeclineReason: paymentDeclineReason ?? this.paymentDeclineReason,
+      paidAmount: paidAmount ?? this.paidAmount,
+      transactionId: transactionId ?? this.transactionId,
     );
   }
+
+  // Convenience getters for payment status
+  bool get hasPaymentRequest => paymentStatus == 'requested';
+  bool get isPaymentCompleted => paymentStatus == 'completed';
+  bool get isPaymentDeclined => paymentStatus == 'declined';
+  bool get canRequestPayment => status == HireRequestStatus.completed && paymentStatus == null;
+  
+  double get effectivePaymentAmount => requestedPaymentAmount ?? workAmount;
 }
 
 enum HireRequestStatus {

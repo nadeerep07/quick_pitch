@@ -87,6 +87,7 @@ class _Body extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => PaymentConfirmationDialog(
+        paymentType: PaymentType.pitch,
         pitch: pitch,
         isFromRequest: isFromRequest,
         onPaymentSuccess: (paymentId, amount) =>
@@ -103,6 +104,7 @@ class _Body extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => PaymentDeclineDialog(
+        type: DeclineDialogType.pitch,
         pitch: pitch,
         onDeclinePayment: (reason) =>
             _declinePaymentRequest(context, pitch, reason),

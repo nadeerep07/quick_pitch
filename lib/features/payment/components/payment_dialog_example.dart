@@ -17,6 +17,7 @@ class PaymentDialogExample extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (context) => PaymentConfirmationDialog(
+        paymentType: PaymentType.pitch,
         pitch: pitch,
         razorpayKeyId: RazorpayConfig.keyId,
      //   userEmail: 'user@example.com', // Get from your user model
@@ -42,6 +43,7 @@ class PaymentDialogExample extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => PaymentDeclineDialog(
+        type: DeclineDialogType.pitch,
         pitch: pitch,
         onDeclinePayment: (reason) {
           // Handle payment decline
