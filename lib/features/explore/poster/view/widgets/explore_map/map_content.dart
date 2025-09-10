@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/explore_map/map_controler.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/poster_explore_map/cubit/poster_explore_map_cubit.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/poster_explore_map/cubit/poster_explore_map_state.dart';
-
 
 class MapContent extends StatelessWidget {
   final PosterExploreMapLoaded state;
@@ -31,6 +32,20 @@ class MapContent extends StatelessWidget {
           buildingsEnabled: true,
           compassEnabled: true,
           mapType: MapType.normal,
+
+          // Add these gesture configurations:
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<PanGestureRecognizer>(() => PanGestureRecognizer()),
+            Factory<ScaleGestureRecognizer>(() => ScaleGestureRecognizer()),
+            Factory<TapGestureRecognizer>(() => TapGestureRecognizer()),
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          },
+          zoomGesturesEnabled: true,
+          scrollGesturesEnabled: true, // This is crucial for sliding/panning
+          rotateGesturesEnabled: true,
+          tiltGesturesEnabled: true,
         ),
         Positioned(
           top: MediaQuery.of(context).padding.top + 16,

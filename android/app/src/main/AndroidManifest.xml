@@ -4,9 +4,11 @@
 <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="quick_pitch_app"
+        android:label="QuickPitch"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,14 +32,14 @@
             </intent-filter>
         </activity>
         
-        <!-- Razorpay Configuration -->
-        <activity
-            android:name="com.razorpay.RzpTokenReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="rzp.device_token.share" />
-            </intent-filter>
-        </activity>
+ <!-- Razorpay Configuration -->
+<receiver
+    android:name="com.razorpay.RzpTokenReceiver"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="rzp.device_token.share" />
+    </intent-filter>
+</receiver>
         
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

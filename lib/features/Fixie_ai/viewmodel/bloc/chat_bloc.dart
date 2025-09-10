@@ -35,9 +35,10 @@ Keep responses concise but comprehensive, and always aim to add value to the use
     on<SendQuickAction>(_onSendQuickAction);
   }
 
+
   void _initializeModel() {
     model = GenerativeModel(
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       apiKey: apiKey,
       systemInstruction: Content.text(systemPrompt),
       generationConfig: GenerationConfig(

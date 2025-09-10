@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_pitch_app/features/about_app/view/screen/about_app_screen.dart';
 import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart';
 import 'package:quick_pitch_app/features/user_profile/poster/view/screen/poster_profile_screen.dart';
 
@@ -22,10 +23,10 @@ class DrawerMenu extends StatelessWidget {
     );
   }),
         _buildMenuItem(context, Icons.help_outline, 'Help Center', () {}),
-        _buildMenuItem(context, Icons.info_outline, 'About App', () {}),
+        _buildMenuItem(context, Icons.info_outline, 'About App', () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppScreen(),));
+        }),
         const Divider(height: 20, thickness: 1, indent: 20, endIndent: 20),
-        // _buildMenuItem(context, Icons.sync_alt, 'Switch Role', onSwitchTap, true),
-        // _buildMenuItem(context, Icons.logout, 'Sign Out', onLogout, true),
       ],
     );
   }

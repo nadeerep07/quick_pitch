@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.da
 import 'package:quick_pitch_app/core/services/firebase/skill/skills_service.dart';
 import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/core/services/geopify/geoapify_services.dart';
-import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/poster_task/repository/task_post_repository.dart';

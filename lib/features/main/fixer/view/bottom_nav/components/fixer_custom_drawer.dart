@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_pitch_app/features/about_app/view/screen/about_app_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_drawer_build_header.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/components/fixer_drawer_footer.dart';
 import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart';
@@ -114,7 +115,9 @@ class FixerCustomDrawer extends StatelessWidget {
           context,
           icon: Icons.info_outline,
           title: 'About App',
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppScreen(),));
+          },
         ),
         const Divider(height: 20, thickness: 1, indent: 20, endIndent: 20),
         // _buildMenuItem(

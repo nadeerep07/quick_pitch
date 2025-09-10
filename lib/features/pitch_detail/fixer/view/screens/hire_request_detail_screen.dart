@@ -4,9 +4,9 @@ import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/utils/status_color_util.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
-import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_bloc.dart';
-import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_event.dart';
-import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_state.dart';
+import 'package:quick_pitch_app/features/pitch_requests/fixer/viewmodel/bloc/hire_requests_bloc.dart';
+import 'package:quick_pitch_app/features/pitch_requests/fixer/viewmodel/bloc/hire_requests_event.dart';
+import 'package:quick_pitch_app/features/pitch_requests/fixer/viewmodel/bloc/hire_requests_state.dart';
 
 class HireRequestDetailScreen extends StatelessWidget {
   final HireRequest request;

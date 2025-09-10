@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
 
 class VerificationViewModel {
   final ValueNotifier<int> seconds = ValueNotifier<int>(60);

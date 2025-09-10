@@ -7,6 +7,7 @@ import 'package:quick_pitch_app/features/explore/poster/view/widgets/explore_map
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/poster_explore_map/cubit/poster_explore_map_cubit.dart';
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/poster_explore_map/cubit/poster_explore_map_state.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
+import 'package:quick_pitch_app/features/user_details/fixer/view/screen/fixer_detail_screen.dart';
 
 
 class PosterExploreMapView extends StatelessWidget {
@@ -73,8 +74,7 @@ class PosterExploreMapView extends StatelessWidget {
         fixer: fixer,
         posterLocation: posterLocation,
         onViewProfile: () {
-          Navigator.pop(context);
-          // Navigate to profile screen
+         Navigator.push(context, MaterialPageRoute(builder: (context) => FixerDetailScreen(fixerData: fixer,)));
         },
       ),
     ).then((_) {

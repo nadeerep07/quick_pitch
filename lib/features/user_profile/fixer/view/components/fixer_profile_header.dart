@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/core/config/string_extension.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class FixerProfileHeader extends StatelessWidget {
@@ -30,7 +31,7 @@ class FixerProfileHeader extends StatelessWidget {
 
   Widget _buildName() {
     return Text(
-      profile.name,
+      profile.name.capitalize(),
       style: theme.textTheme.headlineSmall?.copyWith(
         fontWeight: FontWeight.bold,
         color: Colors.grey[800],
@@ -39,26 +40,33 @@ class FixerProfileHeader extends StatelessWidget {
   }
 
   Widget _buildRoleAndLocation() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.work_outline, size: 16, color: Colors.grey[600]),
-        const SizedBox(width: 4),
-        Text(
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Icon(Icons.work_outline, size: res.sp(14), color: Colors.grey[600]),
+      SizedBox(width: res.wp(1)),
+      Flexible(
+        child: Text(
           'Professional Fixer',
           style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
-        ),
-        const SizedBox(width: 12),
-        Icon(Icons.location_on_outlined, size: 16, color: Colors.grey[600]),
-        const SizedBox(width: 4),
-        Text(
-          profile.location,
           overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
         ),
-      ],
-    );
-  }
+      ),
+      SizedBox(width: res.wp(3)),
+      Icon(Icons.location_on_outlined, size: res.sp(14), color: Colors.grey[600]),
+      SizedBox(width: res.wp(1)),
+      Flexible(
+        child: Text(
+          profile.location,
+          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    ],
+  );
+}
+
 
   Widget _buildRating() {
     return Row(

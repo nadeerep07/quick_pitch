@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart';
-import 'package:quick_pitch_app/features/auth/view/components/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
 import 'package:quick_pitch_app/features/auth/view/components/signup_form.dart';
 import 'package:quick_pitch_app/features/auth/view/screens/email_verifcation.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';

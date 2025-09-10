@@ -169,11 +169,12 @@ class _FixieAiScreenState extends State<FixieAiScreen>
                           } else if (state is ChatError) {
                             return Center(
                               child: Text(
-                                'Error: ${state.error}',
-                                style: TextStyle(color: Colors.red.shade600),
+                                'Something went wrong. Please try again.',
+                                style: TextStyle(color: Colors.grey.shade600),
                               ),
                             );
                           }
+
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -256,7 +257,7 @@ class _FixieAiScreenState extends State<FixieAiScreen>
                           ],
                         ).createShader(bounds),
                     child: const Text(
-                      'QuickPitch AI',
+                      'Fixie AI',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -340,19 +341,9 @@ class _FixieAiScreenState extends State<FixieAiScreen>
               Colors.deepPurple.shade500,
             ),
             _buildModernActionChip(
-              'Improve my deck',
+              'Improve my Pitch',
               Icons.trending_up,
               Colors.deepPurple.shade600,
-            ),
-            _buildModernActionChip(
-              'Practice questions',
-              Icons.quiz,
-              Colors.deepPurple.shade700,
-            ),
-            _buildModernActionChip(
-              'Investor tips',
-              Icons.lightbulb,
-              Colors.deepPurple.shade400,
             ),
             _buildModernActionChip(
               'Market analysis',

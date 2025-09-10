@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/core/services/pitch/pitch_status_services.dart';
@@ -29,8 +30,8 @@ import 'package:quick_pitch_app/features/pitch_detail/fixer/viewmodel/cubit/fixe
 import 'package:quick_pitch_app/features/profile_completion/repository/user_profile_repository.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/complete_profile_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/viewmodel/cubit/profile_edit_cubit.dart';
-import 'package:quick_pitch_app/features/requests_pitches/fixer/viewmodel/bloc/hire_requests_bloc.dart';
-import 'package:quick_pitch_app/features/requests_pitches/poster/viewmodel/cubit/pitches_state.dart';
+import 'package:quick_pitch_app/features/pitch_requests/fixer/viewmodel/bloc/hire_requests_bloc.dart';
+import 'package:quick_pitch_app/features/pitch_requests/poster/viewmodel/cubit/pitches_state.dart';
 import 'package:quick_pitch_app/features/role_selection/viewmodel/cubit/role_selection_viewmodel_cubit.dart';
 import 'package:quick_pitch_app/features/splash/view/splash_screen.dart';
 import 'package:quick_pitch_app/core/config/app_theme.dart';
@@ -51,6 +52,8 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(fileName: ".env");
+      // ignore: deprecated_member_use
+      AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

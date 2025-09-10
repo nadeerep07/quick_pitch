@@ -66,6 +66,7 @@ dependencies:
   fl_chart: ^1.1.0
   google_generative_ai: ^0.4.7
   flutter_dotenv: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,12 @@ flutter:
      - assets/icons/
      - .env
 
+# ← Must be at this level, NOT under `flutter:    
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/quick_pitch_icon.jpeg"
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
@@ -121,3 +128,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
