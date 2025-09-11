@@ -1,4 +1,4 @@
-package com.example.quick_pitch_app
+package com.quickpitch
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -5,9 +5,6 @@ import 'package:quick_pitch_app/features/review/model/review_model.dart';
 import 'package:quick_pitch_app/features/review/service/review_service.dart';
 import 'package:quick_pitch_app/features/review/viewmodel/review_rating/cubit/review_rating_cubit.dart';
 
-/// ------------------------
-/// Widget
-/// ------------------------
 class ReviewRatingWidget extends StatelessWidget {
   final String revieweeId;
   final String revieweeName;

@@ -7,7 +7,7 @@ import 'package:quick_pitch_app/features/auth/view/screens/login_screen.dart';
 import 'package:quick_pitch_app/features/role_selection/view/select_role_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:quick_pitch_app/features/home/view/home_screen.dart';
-import 'package:quick_pitch_app/features/onboarding/view/onboarding_screen.dart';
+import 'package:quick_pitch_app/features/onboarding/view/screen/onboarding_screen.dart';
 
 class SplashViewmodel {
   void startTimer(BuildContext context) async {

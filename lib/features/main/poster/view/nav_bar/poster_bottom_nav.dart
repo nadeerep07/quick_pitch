@@ -32,12 +32,10 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
 
   @override
   Widget build(BuildContext context) {
-
-
     final List<Widget> screens = const [
       PosterHomeScreen(),
       PosterExploreScreen(),
-    ChatListScreen(),
+      ChatListScreen(),
       RequestsScreen(),
     ];
 
@@ -71,10 +69,10 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                       }
                     } else if (state is RoleSwitchError) {
                       // ScaffoldMessenger.of(context).showSnackBar(
-                        
+
                       //   SnackBar(content: Text("Error: ${state.message}")),
                       // );
-                  //    print("Role switch error: ${state.message}");
+                      //    print("Role switch error: ${state.message}");
                     }
                   },
                   child: Stack(
@@ -83,7 +81,9 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                         extendBody: true,
                         key: _scaffoldKey,
                         drawer: BlocProvider(
-                          create: (context) => PosterProfileCubit()..loadPosterProfile(),
+                          create:
+                              (context) =>
+                                  PosterProfileCubit()..loadPosterProfile(),
                           child: PosterCustomDrawer(
                             onLogout: () async {
                               await AuthServices().logout();
@@ -175,10 +175,27 @@ class _PosterBottomNavState extends State<PosterBottomNav> {
                         builder: (context, state) {
                           if (state is RoleSwitchLoading) {
                             return Container(
-                              color: Colors.black.withValues(alpha: 0.5),
+                              color: Colors.black.withOpacity(0.5),
                               alignment: Alignment.center,
-                              child: const CircularProgressIndicator(
-                                color: Colors.white,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(3, (index) {
+                                  return AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                    ),
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          index % 2 == 0
+                                              ? Colors.white
+                                              : Colors.grey,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  );
+                                }),
                               ),
                             );
                           }

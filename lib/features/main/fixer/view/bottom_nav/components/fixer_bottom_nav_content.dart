@@ -23,9 +23,9 @@ class FixerBottomNavContent extends StatelessWidget {
   const FixerBottomNavContent({super.key});
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-  final fixerId =  FirebaseAuth.instance.currentUser!.uid;
+    final fixerId = FirebaseAuth.instance.currentUser!.uid;
     final screens = [
       FixerHomeScreen(scaffoldKey: scaffoldKey),
       const FixerExploreScreen(),
@@ -37,23 +37,21 @@ class FixerBottomNavContent extends StatelessWidget {
     return BlocListener<RoleSwitchCubit, RoleSwitchState>(
       listener: (context, state) {
         //   print('[UI] RoleSwitchState changed: $state');
- if (state is RoleSwitchLoading) {
-      // Show loading dialog
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    } else {
-      // Always close loading dialog if open
-      Navigator.of(context, rootNavigator: true).pop();
-    }
+        if (state is RoleSwitchLoading) {
+          // Show loading dialog
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const Center(child: CircularProgressIndicator()),
+          );
+        } else {
+          // Always close loading dialog if open
+          Navigator.of(context, rootNavigator: true).pop();
+        }
         if (state is RoleSwitchSuccess) {
           context.read<DrawerStateCubit>().setDrawerState(false);
           //     print('[UI] About to navigate to posterBottomNav');
-        
+
           Navigator.of(context).pushNamedAndRemoveUntil(
             AppRoutes.posterBottomNav,
             (route) => false,
@@ -67,7 +65,7 @@ class FixerBottomNavContent extends StatelessWidget {
             arguments: 'poster',
           );
         } else if (state is RoleSwitchError) {
-     //     print('[UI] Role switch error: ${state.message}');
+          //     print('[UI] Role switch error: ${state.message}');
         }
       },
       child: BlocBuilder<PosterBottomNavCubit, int>(

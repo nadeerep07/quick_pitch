@@ -49,7 +49,7 @@ import 'core/services/firebase/firebase_options.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-
+print("✅ App started initializing");
   WidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(fileName: ".env");
       // ignore: deprecated_member_use
@@ -58,7 +58,9 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  print("✅ App started and device orientation set");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("✅ App started and Firebase initialized");
 
   runApp(MyApp());
 }

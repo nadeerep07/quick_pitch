@@ -2,15 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/payment/components/payment_decline_dialog.dart';
 import 'package:quick_pitch_app/features/payment/components/razorpay_config.dart';
 import 'package:quick_pitch_app/features/payment/view/payment_confirmation_dialog.dart';
+import 'package:quick_pitch_app/features/payment/widgets/payment_dialog/payment_error_dialog.dart';
+import 'package:quick_pitch_app/features/payment/widgets/payment_dialog/payment_success_dialog.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
 class PaymentDialogExample extends StatelessWidget {
   final PitchModel pitch;
 
-  const PaymentDialogExample({
-    super.key,
-    required this.pitch,
-  });
+  const PaymentDialogExample({super.key, required this.pitch});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Payment Example')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () => _showPaymentConfirmation(context),
+              child: const Text('Initiate Payment'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _showPaymentDecline(context),
+              child: const Text('Decline Payment'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showPaymentConfirmation(BuildContext context) {
     showDialog(
@@ -20,19 +42,13 @@ class PaymentDialogExample extends StatelessWidget {
         paymentType: PaymentType.pitch,
         pitch: pitch,
         razorpayKeyId: RazorpayConfig.keyId,
-     //   userEmail: 'user@example.com', // Get from your user model
-        userPhone: '+919876543210', // Get from your user model
-        userName: 'John Doe', // Get from your user model
-        isFromRequest: true, // or false based on your use case
+        userPhone: '+919876543210', // Replace with user model
+        userName: 'John Doe', // Replace with user model
+        isFromRequest: true,
         onPaymentSuccess: (paymentId, amount) {
-          // Handle successful payment
-          print('Payment successful: $paymentId, Amount: $amount');
-          // Update your backend, show success message, etc.
           _showPaymentSuccessDialog(context, paymentId, amount);
         },
         onPaymentError: (error) {
-          // Handle payment error
-          print('Payment error: $error');
           _showPaymentErrorDialog(context, error);
         },
       ),
@@ -46,39 +62,22 @@ class PaymentDialogExample extends StatelessWidget {
         type: DeclineDialogType.pitch,
         pitch: pitch,
         onDeclinePayment: (reason) {
-          // Handle payment decline
-          print('Payment declined: $reason');
-          // Update your backend, notify the fixer, etc.
+          debugPrint('Payment declined: $reason');
         },
       ),
     );
   }
 
-  void _showPaymentSuccessDialog(BuildContext context, String paymentId, double amount) {
+  void _showPaymentSuccessDialog(
+    BuildContext context,
+    String paymentId,
+    double amount,
+  ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check_circle, color: Colors.green, size: 60),
-            SizedBox(height: 16),
-            Text(
-              'Payment Successful!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text('Payment ID: $paymentId'),
-            Text('Amount: ₹${amount.toStringAsFixed(2)}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
-          ),
-        ],
+      builder: (context) => PaymentSuccessDialog(
+        paymentId: paymentId,
+        amount: amount,
       ),
     );
   }
@@ -86,57 +85,12 @@ class PaymentDialogExample extends StatelessWidget {
   void _showPaymentErrorDialog(BuildContext context, String error) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error, color: Colors.red, size: 60),
-            SizedBox(height: 16),
-            Text(
-              'Payment Failed',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(error),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _showPaymentConfirmation(context);
-            },
-            child: Text('Retry'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Payment Example')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => _showPaymentConfirmation(context),
-              child: Text('Initiate Payment'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _showPaymentDecline(context),
-              child: Text('Decline Payment'),
-            ),
-          ],
-        ),
+      builder: (context) => PaymentErrorDialog(
+        error: error,
+        onRetry: () {
+          Navigator.of(context).pop();
+          _showPaymentConfirmation(context);
+        },
       ),
     );
   }

@@ -1,4 +1,4 @@
-// 📂 viewmodel/pitch_form/cubit/pitch_form_state.dart
+
 import 'package:equatable/equatable.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'pitch_form_cubit.dart';

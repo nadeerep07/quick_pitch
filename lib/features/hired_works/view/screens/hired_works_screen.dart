@@ -4,6 +4,7 @@ import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/services/firebase/user_profile/user_profile_service.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
+
 import 'package:quick_pitch_app/features/hired_works/view/widgets/hired_listing/hire_request_list.dart';
 
 
@@ -46,7 +47,7 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
           });
         }
       } catch (e) {
-        print('Error loading user info: $e');
+     //   print('Error loading user info: $e');
       }
     }
   }
@@ -84,10 +85,10 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
       ),
       body: Stack(
         children: [
-              CustomPaint(
-                      size: Size(MediaQuery.of(context).size.width, 150),
-                      painter: MainBackgroundPainter(),
-                    ),
+          CustomPaint(
+            painter: MainBackgroundPainter(),
+           size: Size.infinite,
+          ),
           currentUserId == null
               ? const Center(
                   child: Text(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
-import 'package:quick_pitch_app/features/hired_works/view/components/hire_payment_section.dart';
 import 'package:quick_pitch_app/features/hired_works/view/widgets/hired_listing/fixer_details_card.dart';
 import 'package:quick_pitch_app/features/hired_works/view/widgets/hired_listing/hire_request_details.dart';
 import 'package:quick_pitch_app/features/hired_works/view/widgets/hired_listing/payment_status_chip.dart';
@@ -77,27 +76,6 @@ class HireRequestCard extends StatelessWidget {
               if (hireRequest.status != HireRequestStatus.pending)
                 FixerDetailsCard(fixerId: hireRequest.fixerId, hireStatus: hireRequest.status),
               const SizedBox(height: 8),
-              if (hireRequest.status == HireRequestStatus.completed &&
-                  userPhone.isNotEmpty &&
-                  userName.isNotEmpty &&
-                  (hireRequest.paymentStatus == null ||
-                      hireRequest.paymentStatus == 'requested' ||
-                      hireRequest.paymentStatus == 'declined'))
-                HirePaymentSection(
-                  hireRequest: hireRequest,
-                  userPhone: userPhone,
-                  userName: userName,
-                  onPaymentCompleted: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Payment completed!'), backgroundColor: Colors.green),
-                    );
-                  },
-                  onPaymentDeclined: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Payment declined'), backgroundColor: Colors.orange),
-                    );
-                  },
-                ),
             ],
           ),
         ),
@@ -119,7 +97,17 @@ class HireRequestCard extends StatelessWidget {
           controller: scrollController,
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: HireRequestDetails(hireRequest: hireRequest, userPhone: userPhone, userName: userName),
+            child: HireRequestDetails(hireRequest: hireRequest, 
+            onPaymentDeclined: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Payment declined'), backgroundColor: Colors.orange),
+              );
+            },
+            onPaymentCompleted: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Payment completed!'), backgroundColor: Colors.green),
+              );
+            },            userPhone: userPhone, userName: userName,),
           ),
         ),
       ),
