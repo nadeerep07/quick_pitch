@@ -225,7 +225,7 @@ class HireRequestsView extends StatelessWidget {
                 ),
               ),
             )
-            .toList(),
+            ,
       ],
     );
   }
@@ -451,7 +451,7 @@ class HireRequestsView extends StatelessWidget {
                   width: double.infinity,
                   padding: EdgeInsets.all(res.wp(3)),
                   decoration: BoxDecoration(
-                    color: colorScheme.surfaceVariant.withOpacity(0.5),
+                    color: colorScheme.surfaceContainerHighest.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(

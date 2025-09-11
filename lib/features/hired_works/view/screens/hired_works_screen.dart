@@ -298,7 +298,7 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
                     color: Colors.green.shade600,
                   ),
                   Text(
-                    '${hireRequest.workAmount.toStringAsFixed(0)}',
+                    hireRequest.workAmount.toStringAsFixed(0),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/review/model/review_model.dart';
 import 'package:quick_pitch_app/features/review/service/review_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quick_pitch_app/features/review/viewmodel/review_rating/cubit/review_rating_cubit.dart';
 
 /// ------------------------

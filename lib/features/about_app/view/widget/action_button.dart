@@ -6,7 +6,7 @@ class ActionButton extends StatelessWidget {
   final String text;
   final IconData icon;
   final VoidCallback onTap;
-  const ActionButton({
+  const ActionButton({super.key, 
     required this.res,
     required this.text,
     required this.icon,

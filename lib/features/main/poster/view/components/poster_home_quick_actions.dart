@@ -4,7 +4,6 @@ import 'package:quick_pitch_app/features/Fixie_ai/view/screen/fixie_ai_screen.da
 import 'package:quick_pitch_app/features/hired_works/view/screens/hired_works_screen.dart';
 import 'package:quick_pitch_app/features/main/poster/view/widegts/poster_home_quick_action_button.dart';
 import 'package:quick_pitch_app/features/settings/view/screen/settings_screen.dart' ;
-import 'package:quick_pitch_app/features/task_detail/poster/view/screen/poster_task_detail_listview_screen.dart';
 
 class PosterHomeQuickActions extends StatelessWidget {
   const PosterHomeQuickActions({

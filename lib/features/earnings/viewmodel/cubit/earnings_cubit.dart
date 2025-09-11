@@ -27,8 +27,8 @@ class EarningsCubit extends Cubit<EarningsState> {
         _loadHireRequestEarnings(),
       ]);
 
-      final List<PaymentModel> pitchPayments = results[0] as List<PaymentModel>;
-      final List<PaymentModel> hirePayments = results[1] as List<PaymentModel>;
+      final List<PaymentModel> pitchPayments = results[0];
+      final List<PaymentModel> hirePayments = results[1];
 
       print('Pitch payments: ${pitchPayments.length}');
       print('Hire payments: ${hirePayments.length}');
@@ -203,8 +203,4 @@ print('Hire requests fetched: ${querySnapshot.docs.length}');
     return months[month];
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }

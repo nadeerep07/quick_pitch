@@ -102,6 +102,8 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/quick_pitch_icon.jpeg"
+  adaptive_icon_background: "#FFFFFF"     
+  adaptive_icon_foreground: "assets/images/quick_pitch_icon.jpeg"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

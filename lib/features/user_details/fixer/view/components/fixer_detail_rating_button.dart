@@ -312,9 +312,7 @@ class _FixerDetailRatingContent extends StatelessWidget {
                   ),
                   SizedBox(height: res.hp(0.5)),
                   Text(
-                    review.createdAt != null
-                        ? '${DateTime.now().difference(review.createdAt!).inDays}d ago'
-                        : '',
+                    '${DateTime.now().difference(review.createdAt!).inDays}d ago',
                     style: TextStyle(
                       fontSize: res.sp(10),
                       color: Colors.grey[600],

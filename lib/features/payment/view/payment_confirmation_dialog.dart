@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/payment/viewmodel/cubit/payment_cubit.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_build_actions.dart';
-import 'package:quick_pitch_app/features/payment/widgets/payment_build_description.dart';
-import 'package:quick_pitch_app/features/payment/widgets/payment_build_details.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request_model.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_build_header.dart';
-import 'package:quick_pitch_app/features/payment/widgets/payment_build_title.dart';
 import 'package:quick_pitch_app/features/payment/widgets/payment_security_info.dart';
 
 enum PaymentType { pitch, hireRequest }
