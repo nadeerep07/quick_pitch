@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';
 

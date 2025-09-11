@@ -16,6 +16,7 @@ class PosterHomeQuickActions extends StatelessWidget {
   final BuildContext context;
 
   @override
+
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: res.wp(5)),

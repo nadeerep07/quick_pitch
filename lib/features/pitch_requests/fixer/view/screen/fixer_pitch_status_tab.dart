@@ -39,7 +39,7 @@ class _FixerPitchStatusTabState extends State<FixerPitchStatusTab> {
         }
 
         if (state.error != null && state.pitches.isEmpty) {
-          debugPrint("Error fetching pitches: ${state.error}");
+       //   debugPrint("Error fetching pitches: ${state.error}");
           return Center(
             child: Text(
               "Could not load pitches.\n${state.error}",

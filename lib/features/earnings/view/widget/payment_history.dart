@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/earnings/model/payment_model.dart';
-import 'payment_item.dart';
+import '../components/payment_item.dart';
 
 class PaymentHistory extends StatelessWidget {
   final List<PaymentModel> payments;

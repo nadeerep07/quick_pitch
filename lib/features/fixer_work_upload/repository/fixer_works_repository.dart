@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quick_pitch_app/core/services/cloudninary/cloudinary_services.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
 
 class FixerWorksRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
   final CloudinaryService _cloudinary = CloudinaryService();
   final ImagePicker _imagePicker = ImagePicker();
 

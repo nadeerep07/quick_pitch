@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
+import 'package:quick_pitch_app/features/about_app/view/components/policy_section.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -34,7 +35,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Section 1: Introduction
-              _PolicySection(
+              PolicySection(
                 res: res,
                 title: 'Introduction',
                 content:
@@ -43,7 +44,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               SizedBox(height: res.hp(3)),
 
               // Section 2: Information Collection
-              _PolicySection(
+              PolicySection(
                 res: res,
                 title: 'Information We Collect',
                 content:
@@ -52,7 +53,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               SizedBox(height: res.hp(3)),
 
               // Section 3: How We Use Information
-              _PolicySection(
+            PolicySection(
                 res: res,
                 title: 'How We Use Your Information',
                 content:
@@ -61,7 +62,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               SizedBox(height: res.hp(3)),
 
               // Section 4: Data Security
-              _PolicySection(
+              PolicySection(
                 res: res,
                 title: 'Data Security',
                 content:
@@ -70,7 +71,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               SizedBox(height: res.hp(3)),
 
               // Section 5: Changes to Privacy Policy
-              _PolicySection(
+              PolicySection(
                 res: res,
                 title: 'Changes to this Policy',
                 content:
@@ -80,60 +81,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-// -------------------- POLICY SECTION --------------------
-class _PolicySection extends StatelessWidget {
-  final Responsive res;
-  final String title;
-  final String content;
-
-  const _PolicySection({
-    required this.res,
-    required this.title,
-    required this.content,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(res.wp(4)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(res.wp(3)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: res.sp(16),
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF1F2937),
-            ),
-          ),
-          SizedBox(height: res.hp(1)),
-          Text(
-            content,
-            style: TextStyle(
-              fontSize: res.sp(14),
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF6B7280),
-              height: 1.6,
-            ),
-          ),
-        ],
       ),
     );
   }

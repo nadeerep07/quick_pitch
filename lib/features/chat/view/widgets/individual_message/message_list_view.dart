@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/utils/date_utils.dart';
-import 'package:quick_pitch_app/features/chat/view/components/message_bubble.dart';
-import 'package:quick_pitch_app/features/chat/view/components/date_label.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/message_bubble.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/date_label.dart';
 import 'package:quick_pitch_app/features/chat/model/message_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 

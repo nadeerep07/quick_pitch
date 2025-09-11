@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/core/common/date_formatter.dart';
+import 'package:quick_pitch_app/core/utils/date_formatter.dart';
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 
-/// --------------------
-///  Sub-widgets for Card
-/// --------------------
+
 class Header extends StatelessWidget {
   final PitchModel acceptedPitch;
   const Header({super.key, required this.acceptedPitch});

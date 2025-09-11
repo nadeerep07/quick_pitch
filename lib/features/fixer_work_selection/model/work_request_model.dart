@@ -16,7 +16,7 @@ class HireRequest {
   final DateTime createdAt;
   final DateTime? respondedAt;
   final String? message;
-  
+
   // Payment related fields
   final String? paymentStatus;
   final double? requestedPaymentAmount;
@@ -74,22 +74,26 @@ class HireRequest {
         orElse: () => HireRequestStatus.pending,
       ),
       createdAt: (data['createdAt'] as Timestamp).toDate(),
-      respondedAt: data['respondedAt'] != null
-          ? (data['respondedAt'] as Timestamp).toDate()
-          : null,
+      respondedAt:
+          data['respondedAt'] != null
+              ? (data['respondedAt'] as Timestamp).toDate()
+              : null,
       message: data['message'],
       paymentStatus: data['paymentStatus'],
       requestedPaymentAmount: data['requestedPaymentAmount']?.toDouble(),
       paymentRequestNotes: data['paymentRequestNotes'],
-      paymentRequestedAt: data['paymentRequestedAt'] != null
-          ? (data['paymentRequestedAt'] as Timestamp).toDate()
-          : null,
-      paymentCompletedAt: data['paymentCompletedAt'] != null
-          ? (data['paymentCompletedAt'] as Timestamp).toDate()
-          : null,
-      paymentDeclinedAt: data['paymentDeclinedAt'] != null
-          ? (data['paymentDeclinedAt'] as Timestamp).toDate()
-          : null,
+      paymentRequestedAt:
+          data['paymentRequestedAt'] != null
+              ? (data['paymentRequestedAt'] as Timestamp).toDate()
+              : null,
+      paymentCompletedAt:
+          data['paymentCompletedAt'] != null
+              ? (data['paymentCompletedAt'] as Timestamp).toDate()
+              : null,
+      paymentDeclinedAt:
+          data['paymentDeclinedAt'] != null
+              ? (data['paymentDeclinedAt'] as Timestamp).toDate()
+              : null,
       paymentDeclineReason: data['paymentDeclineReason'],
       paidAmount: data['paidAmount']?.toDouble(),
       transactionId: data['transactionId'],
@@ -110,17 +114,24 @@ class HireRequest {
       'workTime': workTime,
       'status': status.name,
       'createdAt': Timestamp.fromDate(createdAt),
-      'respondedAt': respondedAt != null ? Timestamp.fromDate(respondedAt!) : null,
+      'respondedAt':
+          respondedAt != null ? Timestamp.fromDate(respondedAt!) : null,
       'message': message,
       'paymentStatus': paymentStatus,
       'requestedPaymentAmount': requestedPaymentAmount,
       'paymentRequestNotes': paymentRequestNotes,
-      'paymentRequestedAt': paymentRequestedAt != null 
-          ? Timestamp.fromDate(paymentRequestedAt!) : null,
-      'paymentCompletedAt': paymentCompletedAt != null 
-          ? Timestamp.fromDate(paymentCompletedAt!) : null,
-      'paymentDeclinedAt': paymentDeclinedAt != null 
-          ? Timestamp.fromDate(paymentDeclinedAt!) : null,
+      'paymentRequestedAt':
+          paymentRequestedAt != null
+              ? Timestamp.fromDate(paymentRequestedAt!)
+              : null,
+      'paymentCompletedAt':
+          paymentCompletedAt != null
+              ? Timestamp.fromDate(paymentCompletedAt!)
+              : null,
+      'paymentDeclinedAt':
+          paymentDeclinedAt != null
+              ? Timestamp.fromDate(paymentDeclinedAt!)
+              : null,
       'paymentDeclineReason': paymentDeclineReason,
       'paidAmount': paidAmount,
       'transactionId': transactionId,
@@ -170,7 +181,8 @@ class HireRequest {
       respondedAt: respondedAt ?? this.respondedAt,
       message: message ?? this.message,
       paymentStatus: paymentStatus ?? this.paymentStatus,
-      requestedPaymentAmount: requestedPaymentAmount ?? this.requestedPaymentAmount,
+      requestedPaymentAmount:
+          requestedPaymentAmount ?? this.requestedPaymentAmount,
       paymentRequestNotes: paymentRequestNotes ?? this.paymentRequestNotes,
       paymentRequestedAt: paymentRequestedAt ?? this.paymentRequestedAt,
       paymentCompletedAt: paymentCompletedAt ?? this.paymentCompletedAt,
@@ -185,18 +197,13 @@ class HireRequest {
   bool get hasPaymentRequest => paymentStatus == 'requested';
   bool get isPaymentCompleted => paymentStatus == 'completed';
   bool get isPaymentDeclined => paymentStatus == 'declined';
-  bool get canRequestPayment => status == HireRequestStatus.completed && paymentStatus == null;
-  
+  bool get canRequestPayment =>
+      status == HireRequestStatus.completed && paymentStatus == null;
+
   double get effectivePaymentAmount => requestedPaymentAmount ?? workAmount;
 }
 
-enum HireRequestStatus {
-  pending,
-  accepted,
-  declined,
-  completed,
-  cancelled,
-}
+enum HireRequestStatus { pending, accepted, declined, completed, cancelled }
 
 extension HireRequestStatusExtension on HireRequestStatus {
   String get displayName {
@@ -215,7 +222,8 @@ extension HireRequestStatusExtension on HireRequestStatus {
   }
 
   bool get isActive {
-    return this == HireRequestStatus.pending || this == HireRequestStatus.accepted;
+    return this == HireRequestStatus.pending ||
+        this == HireRequestStatus.accepted;
   }
 
   bool get canRespond {

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/common/main_background_painter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/earnings/view/components/error_view.dart';
-import 'package:quick_pitch_app/features/earnings/view/widget/earning_summary.dart';
+import 'package:quick_pitch_app/features/earnings/view/components/earning_summary.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/earnings_chart.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/payment_history.dart';
 import 'package:quick_pitch_app/features/earnings/viewmodel/cubit/earnings_cubit.dart';

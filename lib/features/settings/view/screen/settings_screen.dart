@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/poster_bottom_nav_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/switch_role/cubit/role_switch_cubit.dart';

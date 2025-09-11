@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/chat/model/message_model.dart';
-import 'package:quick_pitch_app/features/chat/view/widgets/image_grid.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/individual_message/image_grid.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 

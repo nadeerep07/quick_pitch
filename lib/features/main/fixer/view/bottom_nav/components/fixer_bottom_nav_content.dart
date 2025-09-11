@@ -6,7 +6,7 @@ import 'package:quick_pitch_app/core/routes/app_routes.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/features/earnings/view/screen/earning_screen.dart';
 import 'package:quick_pitch_app/features/explore/fixer/view/screen/fixer_explore_screen.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/screens/fixer_home_screen.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart'
     show FixerHomeCubit, FixerHomeState, FixerHomeLoaded;

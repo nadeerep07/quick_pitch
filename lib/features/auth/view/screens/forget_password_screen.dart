@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart';
 import 'package:quick_pitch_app/features/auth/view/widgets/custom_button.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/auth/view/components/form_field.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/bloc/auth_bloc.dart';
 import 'package:quick_pitch_app/features/auth/viewmodel/cubit/submisson_cubit.dart';

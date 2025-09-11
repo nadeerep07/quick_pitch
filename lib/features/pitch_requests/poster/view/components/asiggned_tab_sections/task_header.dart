@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/core/common/date_formatter.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
+import 'package:quick_pitch_app/core/utils/date_formatter.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 
 class TaskHeader extends StatelessWidget {

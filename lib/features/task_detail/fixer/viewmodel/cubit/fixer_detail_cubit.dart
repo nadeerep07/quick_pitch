@@ -38,10 +38,10 @@ class FixerDetailCubit extends Cubit<FixerDetailState> {
     try {
       final launched = await launchUrl(url, mode: LaunchMode.externalApplication);
       if (!launched) {
-        debugPrint("Could not launch Maps");
+   //     debugPrint("Could not launch Maps");
       }
     } catch (e) {
-      debugPrint("Launch failed: $e");
+  //    debugPrint("Launch failed: $e");
     }
   }
 }

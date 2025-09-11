@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/features/chat/view/widgets/emoji_picker_section.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/emoji_picker_section.dart';
 
 class EmojiPicker extends StatelessWidget {
   final TextEditingController controller;

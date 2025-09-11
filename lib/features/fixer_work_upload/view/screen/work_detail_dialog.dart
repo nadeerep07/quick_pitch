@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/fixer_work_upload/model/fixer_work_upload_model.dart';
@@ -26,11 +24,7 @@ class WorkDetailDialog extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         insetPadding: const EdgeInsets.all(16),
-        child: DialogContent(
-          work: work,
-          theme: theme,
-          isOwner: isOwner,
-        ),
+        child: DialogContent(work: work, theme: theme, isOwner: isOwner),
       ),
     );
   }

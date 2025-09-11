@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/chat/view/components/chat_app_bar.dart';
-import 'package:quick_pitch_app/features/chat/view/components/message_input_field.dart';
-import 'package:quick_pitch_app/features/chat/view/components/message_list.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/chat_app_bar.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/message_input_field.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/message_list.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/individual_chat/cubit/individual_chat_cubit.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/message_input/cubit/message_input_cubit.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';

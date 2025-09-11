@@ -16,4 +16,7 @@ class Responsive {
 
   double get width => size.width;
   double get height => size.height;
+   bool get isMobile => width < 768;
+  bool get isTablet => width >= 768 && width < 1024;
+  bool get isDesktop => width >= 1024;
 }

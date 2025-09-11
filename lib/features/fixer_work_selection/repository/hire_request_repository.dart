@@ -99,16 +99,16 @@ class HireRequestRepository {
   }
 
 Future<void> completeRequest(String requestId) async {
-  print('Repository: Completing request $requestId'); // Debug
+//  print('Repository: Completing request $requestId'); // Debug
   try {
     await updateRequestStatus(
       requestId: requestId,
       status: HireRequestStatus.completed,
       message: 'Work completed',
     );
-    print('Repository: Request completed successfully'); // Debug
+  //  print('Repository: Request completed successfully'); // Debug
   } catch (error) {
-    print('Repository error: $error'); // Debug
+//    print('Repository error: $error'); // Debug
     rethrow;
   }
 }

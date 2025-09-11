@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/features/chat/view/components/image_preview.dart';
-import 'package:quick_pitch_app/features/chat/view/components/option_tile.dart';
-import 'package:quick_pitch_app/features/chat/view/widgets/emoji_picker.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/image_preview.dart';
+import 'package:quick_pitch_app/features/chat/view/components/individual_message/option_tile.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/individual_message/emoji_picker.dart';
 
-import 'package:quick_pitch_app/features/chat/view/widgets/input_bar.dart';
+import 'package:quick_pitch_app/features/chat/view/widgets/individual_message/input_bar.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/message_input/cubit/message_input_cubit.dart';
 
 class MessageInputField extends StatelessWidget {

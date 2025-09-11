@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/core/services/firebase/auth/auth_services.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/screen/poster_explore_screen.dart';
 import 'package:quick_pitch_app/core/common/glass_morphic_bottom_nav_bar.dart';
 import 'package:quick_pitch_app/features/main/fixer/view/bottom_nav/fixer_bottom_nav.dart';

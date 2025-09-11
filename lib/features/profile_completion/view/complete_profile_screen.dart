@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/core/common/backgroun_painter.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/core/errors/auth_error_mapper.dart';
 import 'package:quick_pitch_app/core/routes/app_routes.dart';
-import 'package:quick_pitch_app/features/auth/view/screens/custom_dialog.dart';
+import 'package:quick_pitch_app/features/auth/view/widgets/custom_dialog.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/certification_section.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/fixer_skill_section.dart';
 import 'package:quick_pitch_app/features/profile_completion/view/components/profile_head_section.dart';

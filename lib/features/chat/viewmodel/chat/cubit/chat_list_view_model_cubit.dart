@@ -47,7 +47,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
         _lastKnownRole = await _chatRepository.detectUserRole(_currentUserId!);
       }
     } catch (e) {
-      debugPrint('Error initializing role: $e');
+  //    debugPrint('Error initializing role: $e');
     }
   }
 
@@ -79,7 +79,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
           .getUserChats(_currentUserId!)
           .listen(_onChatsReceived, onError: _onChatsError);
     } catch (e) {
-      debugPrint('Error loading chats: $e');
+    //  debugPrint('Error loading chats: $e');
       if (!_isDisposed) emit(ChatListError(e.toString()));
     }
   }
@@ -92,7 +92,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
   }
 
   void _onChatsError(dynamic error) {
-    debugPrint('Chat stream error: $error');
+  //  debugPrint('Chat stream error: $error');
     if (!_isDisposed) emit(ChatListError(error.toString()));
   }
 
@@ -137,11 +137,11 @@ class ChatListViewModel extends Cubit<ChatListState> {
 
       if (currentRole != _lastKnownRole) {
         _lastKnownRole = currentRole;
-        debugPrint('Role changed to $currentRole - reloading chats');
+   //     debugPrint('Role changed to $currentRole - reloading chats');
         await _loadChats();
       }
     } catch (e) {
-      debugPrint('Error checking role change: $e');
+  //    debugPrint('Error checking role change: $e');
     }
   }
 
@@ -166,7 +166,7 @@ class ChatListViewModel extends Cubit<ChatListState> {
         }
       }
     } catch (e) {
-      debugPrint('Error marking chat as read: $e');
+  //    debugPrint('Error marking chat as read: $e');
       if (!_isDisposed) {
         emit(ChatListError('Failed to mark as read: ${e.toString()}'));
       }
