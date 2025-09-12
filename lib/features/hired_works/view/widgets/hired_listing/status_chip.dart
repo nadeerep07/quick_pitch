@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/features/fixer_work_selection/model/work_request
 class StatusChip extends StatelessWidget {
   final HireRequestStatus status;
 
-  const StatusChip({required this.status});
+  const StatusChip({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

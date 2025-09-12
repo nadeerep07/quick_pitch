@@ -4,7 +4,7 @@ class PaymentErrorDialog extends StatelessWidget {
   final String error;
   final VoidCallback onRetry;
 
-  const PaymentErrorDialog({required this.error, required this.onRetry});
+  const PaymentErrorDialog({super.key, required this.error, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {

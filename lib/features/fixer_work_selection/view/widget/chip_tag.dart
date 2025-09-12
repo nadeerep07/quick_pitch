@@ -8,7 +8,7 @@ class ChipTag extends StatelessWidget {
   final Color fg;
   final ThemeData theme;
 
-  const ChipTag({
+  const ChipTag({super.key, 
     required this.text,
     required this.res,
     required this.bg,

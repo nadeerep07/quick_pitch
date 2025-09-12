@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PaymentStatusChip extends StatelessWidget {
   final String status;
 
-  const PaymentStatusChip({required this.status});
+  const PaymentStatusChip({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

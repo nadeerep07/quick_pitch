@@ -55,8 +55,8 @@ class _WorkDetailAnimatedBackgroundState extends State<WorkDetailAnimatedBackgro
                   ),
                   radius: 1.5,
                   colors: [
-                    widget.theme.colorScheme.primary.withOpacity(0.03),
-                    widget.theme.colorScheme.secondary.withOpacity(0.02),
+                    widget.theme.colorScheme.primary.withValues(alpha:0.03),
+                    widget.theme.colorScheme.secondary.withValues(alpha:0.02),
                     Colors.transparent,
                   ],
                   stops: const [0.0, 0.6, 1.0],

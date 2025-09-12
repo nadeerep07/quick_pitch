@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/review/model/review_model.dart';
-import 'package:quick_pitch_app/features/review/view/widgets/fixer_review_section/review_rating_widget.dart';
+import 'package:quick_pitch_app/features/review/view/widgets/rating_card/star_rating_display.dart';
 
 class ExistingReviewCard extends StatelessWidget {
   final ReviewModel review;
@@ -41,9 +41,9 @@ class ExistingReviewCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(res.wp(3)),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.green.withOpacity(0.3)),
+                border: Border.all(color: Colors.green.withValues(alpha:0.3)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

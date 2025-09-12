@@ -50,11 +50,11 @@ class FixerCardHeader extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
+            border: Border.all(color: Colors.grey.withValues(alpha:0.2), width: 1),
           ),
           child: CircleAvatar(
             radius: res.wp(7),
-            backgroundColor: AppColors.primary.withOpacity(0.1),
+            backgroundColor: AppColors.primary.withValues(alpha:0.1),
             backgroundImage:
                 fixer.profileImageUrl != null
                     ? NetworkImage(fixer.profileImageUrl!)
@@ -109,7 +109,7 @@ class FixerCardHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(res.wp(3)),
             boxShadow: [
               BoxShadow(
-                color: Colors.blue.withOpacity(0.3),
+                color: Colors.blue.withValues(alpha:0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),

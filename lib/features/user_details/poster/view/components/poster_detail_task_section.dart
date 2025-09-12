@@ -99,7 +99,7 @@ class PosterDetailTaskSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.05),
+                    color: Colors.black.withValues(alpha:.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -127,7 +127,7 @@ class PosterDetailTaskSection extends StatelessWidget {
                             vertical: res.hp(0.5),
                           ),
                           decoration: BoxDecoration(
-                            color: StatusColorUtil.getStatusColor(task.status, theme).withOpacity(0.1),
+                            color: StatusColorUtil.getStatusColor(task.status, theme).withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -160,7 +160,7 @@ class PosterDetailTaskSection extends StatelessWidget {
                             vertical: res.hp(0.3),
                           ),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withOpacity(0.1),
+                            color: theme.colorScheme.primary.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -245,9 +245,9 @@ class PosterDetailTaskSection extends StatelessWidget {
                   width: double.infinity,
                   padding: EdgeInsets.all(res.wp(4)),
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: Colors.red.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    border: Border.all(color: Colors.red.withValues(alpha:0.3)),
                   ),
                   child: Column(
                     children: [
@@ -277,7 +277,7 @@ class PosterDetailTaskSection extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.withOpacity(0.2)),
+                    border: Border.all(color: Colors.grey.withValues(alpha:0.2)),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -29,7 +29,7 @@ class BottomBar extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
-            colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+            colors: [Colors.black.withValues(alpha:0.7), Colors.transparent],
           ),
         ),
         child: BlocBuilder<ImageIndexCubit, int>(
@@ -46,7 +46,7 @@ class BottomBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: index == currentIndex
                         ? Colors.white
-                        : Colors.white.withOpacity(0.4),
+                        : Colors.white.withValues(alpha:0.4),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

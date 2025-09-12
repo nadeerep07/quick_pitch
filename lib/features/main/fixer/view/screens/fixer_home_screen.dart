@@ -36,7 +36,7 @@ class _FixerHomeScreenState extends State<FixerHomeScreen> {
   Widget build(BuildContext context) {
     final res = Responsive(context);
     
- final uid = FirebaseAuth.instance.currentUser?.uid;
+
     return Container(
       decoration: const BoxDecoration(color: Colors.transparent),
       child: CustomPaint(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
@@ -14,7 +13,7 @@ import 'package:quick_pitch_app/features/payment/widgets/payment_security_info.d
 import 'package:quick_pitch_app/features/task_pitching/model/pitch_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class UnifiedPaymentConfirmationView extends StatefulWidget {
+class PaymentConfirmationView extends StatefulWidget {
   final PaymentType paymentType;
   final PitchModel? pitch;
   final HireRequest? hireRequest;
@@ -25,7 +24,7 @@ class UnifiedPaymentConfirmationView extends StatefulWidget {
   final String userPhone;
   final String userName;
 
-  const UnifiedPaymentConfirmationView({
+  const PaymentConfirmationView({super.key, 
     required this.paymentType,
     this.pitch,
     this.hireRequest,
@@ -38,11 +37,11 @@ class UnifiedPaymentConfirmationView extends StatefulWidget {
   });
 
   @override
-  State<UnifiedPaymentConfirmationView> createState() =>
-      _UnifiedPaymentConfirmationViewState();
+  State<PaymentConfirmationView> createState() =>
+      _PaymentConfirmationViewState();
 }
 
-class _UnifiedPaymentConfirmationViewState extends State<UnifiedPaymentConfirmationView> {
+class _PaymentConfirmationViewState extends State<PaymentConfirmationView> {
   late Razorpay _razorpay;
 
   @override
@@ -88,11 +87,11 @@ class _UnifiedPaymentConfirmationViewState extends State<UnifiedPaymentConfirmat
     }
   }
 
-  String _getTaskTitle() {
+  String _getfixerName() {
     if (widget.paymentType == PaymentType.pitch) {
-      return widget.pitch!.pitchText ?? 'Pitch Payment';
+      return widget.pitch!.fixerName ;
     } else {
-      return widget.hireRequest!.workTitle;
+      return widget.hireRequest!.posterName;
     }
   }
 
@@ -109,7 +108,7 @@ class _UnifiedPaymentConfirmationViewState extends State<UnifiedPaymentConfirmat
 
     final paymentAmount = _getPaymentAmount();
     final amountInPaise = (paymentAmount * 100).toInt();
-    final taskTitle = _getTaskTitle();
+    final fixerName = _getfixerName();
     final taskId = _getTaskId();
 
     var options = {
@@ -118,8 +117,8 @@ class _UnifiedPaymentConfirmationViewState extends State<UnifiedPaymentConfirmat
       'currency': 'INR',
       'name': 'QuickPitch',
       'description': widget.isFromRequest
-          ? 'Payment for task: $taskTitle'
-          : 'Task completion payment: $taskTitle',
+          ? 'Payment for task: $fixerName'
+          : 'Task completion payment: $fixerName',
       'prefill': {'contact': widget.userPhone, 'name': widget.userName},
       'theme': {'color': '#4CAF50'},
       'notes': {
@@ -165,7 +164,7 @@ class _UnifiedPaymentConfirmationViewState extends State<UnifiedPaymentConfirmat
                 ),
                 SizedBox(height: res.hp(3)),
                 DialogDetails(
-                  taskTitle: _getTaskTitle(),
+                  taskTitle: _getfixerName(),
                   paymentAmount: paymentAmount,
                   pitch: widget.pitch,
                   hireRequest: widget.hireRequest,

@@ -1,194 +1,84 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_pitch_app/features/main/fixer/service/fixer_service.dart';
 import 'package:quick_pitch_app/features/poster_task/model/task_post_model.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 
 class FixerRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FixerFirebaseService _firebaseService;
+
+  FixerRepository(this._firebaseService);
+
   Future<List<TaskPostModel>> fetchCategoryMatchedTasks() async {
-    try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null) throw Exception("Fixer not logged in");
+    final uid = _firebaseService.currentUserId;
+    if (uid == null) throw Exception("Fixer not logged in");
 
-      final fixerRoleDoc =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(uid)
-              .collection('roles')
-              .doc('fixer')
-              .get();
+    final fixerRoleDoc = await _firebaseService.getFixerRoleDoc(uid);
+    if (!fixerRoleDoc.exists) throw Exception("Fixer role data not found");
 
-      if (!fixerRoleDoc.exists) throw Exception("Fixer role data not found");
-      final data = fixerRoleDoc.data();
+    final data = fixerRoleDoc.data();
+    final fixerSkillCategories =
+        List<String>.from(data?['fixerData']?['skills'] ?? []);
 
-      final fixerSkillCategories = List<String>.from(
-        data?['fixerData']?['skills'] ?? [],
-      );
+    if (fixerSkillCategories.isEmpty) return [];
 
-      // print("[FixerRepo] Fixer Skill Categories: $fixerSkillCategories");
+    final tasksSnapshot = await _firebaseService.getUnassignedPendingTasks();
+    final allTasks =
+        tasksSnapshot.docs.map((doc) => TaskPostModel.fromMap(doc.data())).toList();
 
-      if (fixerSkillCategories.isEmpty) return [];
-
-      final tasksSnapshot =
-          await FirebaseFirestore.instance
-              .collection('poster_tasks')
-              .where('assignedFixerId', isEqualTo: null)
-              .where('status', isEqualTo: 'pending')
-              .orderBy('createdAt', descending: true)
-              .get();
-
-      //  print("[FixerRepo] Total tasks fetched: ${tasksSnapshot.docs.length}");
-
-      final allTasks =
-          tasksSnapshot.docs
-              .map((doc) => TaskPostModel.fromMap(doc.data()))
-              .toList();
-
-      // for (final task in allTasks) {
-      //  print("[FixerRepo] Task title: ${task.title}, category: ${task.skills}");
-      // }
-
-      final filtered =
-          allTasks.where((task) {
-            final taskSkills =
-                task.skills.map((s) => s.toLowerCase().trim()).toSet();
-            final fixerSkills =
-                fixerSkillCategories.map((s) => s.toLowerCase().trim()).toSet();
-
-            return taskSkills.intersection(fixerSkills).isNotEmpty;
-          }).toList();
-
-      // print("[FixerRepo] Filtered tasks count: ${filtered.length}");
-
-      return filtered;
-    } catch (e) {
-      //  print("[FixerRepo] Error: $e");
-      rethrow;
-    }
+    return allTasks.where((task) {
+      final taskSkills =
+          task.skills.map((s) => s.toLowerCase().trim()).toSet();
+      final fixerSkills =
+          fixerSkillCategories.map((s) => s.toLowerCase().trim()).toSet();
+      return taskSkills.intersection(fixerSkills).isNotEmpty;
+    }).toList();
   }
 
   Future<UserProfileModel> fetchFixerProfile() async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-  //  print('[FixerRepo] Fetching profile for UID: $uid');
-
+    final uid = _firebaseService.currentUserId;
     if (uid == null) throw Exception("Fixer not logged in");
 
-    final fixerDoc =
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uid)
-            .collection('roles')
-            .doc('fixer')
-            .get();
+    final fixerDoc = await _firebaseService.getFixerRoleDoc(uid);
+    if (!fixerDoc.exists) throw Exception("Fixer profile not found");
 
-    if (!fixerDoc.exists) {
-   //   print('[FixerRepo] Fixer profile not found!');
-      throw Exception("Fixer profile not found");
-    }
-
-    final data = fixerDoc.data()!;
-    // print('[FixerRepo] Fetched profile data: $data');
-
-    final userProfile = UserProfileModel.fromJson(data);
-    return userProfile;
+    return UserProfileModel.fromJson(fixerDoc.data()!);
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> fixerProfileStream(
-    String uid,
-  ) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('roles')
-        .doc('fixer')
-        .snapshots(); // listens to real-time changes
+  Stream<DocumentSnapshot<Map<String, dynamic>>> fixerProfileStream(String uid) {
+    return _firebaseService.fixerProfileStream(uid);
   }
 
   Future<List<TaskPostModel>> fetchActiveTasks(String fixerId) async {
-  
-    try {
-      final tasksSnapshot = await FirebaseFirestore.instance
-          .collection('poster_tasks')
-          .where('assignedFixerId', isEqualTo: fixerId)
-          .where('status', isEqualTo: 'accepted')
-          .orderBy('createdAt', descending: true)
-          .get();
-      return tasksSnapshot.docs
-          .map((doc) => TaskPostModel.fromMap(doc.data()))
-          .toList();
-    } catch (e) {
-      // print("[FixerRepo] Error fetching active tasks: $e");
-      rethrow;
-    }
+    final snapshot = await _firebaseService.getActiveTasks(fixerId);
+    return snapshot.docs.map((doc) => TaskPostModel.fromMap(doc.data())).toList();
   }
+
   Future<List<TaskPostModel>> fetchCompletedTasks(String fixerId) async {
+    final snapshot = await _firebaseService.getCompletedTasks(fixerId);
+    return snapshot.docs.map((doc) => TaskPostModel.fromMap(doc.data())).toList();
+  }
+
+  Future<double> fetchTotalEarnings(String fixerId) async {
     try {
-      final tasksSnapshot = await FirebaseFirestore.instance
-          .collection('poster_tasks')
-          .where('assignedFixerId', isEqualTo: fixerId)
-          .where('status', isEqualTo: 'completed')
-          .orderBy('createdAt', descending: true)
-          .get();
-      return tasksSnapshot.docs
-          .map((doc) => TaskPostModel.fromMap(doc.data()))
-          .toList();
+      final querySnapshot = await _firebaseService.getCompletedPitches(fixerId);
+
+      double totalEarnings = 0.0;
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        final amount = (data['requestedPaymentAmount'] ?? data['budget'] ?? 0.0);
+        if (amount is num) totalEarnings += amount.toDouble();
+      }
+      return totalEarnings;
     } catch (e) {
-      // print("[FixerRepo] Error fetching completed tasks: $e");
-      rethrow;
+      throw Exception('Failed to fetch earnings: ${e.toString()}');
     }
   }
-  // Add this method to your FixerRepository class
 
-Future<double> fetchTotalEarnings(String fixerId) async {
-  try {
-    // Query completed pitches for earnings (without orderBy to avoid index requirement)
-    final QuerySnapshot querySnapshot = await _firestore
-        .collectionGroup('pitches')
-        .where('fixerId', isEqualTo: fixerId)
-        .where('paymentStatus', isEqualTo: 'completed')
-        .get();
-
-    double totalEarnings = 0.0;
-    
-    for (var doc in querySnapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
-      // Get amount from requestedPaymentAmount or budget
-      final amount = (data['requestedPaymentAmount'] ?? data['budget'] ?? 0.0);
-      if (amount is num) {
-        totalEarnings += amount.toDouble();
-      }
+  Future<double> fetchTotalEarningsSafe(String fixerId) async {
+    try {
+      return await fetchTotalEarnings(fixerId);
+    } catch (_) {
+      return 0.0;
     }
-
-    return totalEarnings;
-  } catch (e) {
-    print('Error fetching total earnings: $e');
-    throw Exception('Failed to fetch earnings: ${e.toString()}');
   }
-}
-
-// Alternative version if you want it to return 0 instead of throwing an exception
-Future<double> fetchTotalEarningsSafe(String fixerId) async {
-  try {
-    final QuerySnapshot querySnapshot = await _firestore
-        .collectionGroup('pitches')
-        .where('fixerId', isEqualTo: fixerId)
-        .where('paymentStatus', isEqualTo: 'completed')
-        .get();
-
-    double totalEarnings = 0.0;
-    
-    for (var doc in querySnapshot.docs) {
-      final data = doc.data() as Map<String, dynamic>;
-      final amount = (data['requestedPaymentAmount'] ?? data['budget'] ?? 0.0);
-      if (amount is num) {
-        totalEarnings += amount.toDouble();
-      }
-    }
-
-    return totalEarnings;
-  } catch (e) {
-    print('Error fetching total earnings: $e');
-    return 0.0; // Return 0 instead of throwing
-  }
-}
 }

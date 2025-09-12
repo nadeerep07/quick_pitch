@@ -31,7 +31,7 @@ class ExploreListFixerCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(res.wp(4)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha:0.08),
                 blurRadius: res.wp(4),
                 offset: Offset(0, res.hp(0.5)),
               ),

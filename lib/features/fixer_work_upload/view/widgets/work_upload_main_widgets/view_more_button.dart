@@ -17,7 +17,7 @@ class ViewMoreButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: theme.primaryColor.withOpacity(0.3)),
+          border: Border.all(color: theme.primaryColor.withValues(alpha:0.3)),
         ),
         child: Material(
           color: Colors.transparent,

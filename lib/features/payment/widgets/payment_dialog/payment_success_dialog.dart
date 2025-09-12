@@ -4,7 +4,7 @@ class PaymentSuccessDialog extends StatelessWidget {
   final String paymentId;
   final double amount;
 
-  const PaymentSuccessDialog({
+  const PaymentSuccessDialog({super.key, 
     required this.paymentId,
     required this.amount,
   });

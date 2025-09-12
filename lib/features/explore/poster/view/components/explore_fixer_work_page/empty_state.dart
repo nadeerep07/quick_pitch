@@ -26,7 +26,7 @@ class EmptyState extends StatelessWidget {
                 color: Colors.grey[50],
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withValues(alpha:0.2),
                   width: 2,
                 ),
               ),
@@ -61,10 +61,10 @@ class EmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: Colors.blue.withOpacity(0.2),
+                  color: Colors.blue.withValues(alpha:0.2),
                   width: 1,
                 ),
               ),

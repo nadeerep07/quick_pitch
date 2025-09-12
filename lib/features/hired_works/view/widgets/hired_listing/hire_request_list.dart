@@ -11,7 +11,7 @@ class HireRequestList extends StatelessWidget {
   final String userPhone;
   final String userName;
 
-  const HireRequestList({
+  const HireRequestList({super.key, 
     required this.status,
     required this.currentUserId,
     required this.userPhone,

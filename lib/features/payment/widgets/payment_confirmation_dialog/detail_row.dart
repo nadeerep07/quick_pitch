@@ -7,7 +7,7 @@ class DetailRow extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
 
-  const DetailRow({
+  const DetailRow({super.key, 
     required this.label,
     required this.value,
     required this.res,

@@ -21,7 +21,7 @@ class WorkDetailActionBar extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.1)),
+          top: BorderSide(color: theme.colorScheme.outline.withValues(alpha:0.1)),
         ),
       ),
       child: Row(

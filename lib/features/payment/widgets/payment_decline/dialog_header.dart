@@ -5,7 +5,7 @@ class DialogHeader extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
 
-  const DialogHeader({required this.res, required this.theme});
+  const DialogHeader({super.key, required this.res, required this.theme});
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// ----------------------------
-/// Section: Avatar
-/// ----------------------------
+
 class PaymentAvatar extends StatelessWidget {
   final String? posterImage;
-  const PaymentAvatar({this.posterImage});
+  const PaymentAvatar({super.key, this.posterImage});
 
   @override
   Widget build(BuildContext context) {

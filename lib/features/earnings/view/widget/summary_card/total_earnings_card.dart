@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/earning_card.dart';
 
-/// ----------------------------
-/// Section: Total Earnings
-/// ----------------------------
+
 class TotalEarningsCard extends StatelessWidget {
   final double amount;
-  const TotalEarningsCard({required this.amount});
+  const TotalEarningsCard({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {

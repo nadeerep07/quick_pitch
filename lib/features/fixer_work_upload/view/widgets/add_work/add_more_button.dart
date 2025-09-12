@@ -20,12 +20,12 @@ class AddMoreButton extends StatelessWidget {
         height: 80,
         decoration: BoxDecoration(
           border: Border.all(
-            color: theme.primaryColor.withOpacity(0.3),
+            color: theme.primaryColor.withValues(alpha:0.3),
             width: 1.5,
             style: BorderStyle.solid,
           ),
           borderRadius: BorderRadius.circular(12),
-          color: theme.primaryColor.withOpacity(0.05),
+          color: theme.primaryColor.withValues(alpha:0.05),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

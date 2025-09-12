@@ -7,7 +7,7 @@ class ActionButtons extends StatelessWidget {
   final Function(String reason) onDeclinePayment;
   final Responsive res;
 
-  const ActionButtons({
+  const ActionButtons({super.key, 
     required this.selectedReason,
     required this.reasonController,
     required this.onDeclinePayment,

@@ -19,7 +19,7 @@ class LoadingState extends StatelessWidget {
           Text(
             'Loading portfolio...',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha:0.6),
             ),
           ),
         ],

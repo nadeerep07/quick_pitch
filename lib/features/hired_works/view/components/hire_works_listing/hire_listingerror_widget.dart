@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HireListingErrorWidget extends StatelessWidget {
+  const HireListingErrorWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(

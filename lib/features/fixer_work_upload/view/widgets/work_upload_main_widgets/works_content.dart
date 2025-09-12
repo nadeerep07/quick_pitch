@@ -37,7 +37,7 @@ class WorksContent extends StatelessWidget {
           Text(
             '${works.length} ${works.length == 1 ? 'Project' : 'Projects'}',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               fontWeight: FontWeight.w500,
             ),
           ),

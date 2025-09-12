@@ -27,7 +27,7 @@ class ErrorState extends StatelessWidget {
                 color: Colors.red[50],
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.red.withOpacity(0.2),
+                  color: Colors.red.withValues(alpha:0.2),
                   width: 2,
                 ),
               ),

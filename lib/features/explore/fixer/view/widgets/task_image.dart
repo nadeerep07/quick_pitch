@@ -29,7 +29,7 @@ class TaskImage extends StatelessWidget {
                 placeholder: 'assets/images/image_placeholder.png',
                 image: task.imagesUrl!.first,
                 fit: BoxFit.cover,
-                imageErrorBuilder: (_, __, ___) =>
+                imageErrorBuilder: (_, _, _) =>
                     Image.asset('assets/images/image_placeholder.png'),
               )
             else

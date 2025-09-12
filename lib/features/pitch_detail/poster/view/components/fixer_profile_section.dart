@@ -30,7 +30,7 @@ class FixerProfileSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(res.wp(4)),
           ),
           // ignore: deprecated_member_use
-          color: colorScheme.surface.withOpacity(0.9),
+          color: colorScheme.surface.withValues(alpha:0.9),
           child: Padding(
             padding: EdgeInsets.all(res.wp(4)),
             child: Row(

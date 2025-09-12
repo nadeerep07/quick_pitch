@@ -47,7 +47,7 @@ class PortfolioImageCarousel extends StatelessWidget {
                       ),
                     );
                   },
-                  errorBuilder: (_, __, ___) => Container(
+                  errorBuilder: (_, _, _) => Container(
                     height: res.hp(20),
                     color: Colors.grey[200],
                     child: Column(

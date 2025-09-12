@@ -19,7 +19,7 @@ class ViewToggleButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha:0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -44,7 +44,7 @@ class ViewToggleButton extends StatelessWidget {
                   boxShadow: !isMapView
                       ? [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha:0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -101,7 +101,7 @@ class ViewToggleButton extends StatelessWidget {
                   boxShadow: isMapView
                       ? [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha:0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),

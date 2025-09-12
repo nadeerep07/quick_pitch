@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/app_colors.dart';
 
-/// ----------------------------
-/// Section: Payment Type Badge
-/// ----------------------------
+
 class PaymentTypeBadge extends StatelessWidget {
   final bool isHireRequest;
-  const PaymentTypeBadge({required this.isHireRequest});
+  const PaymentTypeBadge({super.key, required this.isHireRequest});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +14,9 @@ class PaymentTypeBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: badgeColor.withOpacity(0.1),
+        color: badgeColor.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: badgeColor.withOpacity(0.3)),
+        border: Border.all(color: badgeColor.withValues(alpha:0.3)),
       ),
       child: Text(
         badgeText,

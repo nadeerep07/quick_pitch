@@ -16,9 +16,9 @@ class PosterStyleBackgroundPainter extends CustomPainter {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        baseColor.withOpacity(0.9),
-        baseColor.withOpacity(0.7),
-        baseColor.withOpacity(0.9),
+        baseColor.withValues(alpha:0.9),
+        baseColor.withValues(alpha:0.7),
+        baseColor.withValues(alpha:0.9),
       ],
       stops: [0.0, 0.5, 1.0],
     );
@@ -30,7 +30,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
     
     // Diagonal stripes pattern
     final stripePaint = Paint()
-      ..color = baseColor.withOpacity(0.15)
+      ..color = baseColor.withValues(alpha:0.15)
       ..strokeWidth = 1.5;
     
     final stripeCount = 15;
@@ -48,7 +48,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
       center: Alignment.topLeft,
       radius: 0.8,
       colors: [
-        Colors.white.withOpacity(0.2),
+        Colors.white.withValues(alpha:0.2),
         Colors.transparent,
       ],
     );
@@ -63,7 +63,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
       center: Alignment.bottomRight,
       radius: 0.6,
       colors: [
-        Colors.black.withOpacity(0.1),
+        Colors.black.withValues(alpha:0.1),
         Colors.transparent,
       ],
     );
@@ -75,7 +75,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
     
     // Decorative border
     final borderPaint = Paint()
-      ..color = Colors.white.withOpacity(0.15)
+      ..color = Colors.white.withValues(alpha:0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
     
@@ -87,7 +87,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
         text: TextSpan(
           text: 'PORTFOLIO',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha:0.7),
             fontSize: 24,
             fontWeight: FontWeight.w900,
             letterSpacing: 4.0,
@@ -110,7 +110,7 @@ class PosterStyleBackgroundPainter extends CustomPainter {
         text: TextSpan(
           text: 'Quick Pitch',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withValues(alpha:0.5),
             fontSize: 12,
             fontWeight: FontWeight.w600,
             letterSpacing: 2.0,

@@ -77,7 +77,7 @@ class FixerReviewSection extends StatelessWidget {
         revieweeId: posterId,
         revieweeName: posterName,
         pitchId: pitch.id,
-        taskId: pitch.taskId ?? '',
+        taskId: pitch.taskId  ,
         reviewerType: 'fixer',
         existingReview: existingReview,
         onReviewSubmitted: () {
@@ -89,7 +89,7 @@ class FixerReviewSection extends StatelessWidget {
 }
 
 class LoadingCard extends StatelessWidget {
-  const LoadingCard();
+  const LoadingCard({super.key});
 
   @override
   Widget build(BuildContext context) {

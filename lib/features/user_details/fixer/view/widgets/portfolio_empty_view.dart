@@ -20,10 +20,10 @@ class PortfolioEmptyView extends StatelessWidget {
       padding: EdgeInsets.all(res.wp(6)),
       margin: EdgeInsets.only(bottom: res.hp(2)),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.1),
+          color: theme.colorScheme.outline.withValues(alpha:0.1),
         ),
       ),
       child: Column(
@@ -31,7 +31,7 @@ class PortfolioEmptyView extends StatelessWidget {
           Icon(
             Icons.work_outline_rounded,
             size: res.hp(8),
-            color: theme.colorScheme.outline.withOpacity(0.5),
+            color: theme.colorScheme.outline.withValues(alpha:0.5),
           ),
           SizedBox(height: res.hp(2)),
           Text(

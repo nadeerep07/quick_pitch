@@ -23,9 +23,9 @@ class ReviewPromptCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(res.wp(3)),
           decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.1),
+            color: theme.primaryColor.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: theme.primaryColor.withOpacity(0.3)),
+            border: Border.all(color: theme.primaryColor.withValues(alpha:0.3)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

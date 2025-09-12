@@ -19,7 +19,7 @@ class DialogHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: theme.primaryColor.withOpacity(0.05),
+        color: theme.primaryColor.withValues(alpha:0.05),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Row(

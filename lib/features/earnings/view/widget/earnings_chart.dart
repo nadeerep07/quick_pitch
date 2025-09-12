@@ -15,7 +15,7 @@ class EarningsChart extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 2))],
+        boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha:0.1), blurRadius: 10, offset: const Offset(0, 2))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@ class EarningsChart extends StatelessWidget {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: [Colors.blue.shade400.withOpacity(0.3), Colors.blue.shade400.withOpacity(0.1)],
+              colors: [Colors.blue.shade400.withValues(alpha:0.3), Colors.blue.shade400.withValues(alpha:0.1)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),

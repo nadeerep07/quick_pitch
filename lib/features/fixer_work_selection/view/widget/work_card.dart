@@ -12,7 +12,7 @@ class WorkCard extends StatelessWidget {
   final ColorScheme colorScheme;
   final VoidCallback onTap;
 
-  const WorkCard({
+  const WorkCard({super.key, 
     required this.work,
     required this.isSelected,
     required this.res,
@@ -36,12 +36,12 @@ class WorkCard extends StatelessWidget {
             border: Border.all(
               color: isSelected
                   ? colorScheme.primary
-                  : colorScheme.outline.withOpacity(0.2),
+                  : colorScheme.outline.withValues(alpha:0.2),
               width: isSelected ? 2 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha:0.05),
                 blurRadius: 10,
                 offset: Offset(0, 2),
               ),
@@ -72,7 +72,7 @@ class WorkCard extends StatelessWidget {
                         child: Text(
                           work.description,
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.7),
+                            color: colorScheme.onSurface.withValues(alpha:0.7),
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

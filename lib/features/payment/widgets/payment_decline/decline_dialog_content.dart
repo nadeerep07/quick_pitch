@@ -17,7 +17,7 @@ class DeclineDialogContent extends StatelessWidget {
   final HireRequest? hireRequest;
   final Function(String reason) onDeclinePayment;
 
-  DeclineDialogContent({
+  DeclineDialogContent({super.key, 
     required this.type,
     this.pitch,
     this.hireRequest,

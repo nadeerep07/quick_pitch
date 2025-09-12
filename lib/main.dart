@@ -18,6 +18,7 @@ import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_s
 import 'package:quick_pitch_app/features/explore/poster/viewmodel/cubit/poster_explore_cubit.dart';
 import 'package:quick_pitch_app/features/fixer_work_selection/repository/hire_request_repository.dart';
 import 'package:quick_pitch_app/features/main/fixer/repository/fixer_repository.dart';
+import 'package:quick_pitch_app/features/main/fixer/service/fixer_service.dart';
 import 'package:quick_pitch_app/features/main/fixer/viewmodel/cubit/fixer_home_cubit.dart';
 import 'package:quick_pitch_app/features/main/poster/repository/poster_repository.dart';
 import 'package:quick_pitch_app/features/main/poster/viewmodel/bottom_nav/cubit/drawer_state_cubit.dart';
@@ -49,7 +50,6 @@ import 'core/services/firebase/firebase_options.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-print("✅ App started initializing");
   WidgetsFlutterBinding.ensureInitialized();
     await dotenv.load(fileName: ".env");
       // ignore: deprecated_member_use
@@ -58,9 +58,7 @@ print("✅ App started initializing");
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  print("✅ App started and device orientation set");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("✅ App started and Firebase initialized");
 
   runApp(MyApp());
 }
@@ -88,7 +86,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => DrawerStateCubit()),
         BlocProvider(create: (_) => PosterHomeCubit(PosterRepository())),
         BlocProvider(create: (_) => RoleSwitchCubit()),
-        BlocProvider(create: (_) => FixerHomeCubit(FixerRepository())),
+        BlocProvider(create: (_) => FixerHomeCubit(FixerRepository(FixerFirebaseService()))),
         BlocProvider(
           create:
               (_) => TaskPostCubit(

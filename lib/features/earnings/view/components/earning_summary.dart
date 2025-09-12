@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quick_pitch_app/features/earnings/view/widget/summary_card/breakdown_row.dart';
-import 'package:quick_pitch_app/features/earnings/view/widget/earning_card.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/summary_card/earnings_breakdown.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/summary_card/this_month_and_jobs_row.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/summary_card/total_earnings_card.dart';

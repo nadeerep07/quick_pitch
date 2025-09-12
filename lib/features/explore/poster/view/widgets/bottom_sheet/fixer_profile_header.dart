@@ -19,7 +19,7 @@ class FixerProfileHeader extends StatelessWidget {
         // Profile Image
         CircleAvatar(
           radius: 30,
-          backgroundColor: AppColors.primary.withOpacity(0.1),
+          backgroundColor: AppColors.primary.withValues(alpha:0.1),
           backgroundImage: fixer.profileImageUrl != null
               ? NetworkImage(fixer.profileImageUrl!)
               : null,

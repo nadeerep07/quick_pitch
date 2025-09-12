@@ -8,7 +8,7 @@ class WorkImage extends StatelessWidget {
   final Responsive res;
   final ColorScheme colorScheme;
 
-  const WorkImage({
+  const WorkImage({super.key, 
     required this.work,
     required this.res,
     required this.colorScheme,

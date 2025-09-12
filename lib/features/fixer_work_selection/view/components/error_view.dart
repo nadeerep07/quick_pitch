@@ -5,7 +5,7 @@ class ErrorView extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
 
-  const ErrorView({required this.res, required this.theme});
+  const ErrorView({super.key, required this.res, required this.theme});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ErrorView extends StatelessWidget {
             Text(
               'Please try again later',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
           ],

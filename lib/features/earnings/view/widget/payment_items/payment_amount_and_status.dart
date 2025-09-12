@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// ----------------------------
-/// Section: Payment Amount + Status
-/// ----------------------------
+
 class PaymentAmountAndStatus extends StatelessWidget {
   final double amount;
   final String status;
 
-  const PaymentAmountAndStatus({
+  const PaymentAmountAndStatus({super.key, 
     required this.amount,
     required this.status,
   });

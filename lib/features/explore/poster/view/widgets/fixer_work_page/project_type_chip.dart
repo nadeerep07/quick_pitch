@@ -15,7 +15,7 @@ class ProjectTypeChip extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.blue.withOpacity(0.2),
+          color: Colors.blue.withValues(alpha:0.2),
           width: 1,
         ),
       ),

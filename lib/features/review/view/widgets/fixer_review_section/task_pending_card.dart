@@ -15,9 +15,9 @@ class TaskPendingCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(res.wp(3)),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.withOpacity(0.3)),
+            border: Border.all(color: Colors.grey.withValues(alpha:0.3)),
           ),
           child: Row(
             children: [

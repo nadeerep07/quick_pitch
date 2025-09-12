@@ -28,7 +28,7 @@ class CompactContent extends StatelessWidget {
         Text(
           work.description,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            color: theme.colorScheme.onSurface.withValues(alpha:0.7),
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -39,7 +39,7 @@ class CompactContent extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: theme.primaryColor.withOpacity(0.1),
+                color: theme.primaryColor.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -54,13 +54,13 @@ class CompactContent extends StatelessWidget {
             Icon(
               Icons.schedule_outlined,
               size: 12,
-              color: theme.colorScheme.onSurface.withOpacity(0.5),
+              color: theme.colorScheme.onSurface.withValues(alpha:0.5),
             ),
             const SizedBox(width: 4),
             Text(
               work.time,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.6),
               ),
             ),
           ],

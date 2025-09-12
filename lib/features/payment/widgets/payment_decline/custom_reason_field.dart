@@ -5,7 +5,7 @@ class CustomReasonField extends StatelessWidget {
   final TextEditingController controller;
   final Responsive res;
 
-  const CustomReasonField({required this.controller, required this.res});
+  const CustomReasonField({super.key, required this.controller, required this.res});
 
   @override
   Widget build(BuildContext context) {

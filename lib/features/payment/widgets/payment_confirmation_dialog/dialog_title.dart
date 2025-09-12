@@ -4,7 +4,7 @@ class DialogTitle extends StatelessWidget {
   final bool isFromRequest;
   final ThemeData theme;
 
-  const DialogTitle({required this.isFromRequest, required this.theme});
+  const DialogTitle({super.key, required this.isFromRequest, required this.theme});
 
   @override
   Widget build(BuildContext context) {

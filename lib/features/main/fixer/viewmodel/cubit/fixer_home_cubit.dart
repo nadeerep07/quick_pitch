@@ -55,7 +55,7 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
       final totalEarnings = await _fixerRepository.fetchTotalEarnings(fixerId);
       return totalEarnings;
     } catch (e) {
-      print('Error loading earnings: $e');
+   //   print('Error loading earnings: $e');
       return 0.0; // Return 0 if there's an error
     }
   }
@@ -69,7 +69,7 @@ class FixerHomeCubit extends Cubit<FixerHomeState> {
         emit(currentState.copyWith(totalEarnings: totalEarnings));
       } catch (e) {
         // Keep current earnings if refresh fails
-        print('Failed to refresh earnings: $e');
+   //     print('Failed to refresh earnings: $e');
       }
     }
   }

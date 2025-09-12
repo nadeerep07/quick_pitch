@@ -31,7 +31,7 @@ class ExploreSkillsFilter extends StatelessWidget {
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.grey[100],
+                color: isSelected ? Colors.blue.withValues(alpha:0.1) : Colors.grey[100],
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
                   color: isSelected ? Colors.blue : Colors.transparent,

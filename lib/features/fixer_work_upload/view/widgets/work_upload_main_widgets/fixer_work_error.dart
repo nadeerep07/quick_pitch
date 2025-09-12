@@ -25,7 +25,7 @@ class FixerWorkError extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha:0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(Icons.error_outline, size: 32, color: Colors.red[400]),
@@ -42,7 +42,7 @@ class FixerWorkError extends StatelessWidget {
           Text(
             message,
             style: widget.theme.textTheme.bodySmall?.copyWith(
-              color: widget.theme.colorScheme.onSurface.withOpacity(0.6),
+              color: widget.theme.colorScheme.onSurface.withValues(alpha:0.6),
             ),
             textAlign: TextAlign.center,
           ),

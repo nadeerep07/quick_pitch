@@ -27,7 +27,7 @@ class TopBar extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+            colors: [Colors.black.withValues(alpha:0.7), Colors.transparent],
           ),
         ),
         child: Row(
@@ -39,7 +39,7 @@ class TopBar extends StatelessWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha:0.5),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(

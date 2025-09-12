@@ -8,7 +8,7 @@ class ReasonSelector extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
 
-  const ReasonSelector({
+  const ReasonSelector({super.key, 
     required this.predefinedReasons,
     required this.selectedReason,
     required this.onSelectReason,

@@ -9,7 +9,7 @@ Widget buildShimmerLoading(BuildContext context) {
       child: ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: 6, // Number of shimmer placeholders
-        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        separatorBuilder: (_, _) => const SizedBox(height: 16),
         itemBuilder: (_, index) => const ShimmerTaskCard(),
       ),
     );

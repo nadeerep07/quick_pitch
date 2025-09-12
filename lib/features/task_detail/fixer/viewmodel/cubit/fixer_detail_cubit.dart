@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 

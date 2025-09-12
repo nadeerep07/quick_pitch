@@ -6,7 +6,7 @@ import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/explore/poster/repository/poster_explore_repository.dart';
 import 'package:quick_pitch_app/features/explore/poster/service/poster_explore_service.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_app_bar_section.dart';
-import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_List_view.dart';
+import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_list_view.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_error_view.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_filter_section.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/components/explore_main/explore_search_section.dart';

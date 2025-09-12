@@ -6,7 +6,7 @@ class EmptyView extends StatelessWidget {
   final ThemeData theme;
   final String fixerName;
 
-  const EmptyView({
+  const EmptyView({super.key, 
     required this.res,
     required this.theme,
     required this.fixerName,
@@ -30,7 +30,7 @@ class EmptyView extends StatelessWidget {
             Text(
               '${fixerName.split(" ").first} hasn\'t uploaded any works yet.',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
             ),
           ],

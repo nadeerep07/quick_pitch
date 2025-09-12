@@ -6,7 +6,7 @@ class DialogDescription extends StatelessWidget {
   final PaymentType paymentType;
   final ThemeData theme;
 
-  const DialogDescription({
+  const DialogDescription({super.key, 
     required this.isFromRequest,
     required this.paymentType,
     required this.theme,

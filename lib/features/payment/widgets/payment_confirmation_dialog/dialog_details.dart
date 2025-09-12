@@ -15,7 +15,7 @@ class DialogDetails extends StatelessWidget {
   final Responsive res;
   final ThemeData theme;
 
-  const DialogDetails({
+  const DialogDetails({super.key, 
     required this.taskTitle,
     required this.paymentAmount,
     this.pitch,
@@ -37,7 +37,7 @@ class DialogDetails extends StatelessWidget {
       ),
       child: Column(
         children: [
-          DetailRow(label: 'Task', value: taskTitle, res: res, theme: theme),
+          DetailRow(label: 'Fixer', value: taskTitle, res: res, theme: theme),
           SizedBox(height: res.hp(1)),
           DetailRow(
             label: 'Amount',

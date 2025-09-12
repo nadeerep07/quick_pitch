@@ -28,7 +28,6 @@ class HirePaymentContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
-    final theme = Theme.of(context);
     final paymentStatus = hireRequest.paymentStatus ?? 'pending';
 
     return BlocConsumer<HirePaymentCubit, HirePaymentState>(

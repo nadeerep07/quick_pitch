@@ -25,7 +25,6 @@ class PaymentRequestedContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final res = Responsive(context);
-    final theme = Theme.of(context);
 
     return Column(
       children: [

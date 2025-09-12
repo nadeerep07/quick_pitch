@@ -11,7 +11,7 @@ class TaskInfoBox extends StatelessWidget {
   final ThemeData theme;
   final Responsive res;
 
-  const TaskInfoBox({
+  const TaskInfoBox({super.key, 
     required this.type,
     this.pitch,
     this.hireRequest,
@@ -21,7 +21,7 @@ class TaskInfoBox extends StatelessWidget {
 
   String _getTaskTitle() {
     if (type == DeclineDialogType.pitch) {
-      return pitch!.pitchText ?? 'Untitled Task';
+      return pitch!.pitchText ;
     } else {
       return hireRequest!.workTitle;
     }

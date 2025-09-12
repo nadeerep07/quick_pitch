@@ -23,8 +23,9 @@ class HirePaymentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (hireRequest.status != HireRequestStatus.completed)
+    if (hireRequest.status != HireRequestStatus.completed) {
       return const SizedBox.shrink();
+    }
 
     return BlocProvider(
       create: (_) => HirePaymentCubit(HirePaymentService()),

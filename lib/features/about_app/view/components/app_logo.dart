@@ -19,7 +19,7 @@ class AppLogo extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF667EEA).withOpacity(0.3),
+            color: const Color(0xFF667EEA).withValues(alpha:0.3),
             blurRadius: 30,
             spreadRadius: 5,
           ),

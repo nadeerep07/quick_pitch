@@ -19,7 +19,7 @@ class EarningsCubit extends Cubit<EarningsState> {
     try {
       emit(EarningsLoading());
 
-      print('Loading earnings for fixerId: $fixerId');
+    //  print('Loading earnings for fixerId: $fixerId');
 
       // Load both pitch and hire request earnings in parallel
       final results = await Future.wait([
@@ -30,8 +30,8 @@ class EarningsCubit extends Cubit<EarningsState> {
       final List<PaymentModel> pitchPayments = results[0];
       final List<PaymentModel> hirePayments = results[1];
 
-      print('Pitch payments: ${pitchPayments.length}');
-      print('Hire payments: ${hirePayments.length}');
+      // print('Pitch payments: ${pitchPayments.length}');
+      // print('Hire payments: ${hirePayments.length}');
 
       // Combine all payments
       final List<PaymentModel> allPayments = [
@@ -42,7 +42,7 @@ class EarningsCubit extends Cubit<EarningsState> {
       // Calculate total earnings
       final double totalEarnings = allPayments.fold(
         0.0,
-        (sum, payment) => sum + payment.amount,
+        (sums, payment) => sums + payment.amount,
       );
 
       // Calculate this month's earnings
@@ -50,16 +50,16 @@ class EarningsCubit extends Cubit<EarningsState> {
       final DateTime startOfMonth = DateTime(now.year, now.month, 1);
       final double thisMonthEarnings = allPayments
           .where((payment) => payment.paidAt.isAfter(startOfMonth))
-          .fold(0.0, (sum, payment) => sum + payment.amount);
+          .fold(0.0, (sums, payment) => sums + payment.amount);
 
       // Calculate monthly earnings for chart (last 6 months)
       final List<MonthlyEarning> monthlyEarnings = _calculateMonthlyEarnings(allPayments);
 
       // Calculate earnings breakdown
-      final double pitchEarnings = pitchPayments.fold(0.0, (sum, payment) => sum + payment.amount);
-      final double hireEarnings = hirePayments.fold(0.0, (sum, payment) => sum + payment.amount);
+      final double pitchEarnings = pitchPayments.fold(0.0, (sums, payment) => sums + payment.amount);
+      final double hireEarnings = hirePayments.fold(0.0, (sums, payment) => sums + payment.amount);
 
-      print('Total earnings: $totalEarnings (Pitch: $pitchEarnings, Hire: $hireEarnings)');
+    //  print('Total earnings: $totalEarnings (Pitch: $pitchEarnings, Hire: $hireEarnings)');
 
       emit(EarningsLoaded(
         totalEarnings: totalEarnings,
@@ -70,7 +70,7 @@ class EarningsCubit extends Cubit<EarningsState> {
         hireRequestEarnings: hireEarnings,
       ));
     } catch (e) {
-      print('Error in loadEarnings: $e');
+   //   print('Error in loadEarnings: $e');
       emit(EarningsError('Failed to load earnings: ${e.toString()}'));
     }
   }
@@ -107,12 +107,12 @@ class EarningsCubit extends Cubit<EarningsState> {
           .where('paymentStatus', isEqualTo: 'completed')
           .orderBy('paymentCompletedAt', descending: true)
           .get();
-print('Hire requests fetched: ${querySnapshot.docs.length}');
+// print('Hire requests fetched: ${querySnapshot.docs.length}');
       final List<PaymentModel> hirePayments = [];
 
       for (final doc in querySnapshot.docs) {
         final data = doc.data() as Map<String, dynamic>;
-          print('Hire request data: $data');  // 👈 log raw data
+       //   print('Hire request data: $data');  // 👈 log raw data
         // Try to get poster details from the hire request or associated task
         String posterName = 'Unknown Client';
         String? posterImage;
@@ -135,7 +135,7 @@ print('Hire requests fetched: ${querySnapshot.docs.length}');
             }
           } catch (e) {
             // Continue with default values if client fetch fails
-              print('Error fetching hire request earnings: $e');
+         //     print('Error fetching hire request earnings: $e');
           }
         }
 

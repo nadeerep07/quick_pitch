@@ -5,7 +5,7 @@ class ThisMonthAndJobsRow extends StatelessWidget {
   final double thisMonthEarnings;
   final int completedJobs;
 
-  const ThisMonthAndJobsRow({
+  const ThisMonthAndJobsRow({super.key, 
     required this.thisMonthEarnings,
     required this.completedJobs,
   });

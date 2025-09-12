@@ -36,7 +36,7 @@ class FixerWorksSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: theme.colorScheme.shadow.withOpacity(0.05),
+                  color: theme.colorScheme.shadow.withValues(alpha:0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),

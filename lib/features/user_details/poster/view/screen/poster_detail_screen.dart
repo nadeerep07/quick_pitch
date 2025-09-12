@@ -5,7 +5,7 @@ import 'package:quick_pitch_app/features/user_details/poster/view/components/pos
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_build_header.dart';
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_rating_button.dart';
 import 'package:quick_pitch_app/features/user_details/poster/view/components/poster_detail_task_section.dart';
-import 'package:quick_pitch_app/features/user_details/poster/widgets/poster_style_background_painter.dart';
+import 'package:quick_pitch_app/features/user_details/poster/view/widgets/poster_style_background_painter.dart';
 
 class PosterDetailScreen extends StatelessWidget {
   final UserProfileModel posterData;

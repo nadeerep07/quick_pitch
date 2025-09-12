@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_pitch_app/features/explore/poster/view/widgets/list_card/explore_list_fixer_card.dart';
-
 import 'package:quick_pitch_app/features/profile_completion/model/user_profile_model.dart';
-
-
 
 class PosterExploreListView extends StatelessWidget {
   final List<UserProfileModel> fixers;

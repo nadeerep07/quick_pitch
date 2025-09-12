@@ -27,13 +27,13 @@ class FixerWorksContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state.runtimeType) {
-      case FixerWorksLoading:
+      case FixerWorksLoading _:
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
           child: LoadingState(),
         );
       
-      case FixerWorksError:
+      case FixerWorksError _:
         final errorState = state as FixerWorksError;
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
@@ -44,7 +44,7 @@ class FixerWorksContent extends StatelessWidget {
           ),
         );
       
-      case FixerWorksLoaded:
+      case FixerWorksLoaded _:
         final loadedState = state as FixerWorksLoaded;
         if (loadedState.works.isEmpty) {
           return SizedBox(
@@ -60,14 +60,14 @@ class FixerWorksContent extends StatelessWidget {
           onRefresh: onRefresh,
         );
       
-      case FixerWorksLoadingMore:
+      case FixerWorksLoadingMore _:
         final loadingMoreState = state as FixerWorksLoadingMore;
         return WorksContentWithLoadingMore(
           works: loadingMoreState.existingWorks,
           onRefresh: onRefresh,
         );
       
-      case FixerWorksRefreshing:
+      case FixerWorksRefreshing _:
         final refreshingState = state as FixerWorksRefreshing;
         return WorksContent(
           state: FixerWorksLoaded(

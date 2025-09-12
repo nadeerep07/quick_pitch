@@ -26,7 +26,7 @@ class FixerWorkAppBar extends StatelessWidget implements PreferredSizeWidget {
           Text(
             'Choose work from ${fixerData.name.split(' ').first}',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withOpacity(0.7),
+              color: colorScheme.onSurface.withValues(alpha:0.7),
             ),
           ),
         ],
@@ -34,7 +34,7 @@ class FixerWorkAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1.0),
         child: Container(
-          color: colorScheme.outline.withOpacity(0.2),
+          color: colorScheme.outline.withValues(alpha:0.2),
           height: 1.0,
         ),
       ),

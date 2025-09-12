@@ -14,7 +14,7 @@ class BottomActionSection extends StatelessWidget {
   final TextEditingController messageController;
   final UserProfileModel fixerData;
 
-  const BottomActionSection({
+  const BottomActionSection({super.key, 
     required this.res,
     required this.colorScheme,
     required this.theme,
@@ -30,7 +30,7 @@ class BottomActionSection extends StatelessWidget {
       padding: EdgeInsets.all(res.wp(4)),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        border: Border(top: BorderSide(color: colorScheme.outline.withOpacity(0.2))),
+        border: Border(top: BorderSide(color: colorScheme.outline.withValues(alpha:0.2))),
       ),
       child: SafeArea(
         child: Column(
@@ -39,7 +39,7 @@ class BottomActionSection extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(bottom: res.hp(2)),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                color: colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(

@@ -54,8 +54,8 @@ class FixerCardWorksButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(res.wp(3)),
               border: Border.all(
                 color: worksCount > 0
-                    ? Colors.green.withOpacity(0.2)
-                    : Colors.grey.withOpacity(0.2),
+                    ? Colors.green.withValues(alpha:0.2)
+                    : Colors.grey.withValues(alpha:0.2),
                 width: 1,
               ),
             ),

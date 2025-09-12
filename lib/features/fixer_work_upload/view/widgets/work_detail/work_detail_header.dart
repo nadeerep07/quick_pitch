@@ -14,13 +14,13 @@ class WorkDetailHeader extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            theme.colorScheme.primary.withOpacity(0.05),
-            theme.colorScheme.secondary.withOpacity(0.02),
+            theme.colorScheme.primary.withValues(alpha:0.05),
+            theme.colorScheme.secondary.withValues(alpha:0.02),
           ],
         ),
         border: Border(
           bottom: BorderSide(
-            color: theme.colorScheme.outline.withOpacity(0.1),
+            color: theme.colorScheme.outline.withValues(alpha:0.1),
             width: 1,
           ),
         ),

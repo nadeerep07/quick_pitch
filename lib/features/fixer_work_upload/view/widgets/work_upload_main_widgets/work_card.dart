@@ -23,10 +23,10 @@ class WorkCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.1)),
+        border: Border.all(color: theme.colorScheme.outline.withValues(alpha:0.1)),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(0.08),
+            color: theme.colorScheme.shadow.withValues(alpha:0.08),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

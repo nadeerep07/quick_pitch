@@ -66,7 +66,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 const SizedBox(height: 24),
                 ValueListenableBuilder<int>(
                   valueListenable: viewModel.seconds,
-                  builder: (_, seconds, __) {
+                  builder: (_, seconds, _) {
                     return Text(
                       seconds == 0
                           ? "Didn't receive the email?"
@@ -81,7 +81,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 const SizedBox(height: 16),
                 ValueListenableBuilder<bool>(
                   valueListenable: viewModel.canResend,
-                  builder: (_, canResend, __) {
+                  builder: (_, canResend, _) {
                     return ElevatedButton.icon(
                       onPressed: canResend ? () => viewModel.resendEmail(context) : null,
                       icon: const Icon(Icons.refresh),

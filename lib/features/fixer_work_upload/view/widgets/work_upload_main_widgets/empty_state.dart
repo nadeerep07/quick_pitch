@@ -21,7 +21,7 @@ class EmptyState extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -44,7 +44,7 @@ class EmptyState extends StatelessWidget {
                 ? 'Start building your portfolio by adding your first project'
                 : 'This fixer hasn\'t added any projects yet',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha:0.6),
             ),
             textAlign: TextAlign.center,
           ),

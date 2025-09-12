@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/utils/date_formatter.dart';
 import 'package:quick_pitch_app/features/earnings/view/widget/payment_items/payment_type_badge.dart';
 
-/// ----------------------------
-/// Section: Payment Details
-/// ----------------------------
 class PaymentDetails extends StatelessWidget {
   final String posterName;
   final DateTime paidAt;
   final String transactionId;
   final bool isHireRequestPayment;
 
-  const PaymentDetails({
+  const PaymentDetails({super.key, 
     required this.posterName,
     required this.paidAt,
     required this.transactionId,

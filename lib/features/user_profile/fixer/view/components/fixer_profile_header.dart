@@ -78,7 +78,7 @@ class FixerProfileHeader extends StatelessWidget {
             vertical: res.hp(0.4),
           ),
           decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.1),
+            color: Colors.amber.withValues(alpha:0.1),
             borderRadius: BorderRadius.circular(res.wp(2)),
           ),
           child: Row(

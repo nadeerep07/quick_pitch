@@ -15,7 +15,7 @@ class DescriptionCard extends StatelessWidget {
         color: Colors.grey[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha:0.1),
           width: 1,
         ),
       ),

@@ -19,8 +19,8 @@ class SectionHeader extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            theme.primaryColor.withOpacity(0.1),
-            theme.primaryColor.withOpacity(0.05),
+            theme.primaryColor.withValues(alpha:0.1),
+            theme.primaryColor.withValues(alpha:0.05),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -35,7 +35,7 @@ class SectionHeader extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.1),
+                  color: theme.primaryColor.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(

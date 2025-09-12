@@ -7,7 +7,7 @@ class FixerDetailsCard extends StatelessWidget {
   final String fixerId;
   final HireRequestStatus hireStatus;
 
-  const FixerDetailsCard({required this.fixerId, required this.hireStatus});
+  const FixerDetailsCard({super.key, required this.fixerId, required this.hireStatus});
 
   @override
   Widget build(BuildContext context) {

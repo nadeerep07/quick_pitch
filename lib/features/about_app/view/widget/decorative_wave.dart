@@ -13,8 +13,8 @@ class DecorativeWave extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF667EEA).withOpacity(0.1),
-            const Color(0xFF764BA2).withOpacity(0.1),
+            const Color(0xFF667EEA).withValues(alpha:0.1),
+            const Color(0xFF764BA2).withValues(alpha:0.1),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,

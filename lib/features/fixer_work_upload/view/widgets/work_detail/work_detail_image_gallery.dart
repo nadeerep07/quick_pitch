@@ -19,7 +19,7 @@ class WorkDetailImageGallery extends StatelessWidget {
             Text('Gallery', style: theme.textTheme.titleLarge),
             Text('${work.images.length} images',
               style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.6),
               ),
             ),
           ],

@@ -4,7 +4,7 @@ import 'package:quick_pitch_app/core/config/responsive.dart';
 class LoadingView extends StatelessWidget {
   final Responsive res;
 
-  const LoadingView({required this.res});
+  const LoadingView({super.key, required this.res});
 
   @override
   Widget build(BuildContext context) {

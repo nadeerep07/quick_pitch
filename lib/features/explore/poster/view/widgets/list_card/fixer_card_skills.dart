@@ -27,13 +27,13 @@ class FixerCardSkills extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.blue.withOpacity(0.1),
-                Colors.blue.withOpacity(0.05),
+                Colors.blue.withValues(alpha:0.1),
+                Colors.blue.withValues(alpha:0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(res.wp(6)),
             border: Border.all(
-              color: Colors.blue.withOpacity(0.2),
+              color: Colors.blue.withValues(alpha:0.2),
               width: 1,
             ),
           ),

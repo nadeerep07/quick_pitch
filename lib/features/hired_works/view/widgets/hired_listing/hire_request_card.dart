@@ -10,7 +10,7 @@ class HireRequestCard extends StatelessWidget {
   final String userPhone;
   final String userName;
 
-  const HireRequestCard({
+  const HireRequestCard({super.key, 
     required this.hireRequest,
     required this.userPhone,
     required this.userName,
@@ -60,7 +60,7 @@ class HireRequestCard extends StatelessWidget {
                 children: [
                   Icon(Icons.currency_rupee, size: 16, color: Colors.green.shade600),
                   Text(
-                    '${hireRequest.workAmount.toStringAsFixed(0)}',
+                    hireRequest.workAmount.toStringAsFixed(0),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green.shade600),
                   ),
                   const SizedBox(width: 16),

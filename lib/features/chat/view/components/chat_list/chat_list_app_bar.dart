@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_pitch_app/core/config/app_colors.dart';
 import 'package:quick_pitch_app/features/chat/viewmodel/chat/cubit/chat_list_view_model_cubit.dart';
 
 
 class ChatListAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ChatListAppBar({super.key});
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// ----------------------------
-/// Reusable Row for Breakdown
-/// ----------------------------
+
 class BreakdownRow extends StatelessWidget {
   final String label;
   final double amount;
   final Color color;
 
-  const BreakdownRow({
+  const BreakdownRow({super.key, 
     required this.label,
     required this.amount,
     required this.color,

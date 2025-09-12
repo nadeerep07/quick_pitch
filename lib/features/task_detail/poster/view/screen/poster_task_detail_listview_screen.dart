@@ -70,7 +70,7 @@ class PosterTaskDetailBody extends StatelessWidget {
                   return ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filtered.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 16),
+                    separatorBuilder: (_, _) => const SizedBox(height: 16),
                     itemBuilder: (_, index) {
                       final task = filtered[index];
                       return DetailTaskCard(task: task,index: index,);

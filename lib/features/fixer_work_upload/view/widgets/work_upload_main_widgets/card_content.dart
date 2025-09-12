@@ -33,7 +33,7 @@ class CardContent extends StatelessWidget {
             work.description,
             
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               height: 1.3,
             ),
             maxLines: 1,
@@ -50,7 +50,7 @@ class CardContent extends StatelessWidget {
                 ),
 
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.1),
+                  color: theme.primaryColor.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child:Text(currency.format(work.amount),
@@ -59,7 +59,7 @@ class CardContent extends StatelessWidget {
               Text(
                 work.time,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  color: theme.colorScheme.onSurface.withValues(alpha:0.6),
                   fontWeight: FontWeight.w500,
                 ),
               ),

@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(res.wp(3)),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF667EEA).withOpacity(0.3),
+              color: const Color(0xFF667EEA).withValues(alpha:0.3),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

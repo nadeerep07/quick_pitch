@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
@@ -28,11 +29,12 @@ class PosterReviewSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final res = Responsive(context);
     final theme = Theme.of(context);
+    final uid = FirebaseAuth.instance.currentUser?.uid;
 
     return BlocProvider(
       create: (_) {
         final cubit = PosterReviewCubit(ReviewService());
-        final currentUserId = 'current_user_id'; // replace with your auth user
+        final currentUserId =uid! ; // replace with your auth user
         cubit.checkReviewStatus(currentUserId, pitch.id);
         return cubit;
       },
@@ -47,11 +49,11 @@ class PosterReviewSection extends StatelessWidget {
                 revieweeId: fixerId,
                 revieweeName: fixerName,
                 pitchId: pitch.id,
-                taskId: pitch.taskId ?? '',
+                taskId: pitch.taskId ,
                 reviewerType: 'poster',
                 existingReview: state.existingReview,
                 onReviewSubmitted: () {
-                  cubit.checkReviewStatus('current_user_id', pitch.id);
+                  cubit.checkReviewStatus( uid!, pitch.id);
                 },
               ),
             );

@@ -6,7 +6,7 @@ class PolicySection extends StatelessWidget {
   final String title;
   final String content;
 
-  const PolicySection({
+  const PolicySection({super.key, 
     required this.res,
     required this.title,
     required this.content,
@@ -21,7 +21,7 @@ class PolicySection extends StatelessWidget {
         borderRadius: BorderRadius.circular(res.wp(3)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

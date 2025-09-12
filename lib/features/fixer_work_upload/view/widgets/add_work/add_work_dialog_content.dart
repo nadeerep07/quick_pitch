@@ -87,7 +87,7 @@ class _AddWorkDialogContentState extends State<AddWorkDialogContent> {
           constraints: const BoxConstraints(maxWidth: 500, maxHeight: 700),
           child: Card(
             elevation: 16,
-            shadowColor: Colors.black.withOpacity(0.1),
+            shadowColor: Colors.black.withValues(alpha:0.1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),

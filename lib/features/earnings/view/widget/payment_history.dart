@@ -12,7 +12,7 @@ class PaymentHistory extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 2))],
+        boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha:0.1), blurRadius: 10, offset: const Offset(0, 2))],
       ),
       child: Column(
         children: [
@@ -46,7 +46,7 @@ class PaymentHistory extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: payments.length,
-              separatorBuilder: (_, __) => Divider(height: 1, color: Colors.grey.shade200),
+              separatorBuilder: (_, _) => Divider(height: 1, color: Colors.grey.shade200),
               itemBuilder: (_, i) => PaymentItem(payment: payments[i]),
             ),
         ],

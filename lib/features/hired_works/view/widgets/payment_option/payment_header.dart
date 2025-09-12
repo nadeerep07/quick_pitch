@@ -39,10 +39,10 @@ class PaymentHeader extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: res.wp(3), vertical: res.hp(0.5)),
             decoration: BoxDecoration(
-              color: PaymentStatusUtils.statusColor(status).withOpacity(0.1),
+              color: PaymentStatusUtils.statusColor(status).withValues(alpha:0.1),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: PaymentStatusUtils.statusColor(status).withOpacity(0.3),
+                color: PaymentStatusUtils.statusColor(status).withValues(alpha:0.3),
               ),
             ),
             child: Text(

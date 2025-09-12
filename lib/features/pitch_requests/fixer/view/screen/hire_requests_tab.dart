@@ -86,7 +86,7 @@ class HireRequestsView extends StatelessWidget {
               color: theme.colorScheme.surface,
               border: Border(
                 bottom: BorderSide(
-                  color: theme.colorScheme.outline.withOpacity(0.2),
+                  color: theme.colorScheme.outline.withValues(alpha:0.2),
                   width: 1,
                 ),
               ),
@@ -262,7 +262,7 @@ class HireRequestsView extends StatelessWidget {
           borderRadius: BorderRadius.circular(res.wp(3)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha:0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -303,7 +303,7 @@ class HireRequestsView extends StatelessWidget {
                           _formatDate(request.createdAt),
                           style: TextStyle(
                             fontSize: res.sp(12),
-                            color: colorScheme.onSurface.withOpacity(0.7),
+                            color: colorScheme.onSurface.withValues(alpha:0.7),
                           ),
                         ),
                       ],
@@ -318,7 +318,7 @@ class HireRequestsView extends StatelessWidget {
                       color: StatusColorUtil.getStatusColor(
                         request.status.displayName,
                         theme,
-                      ).withOpacity(0.2),
+                      ).withValues(alpha:0.2),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -354,7 +354,7 @@ class HireRequestsView extends StatelessWidget {
                           return Container(
                             width: res.wp(16),
                             height: res.wp(16),
-                            color: colorScheme.outline.withOpacity(0.1),
+                            color: colorScheme.outline.withValues(alpha:0.1),
                             child: Icon(
                               Icons.image_not_supported_outlined,
                               color: colorScheme.outline,
@@ -386,7 +386,7 @@ class HireRequestsView extends StatelessWidget {
                             request.workDescription,
                             style: TextStyle(
                               fontSize: res.sp(14),
-                              color: colorScheme.onSurface.withOpacity(0.7),
+                              color: colorScheme.onSurface.withValues(alpha:0.7),
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -401,7 +401,7 @@ class HireRequestsView extends StatelessWidget {
                                 vertical: res.wp(0.5),
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryColor.withOpacity(0.1),
+                                color: AppColors.primaryColor.withValues(alpha:0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
@@ -451,7 +451,7 @@ class HireRequestsView extends StatelessWidget {
                   width: double.infinity,
                   padding: EdgeInsets.all(res.wp(3)),
                   decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                    color: colorScheme.surfaceContainerHighest.withValues(alpha:0.5),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -462,7 +462,7 @@ class HireRequestsView extends StatelessWidget {
                         style: TextStyle(
                           fontSize: res.sp(12),
                           fontWeight: FontWeight.w500,
-                          color: colorScheme.onSurface.withOpacity(0.7),
+                          color: colorScheme.onSurface.withValues(alpha:0.7),
                         ),
                       ),
                       SizedBox(height: res.wp(1)),
@@ -500,7 +500,7 @@ class HireRequestsView extends StatelessWidget {
                         child: Text(
                           'Decline',
                           style: TextStyle(
-                            color: colorScheme.onSurface.withOpacity(0.8),
+                            color: colorScheme.onSurface.withValues(alpha:0.8),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -553,14 +553,14 @@ class HireRequestsView extends StatelessWidget {
                   Icon(
                     Icons.touch_app,
                     size: res.sp(14),
-                    color: colorScheme.onSurface.withOpacity(0.5),
+                    color: colorScheme.onSurface.withValues(alpha:0.5),
                   ),
                   SizedBox(width: res.wp(1)),
                   Text(
                     'Tap for details',
                     style: TextStyle(
                       fontSize: res.sp(12),
-                      color: colorScheme.onSurface.withOpacity(0.5),
+                      color: colorScheme.onSurface.withValues(alpha:0.5),
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -612,7 +612,7 @@ class HireRequestsView extends StatelessWidget {
             Text(
               'Please try again later',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -660,7 +660,7 @@ class HireRequestsView extends StatelessWidget {
             Text(
               'You don\'t have any $filterText yet.',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -702,7 +702,7 @@ class HireRequestsView extends StatelessWidget {
             Text(
               'You need to be logged in to view hire requests.',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                color: theme.colorScheme.onSurface.withValues(alpha:0.7),
               ),
               textAlign: TextAlign.center,
             ),
