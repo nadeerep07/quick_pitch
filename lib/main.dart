@@ -125,8 +125,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
       create: (context) => HireRequestsBloc(
         hireRequestRepository: HireRequestRepository(),
+
       ),
-    )
+    ),
+    
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

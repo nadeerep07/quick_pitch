@@ -20,7 +20,7 @@ class EarningsChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Earnings Trend (Last 6 Months)',
+          const Text('Earnings Trend',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
           const SizedBox(height: 20),
           SizedBox(

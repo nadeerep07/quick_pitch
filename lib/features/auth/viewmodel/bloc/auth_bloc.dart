@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_pitch_app/features/auth/repository/auth_repository.dart';
 
@@ -58,10 +59,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     //checking for role selcted or not
     on<GoogleSignInRequested>((event, emit) async {
+      debugPrint("Google Sign In Requested");
       emit(AuthLoading(AuthLoadingType.google));
       try {
         final user = await authRepository.signInWithGoogle();
-
         final doc = await authRepository.getUserDoc(user.uid);
         if (doc.exists && doc.data()!['role'] != null) {
           final role = doc.data()!['role'];

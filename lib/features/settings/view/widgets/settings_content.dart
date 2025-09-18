@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:quick_pitch_app/features/settings/model/email_form_data.dart';
 import 'package:quick_pitch_app/features/settings/service/settings_dialog_service.dart';
 import 'package:quick_pitch_app/features/settings/view/widgets/account_managment_section.dart';
+import 'package:quick_pitch_app/features/settings/view/widgets/app_settings_section.dart';
+import 'package:quick_pitch_app/features/settings/view/widgets/role_session_section.dart';
 import 'package:quick_pitch_app/features/settings/viewmodel/settings_view_model.dart';
 class SettingsContent extends StatelessWidget {
   const SettingsContent({super.key});

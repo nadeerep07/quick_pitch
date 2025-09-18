@@ -16,4 +16,3 @@ class AppSettings extends StatelessWidget {
   }
 }
 
-// lib/features/settings/view/widgets/settings_content.dart

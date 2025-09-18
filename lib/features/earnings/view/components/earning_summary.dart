@@ -6,28 +6,55 @@ import 'package:quick_pitch_app/features/earnings/viewmodel/cubit/earnings_cubit
 
 class EarningSummary extends StatelessWidget {
   final EarningsLoaded state;
+  final bool isFiltered;
 
-  const EarningSummary({super.key, required this.state});
+  const EarningSummary({
+    super.key, 
+    required this.state,
+    this.isFiltered = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // Calculate values based on filter state
+    final totalEarnings = isFiltered 
+        ? state.filteredTotalEarnings 
+        : state.totalEarnings;
+    
+    final completedJobs = isFiltered 
+        ? state.filteredCompletedJobs 
+        : state.paymentHistory.length;
+    
+    final thisMonthEarnings = isFiltered 
+        ? state.filteredTotalEarnings 
+        : state.thisMonthEarnings;
+    
+    final pitchEarnings = isFiltered 
+        ? state.filteredPitchEarnings 
+        : state.pitchEarnings;
+    
+    final hireRequestEarnings = isFiltered 
+        ? state.filteredHireRequestEarnings 
+        : state.hireRequestEarnings;
+    
+    final showBreakdown = pitchEarnings > 0 || hireRequestEarnings > 0;
+    
     return Column(
       children: [
-        TotalEarningsCard(amount: state.totalEarnings),
+        TotalEarningsCard(amount: totalEarnings),
         const SizedBox(height: 16),
         ThisMonthAndJobsRow(
-          thisMonthEarnings: state.thisMonthEarnings,
-          completedJobs: state.paymentHistory.length,
+          thisMonthEarnings: thisMonthEarnings,
+          completedJobs: completedJobs,
         ),
-        if (state.pitchEarnings > 0 || state.hireRequestEarnings > 0) ...[
+        if (showBreakdown) ...[
           const SizedBox(height: 16),
           EarningsBreakdown(
-            pitchEarnings: state.pitchEarnings,
-            hireRequestEarnings: state.hireRequestEarnings,
+            pitchEarnings: pitchEarnings,
+            hireRequestEarnings: hireRequestEarnings,
           ),
         ],
       ],
     );
   }
 }
-

@@ -41,10 +41,10 @@ class _HiredWorksScreenState extends State<HiredWorksScreen>
         );
         final userData = userDoc.data() as Map<String, dynamic>?;
         if (userData != null) {
-          setState(() {
-            userName = userData['name'] ?? 'User';
-            userPhone = userData['phone'] ?? '';
-          });
+          // setState(() {
+          //   userName = userData['name'] ?? 'User';
+          //   userPhone = userData['phone'] ?? '';
+          // });
         }
       } catch (e) {
      //   print('Error loading user info: $e');

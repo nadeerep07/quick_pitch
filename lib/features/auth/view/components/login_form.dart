@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
       listener: (context, state) {
         if (state is AuthSuccess) {
         } else if (state is AuthFailure) {
-         // print(state.error.toString());
+          print('[LoginForm] AuthFailure: ${state.error}');
           showDialog(
             context: context,
             builder:

@@ -4,8 +4,8 @@ import java.io.FileInputStream
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("com.google.gms.google-services")
     id("dev.flutter.flutter-gradle-plugin")
+    // DO NOT put com.google.gms.google-services here; apply it at the bottom
 }
 
 // Load keystore properties
@@ -22,10 +22,10 @@ android {
 
     defaultConfig {
         applicationId = "com.quickpitch"
-        minSdkVersion(24)
+        minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.0.1"
+        versionCode = 4
+        versionName = "1.0.2"
     }
 
     compileOptions {
@@ -37,21 +37,19 @@ android {
         jvmTarget = "11"
     }
 
-signingConfigs {
-    create("release") {
-        val keyFile = keystoreProperties["storeFile"]?.toString()?.let { file(it) }
-        if (keyFile != null && keyFile.exists()) {
-            storeFile = keyFile
-            storePassword = keystoreProperties["storePassword"]?.toString() ?: ""
-            keyAlias = keystoreProperties["keyAlias"]?.toString() ?: ""
-            keyPassword = keystoreProperties["keyPassword"]?.toString() ?: ""
-        } else {
-            println("Warning: Keystore file not found! Release signing will fail.")
+    signingConfigs {
+        create("release") {
+            val keyFile = keystoreProperties["storeFile"]?.toString()?.let { file(it) }
+            if (keyFile != null && keyFile.exists()) {
+                storeFile = keyFile
+                storePassword = keystoreProperties["storePassword"]?.toString() ?: ""
+                keyAlias = keystoreProperties["keyAlias"]?.toString() ?: ""
+                keyPassword = keystoreProperties["keyPassword"]?.toString() ?: ""
+            } else {
+                println("Warning: Keystore file not found! Release signing will fail.")
+            }
         }
     }
-}
-
-
 
     buildTypes {
         getByName("release") {
@@ -65,3 +63,6 @@ signingConfigs {
 flutter {
     source = "../.."
 }
+
+// Apply google-services plugin at the very end (Kotlin DSL syntax)
+apply(plugin = "com.google.gms.google-services")

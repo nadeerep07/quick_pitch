@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_pitch_app/core/config/responsive.dart';
 import 'package:quick_pitch_app/features/review/model/review_model.dart';
-import 'package:quick_pitch_app/features/review/view/widgets/fixer_review_section/review_rating_widget.dart';
 import 'package:quick_pitch_app/features/review/view/widgets/rating_card/star_rating_display.dart';
 
 class ReviewCard extends StatelessWidget {
