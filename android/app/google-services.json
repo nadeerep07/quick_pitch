@@ -50,6 +50,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1078708428195-03esfeujlsd8fej2d0v6kkpckic5c66v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.quickpitch",
+            "certificate_hash": "5b3199ef6e777e5911246d9d5bd44f75fd538283"
+          }
+        },
+        {
           "client_id": "1078708428195-e68ogjmalpl9509d98p056e0qec5gj7m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

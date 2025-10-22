@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -44,8 +46,14 @@ class AuthServices {
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
+
     );
 
+    log(credential.idToken.toString());
+    log(credential.accessToken.toString());
+    log(googleUser.email);
+    log(googleUser.displayName.toString());
+    
     return await firebaseAuth.signInWithCredential(credential);
   }
 

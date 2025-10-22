@@ -57,22 +57,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    //checking for role selcted or not
-    on<GoogleSignInRequested>((event, emit) async {
-      debugPrint("Google Sign In Requested");
-      emit(AuthLoading(AuthLoadingType.google));
-      try {
-        final user = await authRepository.signInWithGoogle();
-        final doc = await authRepository.getUserDoc(user.uid);
-        if (doc.exists && doc.data()!['role'] != null) {
-          final role = doc.data()!['role'];
-          emit(AuthRoleIdentified(role: role));
-        } else {
-          emit(AuthSuccess(user.email ?? ''));
-        }
-      } catch (e) {
-        emit(AuthFailure(error: e.toString()));
+ on<GoogleSignInRequested>((event, emit) async {
+//  debugPrint("Google Sign In Requested");
+  emit(AuthLoading(AuthLoadingType.google));
+  try {
+    final user = await authRepository.signInWithGoogle();
+  //  debugPrint("User signed in: ${user.uid}");
+    
+    final doc = await authRepository.getUserDoc(user.uid);
+   // debugPrint("Document exists: ${doc.exists}");
+    
+    if (doc.exists) {
+      final data = doc.data();
+    //  debugPrint("Document data: $data");
+      
+      // Change this line: look for 'activeRole' instead of 'role'
+      if (data != null && data['activeRole'] != null) {
+        final role = data['activeRole']; // Changed from 'role' to 'activeRole'
+       // debugPrint("User active role found: $role");
+        emit(AuthRoleIdentified(role: role));
+      } else {
+      //  debugPrint("No activeRole found - treating as new user");
+        emit(AuthSuccess(user.email ?? ''));
       }
-    });
+    } else {
+    //  debugPrint("Document doesn't exist - treating as new user");
+      emit(AuthSuccess(user.email ?? ''));
+    }
+  } catch (e) {
+    debugPrint("Google Sign In Error: $e");
+    emit(AuthFailure(error: e.toString()));
+  }
+});
   }
 }

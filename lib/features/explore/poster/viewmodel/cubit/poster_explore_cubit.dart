@@ -149,40 +149,40 @@ class PosterExploreCubit extends Cubit<PosterExploreState> {
     }
   }
 
-  void setNearbyRadius(double radiusKm) {
-    final currentState = state;
-    if (currentState is PosterExploreLoaded) {
-      final filtered = _service.applyFilters(
-        fixers: currentState.allFixers,
-        query: currentState.query,
-        selectedSkills: currentState.selectedSkills,
-        nearbyEnabled: currentState.nearbyEnabled,
-        radiusKm: radiusKm,
-        posterLocation: currentState.posterLocation,
-      );
+  // void setNearbyRadius(double radiusKm) {
+  //   final currentState = state;
+  //   if (currentState is PosterExploreLoaded) {
+  //     final filtered = _service.applyFilters(
+  //       fixers: currentState.allFixers,
+  //       query: currentState.query,
+  //       selectedSkills: currentState.selectedSkills,
+  //       nearbyEnabled: currentState.nearbyEnabled,
+  //       radiusKm: radiusKm,
+  //       posterLocation: currentState.posterLocation,
+  //     );
 
-      emit(currentState.copyWith(radiusKm: radiusKm, filteredFixers: filtered));
-    }
-  }
+  //     emit(currentState.copyWith(radiusKm: radiusKm, filteredFixers: filtered));
+  //   }
+  // }
 
-  void toggleNearby(bool enabled) {
-    final currentState = state;
-    if (currentState is PosterExploreLoaded) {
-      final filtered = _service.applyFilters(
-        fixers: currentState.allFixers,
-        query: currentState.query,
-        selectedSkills: currentState.selectedSkills,
-        nearbyEnabled: enabled,
-        radiusKm: currentState.radiusKm,
-        posterLocation: currentState.posterLocation,
-      );
+  // void toggleNearby(bool enabled) {
+  //   final currentState = state;
+  //   if (currentState is PosterExploreLoaded) {
+  //     final filtered = _service.applyFilters(
+  //       fixers: currentState.allFixers,
+  //       query: currentState.query,
+  //       selectedSkills: currentState.selectedSkills,
+  //       nearbyEnabled: enabled,
+  //       radiusKm: currentState.radiusKm,
+  //       posterLocation: currentState.posterLocation,
+  //     );
 
-      emit(currentState.copyWith(
-        nearbyEnabled: enabled,
-        filteredFixers: filtered,
-      ));
-    }
-  }
+  //     emit(currentState.copyWith(
+  //       nearbyEnabled: enabled,
+  //       filteredFixers: filtered,
+  //     ));
+  //   }
+  // }
 
   Future<void> refreshLocation() async {
     final currentState = state;

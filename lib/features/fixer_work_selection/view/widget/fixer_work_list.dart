@@ -39,7 +39,7 @@ class FixerWorkList extends StatelessWidget {
           theme: theme,
           colorScheme: colorScheme,
           onTap: () {
-            // ignore: invalid_use_of_protected_member
+            // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
             context.read<FixerWorkSelectionCubit>().emit(
                   FixerWorkSelectionLoaded(
                     works: works,
